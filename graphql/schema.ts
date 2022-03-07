@@ -1,23 +1,71 @@
-// boilerplate
-import { GraphQLSchema } from "graphql";
-import { makeSchema } from "nexus";
-import { join } from "path";
-import * as types from "./types";
+import { gql } from "apollo-server-micro";
 
-export const schema = makeSchema({
-  types,
-  outputs: {
-    typegen: join(
-      process.cwd(),
-      "node_modules",
-      "@types",
-      "nexus-typegen",
-      "index.d.ts"
-    ),
-    schema: join(process.cwd(), "graphql", "schema.graphql"),
-  },
-  contextType: {
-    export: "Context",
-    module: join(process.cwd(), "graphql", "context.ts"),
-  },
-}) as unknown as GraphQLSchema;
+export const typeDefs = gql`
+  enum Role {
+    USER
+    ADMIN
+  }
+
+  enum AccessType {
+    PRIVATE
+    PUBLIC
+  }
+
+  enum StepType {
+    INSTRUCTION
+    CHOICE
+  }
+
+  type User {
+    id: String
+    name: String
+    email: String
+    image: String
+    role: Role
+    steps: [Step]
+    sessions: [Session]
+  }
+
+  type Step {
+    id: String
+    text: String
+    user: User
+    userId: String
+    accessType: AccessType
+    stepType: StepType
+    parents: [StepRelation]
+    children: [StepRelation]
+    anchors: [Anchor]
+    sessionSteps: [SessionStep]
+  }
+
+  type StepRelation {
+    id: String
+    child: Step
+    parent: Step
+    childIndex: Int
+  }
+
+  type Anchor {
+    id: String
+    parent: Step
+    stepId: String
+  }
+
+  # type Session {
+  #   id: String
+  #   user: User
+  #   steps: [SessionStep]
+  # }
+
+  # type SessionStep {
+  #   id: String
+  #   step: Step
+  #   session: Session
+  #   index: Int
+  # }
+
+  type Query {
+    steps: [Step]!
+  }
+`;

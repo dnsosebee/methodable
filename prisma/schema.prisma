@@ -1,13 +1,13 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
 }
 
 enum Role {
@@ -34,7 +34,7 @@ model User {
   image     String?
   role      Role      @default(USER)
   steps     Step[]
-  sessions  Session[]
+  // sessions  Session[]
 }
 
 model Step {
@@ -49,7 +49,7 @@ model Step {
   parents      StepRelation[] @relation("childParents")
   children     StepRelation[] @relation("parentChildren")
   anchors      Anchor[]
-  sessionSteps SessionStep[]
+  // sessionSteps SessionStep[]
 }
 
 model StepRelation {
@@ -69,23 +69,22 @@ model Anchor {
   stepId String
 }
 
-model Session {
-  id        String        @id @default(uuid())
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  user      User          @relation(fields: [userId], references: [id])
-  userId    String
-  steps     SessionStep[]
-}
+// model Session {
+//   id        String        @id @default(uuid())
+//   createdAt DateTime      @default(now())
+//   updatedAt DateTime      @updatedAt
+//   user      User          @relation(fields: [userId], references: [id])
+//   userId    String
+//   steps     SessionStep[]
+// }
 
-model SessionStep {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  step      Step     @relation(fields: [stepId], references: [id])
-  stepId    String
-  session   Session  @relation(fields: [sessionId], references: [id])
-  sessionId String
-  index     Int
-}
-
+// model SessionStep {
+//   id        String   @id @default(uuid())
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   step      Step     @relation(fields: [stepId], references: [id])
+//   stepId    String
+//   session   Session  @relation(fields: [sessionId], references: [id])
+//   sessionId String
+//   index     Int
+// }
