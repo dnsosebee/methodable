@@ -6,14 +6,27 @@ export const typeDefs = gql`
     ADMIN
   }
 
+  enum Role {
+    USER
+    ADMIN
+  }
+
   enum AccessType {
     PRIVATE
     PUBLIC
   }
 
-  enum StepType {
-    INSTRUCTION
-    CHOICE
+  enum BlockType {
+    IMPERATIVE
+    QUESTION
+    DECLARATION
+  }
+
+  enum BlockState {
+    NOT_STARTED
+    IN_PROGRESS
+    COMPLETE
+    ARCHIVED
   }
 
   type User {
@@ -22,50 +35,39 @@ export const typeDefs = gql`
     email: String
     image: String
     role: Role
-    steps: [Step]
-    sessions: [Session]
+    blocks: [Block]
   }
 
-  type Step {
+  type Block {
     id: String
-    text: String
-    user: User
-    userId: String
+    actingUser: User
     accessType: AccessType
-    stepType: StepType
-    parents: [StepRelation]
-    children: [StepRelation]
-    anchors: [Anchor]
-    sessionSteps: [SessionStep]
+    blockType: BlockType
+    blockState: BlockState
+    humanText: String
+    parents: [HierarchyRelation]
+    children: [HierarchyRelation]
+    workspace: String
+    workspaceOutgoing: [ReferenceRelation]
+    workspaceIncoming: [ReferenceRelation]
+    oldVersion: Block
+    newVersions: [Block]
   }
 
-  type StepRelation {
+  type HierarchyRelation {
     id: String
-    child: Step
-    parent: Step
+    child: Block
+    parent: Block
     childIndex: Int
   }
 
-  type Anchor {
+  type ReferenceRelation {
     id: String
-    parent: Step
-    stepId: String
+    blockFrom: Block
+    blockTo: Block
   }
 
-  # type Session {
-  #   id: String
-  #   user: User
-  #   steps: [SessionStep]
-  # }
-
-  # type SessionStep {
-  #   id: String
-  #   step: Step
-  #   session: Session
-  #   index: Int
-  # }
-
   type Query {
-    steps: [Step]!
+    blocks: [Block]!
   }
 `;

@@ -2,17 +2,17 @@
 import Head from "next/head";
 import { gql, useQuery } from "@apollo/client";
 
-const StepsQuery = gql`
+const blocksQuery = gql`
   query {
-    steps {
+    blocks {
       id
-      text
+      humanText
     }
   }
 `;
 
 export default function Home() {
-  const { data, loading, error } = useQuery(StepsQuery);
+  const { data, loading, error } = useQuery(blocksQuery);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Oh no... {error.message}</p>;
@@ -24,8 +24,8 @@ export default function Home() {
         <link rel="icon" href="/intensh-logo.png" />
       </Head>
       <div>
-        {data.steps.map((step) => (
-          <p key={step.id}>{step.text}</p>
+        {data.blocks.map((block) => (
+          <p key={block.id}>{block.humanText}</p>
         ))}
       </div>
     </div>
