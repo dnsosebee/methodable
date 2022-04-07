@@ -1,3 +1,4 @@
+//backend
 import { gql } from "apollo-server-micro";
 
 export const typeDefs = gql`
@@ -69,5 +70,10 @@ export const typeDefs = gql`
 
   type Query {
     blocks: [Block]!
+    findBlock(id: String): Block
+  }
+
+  type Mutation {
+    updateBlock(id: String!, humanText: String!): Block!
   }
 `;
