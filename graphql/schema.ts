@@ -75,5 +75,6 @@ export const typeDefs = gql`
 
   type Mutation {
     updateBlock(id: String!, humanText: String!): Block!
+    createNewUserBlocks(id: String!): Block!
   }
 `;
