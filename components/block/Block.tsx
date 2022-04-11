@@ -3,80 +3,84 @@ import { EditorContent, NodeViewWrapper, useEditor } from "@tiptap/react";
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
-import BlockExtension from "./BlockExtension";
 import History from "@tiptap/extension-history";
 
-const Block = (props) => {
-  const subrender = Math.random() > 0.6;
+interface BlockProps {
+  tempNum: number;
+  selectionStartCallback?: () => void;
+  selectionChangeCallback?: () => void;
+  selectionEndCallback?: () => void;
+}
+
+const Block = (props: BlockProps) => {
+  const subrender = Math.random() > 0.7;
+
+  const isMouseDown = (e: React.MouseEvent): boolean => {
+    return (e.buttons & 1) === 1;
+  };
 
   const click = () => {
-    console.log("onClick " + props.num);
+    // TODO: This should change to edit mode for the block
+    console.log("onClick " + props.tempNum);
   };
 
-  const drag = () => {
-    console.log("onDrag " + props.num);
+  const mouseEnter = (e: React.MouseEvent) => {
+    if (isMouseDown(e)) {
+      console.log("onMouseEnter mouseIsDown " + props.tempNum);
+    } else {
+      console.log("onMouseEnter mouseisUp " + props.tempNum);
+    }
   };
 
-  const dragEnd = () => {
-    console.log("onDragEnd " + props.num);
-  };
-
-  const dragEnter = () => {
-    console.log("onDragEnter " + props.num);
-  };
-  
-  const dragExit = () => {
-    console.log("onDragExit " + props.num);
-  };
-
-  const dragLeave = () => {
-    console.log("onDragLeave " + props.num);
-  };
-
-  const dragOver = () => {
-    console.log("onDragOver " + props.num);
-  };
-
-  const dragStart = () => {
-    console.log("onDragStart " + props.num);
-  };
-
-  const mouseEnter = () => {
-    console.log("onMouseEnter " + props.num);
-  };
-
-  const mouseLeave = () => {
-    console.log("onMouseLeave " + props.num);
+  const mouseLeave = (e: React.MouseEvent) => {
+    if (isMouseDown(e)) {
+      console.log("onMouseLeave mouseIsDown " + props.tempNum);
+    } else {
+      console.log("onMouseLeave mouseisUp " + props.tempNum);
+    }
   };
 
   const mouseDown = () => {
-    console.log("onMouseDown")
-  }
+    console.log("onMouseDown " + props.tempNum);
+  };
+
+  const mouseUp = () => {
+    console.log("onMouseUp " + props.tempNum);
+  };
+
+  const copy = () => {
+    console.log("onCopy " + props.tempNum);
+  };
 
   return (
-    <div className="bg-red-300 pl-2">
-      <p
-        onClick={click}
-        onDrag={drag}
-        onDragEnd={dragEnd}
-        onDragEnter={dragEnter}
-        onDragExit={dragExit}
-        onDragLeave={dragLeave}
-        onDragOver={dragOver}
-        onDragStart={dragStart}
-        onMouseEnter={mouseEnter}
-        onMouseLeave={mouseLeave}
-      >
-        {props.num}
-      </p>
+    <div className="bg-red-300">
+      <div className="flex">
+        <div className="h-6 w-6 bg-yellow-300 border border-black"></div>
+        <p
+          className="select-none"
+          onClick={click}
+          onMouseEnter={mouseEnter}
+          onMouseLeave={mouseLeave}
+          onMouseDown={mouseDown}
+          onMouseUp={mouseUp}
+          onCopy={copy}
+        >
+          {props.tempNum}
+        </p>
+      </div>
       {subrender && (
-        <>
-          <Block num={props.num + 1} />
-          <Block num={props.num + 1.1} />
-        </>
+        <div className="flex">
+          <div className="bg-blue-300 w-6 border border-black"></div>
+          <div>
+            <Block tempNum={props.tempNum + 1} />
+            <Block tempNum={props.tempNum + 1.1} />
+            <Block tempNum={props.tempNum + 1.01} />
+          </div>
+        </div>
       )}
     </div>
   );
 };
 
-export default Block;
+export { Block };
+export type { BlockProps };

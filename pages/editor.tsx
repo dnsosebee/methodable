@@ -1,11 +1,10 @@
-import Block from "../components/block/Block";
+import ContextBlock from "../components/block/ContextBlock";
 
 export default function Home() {
 
   return (
     <div>
-      <Block num={0}/>
+      <ContextBlock/>
     </div>
   );
 }
-
