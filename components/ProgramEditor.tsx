@@ -16,7 +16,6 @@ const findBlockQuery = gql`
   }
 `;
 
-//
 const updateBlockMutation = gql`
   mutation updateBlockMutation($humanText: String!) {
     updateBlock(
@@ -32,14 +31,7 @@ const updateBlockMutation = gql`
 const ProgramEditor = () => {
   const [databaseBlock, updateDatabaseBlock] = useState(null);
   const { data, loading, error } = useQuery(findBlockQuery);
-  const [
-    updateBlock,
-    {
-      data: updateBlockData,
-      loading: updateBlockLoading,
-      error: updateBlockError,
-    },
-  ] = useMutation(updateBlockMutation, {
+  const [updateBlock] = useMutation(updateBlockMutation, {
     update: (proxy, mutationResult) => {
       updateDatabaseBlock(mutationResult.data.updateBlock);
     },
@@ -53,7 +45,6 @@ const ProgramEditor = () => {
 
   const handleUpdateBlock = (editor: Editor) => {
     const text = editor.getText();
-    console.log(text);
     updateBlock({ variables: { humanText: text } });
   };
 
@@ -102,15 +93,7 @@ const ProgramEditor = () => {
           </>
         )}
       </div>
-      {upToDate() ? (
-        <>
-          <p>up to date</p>
-        </>
-      ) : (
-        <>
-          <p>saving...</p>
-        </>
-      )}
+      <p className="italic">{upToDate() ? "up to date" : "saving..."}</p>
       {/* {databaseBlock && <p>database block: {databaseBlock.humanText}</p>}
       {editor && <p>editor text: {editor.getText()}</p>} */}
     </>

@@ -30,6 +30,18 @@ const CreateLinkMutation = gql`
   }
 `;
 
+const NewUserBlocksMutation = gql`
+  mutation (
+    $id: String!
+  ) {
+    createNewUserBlocks(
+      id: $id
+    ) {
+      humanText
+    }
+  }
+`;
+
 const Admin = () => {
   const {
     register,
@@ -38,18 +50,17 @@ const Admin = () => {
     reset,
   } = useForm();
 
-  const [createLink, { loading, error }] = useMutation(CreateLinkMutation, {
+  const [createNewUserBlocks, { loading, error }] = useMutation(NewUserBlocksMutation, {
     onCompleted: () => reset(),
   });
 
   const onSubmit = async (data) => {
-    const { title, url, category, description } = data;
-    const imageUrl = `https://via.placeholder.com/300`;
-    const variables = { title, url, category, description, imageUrl };
+    const { id } = data;
+    const variables = { id };
     try {
-      toast.promise(createLink({ variables }), {
-        loading: "Creating new link..",
-        success: "Link successfully created!🎉",
+      toast.promise(createNewUserBlocks({ variables }), {
+        loading: "Creating new user blocks..",
+        success: "blocks successfully created!🎉",
         error: `Something went wrong 😥 Please try again -  ${error}`,
       });
     } catch (error) {
@@ -60,52 +71,21 @@ const Admin = () => {
   return (
     <div className="container mx-auto max-w-md py-12">
       <Toaster />
-      <h1 className="text-3xl font-medium my-5">Create a new link</h1>
+      <h1 className="text-3xl font-medium my-5">Create new user blocks</h1>
       <form
         className="grid grid-cols-1 gap-y-6 shadow-lg p-8 rounded-lg"
         onSubmit={handleSubmit(onSubmit)}
       >
         <label className="block">
-          <span className="text-gray-700">Title</span>
+          <span className="text-gray-700">Id</span>
           <input
-            placeholder="Title"
-            name="title"
+            placeholder="User Id"
+            name="id"
             type="text"
-            {...register("title", { required: true })}
+            {...register("id", { required: true })}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           />
         </label>
-        <label className="block">
-          <span className="text-gray-700">Description</span>
-          <input
-            placeholder="Description"
-            {...register("description", { required: true })}
-            name="description"
-            type="text"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
-        <label className="block">
-          <span className="text-gray-700">Url</span>
-          <input
-            placeholder="https://example.com"
-            {...register("url", { required: true })}
-            name="url"
-            type="text"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
-        <label className="block">
-          <span className="text-gray-700">Category</span>
-          <input
-            placeholder="Name"
-            {...register("category", { required: true })}
-            name="category"
-            type="text"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </label>
-
         <button
           disabled={loading}
           type="submit"
@@ -124,7 +104,7 @@ const Admin = () => {
               Creating...
             </span>
           ) : (
-            <span>Create Link</span>
+            <span>Create User Blocks</span>
           )}
         </button>
       </form>
