@@ -1,9 +1,9 @@
 // pages/_app.tsx
-import '../styles/tailwind.css'
+import '../client/styles/tailwind.css'
 import { UserProvider } from '@auth0/nextjs-auth0'
-import Layout from '../components/Layout'
+import Layout from '../client/components/Layout'
 import { ApolloProvider } from '@apollo/client'
-import client from '../lib/apollo'
+import client from '../client/lib/apollo'
 
 function MyApp({ Component, pageProps }) {
   return (

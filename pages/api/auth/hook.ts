@@ -1,5 +1,5 @@
 // TODO: weird that we hit prisma directly here
-import  prisma from '../../../lib/prisma';
+import  prisma from '../../../server/lib/prisma';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {

@@ -1,7 +1,7 @@
 // /pages/index.tsx
 import Head from "next/head";
 import { gql, useQuery } from "@apollo/client";
-import ProgramEditor from "../components/ProgramEditor";
+import ProgramEditor from "../client/components/ProgramEditor";
 
 const blocksQuery = gql`
   query {
