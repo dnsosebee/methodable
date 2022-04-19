@@ -6,7 +6,7 @@ import {
   IMouseDownAction,
   IStartSelectionAction,
 } from "./actionTypes";
-import { IBlock, HierarchyIndex, SelectionRange, IState } from "./stateTypes";
+import { HierarchyIndex, IBlock, IState } from "./stateTypes";
 
 export const startSelection = (
   state: IState,
@@ -16,7 +16,7 @@ export const startSelection = (
   state.isSelectionActive = true;
   state.selectionRange.start = action.index;
   state.selectionRange.end = action.index;
-  propagateSelectedness(state);
+  setActiveParentInfo(state);
   const newState = { ...state };
   return newState;
 };
@@ -27,7 +27,7 @@ export const changeSelection = (
 ): IState => {
   logAction("selection changed: " + action.index);
   state.selectionRange.end = action.index;
-  propagateSelectedness(state);
+  setActiveParentInfo(state);
   const newState = { ...state };
   return newState;
 };
@@ -35,70 +35,25 @@ export const changeSelection = (
 export const mouseDown = (state: IState, action: IMouseDownAction): IState => {
   logAction("clicked: " + action.index);
   state.isSelectionActive = false;
-  propagateSelectedness(state);
+  setActiveParentInfo(state);
   const newState = { ...state };
   return newState;
 };
 
-const propagateSelectedness = (state: IState): IState => {
-  propagateSelectednessForBlock(state.rootBlock, false);
-  if (state.isSelectionActive) {
-    const blocksToPropogate = getBlocksToPropogate(
-      state.selectionRange,
-      state.rootBlock
-    );
-    blocksToPropogate.forEach((block) =>
-      propagateSelectednessForBlock(block, true)
-    );
-  }
-  return state;
-};
-
-// const getBlockByHierarchyIndex = (rootBlock: IBlock, index: HierarchyIndex): IBlock => {
-//   let block = rootBlock;
-//   for (let i = 0; i < index.length; i++) {
-//     block = block.children[index[i]];
-//   }
-//   return block;
-// };
-
-const getBlocksToPropogate = (
-  selectionRange: SelectionRange,
-  rootBlock: IBlock
-): IBlock[] => {
-  // get the parent of the selection
-  let parent = rootBlock;
-  let depth = 0;
+const setActiveParentInfo = (state: IState) => {
+  const { blocksMap, rootBlockId, selectionRange } = state;
+  let parent: IBlock = blocksMap.get(rootBlockId);
+  let activeParentIndex: HierarchyIndex = [];
   const maxParentDepth = Math.min(
     selectionRange.start.length - 1,
     selectionRange.end.length - 1
   );
   for (let i = 0; i < maxParentDepth; i++) {
     if (selectionRange.start[i] === selectionRange.end[i]) {
-      parent = parent.children[selectionRange.start[i]];
-      depth++;
+      parent = blocksMap.get(parent.children[selectionRange.start[i]]);
+      activeParentIndex.push(selectionRange.start[i]);
     }
   }
-  // get the selected children of the parent
-  const startBound = selectionRange.start[depth];
-  const endBound = selectionRange.end[depth];
-  if (startBound < endBound) {
-    return parent.children.slice(startBound, endBound + 1);
-  } else {
-    return parent.children.slice(endBound, startBound + 1);
-  }
-};
-
-const propagateSelectednessForBlock = (
-  block: IBlock,
-  isSelected: boolean
-): IBlock => {
-  block.selected = isSelected;
-  block.children.forEach((child) =>
-    propagateSelectednessForBlock(child, isSelected)
-  );
-  logAction(
-    "propagated selectedness for block: " + block.id + " to " + isSelected
-  );
-  return block;
+  state.activeParentId = parent.id;
+  state.activeParentIndex = activeParentIndex;
 };
