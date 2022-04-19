@@ -17,8 +17,8 @@ const ContextBlock = () => {
   const rootBlockProps: IBlockProps = {
     id: state.rootBlockId,
     humanText: rootBlock.humanText,
-    shallowSelected: false,
-    deepSelected: false,
+    isShallowSelected: false,
+    isDeepSelected: false,
     children: rootBlock.children,
     index: [],
   };
