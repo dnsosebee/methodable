@@ -20,6 +20,7 @@ const ContextBlock = () => {
     isShallowSelected: false,
     isDeepSelected: false,
     children: rootBlock.children,
+    isGlobalSelectionActive: state.isSelectionActive,
     index: [],
   };
 

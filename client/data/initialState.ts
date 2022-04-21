@@ -44,7 +44,6 @@ const child_x = {
 };
 
 export const initialState: IState = {
-  rootBlockId: "root",
   blocksMap: new Map<BlockId, IBlock>([
     ["root", rootBlock],
     ["child1", child1],
@@ -54,9 +53,14 @@ export const initialState: IState = {
     ["child1-2", child1_2],
     ["child_x", child_x],
   ]),
+  rootBlockId: "root",
+  // selection related
   activeParentId: "root",
   activeParentIndex: [],
   selectionRange: { start: [], end: [] },
   isSelectionActive: false,
   isSelectionDeep: true,
+  // focus related
+  focusIndex: [],
+  focusPosition: 0,
 };

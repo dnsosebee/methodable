@@ -21,6 +21,7 @@ export interface IBlockProps {
   humanText: HumanText;
   isShallowSelected: boolean;
   isDeepSelected: boolean;
+  isGlobalSelectionActive: boolean;
   children: BlockId[];
   index: HierarchyIndex;
 }
@@ -33,7 +34,8 @@ export const Block = (props: IBlockProps) => {
 
   const getChildBlocks = (
     children: BlockId[],
-    blocksMap: Map<BlockId, IBlock>
+    blocksMap: Map<BlockId, IBlock>,
+    isGlobalSelectionActive: boolean,
   ) => {
     return children.map((childId, childIndex) => {
       const childBlock: IBlock = blocksMap.get(childId);
@@ -45,6 +47,7 @@ export const Block = (props: IBlockProps) => {
         humanText: childBlock.humanText,
         children: childBlock.children,
         index: childHierarchyIndex,
+        isGlobalSelectionActive,
         ...getSelectednessInfo(childHierarchyIndex),
       };
       return <Block key={childIndex} {...childBlockProps} />;
@@ -89,16 +92,13 @@ export const Block = (props: IBlockProps) => {
     return { isShallowSelected, isDeepSelected };
   };
 
-  const childBlocks = getChildBlocks(props.children, state.blocksMap);
-
-  // TODO delete these probably
-  const selectedClasses = "bg-gray-200 text-gray-700";
-  const unselectedClasses = "text-gray-700";
+  const childBlocks = getChildBlocks(props.children, state.blocksMap, state.isSelectionActive);
 
   const blockTextProps: IBlockTextProps = {
+    id: props.id,
     humanText: props.humanText,
     index: props.index,
-    isShallowSelected: props.isShallowSelected,
+    isGlobalSelectionActive: props.isGlobalSelectionActive,
     isDeepSelected: props.isDeepSelected,
   }
 

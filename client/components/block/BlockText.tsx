@@ -2,26 +2,37 @@ import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { useContext, useRef } from "react";
-import { logMouseEvent } from "../../lib/loggers";
+import { Editor } from "@tiptap/core";
+import { useContext, useEffect, useRef } from "react";
+import { logMouseEvent, logKeyEvent } from "../../lib/loggers";
 import {
   IAction,
   IChangeSelectionAction,
+  IEditHumanTextAction,
   IMouseDownAction,
   IStartSelectionAction,
+  IEnterWithNoSelectionAction,
+  IClearFocusLatchAction,
 } from "../../model/state/actionTypes";
-import { HierarchyIndex, IState } from "../../model/state/stateTypes";
+import {
+  BlockId,
+  HierarchyIndex,
+  HumanText,
+  IState,
+} from "../../model/state/stateTypes";
 import { Context } from "./ContextBlock";
 
 export interface IBlockTextProps {
-  humanText: string;
+  id: BlockId;
+  humanText: HumanText;
   index: HierarchyIndex;
   isDeepSelected: boolean;
-  isShallowSelected: boolean;
+  isGlobalSelectionActive: boolean;
 }
 
 export const BlockText = (props: IBlockTextProps) => {
   let clickOriginatedInThisText = useRef(false); // whether the current click/drag started in this text
+  let isFocused = useRef(false); // whether the current text is focused
   const {
     state,
     dispatch,
@@ -93,21 +104,121 @@ export const BlockText = (props: IBlockTextProps) => {
     onCopy: copy,
   };
 
-  const isSelected = props.isDeepSelected || props.isShallowSelected;
-  const selectedClass = isSelected ? " select:none" : "";
+  const selectedClass = props.isGlobalSelectionActive ? " select-none" : "";
   const containerDeepSelectedClass = props.isDeepSelected ? "bg-gray-200" : "";
 
-  const editor = useEditor({
-    extensions: [Document, Paragraph, Text],
-    editorProps: {
-      attributes: {
-        class: `focus:outline-none text-gray-700 ${selectedClass}`,
-      },
+  const CustomExtension = Document.extend({
+    addKeyboardShortcuts() {
+      return {
+        // ↓ your new keyboard shortcut
+        Enter: () => {
+          // console.log("enter was pressed");
+          handleEnterPress(this.editor);
+          return this.editor.commands.command(() => {
+            return false;
+          });
+        },
+      };
     },
-    content: props.humanText,
   });
 
-  editor.setOptions({editable: !isSelected});
+  const editor = useEditor(
+    {
+      extensions: [CustomExtension, Paragraph, Text],
+      editorProps: {
+        attributes: {
+          class: `focus:outline-none text-gray-700 ${selectedClass}`,
+        },
+      },
+      editable: !props.isGlobalSelectionActive,
+      content: props.humanText,
+      onUpdate({ editor }) {
+        const action: IEditHumanTextAction = {
+          type: "text edit",
+          id: props.id,
+          humanText: editor.getText(),
+          focusPosition: editor.state.selection.anchor,
+        };
+        dispatch(action);
+      },
+      onFocus() {
+        isFocused.current = true;
+      },
+      onBlur() {
+        isFocused.current = false;
+      },
+    },
+    [props.isGlobalSelectionActive]
+  );
+
+  const handleEnterPress = (editor: Editor) => {
+    logKeyEvent("onEnterPress " + props.index);
+    const editorText = editor.getText();
+    const mousePosition = editor.state.selection.anchor;
+    const oldText = editorText.slice(0, mousePosition - 1);
+    const newText = editorText.slice(mousePosition - 1);
+    editor.commands.setContent(oldText);
+    const action: IEnterWithNoSelectionAction = {
+      type: "enter with no selection",
+      id: props.id,
+      index: props.index,
+      oldText,
+      newText,
+    };
+    dispatch(action);
+  };
+
+  //TODO delete this!
+  function wait(ms) {
+    var start = Date.now(),
+      now = start;
+    while (now - start < ms) {
+      now = Date.now();
+    }
+  }
+
+  // set editor focus based on whether state's focusIndex is this block's index
+  useEffect(() => {
+    if (editor && !editor.isDestroyed && state) {
+      if (state.focusIndex.join(".") === props.index.join(".")) {
+        editor.commands.focus(state.focusPosition);
+        console.log("just focused ", props.index, " at ", state.focusPosition);
+        wait(1000);
+        const action: IClearFocusLatchAction = { type: "clear focus latch" };
+        dispatch(action);
+      }
+    }
+  }, [!!editor, state.focusIndex, props.index]);
+
+  // We blur whenever a selection starts, so that only our synthetic selection is visible/active
+  useEffect(() => {
+    if (editor && !editor.isDestroyed) {
+      if (props.isGlobalSelectionActive) {
+        editor.commands.blur();
+      }
+    }
+  }, [!!editor, props.isGlobalSelectionActive]);
+
+  // we only update the editor content when the editor is blurred, so as to prevent collisions
+  useEffect(() => {
+    if (editor && !editor.isDestroyed) {
+      if (!isFocused.current) {
+        editor.commands.setContent(`<p>${props.humanText}</p>`);
+      }
+    }
+  }, [!!editor, props.humanText, isFocused.current]);
+
+  const tempClick = () => {
+    if (editor) {
+      console.log(editor.state.selection.anchor);
+      editor.commands.focus(0);
+      console.log("focused ", props.index);
+      console.log(editor.state.selection.anchor);
+    }
+    // wait(3000);
+    console.log(editor.state.selection.anchor);
+    console.log("done waiting");
+  };
 
   return (
     <div
@@ -115,6 +226,7 @@ export const BlockText = (props: IBlockTextProps) => {
       className={`flex-grow ${selectedClass} ${containerDeepSelectedClass}`}
     >
       <EditorContent editor={editor} />
+      <button onClick={tempClick}>focus (0)</button>
     </div>
   );
 };
