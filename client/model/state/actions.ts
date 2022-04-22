@@ -54,12 +54,12 @@ export const editHumanText = (
   state: IState,
   action: IEditHumanTextAction
 ): IState => {
-  logAction("text edited: " + action.id);
+  logAction("text edited, id: " + action.id + " --> text: " + action.humanText);
   state.blocksMap.set(action.id, {
     ...state.blocksMap.get(action.id),
     humanText: action.humanText,
   });
-  const newState: IState = { ...state, focusPosition: action.focusPosition };
+  const newState: IState = { ...state };
   return newState;
 };
 
@@ -89,10 +89,14 @@ export const enterWithNoSelection = (
     0,
     newBlockId
   );
-  // now action.index will be the index of the upcoming sibling, which we'll focus on
-  action.index[action.index.length - 1] =
-    action.index[action.index.length - 1] + 1;
-  const newState: IState = { ...state, focusIndex: action.index, focusPosition: 0 };
+  const siblingIndex = action.index.slice(0, action.index.length);
+  siblingIndex[action.index.length - 1] =
+    siblingIndex[action.index.length - 1] + 1;
+  const newState: IState = {
+    ...state,
+    focusIndex: siblingIndex,
+    focusPosition: 1,
+  };
   return newState;
 };
 
@@ -102,7 +106,7 @@ export const clearFocusLatch = (
 ): IState => {
   logAction("focus cleared");
   state.focusIndex = NONEXISTENT_HIERARCHY_INDEX;
-  // not using newState cause we don't want a rerender?
+  // not using newState cause we don't want a rerender
   return state;
 };
 

@@ -4,7 +4,12 @@ import Text from "@tiptap/extension-text";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Editor } from "@tiptap/core";
 import { useContext, useEffect, useRef } from "react";
-import { logMouseEvent, logKeyEvent } from "../../lib/loggers";
+import {
+  logMouseEvent,
+  logKeyEvent,
+  logEditorEvent,
+  logEffect,
+} from "../../lib/loggers";
 import {
   IAction,
   IChangeSelectionAction,
@@ -20,7 +25,9 @@ import {
   HumanText,
   IState,
 } from "../../model/state/stateTypes";
-import { Context } from "./ContextBlock";
+import { Context, ContextBlock } from "./ContextBlock";
+import { waitForDebugger } from "inspector";
+import { wait } from "../../lib/helpers";
 
 export interface IBlockTextProps {
   id: BlockId;
@@ -33,13 +40,14 @@ export interface IBlockTextProps {
 export const BlockText = (props: IBlockTextProps) => {
   let clickOriginatedInThisText = useRef(false); // whether the current click/drag started in this text
   let isFocused = useRef(false); // whether the current text is focused
+  let isFocusing = useRef(false); // whether a focus is being applied
+  let propsRef = useRef(props); // yuck: using this to forego stale closures
   const {
     state,
     dispatch,
   }: { state: IState; dispatch: (action: IAction) => {} } = useContext(Context);
 
   const click = () => {
-    // TODO: This should change to edit mode for the block
     logMouseEvent("onClick " + props.humanText);
   };
 
@@ -110,14 +118,7 @@ export const BlockText = (props: IBlockTextProps) => {
   const CustomExtension = Document.extend({
     addKeyboardShortcuts() {
       return {
-        // ↓ your new keyboard shortcut
-        Enter: () => {
-          // console.log("enter was pressed");
-          handleEnterPress(this.editor);
-          return this.editor.commands.command(() => {
-            return false;
-          });
-        },
+        Enter: () => handleEnterPress(this.editor),
       };
     },
   });
@@ -130,21 +131,30 @@ export const BlockText = (props: IBlockTextProps) => {
           class: `focus:outline-none text-gray-700 ${selectedClass}`,
         },
       },
-      editable: !props.isGlobalSelectionActive,
+      editable: !propsRef.current.isGlobalSelectionActive,
       content: props.humanText,
       onUpdate({ editor }) {
+        logEditorEvent(
+          "onUpdate: [" +
+            propsRef.current.index +
+            ", id: " +
+            propsRef.current.id +
+            "]"
+        );
         const action: IEditHumanTextAction = {
           type: "text edit",
-          id: props.id,
+          id: propsRef.current.id,
           humanText: editor.getText(),
           focusPosition: editor.state.selection.anchor,
         };
         dispatch(action);
       },
       onFocus() {
+        logEditorEvent("onFocus: [" + props.index);
         isFocused.current = true;
       },
       onBlur() {
+        logEditorEvent("onBlur + [" + props.index);
         isFocused.current = false;
       },
     },
@@ -152,48 +162,39 @@ export const BlockText = (props: IBlockTextProps) => {
   );
 
   const handleEnterPress = (editor: Editor) => {
-    logKeyEvent("onEnterPress " + props.index);
+    logKeyEvent(
+      "onEnterPress, index: " +
+        props.index +
+        ", humanText: " +
+        props.humanText +
+        ", id: " +
+        props.id
+    );
     const editorText = editor.getText();
     const mousePosition = editor.state.selection.anchor;
     const oldText = editorText.slice(0, mousePosition - 1);
     const newText = editorText.slice(mousePosition - 1);
-    editor.commands.setContent(oldText);
     const action: IEnterWithNoSelectionAction = {
       type: "enter with no selection",
-      id: props.id,
-      index: props.index,
+      id: propsRef.current.id,
+      index: propsRef.current.index,
       oldText,
       newText,
     };
     dispatch(action);
+    return editor.commands.blur();
   };
 
-  //TODO delete this!
-  function wait(ms) {
-    var start = Date.now(),
-      now = start;
-    while (now - start < ms) {
-      now = Date.now();
-    }
-  }
-
-  // set editor focus based on whether state's focusIndex is this block's index
+  // keep propsRef up to date
   useEffect(() => {
-    if (editor && !editor.isDestroyed && state) {
-      if (state.focusIndex.join(".") === props.index.join(".")) {
-        editor.commands.focus(state.focusPosition);
-        console.log("just focused ", props.index, " at ", state.focusPosition);
-        wait(1000);
-        const action: IClearFocusLatchAction = { type: "clear focus latch" };
-        dispatch(action);
-      }
-    }
-  }, [!!editor, state.focusIndex, props.index]);
+    propsRef.current = props;
+  }, [props]);
 
   // We blur whenever a selection starts, so that only our synthetic selection is visible/active
   useEffect(() => {
     if (editor && !editor.isDestroyed) {
       if (props.isGlobalSelectionActive) {
+        logEffect("blurring for index: " + props.index);
         editor.commands.blur();
       }
     }
@@ -202,23 +203,33 @@ export const BlockText = (props: IBlockTextProps) => {
   // we only update the editor content when the editor is blurred, so as to prevent collisions
   useEffect(() => {
     if (editor && !editor.isDestroyed) {
-      if (!isFocused.current) {
-        editor.commands.setContent(`<p>${props.humanText}</p>`);
+      if (!isFocused.current && !isFocusing.current) {
+        if (props.humanText !== editor.getText()) {
+          logEffect("updating editor content for index: " + props.index);
+          editor.commands.setContent(props.humanText);
+        }
       }
     }
   }, [!!editor, props.humanText, isFocused.current]);
 
-  const tempClick = () => {
-    if (editor) {
-      console.log(editor.state.selection.anchor);
-      editor.commands.focus(0);
-      console.log("focused ", props.index);
-      console.log(editor.state.selection.anchor);
+  // set editor focus based on whether state's focusIndex is this block's index
+  useEffect(() => {
+    if (editor && !editor.isDestroyed && state) {
+      if (state.focusIndex.join(".") === props.index.join(".")) {
+        logEffect(
+          "setting focus for index: " +
+            props.index +
+            ", focus position: " +
+            state.focusPosition
+        );
+        isFocusing.current = true;
+        editor.commands.focus(state.focusPosition);
+        isFocusing.current = false;
+        const action: IClearFocusLatchAction = { type: "clear focus latch" };
+        dispatch(action);
+      }
     }
-    // wait(3000);
-    console.log(editor.state.selection.anchor);
-    console.log("done waiting");
-  };
+  }, [!!editor, state.focusIndex, props.index]);
 
   return (
     <div
@@ -226,7 +237,6 @@ export const BlockText = (props: IBlockTextProps) => {
       className={`flex-grow ${selectedClass} ${containerDeepSelectedClass}`}
     >
       <EditorContent editor={editor} />
-      <button onClick={tempClick}>focus (0)</button>
     </div>
   );
 };

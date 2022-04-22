@@ -106,14 +106,6 @@ export const Block = (props: IBlockProps) => {
     <div>
       <div className="flex">
         <div className="h-6 w-6 bg-yellow-300 border border-yellow-700"></div>
-        {/* <p
-          className={`select-none flex-grow ${
-            props.deepSelected ? selectedClasses : unselectedClasses
-          }`}
-          {...mouseEvents}
-        >
-          {props.humanText}
-        </p> */}
         <BlockText {...blockTextProps} />
       </div>
       {childBlocks.length > 0 && (
