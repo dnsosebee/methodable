@@ -1,15 +1,20 @@
 
+// The main application state
 export interface IState {
   // persistent
   blocksMap: Map<BlockId, IBlock>;
   // transient, f(page)
   rootBlockId: BlockId;
-  // transient, f(mouse events)
+  // transient, f(mouse events, keyboard events)
+    // selection related
   activeParentId: BlockId;
   activeParentIndex: HierarchyIndex;
   selectionRange: SelectionRange;
   isSelectionActive: boolean;
   isSelectionDeep: boolean;
+    // focus related
+  focusIndex: HierarchyIndex | null;
+  focusPosition: number;
 }
 
 export interface IBlock {

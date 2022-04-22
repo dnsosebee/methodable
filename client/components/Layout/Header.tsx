@@ -11,9 +11,16 @@ const Header = () => {
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <Link href="/">
           <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-            <Image src="/intensh-logo.png" width="30px" height="30px"/>
+            <Image src="/intensh-logo.png" width="30px" height="30px" />
           </a>
         </Link>
+        <button
+          onClick={() => {
+            console.log("\n\n");
+          }}
+        >
+          log space
+        </button>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
           {/* {user && (
             <div className="flex itemx-center justify-center mr-5 capitalize bg-blue-500 py-1 px-3 rounded-md text-white">

@@ -14,12 +14,14 @@ import {
   IStartSelectionAction,
 } from "../../model/state/actionTypes";
 import { logMouseEvent } from "../../lib/loggers";
+import { BlockText, IBlockTextProps } from "./BlockText";
 
 export interface IBlockProps {
   id: BlockId;
   humanText: HumanText;
-  shallowSelected: boolean;
-  deepSelected: boolean;
+  isShallowSelected: boolean;
+  isDeepSelected: boolean;
+  isGlobalSelectionActive: boolean;
   children: BlockId[];
   index: HierarchyIndex;
 }
@@ -29,77 +31,11 @@ export const Block = (props: IBlockProps) => {
     state,
     dispatch,
   }: { state: IState; dispatch: (action: IAction) => {} } = useContext(Context);
-  let clickOriginatedInThisText = useRef(false); // whether the current click/drag started in this text
-
-  const click = () => {
-    // TODO: This should change to edit mode for the block
-    logMouseEvent("onClick " + props.humanText);
-  };
-
-  const mouseEnter = (e: React.MouseEvent) => {
-    if (isMouseDown(e)) {
-      const action: IChangeSelectionAction = {
-        type: "selection change",
-        index: props.index,
-      };
-      dispatch(action);
-      logMouseEvent("onMouseEnter mouseIsDown " + props.humanText);
-    } else {
-      logMouseEvent("onMouseEnter mouseisUp " + props.humanText);
-    }
-  };
-
-  const isMouseDown = (e: React.MouseEvent): boolean => {
-    return (e.buttons & 1) === 1;
-  };
-
-  const mouseLeave = (e: React.MouseEvent) => {
-    if (isMouseDown(e)) {
-      if (clickOriginatedInThisText.current) {
-        const action: IStartSelectionAction = {
-          type: "selection start",
-          index: props.index,
-        };
-        dispatch(action);
-      }
-      logMouseEvent("onMouseLeave mouseIsDown " + props.humanText);
-    } else {
-      logMouseEvent("onMouseLeave mouseisUp " + props.humanText);
-    }
-    clickOriginatedInThisText.current = false;
-  };
-
-  const mouseDown = () => {
-    clickOriginatedInThisText.current = true;
-    const action: IMouseDownAction = {
-      type: "mouse down",
-      index: props.index,
-    };
-    dispatch(action);
-    logMouseEvent("onMouseDown " + props.humanText);
-  };
-
-  const mouseUp = () => {
-    clickOriginatedInThisText.current = false;
-    logMouseEvent("onMouseUp " + props.humanText);
-  };
-
-  const copy = () => {
-    logMouseEvent("onCopy " + props.humanText);
-  };
-
-  const mouseEvents = {
-    onClick: click,
-    onMouseEnter: mouseEnter,
-    onMouseLeave: mouseLeave,
-    onMouseDown: mouseDown,
-    onMouseUp: mouseUp,
-    onCopy: copy,
-  };
 
   const getChildBlocks = (
     children: BlockId[],
-    blocksMap: Map<BlockId, IBlock>
+    blocksMap: Map<BlockId, IBlock>,
+    isGlobalSelectionActive: boolean,
   ) => {
     return children.map((childId, childIndex) => {
       const childBlock: IBlock = blocksMap.get(childId);
@@ -111,6 +47,7 @@ export const Block = (props: IBlockProps) => {
         humanText: childBlock.humanText,
         children: childBlock.children,
         index: childHierarchyIndex,
+        isGlobalSelectionActive,
         ...getSelectednessInfo(childHierarchyIndex),
       };
       return <Block key={childIndex} {...childBlockProps} />;
@@ -120,11 +57,11 @@ export const Block = (props: IBlockProps) => {
   const getSelectednessInfo = (
     hierarchyIndex: HierarchyIndex
   ): {
-    shallowSelected: boolean;
-    deepSelected: boolean;
+    isShallowSelected: boolean;
+    isDeepSelected: boolean;
   } => {
-    let shallowSelected = false;
-    let deepSelected = false;
+    let isShallowSelected = false;
+    let isDeepSelected = false;
     if (state.isSelectionActive) {
       // we know something is selected, nothing more
       if (state.activeParentIndex.length < hierarchyIndex.length) {
@@ -144,34 +81,32 @@ export const Block = (props: IBlockProps) => {
           ) {
             // we know this block or its parent is selected, nothing more (sufficient for deep selection)
             if (state.isSelectionDeep) {
-              deepSelected = true;
+              isDeepSelected = true;
             } else if (parentLength + 1 === hierarchyIndex.length) {
-              shallowSelected = true;
+              isShallowSelected = true;
             }
           }
         }
       }
     }
-    return { shallowSelected, deepSelected };
+    return { isShallowSelected, isDeepSelected };
   };
 
-  const childBlocks = getChildBlocks(props.children, state.blocksMap);
+  const childBlocks = getChildBlocks(props.children, state.blocksMap, state.isSelectionActive);
 
-  const selectedClasses = "bg-gray-200 text-gray-700";
-  const unselectedClasses = "text-gray-700";
+  const blockTextProps: IBlockTextProps = {
+    id: props.id,
+    humanText: props.humanText,
+    index: props.index,
+    isGlobalSelectionActive: props.isGlobalSelectionActive,
+    isDeepSelected: props.isDeepSelected,
+  }
 
   return (
     <div>
       <div className="flex">
         <div className="h-6 w-6 bg-yellow-300 border border-yellow-700"></div>
-        <p
-          className={`select-none flex-grow ${
-            props.deepSelected ? selectedClasses : unselectedClasses
-          }`}
-          {...mouseEvents}
-        >
-          {props.humanText}
-        </p>
+        <BlockText {...blockTextProps} />
       </div>
       {childBlocks.length > 0 && (
         <div className="flex">
