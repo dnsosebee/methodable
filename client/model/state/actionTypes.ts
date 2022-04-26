@@ -1,31 +1,33 @@
 // actionTypes.ts - All of the action types that can be dispatched to the reducer
-import { BlockId, HierarchyIndex, HumanText, IState } from "./stateTypes";
+import {
+  BlockId,
+  FocusPosition,
+  HierarchyIndex,
+  HumanText,
+  IState,
+} from "./stateTypes";
 
 export interface IAction {
   type: string;
 }
 
-export interface IStartSelectionAction extends IAction {
-  type: "selection start";
+export interface ISelectionAction extends IAction {
+  type: "selection start" | "selection change" | "mouse down";
   index: HierarchyIndex;
 }
 
-export interface IChangeSelectionAction extends IAction {
-  type: "selection change";
+export interface ICursorMoveAction extends IAction {
+  type: "move cursor up" | "move cursor down";
   index: HierarchyIndex;
-}
-
-export interface IMouseDownAction extends IAction {
-  type: "mouse down";
-  index: HierarchyIndex;
+  focusPosition: FocusPosition;
 }
 
 export interface IEditHumanTextAction extends IAction {
   type: "text edit";
   id: BlockId;
   humanText: HumanText;
-  focusPosition: number;
-};
+  focusPosition: FocusPosition;
+}
 
 export interface IEnterWithNoSelectionAction extends IAction {
   type: "enter with no selection";

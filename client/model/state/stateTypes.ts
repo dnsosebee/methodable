@@ -1,4 +1,3 @@
-
 // The main application state
 export interface IState {
   // persistent
@@ -6,15 +5,15 @@ export interface IState {
   // transient, f(page)
   rootBlockId: BlockId;
   // transient, f(mouse events, keyboard events)
-    // selection related
+  // selection related
   activeParentId: BlockId;
   activeParentIndex: HierarchyIndex;
   selectionRange: SelectionRange;
   isSelectionActive: boolean;
   isSelectionDeep: boolean;
-    // focus related
+  // focus related
   focusIndex: HierarchyIndex | null;
-  focusPosition: number;
+  focusPosition: FocusPosition;
 }
 
 export interface IBlock {
@@ -22,10 +21,12 @@ export interface IBlock {
   id: BlockId;
   humanText: HumanText;
   children: BlockId[];
+  parents: BlockId[];
   // transient states, like selectedness and hierarchyIndex, are calculated from state during render
 }
 
 export type BlockId = string;
 export type HumanText = string;
 export type HierarchyIndex = number[];
-export type SelectionRange = {start: HierarchyIndex, end: HierarchyIndex};
+export type SelectionRange = { start: HierarchyIndex; end: HierarchyIndex };
+export type FocusPosition = number | "start" | "end";
