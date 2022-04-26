@@ -2,7 +2,6 @@
 import { BlockType, BlockState, AccessType, User } from "@prisma/client";
 import { Context } from "./context";
 
-
 export const resolvers = {
   Query: {
     blocks: (_parent, _args, ctx: Context) => {
@@ -29,8 +28,8 @@ export const resolvers = {
       const user: User = await ctx.prisma.user.findUnique({
         where: { id: args.id },
       });
-      console.log("user: " + user)
-      console.dir(user)
+      console.log("user: " + user);
+      console.dir(user);
       // user parent block
       // TODO: look into batch queries for parent/child relationships
       return ctx.prisma.block.create({

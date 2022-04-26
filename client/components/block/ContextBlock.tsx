@@ -8,10 +8,7 @@ import { Block, IBlockProps } from "./Block";
 const Context = createContext(null);
 
 const ContextBlock = () => {
-  const [state, dispatch] = useReducer<React.Reducer<IState, IAction>>(
-    reducer,
-    initialState
-  );
+  const [state, dispatch] = useReducer<React.Reducer<IState, IAction>>(reducer, initialState);
 
   const rootBlock: IBlock = state.blocksMap.get(state.rootBlockId);
   const rootBlockProps: IBlockProps = {
@@ -21,7 +18,7 @@ const ContextBlock = () => {
     isDeepSelected: false,
     children: rootBlock.children,
     isGlobalSelectionActive: state.isSelectionActive,
-    index: [],
+    hIndex: [],
   };
 
   return (

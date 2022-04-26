@@ -36,11 +36,7 @@ const Header = () => {
                   Logout
                 </a>
               </Link>
-              <img
-                alt="profile"
-                className="rounded-full w-12 h-12"
-                src={user.picture}
-              />
+              <img alt="profile" className="rounded-full w-12 h-12" src={user.picture} />
             </div>
           ) : (
             <Link href="/api/auth/login">

@@ -1,8 +1,7 @@
 // prisma/seed.ts
 
-import { PrismaClient } from '@prisma/client'
-import { links } from '../../client/data/links'
-const prisma = new PrismaClient()
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 async function main() {
   // await prisma.user.create({
@@ -11,17 +10,16 @@ async function main() {
   //     role: 'ADMIN',
   //   },
   // })
-
   // await prisma.link.createMany({
   //   data: links,
   // })
 }
 
 main()
-  .catch(e => {
-    console.error(e)
-    process.exit(1)
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect()
-  })
+    await prisma.$disconnect();
+  });

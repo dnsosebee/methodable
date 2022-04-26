@@ -1,12 +1,6 @@
 import React, { useContext, useRef } from "react";
 import { Context } from "./ContextBlock";
-import {
-  BlockId,
-  HierarchyIndex,
-  HumanText,
-  IBlock,
-  IState,
-} from "../../model/state/stateTypes";
+import { BlockId, HierarchyIndex, HumanText, IBlock, IState } from "../../model/state/stateTypes";
 import { IAction } from "../../model/state/actionTypes";
 import { BlockText, IBlockTextProps } from "./BlockText";
 
@@ -17,14 +11,12 @@ export interface IBlockProps {
   isDeepSelected: boolean;
   isGlobalSelectionActive: boolean;
   children: BlockId[];
-  index: HierarchyIndex;
+  hIndex: HierarchyIndex;
 }
 
 export const Block = (props: IBlockProps) => {
-  const {
-    state,
-    dispatch,
-  }: { state: IState; dispatch: (action: IAction) => {} } = useContext(Context);
+  const { state, dispatch }: { state: IState; dispatch: (action: IAction) => {} } =
+    useContext(Context);
 
   const getChildBlocks = (
     children: BlockId[],
@@ -33,16 +25,14 @@ export const Block = (props: IBlockProps) => {
   ) => {
     return children.map((childId, childIndex) => {
       const childBlock: IBlock = blocksMap.get(childId);
-      const childHierarchyIndex = JSON.parse(
-        JSON.stringify(props.index)
-      ).concat(childIndex);
+      const childHIndex = [...props.hIndex, childIndex];
       const childBlockProps = {
         id: childId,
         humanText: childBlock.humanText,
         children: childBlock.children,
-        index: childHierarchyIndex,
+        hIndex: childHIndex,
         isGlobalSelectionActive,
-        ...getSelectednessInfo(childHierarchyIndex),
+        ...getSelectednessInfo(childHIndex),
       };
       return <Block key={childIndex} {...childBlockProps} />;
     });
@@ -86,16 +76,12 @@ export const Block = (props: IBlockProps) => {
     return { isShallowSelected, isDeepSelected };
   };
 
-  const childBlocks = getChildBlocks(
-    props.children,
-    state.blocksMap,
-    state.isSelectionActive
-  );
+  const childBlocks = getChildBlocks(props.children, state.blocksMap, state.isSelectionActive);
 
   const blockTextProps: IBlockTextProps = {
     id: props.id,
     humanText: props.humanText,
-    index: props.index,
+    hIndex: props.hIndex,
     isGlobalSelectionActive: props.isGlobalSelectionActive,
     isDeepSelected: props.isDeepSelected,
   };
