@@ -7,13 +7,7 @@ import {
   IBlock,
   IState,
 } from "../../model/state/stateTypes";
-import {
-  IAction,
-  IChangeSelectionAction,
-  IMouseDownAction,
-  IStartSelectionAction,
-} from "../../model/state/actionTypes";
-import { logMouseEvent } from "../../lib/loggers";
+import { IAction } from "../../model/state/actionTypes";
 import { BlockText, IBlockTextProps } from "./BlockText";
 
 export interface IBlockProps {
@@ -35,7 +29,7 @@ export const Block = (props: IBlockProps) => {
   const getChildBlocks = (
     children: BlockId[],
     blocksMap: Map<BlockId, IBlock>,
-    isGlobalSelectionActive: boolean,
+    isGlobalSelectionActive: boolean
   ) => {
     return children.map((childId, childIndex) => {
       const childBlock: IBlock = blocksMap.get(childId);
@@ -92,7 +86,11 @@ export const Block = (props: IBlockProps) => {
     return { isShallowSelected, isDeepSelected };
   };
 
-  const childBlocks = getChildBlocks(props.children, state.blocksMap, state.isSelectionActive);
+  const childBlocks = getChildBlocks(
+    props.children,
+    state.blocksMap,
+    state.isSelectionActive
+  );
 
   const blockTextProps: IBlockTextProps = {
     id: props.id,
@@ -100,7 +98,7 @@ export const Block = (props: IBlockProps) => {
     index: props.index,
     isGlobalSelectionActive: props.isGlobalSelectionActive,
     isDeepSelected: props.isDeepSelected,
-  }
+  };
 
   return (
     <div>

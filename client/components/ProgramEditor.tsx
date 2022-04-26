@@ -51,14 +51,6 @@ const ProgramEditor = () => {
   const editor = useEditor({
     extensions: [Document, Paragraph, Text],
     editorProps: {
-      // handleDOMEvents: {
-      //   keydown: (view, event) => {
-      //     if (event.key === "Enter") {
-      //     }
-      //     console.log("Heyyyy");
-      //     return false;
-      //   },
-      // },
       attributes: {
         class: "focus:outline-none",
       },

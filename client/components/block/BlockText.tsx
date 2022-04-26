@@ -12,12 +12,11 @@ import {
 } from "../../lib/loggers";
 import {
   IAction,
-  IChangeSelectionAction,
   IEditHumanTextAction,
-  IMouseDownAction,
-  IStartSelectionAction,
   IEnterWithNoSelectionAction,
   IClearFocusLatchAction,
+  ISelectionAction,
+  ICursorMoveAction,
 } from "../../model/state/actionTypes";
 import {
   BlockId,
@@ -52,7 +51,7 @@ export const BlockText = (props: IBlockTextProps) => {
 
   const mouseEnter = (e: React.MouseEvent) => {
     if (isMouseDown(e)) {
-      const action: IChangeSelectionAction = {
+      const action: ISelectionAction = {
         type: "selection change",
         index: props.index,
       };
@@ -70,7 +69,7 @@ export const BlockText = (props: IBlockTextProps) => {
   const mouseLeave = (e: React.MouseEvent) => {
     if (isMouseDown(e)) {
       if (clickOriginatedInThisText.current) {
-        const action: IStartSelectionAction = {
+        const action: ISelectionAction = {
           type: "selection start",
           index: props.index,
         };
@@ -85,7 +84,7 @@ export const BlockText = (props: IBlockTextProps) => {
 
   const mouseDown = () => {
     clickOriginatedInThisText.current = true;
-    const action: IMouseDownAction = {
+    const action: ISelectionAction = {
       type: "mouse down",
       index: props.index,
     };
@@ -118,6 +117,10 @@ export const BlockText = (props: IBlockTextProps) => {
     addKeyboardShortcuts() {
       return {
         Enter: () => handleEnterPress(this.editor),
+        ArrowUp: () => handleUpArrowPress(this.editor),
+        ArrowDown: () => handleDownArrowPress(this.editor),
+        ArrowLeft: () => handleLeftArrowPress(this.editor),
+        ArrowRight: () => handleRightArrowPress(this.editor),
       };
     },
   });
@@ -184,6 +187,60 @@ export const BlockText = (props: IBlockTextProps) => {
     return editor.commands.blur();
   };
 
+  const handleUpArrowPress = (editor: Editor) => {
+    logKeyEvent("onUpArrowPress, index: " + props.index);
+    const action: ICursorMoveAction = {
+      type: "move cursor up",
+      index: propsRef.current.index,
+      focusPosition: editor.state.selection.anchor,
+    };
+    dispatch(action);
+    return editor.commands.blur();
+  };
+
+  const handleDownArrowPress = (editor: Editor) => {
+    logKeyEvent("onDownArrowPress, index: " + props.index);
+    const action: ICursorMoveAction = {
+      type: "move cursor down",
+      index: propsRef.current.index,
+      focusPosition: editor.state.selection.anchor,
+    };
+    dispatch(action);
+    return editor.commands.blur();
+  };
+
+  const handleLeftArrowPress = (editor: Editor) => {
+    logKeyEvent("onLeftArrowPress, index: " + props.index);
+    const focusPosition = editor.state.selection.anchor;
+    if (focusPosition === 1) {
+      // we're at the beginning of the line already, so dispatch the action
+      const action: ICursorMoveAction = {
+        type: "move cursor up",
+        index: propsRef.current.index,
+        focusPosition: "end",
+      };
+      dispatch(action);
+      return editor.commands.blur();
+    }
+    return false;
+  };
+
+  const handleRightArrowPress = (editor: Editor) => {
+    logKeyEvent("onRightArrowPress, index: " + props.index);
+    const focusPosition = editor.state.selection.anchor;
+    if (focusPosition === editor.getText().length + 1) {
+      // we're at the beginning of the line already, so dispatch the action
+      const action: ICursorMoveAction = {
+        type: "move cursor down",
+        index: propsRef.current.index,
+        focusPosition: "start",
+      };
+      dispatch(action);
+      return editor.commands.blur();
+    }
+    return false;
+  };
+
   // keep propsRef up to date
   useEffect(() => {
     propsRef.current = props;
@@ -221,6 +278,7 @@ export const BlockText = (props: IBlockTextProps) => {
             ", focus position: " +
             state.focusPosition
         );
+        editor.commands.setContent(props.humanText);
         editor.commands.focus(state.focusPosition);
         const action: IClearFocusLatchAction = { type: "clear focus latch" };
         dispatch(action);
