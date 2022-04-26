@@ -3,9 +3,11 @@ import {
   IAction,
   IClearFocusLatchAction,
   ICursorMoveAction,
+  IBackspaceAction as IBackspaceAction,
   IEditHumanTextAction,
   IEnterWithNoSelectionAction,
   ISelectionAction,
+  ITabAction,
 } from "./actionTypes";
 import {
   startSelection,
@@ -16,6 +18,8 @@ import {
   clearFocusLatch,
   moveCursorUpALine,
   moveCursorDownALine,
+  backspace,
+  tab,
 } from "./actions";
 
 export const reducer = (state: IState, action: IAction): IState => {
@@ -36,10 +40,11 @@ export const reducer = (state: IState, action: IAction): IState => {
       return moveCursorDownALine(state, action as ICursorMoveAction);
     case "clear focus latch":
       return clearFocusLatch(state, action as IClearFocusLatchAction);
+    case "backspace":
+      return backspace(state, action as IBackspaceAction);
+    case "tab":
+      return tab(state, action as ITabAction);
     default:
-      const type = action.type;
-      throw new Error(
-        "Couldn't find a reducer for action type: " + action.type
-      );
+      throw new Error("Couldn't find a reducer for action type: " + action.type);
   }
 };

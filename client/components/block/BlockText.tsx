@@ -4,12 +4,7 @@ import Text from "@tiptap/extension-text";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Editor } from "@tiptap/core";
 import { useContext, useEffect, useRef } from "react";
-import {
-  logMouseEvent,
-  logKeyEvent,
-  logEditorEvent,
-  logEffect,
-} from "../../lib/loggers";
+import { logMouseEvent, logKeyEvent, logEditorEvent, logEffect } from "../../lib/loggers";
 import {
   IAction,
   IEditHumanTextAction,
@@ -17,21 +12,16 @@ import {
   IClearFocusLatchAction,
   ISelectionAction,
   ICursorMoveAction,
+  IBackspaceAction,
+  ITabAction,
 } from "../../model/state/actionTypes";
-import {
-  BlockId,
-  HierarchyIndex,
-  HumanText,
-  IState,
-} from "../../model/state/stateTypes";
-import { Context, ContextBlock } from "./ContextBlock";
-import { waitForDebugger } from "inspector";
-import { wait } from "../../lib/helpers";
+import { BlockId, HierarchyIndex, HumanText, IState } from "../../model/state/stateTypes";
+import { Context } from "./ContextBlock";
 
 export interface IBlockTextProps {
   id: BlockId;
   humanText: HumanText;
-  index: HierarchyIndex;
+  hIndex: HierarchyIndex;
   isDeepSelected: boolean;
   isGlobalSelectionActive: boolean;
 }
@@ -40,10 +30,8 @@ export const BlockText = (props: IBlockTextProps) => {
   let clickOriginatedInThisText = useRef(false); // whether the current click/drag started in this text
   let isFocused = useRef(false); // whether the current text is focused
   let propsRef = useRef(props); // yuck: using this to forego stale closures
-  const {
-    state,
-    dispatch,
-  }: { state: IState; dispatch: (action: IAction) => {} } = useContext(Context);
+  const { state, dispatch }: { state: IState; dispatch: (action: IAction) => {} } =
+    useContext(Context);
 
   const click = () => {
     logMouseEvent("onClick " + props.humanText);
@@ -53,7 +41,7 @@ export const BlockText = (props: IBlockTextProps) => {
     if (isMouseDown(e)) {
       const action: ISelectionAction = {
         type: "selection change",
-        index: props.index,
+        hIndex: props.hIndex,
       };
       dispatch(action);
       logMouseEvent("onMouseEnter mouseIsDown " + props.humanText);
@@ -71,7 +59,7 @@ export const BlockText = (props: IBlockTextProps) => {
       if (clickOriginatedInThisText.current) {
         const action: ISelectionAction = {
           type: "selection start",
-          index: props.index,
+          hIndex: props.hIndex,
         };
         dispatch(action);
       }
@@ -86,7 +74,7 @@ export const BlockText = (props: IBlockTextProps) => {
     clickOriginatedInThisText.current = true;
     const action: ISelectionAction = {
       type: "mouse down",
-      index: props.index,
+      hIndex: props.hIndex,
     };
     dispatch(action);
     logMouseEvent("onMouseDown " + props.humanText);
@@ -121,6 +109,8 @@ export const BlockText = (props: IBlockTextProps) => {
         ArrowDown: () => handleDownArrowPress(this.editor),
         ArrowLeft: () => handleLeftArrowPress(this.editor),
         ArrowRight: () => handleRightArrowPress(this.editor),
+        Backspace: () => handleBackspacePress(this.editor),
+        Tab: () => handleTabPress(this.editor),
       };
     },
   });
@@ -133,15 +123,11 @@ export const BlockText = (props: IBlockTextProps) => {
           class: `focus:outline-none text-gray-700 ${selectedClass}`,
         },
       },
-      editable: !propsRef.current.isGlobalSelectionActive,
+      editable: !props.isGlobalSelectionActive,
       content: props.humanText,
       onUpdate({ editor }) {
         logEditorEvent(
-          "onUpdate: [" +
-            propsRef.current.index +
-            ", id: " +
-            propsRef.current.id +
-            "]"
+          "onUpdate: [" + propsRef.current.hIndex + ", id: " + propsRef.current.id + "]"
         );
         const action: IEditHumanTextAction = {
           type: "text edit",
@@ -152,11 +138,11 @@ export const BlockText = (props: IBlockTextProps) => {
         dispatch(action);
       },
       onFocus() {
-        logEditorEvent("onFocus: [" + props.index);
+        logEditorEvent("onFocus: [" + props.hIndex);
         isFocused.current = true;
       },
       onBlur() {
-        logEditorEvent("onBlur + [" + props.index);
+        logEditorEvent("onBlur + [" + props.hIndex);
         isFocused.current = false;
       },
     },
@@ -166,7 +152,7 @@ export const BlockText = (props: IBlockTextProps) => {
   const handleEnterPress = (editor: Editor) => {
     logKeyEvent(
       "onEnterPress, index: " +
-        props.index +
+        props.hIndex +
         ", humanText: " +
         props.humanText +
         ", id: " +
@@ -179,7 +165,7 @@ export const BlockText = (props: IBlockTextProps) => {
     const action: IEnterWithNoSelectionAction = {
       type: "enter with no selection",
       id: propsRef.current.id,
-      index: propsRef.current.index,
+      hIndex: propsRef.current.hIndex,
       oldText,
       newText,
     };
@@ -188,10 +174,10 @@ export const BlockText = (props: IBlockTextProps) => {
   };
 
   const handleUpArrowPress = (editor: Editor) => {
-    logKeyEvent("onUpArrowPress, index: " + props.index);
+    logKeyEvent("onUpArrowPress, index: " + props.hIndex);
     const action: ICursorMoveAction = {
       type: "move cursor up",
-      index: propsRef.current.index,
+      hIndex: propsRef.current.hIndex,
       focusPosition: editor.state.selection.anchor,
     };
     dispatch(action);
@@ -199,10 +185,10 @@ export const BlockText = (props: IBlockTextProps) => {
   };
 
   const handleDownArrowPress = (editor: Editor) => {
-    logKeyEvent("onDownArrowPress, index: " + props.index);
+    logKeyEvent("onDownArrowPress, index: " + props.hIndex);
     const action: ICursorMoveAction = {
       type: "move cursor down",
-      index: propsRef.current.index,
+      hIndex: propsRef.current.hIndex,
       focusPosition: editor.state.selection.anchor,
     };
     dispatch(action);
@@ -210,13 +196,13 @@ export const BlockText = (props: IBlockTextProps) => {
   };
 
   const handleLeftArrowPress = (editor: Editor) => {
-    logKeyEvent("onLeftArrowPress, index: " + props.index);
+    logKeyEvent("onLeftArrowPress, index: " + props.hIndex);
     const focusPosition = editor.state.selection.anchor;
     if (focusPosition === 1) {
       // we're at the beginning of the line already, so dispatch the action
       const action: ICursorMoveAction = {
         type: "move cursor up",
-        index: propsRef.current.index,
+        hIndex: propsRef.current.hIndex,
         focusPosition: "end",
       };
       dispatch(action);
@@ -226,19 +212,50 @@ export const BlockText = (props: IBlockTextProps) => {
   };
 
   const handleRightArrowPress = (editor: Editor) => {
-    logKeyEvent("onRightArrowPress, index: " + props.index);
+    logKeyEvent("onRightArrowPress, index: " + props.hIndex);
     const focusPosition = editor.state.selection.anchor;
     if (focusPosition === editor.getText().length + 1) {
-      // we're at the beginning of the line already, so dispatch the action
+      // we're at the end of the line already, so dispatch the action
       const action: ICursorMoveAction = {
         type: "move cursor down",
-        index: propsRef.current.index,
+        hIndex: propsRef.current.hIndex,
         focusPosition: "start",
       };
       dispatch(action);
       return editor.commands.blur();
     }
     return false;
+  };
+
+  const handleBackspacePress = (editor: Editor) => {
+    logKeyEvent("onBackspacePress, index: " + props.hIndex);
+    const editorText = editor.getText();
+    const focusPosition = editor.state.selection.anchor;
+    if (focusPosition === 1) {
+      // we're at the beginning of the line already, so dispatch the action
+      const action: IBackspaceAction = {
+        type: "backspace",
+        hIndex: propsRef.current.hIndex,
+        id: propsRef.current.id,
+        humanText: editorText,
+      };
+      dispatch(action);
+      return editor.commands.blur();
+    }
+    return false;
+  };
+
+  const handleTabPress = (editor: Editor) => {
+    logKeyEvent("onTabPress, index: " + props.hIndex);
+    const focusPosition = editor.state.selection.anchor;
+    const action: ITabAction = {
+      type: "tab",
+      hIndex: propsRef.current.hIndex,
+      id: propsRef.current.id,
+      focusPosition,
+    };
+    dispatch(action);
+    return true;
   };
 
   // keep propsRef up to date
@@ -250,7 +267,7 @@ export const BlockText = (props: IBlockTextProps) => {
   useEffect(() => {
     if (editor && !editor.isDestroyed) {
       if (props.isGlobalSelectionActive) {
-        logEffect("blurring for index: " + props.index);
+        logEffect("blurring for index: " + props.hIndex);
         editor.commands.blur();
       }
     }
@@ -261,7 +278,7 @@ export const BlockText = (props: IBlockTextProps) => {
     if (editor && !editor.isDestroyed) {
       if (!isFocused.current) {
         if (props.humanText !== editor.getText()) {
-          logEffect("updating editor content for index: " + props.index);
+          logEffect("updating editor content for index: " + props.hIndex);
           editor.commands.setContent(props.humanText);
         }
       }
@@ -271,12 +288,9 @@ export const BlockText = (props: IBlockTextProps) => {
   // set editor focus based on whether state's focusIndex is this block's index
   useEffect(() => {
     if (editor && !editor.isDestroyed && state) {
-      if (state.focusIndex.join(".") === props.index.join(".")) {
+      if (state.focusIndex.join(".") === props.hIndex.join(".")) {
         logEffect(
-          "setting focus for index: " +
-            props.index +
-            ", focus position: " +
-            state.focusPosition
+          "setting focus for index: " + props.hIndex + ", focus position: " + state.focusPosition
         );
         editor.commands.setContent(props.humanText);
         editor.commands.focus(state.focusPosition);
@@ -284,13 +298,10 @@ export const BlockText = (props: IBlockTextProps) => {
         dispatch(action);
       }
     }
-  }, [!!editor, state.focusIndex, props.index]);
+  }, [!!editor, state.focusIndex, props.hIndex]);
 
   return (
-    <div
-      {...mouseEvents}
-      className={`flex-grow ${selectedClass} ${containerDeepSelectedClass}`}
-    >
+    <div {...mouseEvents} className={`flex-grow ${selectedClass} ${containerDeepSelectedClass}`}>
       <EditorContent editor={editor} />
     </div>
   );

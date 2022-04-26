@@ -18,10 +18,7 @@ const findBlockQuery = gql`
 
 const updateBlockMutation = gql`
   mutation updateBlockMutation($humanText: String!) {
-    updateBlock(
-      id: "8f6d62b8-0ccf-489d-a7ed-eed5e24e41b6"
-      humanText: $humanText
-    ) {
+    updateBlock(id: "8f6d62b8-0ccf-489d-a7ed-eed5e24e41b6", humanText: $humanText) {
       id
       humanText
     }
@@ -38,9 +35,7 @@ const ProgramEditor = () => {
   });
 
   const upToDate = () => {
-    return (
-      databaseBlock && editor && databaseBlock.humanText === editor.getText()
-    );
+    return databaseBlock && editor && databaseBlock.humanText === editor.getText();
   };
 
   const handleUpdateBlock = (editor: Editor) => {

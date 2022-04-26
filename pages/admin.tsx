@@ -31,12 +31,8 @@ const CreateLinkMutation = gql`
 `;
 
 const NewUserBlocksMutation = gql`
-  mutation (
-    $id: String!
-  ) {
-    createNewUserBlocks(
-      id: $id
-    ) {
+  mutation ($id: String!) {
+    createNewUserBlocks(id: $id) {
       humanText
     }
   }
