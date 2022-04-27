@@ -277,3 +277,52 @@ export const tab = (state: IState, action: ITabAction): IState => {
   };
   return newState;
 };
+
+export const shiftTab = (state: IState, action: ITabAction): IState => {
+  logAction("shift tabbed");
+  if (action.hIndex.length <= 1) {
+    return state;
+  }
+
+  // current block
+  const currentBlockId = action.id;
+  const currentBlock = state.blocksMap.get(currentBlockId);
+  const currentIndex = action.hIndex[action.hIndex.length - 1];
+
+  // parent block
+  const parentBlockId = getBlockIdByHIndex(
+    state.blocksMap,
+    state.rootBlockId,
+    action.hIndex.slice(0, -1)
+  );
+  const parentBlock = state.blocksMap.get(parentBlockId);
+
+  // grandparent block
+  const grandparentHIndex = action.hIndex.slice(0, -2);
+  const grandparentBlockId = getBlockIdByHIndex(
+    state.blocksMap,
+    state.rootBlockId,
+    grandparentHIndex
+  );
+  const grandparentBlock = state.blocksMap.get(grandparentBlockId);
+
+  removeParentChildRelationship(parentBlock, currentBlock, currentIndex);
+  addParentChildRelationship(
+    grandparentBlock,
+    currentBlock,
+    action.hIndex[action.hIndex.length - 2] + 1
+  );
+  while (parentBlock.children.length > currentIndex) {
+    const siblingBlock = state.blocksMap.get(parentBlock.children[currentIndex]);
+    removeParentChildRelationship(parentBlock, siblingBlock, currentIndex);
+    addParentChildRelationship(currentBlock, siblingBlock, currentIndex);
+  }
+  const newHIndex = [...grandparentHIndex, action.hIndex[action.hIndex.length - 2] + 1];
+
+  const newState: IState = {
+    ...state,
+    focusIndex: newHIndex,
+    focusPosition: action.focusPosition,
+  };
+  return newState;
+};

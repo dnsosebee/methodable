@@ -39,7 +39,7 @@ export interface IBackspaceAction extends IAction {
 }
 
 export interface ITabAction extends IAction {
-  type: "tab";
+  type: "tab" | "shift tab";
   hIndex: HierarchyIndex;
   id: BlockId;
   focusPosition: number;

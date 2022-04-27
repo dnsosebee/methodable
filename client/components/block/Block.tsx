@@ -34,7 +34,16 @@ export const Block = (props: IBlockProps) => {
         isGlobalSelectionActive,
         ...getSelectednessInfo(childHIndex),
       };
-      return <Block key={childIndex} {...childBlockProps} />;
+      return (
+        <div className="flex">
+          <div>
+            <p>{childIndex + 1}.&nbsp;</p>
+          </div>
+          <div className="flex-grow">
+            <Block key={childIndex} {...childBlockProps} />
+          </div>
+        </div>
+      );
     });
   };
 
@@ -89,12 +98,11 @@ export const Block = (props: IBlockProps) => {
   return (
     <div>
       <div className="flex">
-        <div className="h-6 w-6 bg-yellow-300 border border-yellow-700"></div>
         <BlockText {...blockTextProps} />
       </div>
       {childBlocks.length > 0 && (
         <div className="flex">
-          <div className="bg-red-300 w-6 border border-red-700"></div>
+          <div className="w-1 mr-3 bg-gray-300"></div>
           <div className="flex-grow">{childBlocks}</div>
         </div>
       )}

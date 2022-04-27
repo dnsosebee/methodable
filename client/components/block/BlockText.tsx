@@ -111,6 +111,9 @@ export const BlockText = (props: IBlockTextProps) => {
         ArrowRight: () => handleRightArrowPress(this.editor),
         Backspace: () => handleBackspacePress(this.editor),
         Tab: () => handleTabPress(this.editor),
+        "Shift-Tab": () => handleShiftTabPress(this.editor),
+        // we're not gonna deal with 2d text boxes yet, but we will have to soon enough
+        // 'Shift-Enter': () => this.editor.commands.enter(),
       };
     },
   });
@@ -250,6 +253,19 @@ export const BlockText = (props: IBlockTextProps) => {
     const focusPosition = editor.state.selection.anchor;
     const action: ITabAction = {
       type: "tab",
+      hIndex: propsRef.current.hIndex,
+      id: propsRef.current.id,
+      focusPosition,
+    };
+    dispatch(action);
+    return true;
+  };
+
+  const handleShiftTabPress = (editor: Editor) => {
+    logKeyEvent("onShiftTabPress, index: " + props.hIndex);
+    const focusPosition = editor.state.selection.anchor;
+    const action: ITabAction = {
+      type: "shift tab",
       hIndex: propsRef.current.hIndex,
       id: propsRef.current.id,
       focusPosition,

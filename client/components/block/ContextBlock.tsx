@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from "react";
+import React, { createContext, useReducer } from "react";
 import { initialState } from "../../data/initialState";
 import { IAction } from "../../model/state/actionTypes";
 import { reducer } from "../../model/state/reducer";
