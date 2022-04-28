@@ -19,6 +19,7 @@ import {
   IEnterWithNoSelectionAction,
   ISelectionAction,
   ITabAction,
+  IChangeBlockTypeAction,
 } from "./actionTypes";
 import { BlockId, IBlock, IState } from "./stateTypes";
 
@@ -87,6 +88,7 @@ export const enterWithNoSelection = (
       humanText: "",
       children: [],
       parents: [parentBlockId],
+      blockType: oldBlock.blockType,
     };
     parentBlock.children.splice(action.hIndex[action.hIndex.length - 1], 0, newBlockId);
     // newIndex stays the same
@@ -98,6 +100,7 @@ export const enterWithNoSelection = (
       humanText: action.newText,
       children: [],
       parents: [parentBlockId],
+      blockType: oldBlock.blockType,
     };
     parentBlock.children.splice(action.hIndex[action.hIndex.length - 1] + 1, 0, newBlockId);
     newHIndex[action.hIndex.length - 1] += 1;
@@ -110,6 +113,7 @@ export const enterWithNoSelection = (
       humanText: action.newText,
       children: [],
       parents: [oldBlockId],
+      blockType: oldBlock.blockType,
     };
     // do nothing with parentBlock
     newHIndex.push(0);
@@ -214,6 +218,7 @@ export const backspace = (state: IState, action: IBackspaceAction): IState => {
   //   focusIndex: upstairsNeighborhHIndex,
   // };
   // return newState;
+
   return state;
 };
 
@@ -228,6 +233,11 @@ export const tab = (state: IState, action: ITabAction): IState => {
     action.hIndex.slice(0, -1)
   );
   const parentBlock = state.blocksMap.get(parentBlockId);
+
+  // current block
+  const currentBlockId = action.id;
+  const currentBlock = state.blocksMap.get(currentBlockId);
+
   // if we're the first child, just add an older sibling and proceed
   if (action.hIndex[action.hIndex.length - 1] === 0) {
     shouldCursorStayInParent = true;
@@ -237,6 +247,7 @@ export const tab = (state: IState, action: ITabAction): IState => {
       humanText: "",
       children: [],
       parents: [],
+      blockType: currentBlock.blockType,
     };
     addParentChildRelationship(
       parentBlock,
@@ -257,10 +268,6 @@ export const tab = (state: IState, action: ITabAction): IState => {
     previousSiblingHIndex
   );
   const previousSibling = state.blocksMap.get(previousSiblingId);
-
-  // current block
-  const currentBlockId = action.id;
-  const currentBlock = state.blocksMap.get(currentBlockId);
 
   removeParentChildRelationship(parentBlock, currentBlock, action.hIndex[action.hIndex.length - 1]);
   addParentChildRelationship(previousSibling, currentBlock);
@@ -325,4 +332,13 @@ export const shiftTab = (state: IState, action: ITabAction): IState => {
     focusPosition: action.focusPosition,
   };
   return newState;
+};
+
+export const changeBlockType = (state: IState, action: IChangeBlockTypeAction): IState => {
+  logAction("change block type");
+  const currentBlock = state.blocksMap.get(action.id);
+  currentBlock.blockType = action.blockType;
+  return {
+    ...state,
+  };
 };

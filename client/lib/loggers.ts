@@ -15,17 +15,17 @@ export const logMouseEvent = (s: string) => {
 };
 
 export const logAction = (s: string) => {
-  console.log(rightPad("Action Log: "), s);
+  //console.log(rightPad("Action Log: "), s);
 };
 
 export const logKeyEvent = (s: string) => {
-  console.log(rightPad("Key Event Log: "), s);
+  //console.log(rightPad("Key Event Log: "), s);
 };
 
 export const logEditorEvent = (s: string) => {
-  console.log(rightPad("Editor Event Log: "), s);
+  //console.log(rightPad("Editor Event Log: "), s);
 };
 
 export const logEffect = (s: string) => {
-  console.log(rightPad("Effect Log: "), s);
+  //console.log(rightPad("Effect Log: "), s);
 };

@@ -1,8 +1,10 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext } from "react";
 import { Context } from "./ContextBlock";
 import { BlockId, HierarchyIndex, HumanText, IBlock, IState } from "../../model/state/stateTypes";
 import { IAction } from "../../model/state/actionTypes";
 import { BlockText, IBlockTextProps } from "./BlockText";
+import { ITypeSelectProps, TypeSelect } from "./TypeSelect";
+import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
 
 export interface IBlockProps {
   id: BlockId;
@@ -34,16 +36,7 @@ export const Block = (props: IBlockProps) => {
         isGlobalSelectionActive,
         ...getSelectednessInfo(childHIndex),
       };
-      return (
-        <div className="flex">
-          <div>
-            <p>{childIndex + 1}.&nbsp;</p>
-          </div>
-          <div className="flex-grow">
-            <Block key={childIndex} {...childBlockProps} />
-          </div>
-        </div>
-      );
+      return <Block key={childIndex} {...childBlockProps} />;
     });
   };
 
@@ -95,14 +88,27 @@ export const Block = (props: IBlockProps) => {
     isDeepSelected: props.isDeepSelected,
   };
 
+  const typeSelectProps: ITypeSelectProps = {
+    id: props.id,
+    blockType: state.blocksMap.get(props.id).blockType,
+  };
+
+  const blockHandleProps: IBlockHandleProps = {
+    id: props.id,
+    hIndex: props.hIndex,
+  };
+
   return (
     <div>
       <div className="flex">
+        <BlockHandle {... blockHandleProps} />
+        <TypeSelect {...typeSelectProps}></TypeSelect>
+        &nbsp;
         <BlockText {...blockTextProps} />
       </div>
       {childBlocks.length > 0 && (
         <div className="flex">
-          <div className="w-1 mr-3 bg-gray-300"></div>
+          <div className="w-1 mr-3 bg-gray-300 my-1 rounded-sm"></div>
           <div className="flex-grow">{childBlocks}</div>
         </div>
       )}

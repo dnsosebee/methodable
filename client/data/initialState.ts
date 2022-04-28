@@ -1,4 +1,5 @@
 // a temp file for initial state
+import { blockType } from "../model/state/blockType";
 import { BlockId, IBlock, IState } from "../model/state/stateTypes";
 
 const rootBlock = {
@@ -6,6 +7,7 @@ const rootBlock = {
   humanText: "root",
   children: ["child1", "child2", "child3"],
   parents: [],
+  blockType: blockType("question"),
 };
 
 const child1 = {
@@ -13,6 +15,7 @@ const child1 = {
   humanText: "child1",
   children: ["child1-1", "child1-2"],
   parents: ["root"],
+  blockType: blockType("instruction")
 };
 
 const child2 = {
@@ -20,6 +23,7 @@ const child2 = {
   humanText: "child2",
   children: [],
   parents: ["root"],
+  blockType: blockType("instruction")
 };
 
 const child3 = {
@@ -27,6 +31,7 @@ const child3 = {
   humanText: "child3",
   children: ["child_x"],
   parents: ["root"],
+  blockType: blockType("instruction")
 };
 
 const child1_1 = {
@@ -34,6 +39,7 @@ const child1_1 = {
   humanText: "child1-1",
   children: [],
   parents: ["child1"],
+  blockType: blockType("instruction")
 };
 
 const child1_2 = {
@@ -41,6 +47,7 @@ const child1_2 = {
   humanText: "child1-2",
   children: ["child_x"],
   parents: ["child1"],
+  blockType: blockType("instruction")
 };
 
 const child_x = {
@@ -48,6 +55,7 @@ const child_x = {
   humanText: "child_x",
   children: [],
   parents: ["child3", "child1-2"],
+  blockType: blockType("instruction")
 };
 
 export const initialState: IState = {

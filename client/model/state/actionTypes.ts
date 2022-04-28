@@ -1,4 +1,5 @@
 // actionTypes.ts - All of the action types that can be dispatched to the reducer
+import { BlockType } from "./blockType";
 import { BlockId, FocusPosition, HierarchyIndex, HumanText, IState } from "./stateTypes";
 
 export interface IAction {
@@ -47,4 +48,10 @@ export interface ITabAction extends IAction {
 
 export interface IClearFocusLatchAction extends IAction {
   type: "clear focus latch";
+}
+
+export interface IChangeBlockTypeAction extends IAction {
+  type: "change block type";
+  id: BlockId;
+  blockType: BlockType;
 }

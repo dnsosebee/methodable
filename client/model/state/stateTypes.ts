@@ -1,3 +1,5 @@
+import { BlockType } from "./blockType";
+
 // The main application state
 export interface IState {
   // persistent
@@ -22,6 +24,7 @@ export interface IBlock {
   humanText: HumanText;
   children: BlockId[];
   parents: BlockId[];
+  blockType: BlockType;
   // transient states, like selectedness and hierarchyIndex, are calculated from state during render
 }
 

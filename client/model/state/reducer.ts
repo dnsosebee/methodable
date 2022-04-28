@@ -8,6 +8,7 @@ import {
   IEnterWithNoSelectionAction,
   ISelectionAction,
   ITabAction,
+  IChangeBlockTypeAction,
 } from "./actionTypes";
 import {
   startSelection,
@@ -21,6 +22,7 @@ import {
   backspace,
   tab,
   shiftTab,
+  changeBlockType,
 } from "./actions";
 
 export const reducer = (state: IState, action: IAction): IState => {
@@ -47,6 +49,8 @@ export const reducer = (state: IState, action: IAction): IState => {
       return tab(state, action as ITabAction);
     case "shift tab":
       return shiftTab(state, action as ITabAction);
+    case "change block type":
+      return changeBlockType(state, action as IChangeBlockTypeAction);
     default:
       throw new Error("Couldn't find a reducer for action type: " + action.type);
   }
