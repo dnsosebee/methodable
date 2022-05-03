@@ -1,13 +1,15 @@
 export const BLOCK_TYPES = {
-  INSTRUCTION: "instruction",
-  QUESTION: "question",
-  READING: "reading",
+  DO: Symbol("DO"),
+  CHOOSE: Symbol("CHOOSE"),
+  READ: Symbol("READ"),
 };
 
-export function blockType(name: string) {
-  const blockTypesList = [BLOCK_TYPES.INSTRUCTION, BLOCK_TYPES.QUESTION, BLOCK_TYPES.READING];
+export const OPTIONAL_BLOCK_TYPES = { ...BLOCK_TYPES, UNDEFINED: Symbol("UNDEFINED") };
+
+export function blockType(name: symbol) {
+  const blockTypesList = [BLOCK_TYPES.DO, BLOCK_TYPES.CHOOSE, BLOCK_TYPES.READ];
   if (blockTypesList.indexOf(name) === -1) {
-    throw new Error(`Invalid block type: ${name}`);
+    throw new Error(`Invalid block type: ${String(name)}`);
   }
 
   function getNext() {
@@ -22,6 +24,6 @@ export function blockType(name: string) {
 }
 
 export interface IBlockType {
-  name: string;
+  name: symbol;
   getNext: () => IBlockType;
 }

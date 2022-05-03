@@ -1,29 +1,40 @@
-import { useContext } from "react";
-import { getBlockIdByHIndex } from "../../model/state/actionHelpers";
-import { ActionType } from "../../model/state/actions";
-import { BLOCK_TYPES } from "../../model/state/blockType";
-import { BlockId, HierarchyIndex, IState } from "../../model/state/stateTypes";
-import { Context } from "./ContextBlock";
+import { OPTIONAL_BLOCK_TYPES } from "../../model/state/blockType";
 
-export const UNORDERED = "•";
+interface IBlockHandlePresentation {
+  text: (orderNum: number) => string;
+  className: string;
+}
+
+// maps a block's parent type to the handle's presentation. undefined means no parent (current is root block)
+const BLOCK_HANDLE_PRESENTATIONS = {
+  [OPTIONAL_BLOCK_TYPES.DO]: {
+    text: (orderNum: number) => `${orderNum}.`,
+    className: "text-blue-200",
+  },
+  [OPTIONAL_BLOCK_TYPES.CHOOSE]: {
+    text: (orderNum: number) => `${orderNum}.`,
+    className: "text-green-200",
+  },
+  [OPTIONAL_BLOCK_TYPES.READ]: {
+    text: (orderNum: number) => "•",
+    className: "text-orange-200",
+  },
+  [OPTIONAL_BLOCK_TYPES.UNDEFINED]: {
+    text: (orderNum: number) => ">",
+    className: "text-gray-200",
+  },
+};
+
 export interface IBlockHandleProps {
-  id: BlockId;
-  hIndex: HierarchyIndex;
+  parentBlockType: symbol;
+  orderNum: number;
 }
 
 export const BlockHandle = (props: IBlockHandleProps) => {
-  const { state, dispatch }: { state: IState; dispatch: (action: ActionType) => {} } =
-    useContext(Context);
+  const presentationData: IBlockHandlePresentation =
+    BLOCK_HANDLE_PRESENTATIONS[props.parentBlockType];
+  const text = presentationData.text(props.orderNum);
+  const buttonClasses = ` ${presentationData.className}`;
 
-  let lineNumber = UNORDERED;
-  if (props.hIndex.length > 0) {
-    const parentHindex = props.hIndex.slice(0, props.hIndex.length - 1);
-    const parentBlock = getBlockIdByHIndex(state.blocksMap, state.rootBlockId, parentHindex);
-    const parentBlockType = state.blocksMap.get(parentBlock).blockType;
-    if (parentBlockType.name !== BLOCK_TYPES.READING) {
-      lineNumber = String(props.hIndex[props.hIndex.length - 1] + 1) + ".";
-    }
-  }
-
-  return <p className={"text-gray-300"}>{lineNumber}&nbsp;</p>;
+  return <button className={buttonClasses}>{text}&nbsp;</button>;
 };

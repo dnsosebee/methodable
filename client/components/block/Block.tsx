@@ -6,6 +6,9 @@ import { ITypeSelectProps, TypeSelect } from "./TypeSelect";
 import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
 import { hIndexEquals } from "../../lib/helpers";
 import { ActionType } from "../../model/state/actions";
+import { ContainerLine, IContainerLineProps } from "./ContainerLine";
+import { OPTIONAL_BLOCK_TYPES } from "../../model/state/blockType";
+import { getBlockIdByHIndex } from "../../model/state/actionHelpers";
 
 export interface IBlockProps {
   id: BlockId;
@@ -83,6 +86,15 @@ export const Block = (props: IBlockProps) => {
 
   const childBlocks = getChildBlocks(props.children, state.blocksMap, state.isSelectionActive);
 
+  let parentBlockType = OPTIONAL_BLOCK_TYPES.UNDEFINED;
+  let orderNum = 0;
+  if (props.hIndex.length > 0) {
+    const parentHindex = props.hIndex.slice(0, props.hIndex.length - 1);
+    const parentBlock = getBlockIdByHIndex(state.blocksMap, state.rootBlockId, parentHindex);
+    parentBlockType = state.blocksMap.get(parentBlock).blockType.name;
+    orderNum = props.hIndex[props.hIndex.length - 1] + 1;
+  }
+
   const blockTextProps: IBlockTextProps = {
     id: props.id,
     humanText: props.humanText,
@@ -97,8 +109,12 @@ export const Block = (props: IBlockProps) => {
   };
 
   const blockHandleProps: IBlockHandleProps = {
-    id: props.id,
-    hIndex: props.hIndex,
+    parentBlockType,
+    orderNum,
+  };
+
+  const blockContainerLineProps: IContainerLineProps = {
+    parentBlockType,
   };
 
   return (
@@ -111,7 +127,7 @@ export const Block = (props: IBlockProps) => {
       </div>
       {childBlocks.length > 0 && (
         <div className="flex">
-          <div className="w-1 mr-3 bg-gray-300 my-1 rounded-sm"></div>
+          <ContainerLine {...blockContainerLineProps} />
           <div className="flex-grow">{childBlocks}</div>
         </div>
       )}

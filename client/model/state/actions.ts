@@ -12,7 +12,7 @@ import {
   removeParentChildRelationship,
   setActiveParentInfo,
 } from "./actionHelpers";
-import { BlockType } from "./blockType";
+import { IBlockType } from "./blockType";
 import { BlockId, FocusPosition, HierarchyIndex, HumanText, IBlock, IState } from "./stateTypes";
 
 export type ActionType = (IState) => IState;
@@ -64,7 +64,13 @@ export const editHumanText = (
   return newState;
 };
 
-export const enterWithNoSelection = (state: IState, hIndex: HierarchyIndex, id: BlockId, oldText: HumanText, newText: HumanText): IState => {
+export const enterWithNoSelection = (
+  state: IState,
+  hIndex: HierarchyIndex,
+  id: BlockId,
+  oldText: HumanText,
+  newText: HumanText
+): IState => {
   logAction("entered with no selection: " + hIndex);
   const parentBlockId = getBlockIdByHIndex(state.blocksMap, state.rootBlockId, hIndex.slice(0, -1));
   const parentBlock = state.blocksMap.get(parentBlockId);
@@ -120,7 +126,11 @@ export const enterWithNoSelection = (state: IState, hIndex: HierarchyIndex, id: 
   return newState;
 };
 
-export const moveCursorUpALine = (state: IState, hIndex: HierarchyIndex, focusPosition: FocusPosition): IState => {
+export const moveCursorUpALine = (
+  state: IState,
+  hIndex: HierarchyIndex,
+  focusPosition: FocusPosition
+): IState => {
   logAction("moved cursor up a line: " + hIndex);
   // TODO
   try {
@@ -138,7 +148,11 @@ export const moveCursorUpALine = (state: IState, hIndex: HierarchyIndex, focusPo
   }
 };
 
-export const moveCursorDownALine = (state: IState, hIndex: HierarchyIndex, focusPosition: FocusPosition): IState => {
+export const moveCursorDownALine = (
+  state: IState,
+  hIndex: HierarchyIndex,
+  focusPosition: FocusPosition
+): IState => {
   logAction("moved cursor down a line: " + hIndex);
   try {
     const newState = {
@@ -248,7 +262,12 @@ export const backspace = (state: IState, hIndex: HierarchyIndex, id: BlockId): I
   return newState;
 };
 
-export const tab = (state: IState, hIndex: HierarchyIndex, id: BlockId, focusPosition: FocusPosition): IState => {
+export const tab = (
+  state: IState,
+  hIndex: HierarchyIndex,
+  id: BlockId,
+  focusPosition: FocusPosition
+): IState => {
   logAction("tabbed: " + hIndex);
   let shouldCursorStayInParent = false;
 
@@ -301,7 +320,12 @@ export const tab = (state: IState, hIndex: HierarchyIndex, id: BlockId, focusPos
   return newState;
 };
 
-export const shiftTab = (state: IState, hIndex, id: BlockId, focusPosition: FocusPosition): IState => {
+export const shiftTab = (
+  state: IState,
+  hIndex,
+  id: BlockId,
+  focusPosition: FocusPosition
+): IState => {
   logAction("shift tabbed");
   if (hIndex.length <= 1) {
     return state;
@@ -338,7 +362,7 @@ export const shiftTab = (state: IState, hIndex, id: BlockId, focusPosition: Focu
   return newState;
 };
 
-export const changeBlockType = (state: IState, id: BlockId, blockType: BlockType): IState => {
+export const changeBlockType = (state: IState, id: BlockId, blockType: IBlockType): IState => {
   logAction("change block type");
   const currentBlock = state.blocksMap.get(id);
   currentBlock.blockType = blockType;

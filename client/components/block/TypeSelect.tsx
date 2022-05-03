@@ -3,21 +3,26 @@ import { ActionType, changeBlockType } from "../../model/state/actions";
 import { IBlockType, BLOCK_TYPES } from "../../model/state/blockType";
 import { BlockId, IState } from "../../model/state/stateTypes";
 import { Context } from "./ContextBlock";
+interface IBlockTypePresentation {
+  text: string;
+  tooltip: string;
+  className: string;
+}
 
-const BLOCK_TYPE_PRESENTATION = {
-  [BLOCK_TYPES.INSTRUCTION]: {
+const BLOCK_TYPE_PRESENTATIONS = {
+  [BLOCK_TYPES.DO]: {
     text: "🏃",
-    tooltip: "Instruction",
+    tooltip: "Do",
     className: "text-blue-700 bg-blue-100 border-blue-200",
   },
-  [BLOCK_TYPES.QUESTION]: {
+  [BLOCK_TYPES.CHOOSE]: {
     text: "❓",
-    tooltip: "Question",
+    tooltip: "Choose",
     className: "text-green-700 bg-green-100 border-green-200",
   },
-  [BLOCK_TYPES.READING]: {
+  [BLOCK_TYPES.READ]: {
     text: "📖",
-    tooltip: "Reading",
+    tooltip: "Read",
     className: "text-orange-700 bg-orange-100 border-orange-200",
   },
 };
@@ -29,7 +34,7 @@ export interface ITypeSelectProps {
 
 export const TypeSelect = (props: ITypeSelectProps) => {
   const { dispatch }: { dispatch: (action: ActionType) => {} } = useContext(Context);
-  const presentationData = BLOCK_TYPE_PRESENTATION[props.blockType.name];
+  const presentationData: IBlockTypePresentation = BLOCK_TYPE_PRESENTATIONS[props.blockType.name];
 
   const handleButtonClick = () => {
     dispatch((state: IState) => {
