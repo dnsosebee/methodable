@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { IAction, IChangeBlockTypeAction } from "../../model/state/actionTypes";
-import { BlockType, BLOCK_TYPES } from "../../model/state/blockType";
+import { ActionType, changeBlockType } from "../../model/state/actions";
+import { IBlockType, BLOCK_TYPES } from "../../model/state/blockType";
 import { BlockId, IState } from "../../model/state/stateTypes";
 import { Context } from "./ContextBlock";
 
@@ -24,20 +24,17 @@ const BLOCK_TYPE_PRESENTATION = {
 
 export interface ITypeSelectProps {
   id: BlockId;
-  blockType: BlockType;
+  blockType: IBlockType;
 }
 
 export const TypeSelect = (props: ITypeSelectProps) => {
-  const { dispatch }: { state: IState; dispatch: (action: IAction) => {} } = useContext(Context);
+  const { dispatch }: { dispatch: (action: ActionType) => {} } = useContext(Context);
   const presentationData = BLOCK_TYPE_PRESENTATION[props.blockType.name];
 
   const handleButtonClick = () => {
-    const action: IChangeBlockTypeAction = {
-      type: "change block type",
-      id: props.id,
-      blockType: props.blockType.getNext(),
-    };
-    dispatch(action);
+    dispatch((state: IState) => {
+      return changeBlockType(state, props.id, props.blockType.getNext());
+    });
   };
 
   const buttonClasses = `w-5 m-0.5 p-0.5 border rounded-md text-gray-300 text-xs ${presentationData.className}`;

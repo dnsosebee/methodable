@@ -1,14 +1,17 @@
 import React, { createContext, useReducer } from "react";
 import { initialState } from "../../data/initialState";
-import { IAction } from "../../model/state/actionTypes";
-import { reducer } from "../../model/state/reducer";
+import { ActionType } from "../../model/state/actions";
 import { IBlock, IState } from "../../model/state/stateTypes";
 import { Block, IBlockProps } from "./Block";
+
+const reducer = (state: IState, action: ActionType): IState => {
+  return action(state);
+};
 
 const Context = createContext(null);
 
 const ContextBlock = () => {
-  const [state, dispatch] = useReducer<React.Reducer<IState, IAction>>(reducer, initialState);
+  const [state, dispatch] = useReducer<React.Reducer<IState, ActionType>>(reducer, initialState);
 
   const rootBlock: IBlock = state.blocksMap.get(state.rootBlockId);
   const rootBlockProps: IBlockProps = {

@@ -1,6 +1,6 @@
+import { HIndexNotFoundError } from "../../lib/errors";
 import { BlockId, HierarchyIndex, IBlock, IState } from "./stateTypes";
 
-export const NONEXISTENT_H_INDEX: HierarchyIndex = [-1];
 const DEFAULT_AT = -1;
 
 export const addParentChildRelationship = (
@@ -48,6 +48,7 @@ export const getBlockIdByHIndex = (
   return blockId;
 };
 
+// Sets the id and hIndex of the selection's active parent in the state
 export const setActiveParentInfo = (state: IState) => {
   const { blocksMap, rootBlockId, selectionRange } = state;
   let parent: IBlock = blocksMap.get(rootBlockId);
@@ -63,6 +64,7 @@ export const setActiveParentInfo = (state: IState) => {
   state.activeParentIndex = activeParentHIndex;
 };
 
+// returns an array of ancestors of type `BlockId` between the root block (indicated by `rootBlockId`) and the block at `hIndex`
 export const getAncestorIds = (
   blocksMap: Map<BlockId, IBlock>,
   rootBlockId: BlockId,
@@ -90,7 +92,7 @@ export const getDownstairsNeighborHIndex = (
       return [...newHIndex.slice(0, i), newHIndex[i] + 1];
     }
   }
-  return hIndex;
+  throw new HIndexNotFoundError();
 };
 
 export const getYoungestDescendantHIndex = (
@@ -114,7 +116,7 @@ export const getUpstairsNeighborHIndex = (
   hIndex: HierarchyIndex
 ): HierarchyIndex => {
   if (hIndex.length === 0) {
-    return hIndex;
+    throw new HIndexNotFoundError();
   }
   if (hIndex[hIndex.length - 1] === 0) {
     return [...hIndex.slice(0, hIndex.length - 1)];
@@ -123,3 +125,12 @@ export const getUpstairsNeighborHIndex = (
   const youngerSiblingHIndex = [...hIndex.slice(0, hIndex.length - 1), youngerSiblingIndex];
   return getYoungestDescendantHIndex(blocksMap, rootBlockId, youngerSiblingHIndex);
 };
+
+// we move children starting at fromIndex onward
+export const moveChildren = (blocksMap: Map<BlockId, IBlock>, from: IBlock, to: IBlock, fromIndex: number = 0) => {
+  while (from.children.length > fromIndex) {
+    const blockToMove = blocksMap.get(from.children[fromIndex]);
+    removeParentChildRelationship(from, blockToMove, fromIndex);
+    addParentChildRelationship(to, blockToMove);
+  }
+}

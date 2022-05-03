@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { getBlockIdByHIndex } from "../../model/state/actionHelpers";
-import { IAction } from "../../model/state/actionTypes";
+import { ActionType } from "../../model/state/actions";
 import { BLOCK_TYPES } from "../../model/state/blockType";
 import { BlockId, HierarchyIndex, IState } from "../../model/state/stateTypes";
 import { Context } from "./ContextBlock";
@@ -12,7 +12,7 @@ export interface IBlockHandleProps {
 }
 
 export const BlockHandle = (props: IBlockHandleProps) => {
-  const { state, dispatch }: { state: IState; dispatch: (action: IAction) => {} } =
+  const { state, dispatch }: { state: IState; dispatch: (action: ActionType) => {} } =
     useContext(Context);
 
   let lineNumber = UNORDERED;

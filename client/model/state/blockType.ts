@@ -21,7 +21,7 @@ export function blockType(name: string) {
   });
 }
 
-export interface BlockType {
+export interface IBlockType {
   name: string;
-  getNext: () => BlockType;
+  getNext: () => IBlockType;
 }

@@ -5,18 +5,26 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import { Editor } from "@tiptap/core";
 import { useContext, useEffect, useRef } from "react";
 import { logMouseEvent, logKeyEvent, logEditorEvent, logEffect } from "../../lib/loggers";
-import {
-  IAction,
-  IEditHumanTextAction,
-  IEnterWithNoSelectionAction,
-  IClearFocusLatchAction,
-  ISelectionAction,
-  ICursorMoveAction,
-  IBackspaceAction,
-  ITabAction,
-} from "../../model/state/actionTypes";
 import { BlockId, HierarchyIndex, HumanText, IState } from "../../model/state/stateTypes";
 import { Context } from "./ContextBlock";
+import {
+  ActionType,
+  backspace,
+  changeSelection,
+  clearFocusLatch,
+  editHumanText,
+  enterWithNoSelection,
+  mouseDownAction,
+  moveCursorDownALine,
+  moveCursorUpALine,
+  shiftTab,
+  startSelection,
+  tab,
+} from "../../model/state/actions";
+import { getFocusPosition, hIndexEquals } from "../../lib/helpers";
+
+const PREVENT_TIPTAP_DEFAULT = true;
+const ALLOW_TIPTAP_DEFAULT = false;
 
 export interface IBlockTextProps {
   id: BlockId;
@@ -30,7 +38,7 @@ export const BlockText = (props: IBlockTextProps) => {
   let clickOriginatedInThisText = useRef(false); // whether the current click/drag started in this text
   let isFocused = useRef(false); // whether the current text is focused
   let propsRef = useRef(props); // yuck: using this to forego stale closures
-  const { state, dispatch }: { state: IState; dispatch: (action: IAction) => {} } =
+  const { state, dispatch }: { state: IState; dispatch: (action: ActionType) => {} } =
     useContext(Context);
 
   const click = () => {
@@ -39,12 +47,10 @@ export const BlockText = (props: IBlockTextProps) => {
 
   const mouseEnter = (e: React.MouseEvent) => {
     if (isMouseDown(e)) {
-      const action: ISelectionAction = {
-        type: "selection change",
-        hIndex: props.hIndex,
-      };
-      dispatch(action);
       logMouseEvent("onMouseEnter mouseIsDown " + props.humanText);
+      dispatch((state: IState) => {
+        return changeSelection(state, props.hIndex);
+      });
     } else {
       logMouseEvent("onMouseEnter mouseisUp " + props.humanText);
     }
@@ -56,14 +62,12 @@ export const BlockText = (props: IBlockTextProps) => {
 
   const mouseLeave = (e: React.MouseEvent) => {
     if (isMouseDown(e)) {
-      if (clickOriginatedInThisText.current) {
-        const action: ISelectionAction = {
-          type: "selection start",
-          hIndex: props.hIndex,
-        };
-        dispatch(action);
-      }
       logMouseEvent("onMouseLeave mouseIsDown " + props.humanText);
+      if (clickOriginatedInThisText.current) {
+        dispatch((state: IState) => {
+          return startSelection(state, props.hIndex);
+        });
+      }
     } else {
       logMouseEvent("onMouseLeave mouseisUp " + props.humanText);
     }
@@ -71,18 +75,16 @@ export const BlockText = (props: IBlockTextProps) => {
   };
 
   const mouseDown = () => {
-    clickOriginatedInThisText.current = true;
-    const action: ISelectionAction = {
-      type: "mouse down",
-      hIndex: props.hIndex,
-    };
-    dispatch(action);
     logMouseEvent("onMouseDown " + props.humanText);
+    clickOriginatedInThisText.current = true;
+    dispatch((state: IState) => {
+      return mouseDownAction(state, props.hIndex);
+    });
   };
 
   const mouseUp = () => {
-    clickOriginatedInThisText.current = false;
     logMouseEvent("onMouseUp " + props.humanText);
+    clickOriginatedInThisText.current = false;
   };
 
   const copy = () => {
@@ -113,7 +115,6 @@ export const BlockText = (props: IBlockTextProps) => {
         Tab: () => handleTabPress(this.editor),
         "Shift-Tab": () => handleShiftTabPress(this.editor),
         // we're not gonna deal with 2d text boxes yet, but we will have to soon enough
-        // 'Shift-Enter': () => this.editor.commands.enter(),
       };
     },
   });
@@ -132,13 +133,14 @@ export const BlockText = (props: IBlockTextProps) => {
         logEditorEvent(
           "onUpdate: [" + propsRef.current.hIndex + ", id: " + propsRef.current.id + "]"
         );
-        const action: IEditHumanTextAction = {
-          type: "text edit",
-          id: propsRef.current.id,
-          humanText: editor.getText(),
-          focusPosition: editor.state.selection.anchor,
-        };
-        dispatch(action);
+        dispatch((state: IState) => {
+          return editHumanText(
+            state,
+            propsRef.current.id,
+            editor.getText(),
+            getFocusPosition(editor)
+          );
+        });
       },
       onFocus() {
         logEditorEvent("onFocus: [" + props.hIndex);
@@ -162,116 +164,93 @@ export const BlockText = (props: IBlockTextProps) => {
         props.id
     );
     const editorText = editor.getText();
-    const mousePosition = editor.state.selection.anchor;
-    const oldText = editorText.slice(0, mousePosition - 1);
-    const newText = editorText.slice(mousePosition - 1);
-    const action: IEnterWithNoSelectionAction = {
-      type: "enter with no selection",
-      id: propsRef.current.id,
-      hIndex: propsRef.current.hIndex,
-      oldText,
-      newText,
-    };
-    dispatch(action);
-    return editor.commands.blur();
+    const focusPosition = getFocusPosition(editor);
+    const oldText = editorText.slice(0, focusPosition - 1);
+    const newText = editorText.slice(focusPosition - 1);
+    dispatch((state: IState) => {
+      return enterWithNoSelection(
+        state,
+        propsRef.current.hIndex,
+        propsRef.current.id,
+        oldText,
+        newText
+      );
+    });
+    return PREVENT_TIPTAP_DEFAULT;
   };
 
   const handleUpArrowPress = (editor: Editor) => {
     logKeyEvent("onUpArrowPress, index: " + props.hIndex);
-    const action: ICursorMoveAction = {
-      type: "move cursor up",
-      hIndex: propsRef.current.hIndex,
-      focusPosition: editor.state.selection.anchor,
-    };
-    dispatch(action);
-    return editor.commands.blur();
+    dispatch((state: IState) => {
+      return moveCursorUpALine(state, propsRef.current.hIndex, getFocusPosition(editor));
+    });
+    return PREVENT_TIPTAP_DEFAULT;
   };
 
   const handleDownArrowPress = (editor: Editor) => {
     logKeyEvent("onDownArrowPress, index: " + props.hIndex);
-    const action: ICursorMoveAction = {
-      type: "move cursor down",
-      hIndex: propsRef.current.hIndex,
-      focusPosition: editor.state.selection.anchor,
-    };
-    dispatch(action);
-    return editor.commands.blur();
+    dispatch((state: IState) => {
+      return moveCursorDownALine(state, propsRef.current.hIndex, getFocusPosition(editor));
+    });
+    return PREVENT_TIPTAP_DEFAULT;
   };
 
   const handleLeftArrowPress = (editor: Editor) => {
     logKeyEvent("onLeftArrowPress, index: " + props.hIndex);
-    const focusPosition = editor.state.selection.anchor;
+    const focusPosition = getFocusPosition(editor);
     if (focusPosition === 1) {
       // we're at the beginning of the line already, so dispatch the action
-      const action: ICursorMoveAction = {
-        type: "move cursor up",
-        hIndex: propsRef.current.hIndex,
-        focusPosition: "end",
-      };
-      dispatch(action);
-      return editor.commands.blur();
+      dispatch((state: IState) => {
+        return moveCursorUpALine(state, propsRef.current.hIndex, "end");
+      });
+      return PREVENT_TIPTAP_DEFAULT;
     }
-    return false;
+    return ALLOW_TIPTAP_DEFAULT;
   };
 
   const handleRightArrowPress = (editor: Editor) => {
     logKeyEvent("onRightArrowPress, index: " + props.hIndex);
-    const focusPosition = editor.state.selection.anchor;
+    const focusPosition = getFocusPosition(editor);
     if (focusPosition === editor.getText().length + 1) {
       // we're at the end of the line already, so dispatch the action
-      const action: ICursorMoveAction = {
-        type: "move cursor down",
-        hIndex: propsRef.current.hIndex,
-        focusPosition: "start",
-      };
-      dispatch(action);
-      return editor.commands.blur();
+      dispatch((state: IState) => {
+        return moveCursorDownALine(state, propsRef.current.hIndex, "start");
+      });
+      return PREVENT_TIPTAP_DEFAULT;
     }
-    return false;
+    return ALLOW_TIPTAP_DEFAULT;
   };
 
   const handleBackspacePress = (editor: Editor) => {
     logKeyEvent("onBackspacePress, index: " + props.hIndex);
     const editorText = editor.getText();
-    const focusPosition = editor.state.selection.anchor;
+    const focusPosition = getFocusPosition(editor);
     if (focusPosition === 1) {
       // we're at the beginning of the line already, so dispatch the action
-      const action: IBackspaceAction = {
-        type: "backspace",
-        hIndex: propsRef.current.hIndex,
-        id: propsRef.current.id,
-        humanText: editorText,
-      };
-      dispatch(action);
-      return editor.commands.blur();
+      dispatch((state: IState) => {
+        return backspace(state, propsRef.current.hIndex, propsRef.current.id);
+      });
+      return PREVENT_TIPTAP_DEFAULT;
     }
-    return false;
+    return ALLOW_TIPTAP_DEFAULT;
   };
 
   const handleTabPress = (editor: Editor) => {
     logKeyEvent("onTabPress, index: " + props.hIndex);
-    const focusPosition = editor.state.selection.anchor;
-    const action: ITabAction = {
-      type: "tab",
-      hIndex: propsRef.current.hIndex,
-      id: propsRef.current.id,
-      focusPosition,
-    };
-    dispatch(action);
-    return true;
+    const focusPosition = getFocusPosition(editor);
+    dispatch((state: IState) => {
+      return tab(state, propsRef.current.hIndex, propsRef.current.id, focusPosition);
+    });
+    return PREVENT_TIPTAP_DEFAULT;
   };
 
   const handleShiftTabPress = (editor: Editor) => {
     logKeyEvent("onShiftTabPress, index: " + props.hIndex);
-    const focusPosition = editor.state.selection.anchor;
-    const action: ITabAction = {
-      type: "shift tab",
-      hIndex: propsRef.current.hIndex,
-      id: propsRef.current.id,
-      focusPosition,
-    };
-    dispatch(action);
-    return true;
+    const focusPosition = getFocusPosition(editor);
+    dispatch((state: IState) => {
+      return shiftTab(state, propsRef.current.hIndex, propsRef.current.id, focusPosition);
+    });
+    return PREVENT_TIPTAP_DEFAULT;
   };
 
   // keep propsRef up to date
@@ -304,14 +283,15 @@ export const BlockText = (props: IBlockTextProps) => {
   // set editor focus based on whether state's focusIndex is this block's index
   useEffect(() => {
     if (editor && !editor.isDestroyed && state) {
-      if (state.focusIndex.join(".") === props.hIndex.join(".")) {
+      if (hIndexEquals(state.focusIndex, props.hIndex)) {
         logEffect(
           "setting focus for index: " + props.hIndex + ", focus position: " + state.focusPosition
         );
         editor.commands.setContent(props.humanText);
         editor.commands.focus(state.focusPosition);
-        const action: IClearFocusLatchAction = { type: "clear focus latch" };
-        dispatch(action);
+        dispatch((state: IState) => {
+          return clearFocusLatch(state);
+        });
       }
     }
   }, [!!editor, state.focusIndex, props.hIndex]);

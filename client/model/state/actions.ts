@@ -1,86 +1,79 @@
 // actions.ts - All of the actions that can be dispatched to the reducer
 
+import { HIndexNotFoundError } from "../../lib/errors";
 import { logAction } from "../../lib/loggers";
 import {
   addParentChildRelationship,
   getBlockIdByHIndex,
   getDownstairsNeighborHIndex,
   getUpstairsNeighborHIndex,
-  NONEXISTENT_H_INDEX,
+  moveChildren,
   nonRootHIndex,
   removeParentChildRelationship,
   setActiveParentInfo,
 } from "./actionHelpers";
-import {
-  IClearFocusLatchAction,
-  ICursorMoveAction,
-  IBackspaceAction,
-  IEditHumanTextAction,
-  IEnterWithNoSelectionAction,
-  ISelectionAction,
-  ITabAction,
-  IChangeBlockTypeAction,
-} from "./actionTypes";
-import { BlockId, IBlock, IState } from "./stateTypes";
+import { BlockType } from "./blockType";
+import { BlockId, FocusPosition, HierarchyIndex, HumanText, IBlock, IState } from "./stateTypes";
 
-export const startSelection = (state: IState, action: ISelectionAction): IState => {
-  logAction("selection started: " + action.hIndex);
-  action.hIndex = nonRootHIndex(action.hIndex);
-  state.selectionRange.start = action.hIndex;
-  state.selectionRange.end = action.hIndex;
+export type ActionType = (IState) => IState;
+
+export const startSelection = (state: IState, hIndex: HierarchyIndex): IState => {
+  logAction("selection started: " + hIndex);
+  hIndex = nonRootHIndex(hIndex);
+  state.selectionRange.start = hIndex;
+  state.selectionRange.end = hIndex;
   setActiveParentInfo(state);
   const newState: IState = {
     ...state,
     isSelectionActive: true,
-    focusIndex: NONEXISTENT_H_INDEX,
+    focusIndex: null,
   };
   return newState;
 };
 
-export const changeSelection = (state: IState, action: ISelectionAction): IState => {
-  logAction("selection changed: " + action.hIndex);
-  action.hIndex = nonRootHIndex(action.hIndex);
-  state.selectionRange.end = action.hIndex;
+export const changeSelection = (state: IState, hIndex: HierarchyIndex): IState => {
+  logAction("selection changed: " + hIndex);
+  hIndex = nonRootHIndex(hIndex);
+  state.selectionRange.end = hIndex;
   setActiveParentInfo(state);
   const newState: IState = { ...state };
   return newState;
 };
 
-export const mouseDown = (state: IState, action: ISelectionAction): IState => {
-  logAction("clicked: " + action.hIndex);
+export const mouseDownAction = (state: IState, hIndex: HierarchyIndex): IState => {
+  logAction("clicked: " + hIndex);
   if (state.isSelectionActive) {
-    state = { ...state, isSelectionActive: false };
+    const newState: IState = { ...state, isSelectionActive: false };
+    return newState;
   }
   return state;
 };
 
-export const editHumanText = (state: IState, action: IEditHumanTextAction): IState => {
-  logAction("text edited, id: " + action.id + " --> text: " + action.humanText);
-  state.blocksMap.set(action.id, {
-    ...state.blocksMap.get(action.id),
-    humanText: action.humanText,
+export const editHumanText = (
+  state: IState,
+  id: BlockId,
+  humanText: HumanText,
+  focusPosition: FocusPosition
+): IState => {
+  logAction("text edited, id: " + id + " --> text: " + humanText);
+  state.blocksMap.set(id, {
+    ...state.blocksMap.get(id),
+    humanText: humanText,
   });
   const newState: IState = { ...state };
   return newState;
 };
 
-export const enterWithNoSelection = (
-  state: IState,
-  action: IEnterWithNoSelectionAction
-): IState => {
-  logAction("entered with no selection: " + action.hIndex);
-  const parentBlockId = getBlockIdByHIndex(
-    state.blocksMap,
-    state.rootBlockId,
-    action.hIndex.slice(0, -1)
-  );
+export const enterWithNoSelection = (state: IState, hIndex: HierarchyIndex, id: BlockId, oldText: HumanText, newText: HumanText): IState => {
+  logAction("entered with no selection: " + hIndex);
+  const parentBlockId = getBlockIdByHIndex(state.blocksMap, state.rootBlockId, hIndex.slice(0, -1));
   const parentBlock = state.blocksMap.get(parentBlockId);
-  const oldBlockId = action.id;
-  const oldBlock = state.blocksMap.get(action.id);
+  const oldBlockId = id;
+  const oldBlock = state.blocksMap.get(id);
   const newBlockId: BlockId = crypto.randomUUID();
   let newBlock: IBlock;
-  const newHIndex = action.hIndex.slice(0, action.hIndex.length);
-  if (action.oldText.length === 0) {
+  const newHIndex = hIndex.slice(0, hIndex.length);
+  if (oldText.length === 0) {
     // if enter is pressed at the beginning of the line, we just bump that block down a line, and focus on the new line above
     //oldBlock stays the same
     newBlock = {
@@ -90,27 +83,27 @@ export const enterWithNoSelection = (
       parents: [parentBlockId],
       blockType: oldBlock.blockType,
     };
-    parentBlock.children.splice(action.hIndex[action.hIndex.length - 1], 0, newBlockId);
+    parentBlock.children.splice(hIndex[hIndex.length - 1], 0, newBlockId);
     // newIndex stays the same
   } else if (oldBlock.children.length === 0) {
     // if the old block has no children, we add a sibling after the old block
-    oldBlock.humanText = action.oldText;
+    oldBlock.humanText = oldText;
     newBlock = {
       id: newBlockId,
-      humanText: action.newText,
+      humanText: newText,
       children: [],
       parents: [parentBlockId],
       blockType: oldBlock.blockType,
     };
-    parentBlock.children.splice(action.hIndex[action.hIndex.length - 1] + 1, 0, newBlockId);
-    newHIndex[action.hIndex.length - 1] += 1;
+    parentBlock.children.splice(hIndex[hIndex.length - 1] + 1, 0, newBlockId);
+    newHIndex[hIndex.length - 1] += 1;
   } else {
     // if the old block does have children, we add a child to the old block
-    oldBlock.humanText = action.oldText;
+    oldBlock.humanText = oldText;
     oldBlock.children.unshift(newBlockId);
     newBlock = {
       id: newBlockId,
-      humanText: action.newText,
+      humanText: newText,
       children: [],
       parents: [oldBlockId],
       blockType: oldBlock.blockType,
@@ -127,119 +120,148 @@ export const enterWithNoSelection = (
   return newState;
 };
 
-export const moveCursorUpALine = (state: IState, action: ICursorMoveAction): IState => {
-  logAction(action.type + ": " + action.hIndex);
+export const moveCursorUpALine = (state: IState, hIndex: HierarchyIndex, focusPosition: FocusPosition): IState => {
+  logAction("moved cursor up a line: " + hIndex);
   // TODO
-  const newState: IState = {
-    ...state,
-    focusPosition: action.focusPosition,
-    focusIndex: getUpstairsNeighborHIndex(state.blocksMap, state.rootBlockId, action.hIndex),
-  };
-  return newState;
+  try {
+    const newState: IState = {
+      ...state,
+      focusIndex: getUpstairsNeighborHIndex(state.blocksMap, state.rootBlockId, hIndex),
+      focusPosition: focusPosition,
+    };
+    return newState;
+  } catch (e) {
+    if (e instanceof HIndexNotFoundError) {
+      return state;
+    }
+    throw e;
+  }
 };
 
-export const moveCursorDownALine = (state: IState, action: ICursorMoveAction): IState => {
-  logAction(action.type + ": " + action.hIndex);
-  // TODO
-  const newState: IState = {
-    ...state,
-    focusPosition: action.focusPosition,
-    focusIndex: getDownstairsNeighborHIndex(state.blocksMap, state.rootBlockId, action.hIndex),
-  };
-  return newState;
+export const moveCursorDownALine = (state: IState, hIndex: HierarchyIndex, focusPosition: FocusPosition): IState => {
+  logAction("moved cursor down a line: " + hIndex);
+  try {
+    const newState = {
+      ...state,
+      focusPosition: focusPosition,
+      focusIndex: getDownstairsNeighborHIndex(state.blocksMap, state.rootBlockId, hIndex),
+    };
+    return newState;
+  } catch (e) {
+    if (e instanceof HIndexNotFoundError) {
+      // if we can't find a downstairs neighbor, we just stay at the same index
+      return state;
+    }
+    throw e;
+  }
 };
 
-export const clearFocusLatch = (state: IState, action: IClearFocusLatchAction): IState => {
+export const clearFocusLatch = (state: IState): IState => {
   logAction("focus cleared");
-  state.focusIndex = NONEXISTENT_H_INDEX;
+  state.focusIndex = null;
   // not using newState cause we don't want a rerender
   return state;
 };
 
 // making this a no-op until I come up with a logical way to do it
-export const backspace = (state: IState, action: IBackspaceAction): IState => {
-  logAction("backspaced: " + action.hIndex);
+// only dispatched when backspace is pressed at the beginning of a block
+export const backspace = (state: IState, hIndex: HierarchyIndex, id: BlockId): IState => {
+  logAction("backspaced: " + hIndex);
 
-  // // current block
-  // const currentBlockId = action.id;
-  // const currentBlock = state.blocksMap.get(currentBlockId);
+  // current block
+  const currentBlockId = id;
+  const currentBlock = state.blocksMap.get(currentBlockId);
 
-  // // parent block
-  // const parentBlockId = getBlockIdByHIndex(
-  //   state.blocksMap,
-  //   state.rootBlockId,
-  //   action.hIndex.slice(0, -1)
-  // );
-  // const parentBlock = state.blocksMap.get(parentBlockId);
+  if (hIndex.length === 0) {
+    // we don't allow backspace for the root block
+    return state;
+  }
 
-  // // upstairs neighbor
-  // const upstairsNeighborhHIndex = getUpstairsNeighborHIndex(
-  //   state.blocksMap,
-  //   state.rootBlockId,
-  //   action.hIndex
-  // );
-  // const upstairsNeighborId = getBlockIdByHIndex(
-  //   state.blocksMap,
-  //   state.rootBlockId,
-  //   upstairsNeighborhHIndex
-  // );
-  // const upstairsNeighbor = state.blocksMap.get(upstairsNeighborId);
+  // parent block
+  const parentBlockId = getBlockIdByHIndex(state.blocksMap, state.rootBlockId, hIndex.slice(0, -1));
+  const parentBlock = state.blocksMap.get(parentBlockId);
 
-  // // upstairs neighbor's parent
-  // const upstairsNeighborParentId = getBlockIdByHIndex(
-  //   state.blocksMap,
-  //   state.rootBlockId,
-  //   upstairsNeighborhHIndex.slice(0, -1)
-  // );
-  // const upstairsNeighborParent = state.blocksMap.get(upstairsNeighborParentId);
+  // upstairs neighbor
+  const upstairsNeighborhHIndex = getUpstairsNeighborHIndex(
+    state.blocksMap,
+    state.rootBlockId,
+    hIndex
+  );
+  const upstairsNeighborId = getBlockIdByHIndex(
+    state.blocksMap,
+    state.rootBlockId,
+    upstairsNeighborhHIndex
+  );
+  const upstairsNeighbor = state.blocksMap.get(upstairsNeighborId);
 
-  // // move the current block up to where the upstairs neighbor is
-  // removeParentChildRelationship(
-  //   parentBlock,
-  //   currentBlock,
-  //   action.hIndex[action.hIndex.length - 1]
-  // );
-  // removeParentChildRelationship(
-  //   upstairsNeighborParent,
-  //   upstairsNeighbor,
-  //   upstairsNeighborhHIndex[upstairsNeighborhHIndex.length - 1]
-  // );
-  // if (upstairsNeighbor.parents.length === 0) {
-  //   // TODO: might need to rethink this.
-  //   // if the upstairs neighbor has no references, we delete it.
-  //   state.blocksMap.delete(upstairsNeighborId);
-  // }
-  // addParentChildRelationship(upstairsNeighborParent, currentBlock);
-  // currentBlock.humanText = upstairsNeighbor.humanText + currentBlock.humanText;
+  // upstairs neighbor's parent
+  const upstairsNeighborParentId = getBlockIdByHIndex(
+    state.blocksMap,
+    state.rootBlockId,
+    upstairsNeighborhHIndex.slice(0, -1)
+  );
+  const upstairsNeighborParent = state.blocksMap.get(upstairsNeighborParentId);
 
-  // const newState: IState = {
-  //   ...state,
-  //   focusPosition: upstairsNeighbor.humanText.length + 1,
-  //   focusIndex: upstairsNeighborhHIndex,
-  // };
-  // return newState;
+  const focusPosition = upstairsNeighbor.humanText.length + 1;
 
-  return state;
+  if (
+    upstairsNeighbor.parents.length <= 1 &&
+    upstairsNeighbor.children.length <= 1 &&
+    upstairsNeighbor.humanText.length === 0
+  ) {
+    // if the upstairs neighbor is a simple blank line with a single parent and no children,
+    // we shift the current line up to replace the upstairs neighbor
+    // we do this even when the current block has multiple parents
+    removeParentChildRelationship(parentBlock, currentBlock);
+    removeParentChildRelationship(upstairsNeighborParent, upstairsNeighbor);
+    state.blocksMap.delete(upstairsNeighborId);
+    addParentChildRelationship(
+      upstairsNeighborParent,
+      currentBlock,
+      upstairsNeighborhHIndex[upstairsNeighborhHIndex.length - 1]
+    );
+  } else if (currentBlock.parents.length > 1) {
+    // if the current block has multiple parents and the upstairs neighbor is non-simple,
+    // we don't do anything
+    return state;
+  } else if (currentBlock.children.length > 0 && upstairsNeighbor.children.length > 1) {
+    // if both merging blocks have children, that's weird and we don't do anything
+    return state;
+  } else {
+    // in all other cases,
+    // we merge current block into upstairs neighbor, maintaining upstairs neighbor's id
+    removeParentChildRelationship(parentBlock, currentBlock, hIndex[hIndex.length - 1]);
+    moveChildren(state.blocksMap, currentBlock, upstairsNeighbor);
+    if (currentBlock.parents.length === 0) {
+      // TODO: might need to rethink this.
+      // if the current block has no references, we delete it.
+      state.blocksMap.delete(currentBlockId);
+    }
+    upstairsNeighbor.humanText = upstairsNeighbor.humanText + currentBlock.humanText;
+  }
+
+  const newState: IState = {
+    ...state,
+    focusPosition,
+    focusIndex: upstairsNeighborhHIndex,
+  };
+  return newState;
 };
 
-export const tab = (state: IState, action: ITabAction): IState => {
-  logAction("tabbed: " + action.hIndex);
+export const tab = (state: IState, hIndex: HierarchyIndex, id: BlockId, focusPosition: FocusPosition): IState => {
+  logAction("tabbed: " + hIndex);
   let shouldCursorStayInParent = false;
 
   // parent block
-  const parentBlockId = getBlockIdByHIndex(
-    state.blocksMap,
-    state.rootBlockId,
-    action.hIndex.slice(0, -1)
-  );
+  const parentBlockId = getBlockIdByHIndex(state.blocksMap, state.rootBlockId, hIndex.slice(0, -1));
   const parentBlock = state.blocksMap.get(parentBlockId);
 
   // current block
-  const currentBlockId = action.id;
+  const currentBlockId = id;
   const currentBlock = state.blocksMap.get(currentBlockId);
 
   // if we're the first child, just add an older sibling and proceed
-  if (action.hIndex[action.hIndex.length - 1] === 0) {
+  if (hIndex[hIndex.length - 1] === 0) {
     shouldCursorStayInParent = true;
     const newParentChildBlockId = crypto.randomUUID();
     const newParentChildBlock = {
@@ -249,19 +271,13 @@ export const tab = (state: IState, action: ITabAction): IState => {
       parents: [],
       blockType: currentBlock.blockType,
     };
-    addParentChildRelationship(
-      parentBlock,
-      newParentChildBlock,
-      action.hIndex[action.hIndex.length - 1]
-    );
+    addParentChildRelationship(parentBlock, newParentChildBlock, hIndex[hIndex.length - 1]);
     state.blocksMap.set(newParentChildBlockId, newParentChildBlock);
-    action.hIndex = [...action.hIndex.slice(0, -1), 1];
+    hIndex = [...hIndex.slice(0, -1), 1];
   }
 
   // previous sibling
-  const previousSiblingHIndex = action.hIndex
-    .slice(0, -1)
-    .concat([action.hIndex[action.hIndex.length - 1] - 1]);
+  const previousSiblingHIndex = hIndex.slice(0, -1).concat([hIndex[hIndex.length - 1] - 1]);
   const previousSiblingId = getBlockIdByHIndex(
     state.blocksMap,
     state.rootBlockId,
@@ -269,7 +285,7 @@ export const tab = (state: IState, action: ITabAction): IState => {
   );
   const previousSibling = state.blocksMap.get(previousSiblingId);
 
-  removeParentChildRelationship(parentBlock, currentBlock, action.hIndex[action.hIndex.length - 1]);
+  removeParentChildRelationship(parentBlock, currentBlock, hIndex[hIndex.length - 1]);
   addParentChildRelationship(previousSibling, currentBlock);
   const newHIndex = [...previousSiblingHIndex];
   if (!shouldCursorStayInParent) {
@@ -280,32 +296,28 @@ export const tab = (state: IState, action: ITabAction): IState => {
   const newState: IState = {
     ...state,
     focusIndex: newHIndex,
-    focusPosition: action.focusPosition,
+    focusPosition: focusPosition,
   };
   return newState;
 };
 
-export const shiftTab = (state: IState, action: ITabAction): IState => {
+export const shiftTab = (state: IState, hIndex, id: BlockId, focusPosition: FocusPosition): IState => {
   logAction("shift tabbed");
-  if (action.hIndex.length <= 1) {
+  if (hIndex.length <= 1) {
     return state;
   }
 
   // current block
-  const currentBlockId = action.id;
+  const currentBlockId = id;
   const currentBlock = state.blocksMap.get(currentBlockId);
-  const currentIndex = action.hIndex[action.hIndex.length - 1];
+  const currentIndex = hIndex[hIndex.length - 1];
 
   // parent block
-  const parentBlockId = getBlockIdByHIndex(
-    state.blocksMap,
-    state.rootBlockId,
-    action.hIndex.slice(0, -1)
-  );
+  const parentBlockId = getBlockIdByHIndex(state.blocksMap, state.rootBlockId, hIndex.slice(0, -1));
   const parentBlock = state.blocksMap.get(parentBlockId);
 
   // grandparent block
-  const grandparentHIndex = action.hIndex.slice(0, -2);
+  const grandparentHIndex = hIndex.slice(0, -2);
   const grandparentBlockId = getBlockIdByHIndex(
     state.blocksMap,
     state.rootBlockId,
@@ -314,30 +326,22 @@ export const shiftTab = (state: IState, action: ITabAction): IState => {
   const grandparentBlock = state.blocksMap.get(grandparentBlockId);
 
   removeParentChildRelationship(parentBlock, currentBlock, currentIndex);
-  addParentChildRelationship(
-    grandparentBlock,
-    currentBlock,
-    action.hIndex[action.hIndex.length - 2] + 1
-  );
-  while (parentBlock.children.length > currentIndex) {
-    const siblingBlock = state.blocksMap.get(parentBlock.children[currentIndex]);
-    removeParentChildRelationship(parentBlock, siblingBlock, currentIndex);
-    addParentChildRelationship(currentBlock, siblingBlock, currentIndex);
-  }
-  const newHIndex = [...grandparentHIndex, action.hIndex[action.hIndex.length - 2] + 1];
+  addParentChildRelationship(grandparentBlock, currentBlock, hIndex[hIndex.length - 2] + 1);
+  moveChildren(state.blocksMap, parentBlock, currentBlock, currentIndex);
+  const newHIndex = [...grandparentHIndex, hIndex[hIndex.length - 2] + 1];
 
   const newState: IState = {
     ...state,
     focusIndex: newHIndex,
-    focusPosition: action.focusPosition,
+    focusPosition: focusPosition,
   };
   return newState;
 };
 
-export const changeBlockType = (state: IState, action: IChangeBlockTypeAction): IState => {
+export const changeBlockType = (state: IState, id: BlockId, blockType: BlockType): IState => {
   logAction("change block type");
-  const currentBlock = state.blocksMap.get(action.id);
-  currentBlock.blockType = action.blockType;
+  const currentBlock = state.blocksMap.get(id);
+  currentBlock.blockType = blockType;
   return {
     ...state,
   };

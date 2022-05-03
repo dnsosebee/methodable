@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { Context } from "./ContextBlock";
 import { BlockId, HierarchyIndex, HumanText, IBlock, IState } from "../../model/state/stateTypes";
-import { IAction } from "../../model/state/actionTypes";
 import { BlockText, IBlockTextProps } from "./BlockText";
 import { ITypeSelectProps, TypeSelect } from "./TypeSelect";
 import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
+import { hIndexEquals } from "../../lib/helpers";
+import { ActionType } from "../../model/state/actions";
 
 export interface IBlockProps {
   id: BlockId;
@@ -17,7 +18,7 @@ export interface IBlockProps {
 }
 
 export const Block = (props: IBlockProps) => {
-  const { state, dispatch }: { state: IState; dispatch: (action: IAction) => {} } =
+  const { state, dispatch }: { state: IState; dispatch: (action: ActionType) => {} } =
     useContext(Context);
 
   const getChildBlocks = (
@@ -53,8 +54,10 @@ export const Block = (props: IBlockProps) => {
       if (state.activeParentIndex.length < hierarchyIndex.length) {
         // we know the selection is higher than this block, nothing more
         if (
-          hierarchyIndex.slice(0, state.activeParentIndex.length).join(".") ===
-          state.activeParentIndex.join(".")
+          hIndexEquals(
+            hierarchyIndex.slice(0, state.activeParentIndex.length),
+            state.activeParentIndex
+          )
         ) {
           // we know the selection is on children of this block's parent, nothing more
           const parentLength = state.activeParentIndex.length;
@@ -101,7 +104,7 @@ export const Block = (props: IBlockProps) => {
   return (
     <div>
       <div className="flex">
-        <BlockHandle {... blockHandleProps} />
+        <BlockHandle {...blockHandleProps} />
         <TypeSelect {...typeSelectProps}></TypeSelect>
         &nbsp;
         <BlockText {...blockTextProps} />
