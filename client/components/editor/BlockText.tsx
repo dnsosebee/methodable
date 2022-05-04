@@ -6,7 +6,7 @@ import { Editor } from "@tiptap/core";
 import { useContext, useEffect, useRef } from "react";
 import { logMouseEvent, logKeyEvent, logEditorEvent, logEffect } from "../../lib/loggers";
 import { BlockId, HierarchyIndex, HumanText, IState } from "../../model/state/stateTypes";
-import { Context } from "./ContextBlock";
+import { Context } from "../ContextWrapper";
 import {
   ActionType,
   backspace,

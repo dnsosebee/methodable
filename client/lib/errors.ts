@@ -8,3 +8,10 @@ export class HIndexNotFoundError extends Error {
     super("HierarchyIndex not found");
   }
 }
+
+export class ModeNotFoundError extends Error {
+  constructor() {
+    logError("ModeNotFoundError");
+    super("Mode not found");
+  }
+}

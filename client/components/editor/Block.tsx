@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Context } from "./ContextBlock";
+import { Context } from "../ContextWrapper";
 import { BlockId, HierarchyIndex, HumanText, IBlock, IState } from "../../model/state/stateTypes";
 import { BlockText, IBlockTextProps } from "./BlockText";
 import { ITypeSelectProps, TypeSelect } from "./TypeSelect";

@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { ActionType, changeBlockType } from "../../model/state/actions";
 import { IBlockType, BLOCK_TYPES } from "../../model/state/blockType";
 import { BlockId, IState } from "../../model/state/stateTypes";
-import { Context } from "./ContextBlock";
+import { Context } from "../ContextWrapper";
 interface IBlockTypePresentation {
   text: string;
   tooltip: string;
