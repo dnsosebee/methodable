@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import { ContextWrapper } from "../../client/components/ContextWrapper";
 import { EditorContainer } from "../../client/components/editor/EditorContainer";
+import { GuideContainer } from "../../client/components/guide/GuideContainer";
+import FourOhFour from "../404";
 
 const MODES = {
   EDIT: "edit",
@@ -13,9 +15,9 @@ const getChildComponent = (mode: string) => {
     case MODES.EDIT:
       return <EditorContainer />;
     case MODES.GUIDE:
-      return <EditorContainer />;
+      return <GuideContainer />;
     default:
-      return <EditorContainer />;
+      return <FourOhFour />;
   }
 };
 

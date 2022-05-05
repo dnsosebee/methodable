@@ -3,6 +3,13 @@ import { BlockId, HierarchyIndex, IBlock, IState } from "./stateTypes";
 
 const DEFAULT_AT = -1;
 
+// always update rootBlock along with the id path
+export const updateIdPathHelper = (state: IState, idPath: BlockId[]): IState => {
+  state.idPath = idPath;
+  state.rootBlockId = idPath[idPath.length - 1];
+  return state;
+}
+
 export const addParentChildRelationship = (
   parent: IBlock,
   child: IBlock,

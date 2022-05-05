@@ -15,6 +15,9 @@ const CONTAINER_LINE_PRESENTATIONS = {
   [OPTIONAL_BLOCK_TYPES.READ]: {
     className: "bg-gray-200",
   },
+  [OPTIONAL_BLOCK_TYPES.REFERENCE]: {
+    className: "bg-gray-200",
+  },
   [OPTIONAL_BLOCK_TYPES.UNDEFINED]: {
     className: "bg-gray-200",
   },

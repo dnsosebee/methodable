@@ -23,6 +23,10 @@ const BLOCK_HANDLE_PRESENTATIONS = {
     text: (orderNum: number) => ">",
     className: "text-gray-200",
   },
+  [OPTIONAL_BLOCK_TYPES.REFERENCE]: {
+    text: (orderNum: number) => "•",
+    className: "text-purple-200",
+  },
 };
 
 export interface IBlockHandleProps {
@@ -34,7 +38,7 @@ export const BlockHandle = (props: IBlockHandleProps) => {
   const presentationData: IBlockHandlePresentation =
     BLOCK_HANDLE_PRESENTATIONS[props.parentBlockType];
   const text = presentationData.text(props.orderNum);
-  const buttonClasses = ` ${presentationData.className}`;
+  const buttonClasses = `select-none ${presentationData.className}`;
 
   return <button className={buttonClasses}>{text}&nbsp;</button>;
 };

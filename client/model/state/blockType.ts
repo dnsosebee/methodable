@@ -2,12 +2,13 @@ export const BLOCK_TYPES = {
   DO: Symbol("DO"),
   CHOOSE: Symbol("CHOOSE"),
   READ: Symbol("READ"),
+  REFERENCE: Symbol("REFERENCE"),
 };
 
 export const OPTIONAL_BLOCK_TYPES = { ...BLOCK_TYPES, UNDEFINED: Symbol("UNDEFINED") };
 
 export function blockType(name: symbol) {
-  const blockTypesList = [BLOCK_TYPES.DO, BLOCK_TYPES.CHOOSE, BLOCK_TYPES.READ];
+  const blockTypesList = [BLOCK_TYPES.DO, BLOCK_TYPES.CHOOSE, BLOCK_TYPES.READ, BLOCK_TYPES.REFERENCE];
   if (blockTypesList.indexOf(name) === -1) {
     throw new Error(`Invalid block type: ${String(name)}`);
   }

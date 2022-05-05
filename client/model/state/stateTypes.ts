@@ -5,7 +5,8 @@ export interface IState {
   // persistent
   blocksMap: Map<BlockId, IBlock>;
   // transient, f(page)
-  rootBlockId: BlockId;
+  idPath: BlockId[];
+  rootBlockId: BlockId; // this is kinda confusing, but this is the block in focus from which all others branch
   // transient, f(mouse events, keyboard events)
   // selection related
   activeParentId: BlockId;

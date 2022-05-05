@@ -100,7 +100,7 @@ export const BlockText = (props: IBlockTextProps) => {
     onCopy: copy,
   };
 
-  const selectedClass = props.isGlobalSelectionActive ? " select-none" : "";
+  const selectedClass = propsRef.current.isGlobalSelectionActive ? "select-none" : "";
   const containerDeepSelectedClass = props.isDeepSelected ? "bg-gray-200" : "";
 
   const CustomExtension = Document.extend({

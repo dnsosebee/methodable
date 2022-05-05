@@ -68,6 +68,7 @@ export const initialState: IState = {
     ["child1-2", child1_2],
     ["child_x", child_x],
   ]),
+  idPath: ["root"],
   rootBlockId: "root",
   // selection related
   activeParentId: "root",

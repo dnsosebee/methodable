@@ -7,8 +7,9 @@ import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
 import { hIndexEquals } from "../../lib/helpers";
 import { ActionType } from "../../model/state/actions";
 import { ContainerLine, IContainerLineProps } from "./ContainerLine";
-import { OPTIONAL_BLOCK_TYPES } from "../../model/state/blockType";
+import { BLOCK_TYPES, OPTIONAL_BLOCK_TYPES } from "../../model/state/blockType";
 import { getBlockIdByHIndex } from "../../model/state/actionHelpers";
+import { RunButton } from "./RunButton";
 
 export interface IBlockProps {
   id: BlockId;
@@ -87,6 +88,7 @@ export const Block = (props: IBlockProps) => {
   const childBlocks = getChildBlocks(props.children, state.blocksMap, state.isSelectionActive);
 
   let parentBlockType = OPTIONAL_BLOCK_TYPES.UNDEFINED;
+  const blockType = state.blocksMap.get(props.id).blockType;
   let orderNum = 0;
   if (props.hIndex.length > 0) {
     const parentHindex = props.hIndex.slice(0, props.hIndex.length - 1);
@@ -105,7 +107,7 @@ export const Block = (props: IBlockProps) => {
 
   const typeSelectProps: ITypeSelectProps = {
     id: props.id,
-    blockType: state.blocksMap.get(props.id).blockType,
+    blockType,
   };
 
   const blockHandleProps: IBlockHandleProps = {
@@ -117,13 +119,15 @@ export const Block = (props: IBlockProps) => {
     parentBlockType,
   };
 
+  const shouldRenderRunButton = blockType.name !== BLOCK_TYPES.REFERENCE;
+
   return (
     <div>
       <div className="flex">
         <BlockHandle {...blockHandleProps} />
         <TypeSelect {...typeSelectProps}></TypeSelect>
-        &nbsp;
         <BlockText {...blockTextProps} />
+        {shouldRenderRunButton && <RunButton {...{ id: props.id }} />}
       </div>
       {childBlocks.length > 0 && (
         <div className="flex">

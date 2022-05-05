@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ActionType, changeBlockType } from "../../model/state/actions";
 import { IBlockType, BLOCK_TYPES } from "../../model/state/blockType";
 import { BlockId, IState } from "../../model/state/stateTypes";
+import { emojiButtonClasses } from "../../styles/styles";
 import { Context } from "../ContextWrapper";
 interface IBlockTypePresentation {
   text: string;
@@ -12,18 +13,23 @@ interface IBlockTypePresentation {
 const BLOCK_TYPE_PRESENTATIONS = {
   [BLOCK_TYPES.DO]: {
     text: "🏃",
-    tooltip: "Do",
+    tooltip: "Do an instruction",
     className: "text-blue-700 bg-blue-100 border-blue-200",
   },
   [BLOCK_TYPES.CHOOSE]: {
     text: "❓",
-    tooltip: "Choose",
+    tooltip: "Choose an option",
     className: "text-green-700 bg-green-100 border-green-200",
   },
   [BLOCK_TYPES.READ]: {
     text: "📖",
-    tooltip: "Read",
+    tooltip: "Read a note",
     className: "text-orange-700 bg-orange-100 border-orange-200",
+  },
+  [BLOCK_TYPES.REFERENCE]: {
+    text: "👁️",
+    tooltip: "Reference a workspace",
+    className: "text-purple-700 bg-purple-100 border-purple-200",
   },
 };
 
@@ -42,7 +48,7 @@ export const TypeSelect = (props: ITypeSelectProps) => {
     });
   };
 
-  const buttonClasses = `w-5 m-0.5 p-0.5 border rounded-md text-gray-300 text-xs ${presentationData.className}`;
+  const buttonClasses = `${emojiButtonClasses} ${presentationData.className}`;
 
   return (
     <button onClick={handleButtonClick} className={buttonClasses}>
