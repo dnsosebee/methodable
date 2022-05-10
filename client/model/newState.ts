@@ -1,5 +1,6 @@
 // crockford objects for new state
-import { nonRootHIndex } from "./state/actionHelpers";
+import { HIndexNotFoundError } from "../lib/errors";
+import { getUpstairsNeighborHIndex, nonRootHIndex } from "./state/actionHelpers";
 import { IBlockType } from "./state/blockType";
 
 // types
@@ -20,30 +21,42 @@ export interface ILocatedBlockData {
   blockStatus: BlockStatus;
   parentId: BlockContentId;
   leftId: LocatedBlockId;
-
-  // derived
-  rightId: LocatedBlockId;
 }
 
-export interface ILocatedBlock extends ILocatedBlockData {}
+interface ILocatedBlockTransitions {
+  setLeftId: (leftId: LocatedBlockId) => ILocatedBlock;
+}
+
+export interface ILocatedBlock extends ILocatedBlockData, ILocatedBlockTransitions {}
 
 export function locatedBlock(data: ILocatedBlockData): ILocatedBlock {
+  const transitions: ILocatedBlockTransitions = {
+    setLeftId: (leftId: LocatedBlockId) => {
+      return locatedBlock({ ...data, leftId });
+    },
+  };
   return Object.freeze({
     ...data,
+    ...transitions,
   });
 }
 
 // crockford object for BlockContent
-export interface IBlockContentData {
+export interface IBlockContentPersistentData {
   id: BlockContentId;
   blockType: IBlockType;
   humanText: HumanText;
   userId: UserId;
-
-  // derived
-  children: LocatedBlockId[];
-  parents: LocatedBlockId[];
 }
+
+export interface IBlockContentAuxiliaryData {
+  childLocatedBlocks: LocatedBlockId[];
+  parentBlockContents: BlockContentId[];
+}
+
+export interface IBlockContentData
+  extends IBlockContentPersistentData,
+    IBlockContentAuxiliaryData {}
 
 export interface IBlockContentTransitions {
   updateHumanText: (humanText: HumanText) => IBlockContent;
@@ -65,24 +78,24 @@ export function blockContent(blockContentData: IBlockContentData): IBlockContent
       return blockContent({ ...blockContentData, blockType });
     },
     addChildAtIndex: (index: number, childId: BlockContentId) => {
-      const children = [...blockContentData.children];
+      const children = [...blockContentData.childLocatedBlocks];
       children.splice(index, 0, childId);
-      return blockContent({ ...blockContentData, children });
+      return blockContent({ ...blockContentData, childLocatedBlocks: children });
     },
     removeChildAtIndex: (index: number) => {
-      const children = [...blockContentData.children];
+      const children = [...blockContentData.childLocatedBlocks];
       children.splice(index, 1);
-      return blockContent({ ...blockContentData, children });
+      return blockContent({ ...blockContentData, childLocatedBlocks: children });
     },
     addParentAtIndex: (index: number, parentId: BlockContentId) => {
-      const parents = [...blockContentData.parents];
+      const parents = [...blockContentData.parentBlockContents];
       parents.splice(index, 0, parentId);
-      return blockContent({ ...blockContentData, parents });
+      return blockContent({ ...blockContentData, parentBlockContents: parents });
     },
     removeParentAtIndex: (index: number) => {
-      const parents = [...blockContentData.parents];
+      const parents = [...blockContentData.parentBlockContents];
       parents.splice(index, 1);
-      return blockContent({ ...blockContentData, parents });
+      return blockContent({ ...blockContentData, parentBlockContents: parents });
     },
   };
 
@@ -93,12 +106,12 @@ export function blockContent(blockContentData: IBlockContentData): IBlockContent
 }
 
 // crockford object for fullBlock, an auxiliary object that contains both location and content
-interface IFullBlockData {
+export interface IFullBlockData {
   locatedBlock: ILocatedBlock;
   blockContent: IBlockContent;
 }
 
-interface IFullBlockFunctions {
+export interface IFullBlockFunctions {
   getParent: () => IFullBlock | null;
   getNthChild: (n: number) => IFullBlock | null;
 }
@@ -124,7 +137,7 @@ export function fullBlock(stateData: IStateData, data: IFullBlockData): IFullBlo
       return fullBlockFromLocatedBlockId(stateData, parentId);
     },
     getNthChild: (n: number) => {
-      return fullBlockFromLocatedBlockId(stateData, data.blockContent.children[n]);
+      return fullBlockFromLocatedBlockId(stateData, data.blockContent.childLocatedBlocks[n]);
     },
   };
   return Object.freeze({
@@ -149,7 +162,7 @@ export interface IStateData {
   isSelectionActive: boolean;
   isSelectionDeep: boolean;
   // focus related
-  focusIndex: HierarchyIndex | null;
+  focusLocatedBlockId: LocatedBlockId | null;
   focusPosition: FocusPosition;
 }
 
@@ -158,19 +171,44 @@ export interface IStateTransitions {
   refresh: () => IState2;
 
   // selection related
+  setSelectionParent: () => IState2;
   startSelection: (hIndex: HierarchyIndex) => IState2;
   changeSelection: (hIndex: HierarchyIndex) => IState2;
   endSelection: () => IState2;
 
+  // focus related
+  setFocusLatch: (locatedBlockId: LocatedBlockId, focusPosition: FocusPosition) => IState2;
+  clearFocusLatch: () => IState2;
+
   // block transitions
   insertNewBlock: (at: HierarchyIndex, humanText: HumanText, blockType: IBlockType) => IState2;
-  insertNewLocatedBlock: (at: HierarchyIndex, blockContent: IBlockContent) => IState2;
+  insertNewLocatedBlock: (at: HierarchyIndex, blockContentId: BlockContentId) => IState2;
 }
 
-export interface IState2 extends IStateData, IStateTransitions {}
+export interface IStateGetters {
+  getUpstairsNeighbor: (hIndex: HierarchyIndex) => LocatedBlockId;
+  getDownstairsNeighbor: (hIndex: HierarchyIndex) => LocatedBlockId;
+}
+
+export interface IState2 extends IStateData, IStateTransitions, IStateGetters {}
 
 export function state(stateData: IStateData): IState2 {
   const helpers = {
+    getFullBlockByHIndex: (hIndex: HierarchyIndex): IFullBlock => {
+      let parent = fullBlockFromLocatedBlockId(stateData, stateData.rootLocatedBlockId);
+      for (let i = 0; i < hIndex.length; i++) {
+        const childNumber = hIndex[i];
+        parent = parent.getNthChild(childNumber);
+      }
+      return parent;
+    },
+  };
+
+  const transitions: IStateTransitions = {
+    // no-op transition (to cause re-render)
+    refresh: () => state(stateData),
+
+    // selection related
     setSelectionParent: (): IState2 => {
       // must run after selectionRange is updated
       const { rootLocatedBlockId, selectionRange } = stateData;
@@ -193,42 +231,21 @@ export function state(stateData: IStateData): IState2 {
         activeParentIndex: activeParentHIndex,
       });
     },
-    getFullBlockByHIndex: (hIndex: HierarchyIndex): IFullBlock => {
-      let parent = fullBlockFromLocatedBlockId(stateData, stateData.rootLocatedBlockId);
-      for (let i = 0; i < hIndex.length; i++) {
-        const childNumber = hIndex[i];
-        parent = parent.getNthChild(childNumber);
-      }
-      return parent;
-    },
-  };
-
-  const transitions: IStateTransitions = {
-    // no-op transition (to cause re-render)
-    refresh: () => state(stateData),
-
-    // selection related
     startSelection: (hIndex: HierarchyIndex) => {
       hIndex = nonRootHIndex(hIndex);
-      const { activeParentId, activeParentIndex } = helpers.getSelectionParent();
       return state({
         ...stateData,
         selectionRange: { start: hIndex, end: hIndex },
         isSelectionActive: true,
-        activeParentId,
-        activeParentIndex,
-        focusIndex: null,
-      });
+        focusLocatedBlockId: null,
+      }).setSelectionParent();
     },
     changeSelection: (hIndex: HierarchyIndex) => {
       hIndex = nonRootHIndex(hIndex);
-      const { activeParentId, activeParentIndex } = helpers.getSelectionParent();
       return state({
         ...stateData,
         selectionRange: { start: stateData.selectionRange.start, end: hIndex },
-        activeParentId,
-        activeParentIndex,
-      });
+      }).setSelectionParent();
     },
     endSelection: () => {
       return state({
@@ -237,31 +254,46 @@ export function state(stateData: IStateData): IState2 {
       });
     },
 
+    // cursor moves
+    setFocusLatch: (locatedBlockId: LocatedBlockId, focusPosition: FocusPosition): IState2 => {
+      return state({
+        ...stateData,
+        focusLocatedBlockId: locatedBlockId,
+        focusPosition,
+      });
+    },
+    clearFocusLatch: (): IState2 => {
+      return state({
+        ...stateData,
+        focusLocatedBlockId: null,
+      });
+    },
+
     // block transitions
     insertNewBlock: (at: HierarchyIndex, humanText: HumanText, blockType: IBlockType) => {
       const parent = helpers.getFullBlockByHIndex(at.slice(0, -1));
       const newBlockContentId = crypto.randomUUID();
-
       const newBlockContent = blockContent({
         id: newBlockContentId,
         blockType,
         humanText,
         userId: "", // TODO
-        children: [],
-        parents: [parent.blockContent.id],
+        childLocatedBlocks: [],
+        parentBlockContents: [parent.blockContent.id],
       });
+      stateData.blockContents.set(newBlockContentId, newBlockContent);
+
       return state({
         ...stateData,
-        locatedBlocks: stateData.locatedBlocks.set(newLocatedBlockId, newLocatedBlock),
-        blockContents: stateData.blockContents.set(newBlockContentId, newBlockContent),
-      });
+      }).insertNewLocatedBlock(at, newBlockContentId);
     },
     insertNewLocatedBlock: (at: HierarchyIndex, blockContentId: BlockContentId): IState2 => {
       const parent = helpers.getFullBlockByHIndex(at.slice(0, -1));
       const newLocatedBlockId = crypto.randomUUID();
       const index = at[at.length - 1];
-      const leftId = index > 0 ? parent.blockContent.children[index - 1] : null;
-      const rightId = index < parent.blockContent.children.length ? parent.blockContent.children[index] : null;
+      const leftId = index > 0 ? parent.blockContent.childLocatedBlocks[index - 1] : null;
+
+      // insert new locatedBlock
       const newLocatedBlock = locatedBlock({
         id: newLocatedBlockId,
         parentId: parent.blockContent.id,
@@ -269,19 +301,59 @@ export function state(stateData: IStateData): IState2 {
         userId: "", // TODO
         blockStatus: "not started",
         leftId,
-        rightId,
       });
-      const rightLocatedBlock = rightId ? stateData.locatedBlocks.get(rightId): null;
-      
+      stateData.locatedBlocks.set(newLocatedBlockId, newLocatedBlock);
 
+      // update locatedBlock to the right
+      const rightId =
+        index < parent.blockContent.childLocatedBlocks.length
+          ? parent.blockContent.childLocatedBlocks[index]
+          : null;
+      const rightLocatedBlock = rightId ? stateData.locatedBlocks.get(rightId) : null;
+      if (rightLocatedBlock) {
+        stateData.locatedBlocks.set(rightId, rightLocatedBlock.setLeftId(newLocatedBlockId));
+      }
+
+      // update blockContent parent
+      stateData.blockContents.set(
+        parent.blockContent.id,
+        parent.blockContent.addChildAtIndex(index, newLocatedBlockId)
+      );
+
+      return state({
+        ...stateData,
+      });
     },
-    // cursor moves
+  };
 
+  const getters = {
+    getUpstairsNeighbor: (hIndex: HierarchyIndex): LocatedBlockId => {
+      if (hIndex.length === 0) {
+        throw new HIndexNotFoundError();
+      }
+      const fullBlock = helpers.getFullBlockByHIndex(hIndex);
+      if (hIndex[hIndex.length - 1] === 0) {
+        return fullBlock.getParent().locatedBlock.id;
+      }
+      const parent = fullBlock.getParent();
+      let youngerSibling = parent.getNthChild(hIndex[hIndex.length - 1] - 1);
 
+      // get lowest descendant of youngerSibling
+      let youngerSiblingNumChildren = youngerSibling.blockContent.childLocatedBlocks.length;
+      while (youngerSiblingNumChildren > 0) {
+        youngerSibling = youngerSibling.getNthChild(youngerSiblingNumChildren - 1);
+        youngerSiblingNumChildren = youngerSibling.blockContent.childLocatedBlocks.length;
+      }
+      return youngerSibling.locatedBlock.id;
+    },
+    getDownstairsNeighbor: (hIndex: HierarchyIndex): LocatedBlockId => {
+      
+    },
   };
 
   return Object.freeze({
     ...stateData,
     ...transitions,
+    ...getters,
   });
 }
