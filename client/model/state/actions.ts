@@ -2,6 +2,7 @@
 
 import { HIndexNotFoundError } from "../../lib/errors";
 import { logAction } from "../../lib/loggers";
+import { IState2 } from "../newState";
 import {
   addParentChildRelationship,
   getBlockIdByHIndex,
@@ -64,12 +65,28 @@ export const editHumanText = (
   return newState;
 };
 
+const insertNewBlock = (state: IState, at: HierarchyIndex, humanText: HumanText, blockType: IBlockType): IState => {
+  const parentBlockId = getBlockIdByHIndex(state.blocksMap, state.rootBlockId, at.slice(0, -1));
+  const parentBlock = state.blocksMap.get(parentBlockId);
+  const newBlockId: BlockId = crypto.randomUUID();
+  const newBlock = {
+    id: newBlockId,
+    humanText,
+    children: [],
+    parents: [parentBlockId],
+    blockType,
+  };
+  parentBlock.children.splice(at[at.length - 1], 0, newBlockId);
+  state.blocksMap.set(newBlockId, newBlock);
+  return state;
+}
+
 export const enterWithNoSelection = (
   state: IState,
   hIndex: HierarchyIndex,
   id: BlockId,
-  oldText: HumanText,
-  newText: HumanText
+  leftText: HumanText,
+  rightText: HumanText
 ): IState => {
   logAction("entered with no selection: " + hIndex);
   const parentBlockId = getBlockIdByHIndex(state.blocksMap, state.rootBlockId, hIndex.slice(0, -1));
@@ -79,24 +96,17 @@ export const enterWithNoSelection = (
   const newBlockId: BlockId = crypto.randomUUID();
   let newBlock: IBlock;
   const newHIndex = hIndex.slice(0, hIndex.length);
-  if (oldText.length === 0) {
+  if (leftText.length === 0) {
     // if enter is pressed at the beginning of the line, we just bump that block down a line, and focus on the new line above
-    //oldBlock stays the same
-    newBlock = {
-      id: newBlockId,
-      humanText: "",
-      children: [],
-      parents: [parentBlockId],
-      blockType: oldBlock.blockType,
-    };
-    parentBlock.children.splice(hIndex[hIndex.length - 1], 0, newBlockId);
+    //oldBlock text stays the same
+    insertNewBlock(state, hIndex, "", oldBlock.blockType);
     // newIndex stays the same
   } else if (oldBlock.children.length === 0) {
     // if the old block has no children, we add a sibling after the old block
-    oldBlock.humanText = oldText;
+    oldBlock.humanText = leftText;
     newBlock = {
       id: newBlockId,
-      humanText: newText,
+      humanText: rightText,
       children: [],
       parents: [parentBlockId],
       blockType: oldBlock.blockType,
@@ -105,11 +115,11 @@ export const enterWithNoSelection = (
     newHIndex[hIndex.length - 1] += 1;
   } else {
     // if the old block does have children, we add a child to the old block
-    oldBlock.humanText = oldText;
+    oldBlock.humanText = leftText;
     oldBlock.children.unshift(newBlockId);
     newBlock = {
       id: newBlockId,
-      humanText: newText,
+      humanText: rightText,
       children: [],
       parents: [oldBlockId],
       blockType: oldBlock.blockType,

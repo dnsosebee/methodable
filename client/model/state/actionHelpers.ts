@@ -1,4 +1,5 @@
 import { HIndexNotFoundError } from "../../lib/errors";
+import { fullBlock, IBlockContent, ILocatedBlock, IState2, IStateData, LocatedBlockId } from "../newState";
 import { BlockId, HierarchyIndex, IBlock, IState } from "./stateTypes";
 
 const DEFAULT_AT = -1;
