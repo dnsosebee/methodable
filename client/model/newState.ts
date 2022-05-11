@@ -4,13 +4,13 @@ import { getUpstairsNeighborHIndex, nonRootHIndex } from "./state/actionHelpers"
 import { IBlockType } from "./state/blockType";
 
 // types
-export type BlockStatus = "not started" | "in progress" | "complete" | "archived";
+export type BlockStatus = "not started" | "in progress" | "complete";
 export type BlockContentId = string;
 export type LocatedBlockId = string;
 export type UserId = string;
 export type HumanText = string;
-export type HierarchyIndex = number[];
-export type SelectionRange = { start: HierarchyIndex; end: HierarchyIndex };
+export type Path = LocatedBlockId[];
+export type SelectionRange = { start: Path; end: Path };
 export type FocusPosition = number | "start" | "end";
 
 // crockford object for LocatedBlock
@@ -21,10 +21,13 @@ export interface ILocatedBlockData {
   blockStatus: BlockStatus;
   parentId: BlockContentId;
   leftId: LocatedBlockId;
+  archived: boolean;
 }
 
 interface ILocatedBlockTransitions {
   setLeftId: (leftId: LocatedBlockId) => ILocatedBlock;
+  setParentId: (parentId: BlockContentId) => ILocatedBlock;
+  setArchived: (archived: boolean) => ILocatedBlock;
 }
 
 export interface ILocatedBlock extends ILocatedBlockData, ILocatedBlockTransitions {}
@@ -33,6 +36,12 @@ export function locatedBlock(data: ILocatedBlockData): ILocatedBlock {
   const transitions: ILocatedBlockTransitions = {
     setLeftId: (leftId: LocatedBlockId) => {
       return locatedBlock({ ...data, leftId });
+    },
+    setParentId: (parentId: BlockContentId) => {
+      return locatedBlock({ ...data, parentId });
+    },
+    setArchived: (archived: boolean) => {
+      return locatedBlock({ ...data, archived });
     },
   };
   return Object.freeze({
@@ -51,7 +60,7 @@ export interface IBlockContentPersistentData {
 
 export interface IBlockContentAuxiliaryData {
   childLocatedBlocks: LocatedBlockId[];
-  parentBlockContents: BlockContentId[];
+  locatedBlocks: LocatedBlockId[];
 }
 
 export interface IBlockContentData
@@ -61,13 +70,25 @@ export interface IBlockContentData
 export interface IBlockContentTransitions {
   updateHumanText: (humanText: HumanText) => IBlockContent;
   updateBlockType: (blockType: IBlockType) => IBlockContent;
-  addChildAtIndex: (index: number, childId: BlockContentId) => IBlockContent;
-  removeChildAtIndex: (index: number) => IBlockContent;
-  addParentAtIndex: (index: number, parentId: BlockContentId) => IBlockContent;
-  removeParentAtIndex: (index: number) => IBlockContent;
+  addChildAfter: (leftId: LocatedBlockId, newId: LocatedBlockId) => IBlockContent;
+  removeChild: (id: LocatedBlockId) => IBlockContent;
+  addLocation: (id: LocatedBlockId) => IBlockContent;
+  removeLocation: (id: LocatedBlockId) => IBlockContent;
 }
 
-export interface IBlockContent extends IBlockContentData, IBlockContentTransitions {}
+export interface IBlockContentGetters {
+  getRightSiblingIdOf: (ofId: LocatedBlockId) => LocatedBlockId;
+  getLeftSiblingIdOf: (ofId: LocatedBlockId) => LocatedBlockId;
+  getLeftmostChildId: () => LocatedBlockId;
+  getRightmostChildId: () => LocatedBlockId;
+  hasChildren: () => boolean;
+  hasLocations: () => boolean;
+}
+
+export interface IBlockContent
+  extends IBlockContentData,
+    IBlockContentTransitions,
+    IBlockContentGetters {}
 
 export function blockContent(blockContentData: IBlockContentData): IBlockContent {
   const transitions: IBlockContentTransitions = {
@@ -77,31 +98,78 @@ export function blockContent(blockContentData: IBlockContentData): IBlockContent
     updateBlockType: (blockType: IBlockType) => {
       return blockContent({ ...blockContentData, blockType });
     },
-    addChildAtIndex: (index: number, childId: BlockContentId) => {
-      const children = [...blockContentData.childLocatedBlocks];
-      children.splice(index, 0, childId);
-      return blockContent({ ...blockContentData, childLocatedBlocks: children });
+    addChildAfter: (leftId: LocatedBlockId, newId: LocatedBlockId) => {
+      const leftIndex = blockContentData.childLocatedBlocks.indexOf(leftId);
+      blockContentData.childLocatedBlocks.splice(leftIndex + 1, 0, newId);
+      return blockContent(blockContentData);
     },
-    removeChildAtIndex: (index: number) => {
-      const children = [...blockContentData.childLocatedBlocks];
-      children.splice(index, 1);
-      return blockContent({ ...blockContentData, childLocatedBlocks: children });
+    removeChild: (id: LocatedBlockId) => {
+      const index = blockContentData.childLocatedBlocks.indexOf(id);
+      if (index === -1) {
+        throw new Error("Child not found");
+      }
+      blockContentData.childLocatedBlocks.splice(index, 1);
+      return blockContent(blockContentData);
     },
-    addParentAtIndex: (index: number, parentId: BlockContentId) => {
-      const parents = [...blockContentData.parentBlockContents];
-      parents.splice(index, 0, parentId);
-      return blockContent({ ...blockContentData, parentBlockContents: parents });
+    addLocation: (id: LocatedBlockId) => {
+      blockContentData.locatedBlocks.push(id);
+      return blockContent(blockContentData);
     },
-    removeParentAtIndex: (index: number) => {
-      const parents = [...blockContentData.parentBlockContents];
-      parents.splice(index, 1);
-      return blockContent({ ...blockContentData, parentBlockContents: parents });
+    removeLocation: (id: LocatedBlockId) => {
+      const index = blockContentData.locatedBlocks.indexOf(id);
+      if (index === -1) {
+        throw new Error("Parent not found");
+      }
+      blockContentData.locatedBlocks.splice(index, 1);
+      return blockContent(blockContentData);
+    },
+  };
+
+  const getters = {
+    getRightSiblingIdOf: (ofId: LocatedBlockId) => {
+      const leftIndex = blockContentData.childLocatedBlocks.indexOf(ofId);
+      if (leftIndex === -1) {
+        throw new Error("Child not found");
+      }
+      if (leftIndex === blockContentData.childLocatedBlocks.length - 1) {
+        return null;
+      }
+      return blockContentData.childLocatedBlocks[leftIndex + 1];
+    },
+    getLeftSiblingIdOf: (ofId: LocatedBlockId) => {
+      const rightIndex = blockContentData.childLocatedBlocks.indexOf(ofId);
+      if (rightIndex === -1) {
+        throw new Error("Child not found");
+      }
+      if (rightIndex === 0) {
+        return null;
+      }
+      return blockContentData.childLocatedBlocks[rightIndex - 1];
+    },
+    getLeftmostChildId: () => {
+      if (blockContentData.childLocatedBlocks.length === 0) {
+        return null;
+      }
+      return blockContentData.childLocatedBlocks[0];
+    },
+    getRightmostChildId: () => {
+      if (blockContentData.childLocatedBlocks.length === 0) {
+        return null;
+      }
+      return blockContentData.childLocatedBlocks[blockContentData.childLocatedBlocks.length - 1];
+    },
+    hasChildren: () => {
+      return blockContentData.childLocatedBlocks.length > 0;
+    },
+    hasLocations: () => {
+      return blockContentData.locatedBlocks.length > 0;
     },
   };
 
   return Object.freeze({
     ...blockContentData,
     ...transitions,
+    ...getters,
   });
 }
 
@@ -113,7 +181,6 @@ export interface IFullBlockData {
 
 export interface IFullBlockFunctions {
   getParent: () => IFullBlock | null;
-  getNthChild: (n: number) => IFullBlock | null;
 }
 
 interface IFullBlock extends IFullBlockData, IFullBlockFunctions {}
@@ -136,9 +203,6 @@ export function fullBlock(stateData: IStateData, data: IFullBlockData): IFullBlo
       }
       return fullBlockFromLocatedBlockId(stateData, parentId);
     },
-    getNthChild: (n: number) => {
-      return fullBlockFromLocatedBlockId(stateData, data.blockContent.childLocatedBlocks[n]);
-    },
   };
   return Object.freeze({
     ...data,
@@ -156,9 +220,8 @@ export interface IStateData {
   // deprecated
   rootLocatedBlockId: LocatedBlockId; // this is kinda confusing, but this is the block in focus from which all others branch
   // selection related
-  activeParentId: BlockContentId;
-  activeParentIndex: HierarchyIndex; // or should this be a path?
-  selectionRange: SelectionRange; // or should this be paths?
+  activeParentPath: Path;
+  selectionRange: SelectionRange;
   isSelectionActive: boolean;
   isSelectionDeep: boolean;
   // focus related
@@ -172,8 +235,8 @@ export interface IStateTransitions {
 
   // selection related
   setSelectionParent: () => IState2;
-  startSelection: (hIndex: HierarchyIndex) => IState2;
-  changeSelection: (hIndex: HierarchyIndex) => IState2;
+  startSelection: (path: Path) => IState2;
+  changeSelection: (path: Path) => IState2;
   endSelection: () => IState2;
 
   // focus related
@@ -181,27 +244,38 @@ export interface IStateTransitions {
   clearFocusLatch: () => IState2;
 
   // block transitions
-  insertNewBlock: (at: HierarchyIndex, humanText: HumanText, blockType: IBlockType) => IState2;
-  insertNewLocatedBlock: (at: HierarchyIndex, blockContentId: BlockContentId) => IState2;
+  insertNewBlock: (
+    leftId: LocatedBlockId,
+    parentContentId,
+    humanText: HumanText,
+    blockType: IBlockType
+  ) => IState2;
+  insertNewLocatedBlock: (
+    leftId: LocatedBlockId,
+    parentContentId,
+    blockContentId: BlockContentId
+  ) => IState2;
+  moveLocatedBlock: (
+    LocatedBlockId: LocatedBlockId,
+    newLeftId: LocatedBlockId,
+    newParentContentId: BlockContentId
+  ) => IState2;
+  removeLocatedBlock: (LocatedBlockId: LocatedBlockId) => IState2;
+  removeSurroundingBlocks: (LocatedBlock: ILocatedBlock) => IState2;
+  addSurroundingBlocks: (locatedBlock: ILocatedBlock) => IState2;
+  moveChildren: (leftmostChildId: LocatedBlockId, newParentContentId: BlockContentId) => IState2;
 }
 
 export interface IStateGetters {
-  getUpstairsNeighbor: (hIndex: HierarchyIndex) => LocatedBlockId;
-  getDownstairsNeighbor: (hIndex: HierarchyIndex) => LocatedBlockId;
+  getUpstairsNeighbor: (path: Path) => LocatedBlockId;
+  getDownstairsNeighbor: (path: Path) => LocatedBlockId;
 }
 
 export interface IState2 extends IStateData, IStateTransitions, IStateGetters {}
 
 export function state(stateData: IStateData): IState2 {
   const helpers = {
-    getFullBlockByHIndex: (hIndex: HierarchyIndex): IFullBlock => {
-      let parent = fullBlockFromLocatedBlockId(stateData, stateData.rootLocatedBlockId);
-      for (let i = 0; i < hIndex.length; i++) {
-        const childNumber = hIndex[i];
-        parent = parent.getNthChild(childNumber);
-      }
-      return parent;
-    },
+    // TODO delete this
   };
 
   const transitions: IStateTransitions = {
@@ -211,40 +285,36 @@ export function state(stateData: IStateData): IState2 {
     // selection related
     setSelectionParent: (): IState2 => {
       // must run after selectionRange is updated
-      const { rootLocatedBlockId, selectionRange } = stateData;
-      let parent = fullBlockFromLocatedBlockId(stateData, rootLocatedBlockId);
-      let activeParentHIndex: HierarchyIndex = [];
+      const { selectionRange } = stateData;
       const maxParentDepth = Math.min(
         selectionRange.start.length - 1,
         selectionRange.end.length - 1
       );
-      for (let i = 0; i < maxParentDepth; i++) {
+      let parentDepth = 0;
+      for (let i = 1; i < maxParentDepth; i++) {
         if (selectionRange.start[i] === selectionRange.end[i]) {
-          const childNumber = selectionRange.start[i];
-          parent = parent.getNthChild(childNumber);
-          activeParentHIndex.push(childNumber);
+          parentDepth = i;
+        } else {
+          break;
         }
       }
       return state({
         ...stateData,
-        activeParentId: parent.blockContent.id,
-        activeParentIndex: activeParentHIndex,
+        activeParentPath: selectionRange.start.slice(0, parentDepth),
       });
     },
-    startSelection: (hIndex: HierarchyIndex) => {
-      hIndex = nonRootHIndex(hIndex);
+    startSelection: (path: Path) => {
       return state({
         ...stateData,
-        selectionRange: { start: hIndex, end: hIndex },
+        selectionRange: { start: path, end: path },
         isSelectionActive: true,
         focusLocatedBlockId: null,
       }).setSelectionParent();
     },
-    changeSelection: (hIndex: HierarchyIndex) => {
-      hIndex = nonRootHIndex(hIndex);
+    changeSelection: (path: Path) => {
       return state({
         ...stateData,
-        selectionRange: { start: stateData.selectionRange.start, end: hIndex },
+        selectionRange: { start: stateData.selectionRange.start, end: path },
       }).setSelectionParent();
     },
     endSelection: () => {
@@ -270,8 +340,13 @@ export function state(stateData: IStateData): IState2 {
     },
 
     // block transitions
-    insertNewBlock: (at: HierarchyIndex, humanText: HumanText, blockType: IBlockType) => {
-      const parent = helpers.getFullBlockByHIndex(at.slice(0, -1));
+    insertNewBlock: (
+      leftId: LocatedBlockId,
+      parentContentId: BlockContentId,
+      humanText: HumanText,
+      blockType: IBlockType
+    ) => {
+      // insert new block content
       const newBlockContentId = crypto.randomUUID();
       const newBlockContent = blockContent({
         id: newBlockContentId,
@@ -279,75 +354,156 @@ export function state(stateData: IStateData): IState2 {
         humanText,
         userId: "", // TODO
         childLocatedBlocks: [],
-        parentBlockContents: [parent.blockContent.id],
+        locatedBlocks: [],
       });
       stateData.blockContents.set(newBlockContentId, newBlockContent);
 
-      return state({
-        ...stateData,
-      }).insertNewLocatedBlock(at, newBlockContentId);
+      // then insert new located block
+      return state(stateData).insertNewLocatedBlock(leftId, parentContentId, newBlockContentId);
     },
-    insertNewLocatedBlock: (at: HierarchyIndex, blockContentId: BlockContentId): IState2 => {
-      const parent = helpers.getFullBlockByHIndex(at.slice(0, -1));
+    insertNewLocatedBlock: (
+      leftId: LocatedBlockId,
+      parentContentId: BlockContentId,
+      blockContentId: BlockContentId
+    ): IState2 => {
       const newLocatedBlockId = crypto.randomUUID();
-      const index = at[at.length - 1];
-      const leftId = index > 0 ? parent.blockContent.childLocatedBlocks[index - 1] : null;
 
       // insert new locatedBlock
       const newLocatedBlock = locatedBlock({
         id: newLocatedBlockId,
-        parentId: parent.blockContent.id,
+        parentId: parentContentId,
         contentId: blockContentId,
         userId: "", // TODO
         blockStatus: "not started",
         leftId,
+        archived: false,
       });
       stateData.locatedBlocks.set(newLocatedBlockId, newLocatedBlock);
 
-      // update locatedBlock to the right
-      const rightId =
-        index < parent.blockContent.childLocatedBlocks.length
-          ? parent.blockContent.childLocatedBlocks[index]
-          : null;
-      const rightLocatedBlock = rightId ? stateData.locatedBlocks.get(rightId) : null;
-      if (rightLocatedBlock) {
-        stateData.locatedBlocks.set(rightId, rightLocatedBlock.setLeftId(newLocatedBlockId));
-      }
+      // update blockContent
+      const blockContent = stateData.blockContents.get(blockContentId);
+      const updatedBlockContent = blockContent.addLocation(newLocatedBlockId);
+      stateData.blockContents.set(blockContentId, updatedBlockContent);
 
+      // then update surrounding blocks
+      return state(stateData).addSurroundingBlocks(newLocatedBlock);
+    },
+    addSurroundingBlocks: (locatedBlock: ILocatedBlock): IState2 => {
       // update blockContent parent
+      const parentContentId = locatedBlock.parentId;
+      const parentContent = stateData.blockContents.get(parentContentId);
       stateData.blockContents.set(
-        parent.blockContent.id,
-        parent.blockContent.addChildAtIndex(index, newLocatedBlockId)
+        parentContent.id,
+        parentContent.addChildAfter(locatedBlock.leftId, locatedBlock.id)
       );
 
-      return state({
-        ...stateData,
-      });
+      // update locatedBlock to the right
+      const rightLocatedBlockId = parentContent.getRightSiblingIdOf(locatedBlock.id);
+      if (rightLocatedBlockId) {
+        const rightLocatedBlock = stateData.locatedBlocks.get(rightLocatedBlockId);
+        stateData.locatedBlocks.set(
+          rightLocatedBlockId,
+          rightLocatedBlock.setLeftId(locatedBlock.id)
+        );
+      }
+      return state(stateData);
+    },
+    removeLocatedBlock: (locatedBlockId: LocatedBlockId): IState2 => {
+      const { locatedBlock, blockContent } = fullBlockFromLocatedBlockId(stateData, locatedBlockId);
+
+      // archive locatedBlock
+      stateData.locatedBlocks.set(locatedBlockId, locatedBlock.setArchived(true));
+
+      // remove location from the associated content
+      const updatedBlockContent = blockContent.removeLocation(locatedBlockId);
+      stateData.blockContents.set(blockContent.id, updatedBlockContent);
+
+      // update surrounding blocks
+      return state(stateData).removeSurroundingBlocks(locatedBlock);
+    },
+    removeSurroundingBlocks: (located: ILocatedBlock): IState2 => {
+      const { parentId, leftId } = located;
+
+      // update blockContent parent
+      const parentContent = stateData.blockContents.get(parentId);
+      stateData.blockContents.set(parentContent.id, parentContent.removeChild(located.id));
+
+      // update locatedBlock to the right
+      const rightLocatedBlockId = parentContent.getRightSiblingIdOf(located.id);
+      if (rightLocatedBlockId) {
+        const rightLocatedBlock = stateData.locatedBlocks.get(rightLocatedBlockId);
+        stateData.locatedBlocks.set(rightLocatedBlockId, rightLocatedBlock.setLeftId(leftId));
+      }
+      return state(stateData);
+    },
+    moveLocatedBlock: (
+      locatedBlockId: LocatedBlockId,
+      newLeftId: LocatedBlockId,
+      newParentContentId: BlockContentId
+    ): IState2 => {
+      const located = stateData.locatedBlocks.get(locatedBlockId);
+      const updatedLocatedBlock = located.setLeftId(newLeftId).setParentId(newParentContentId);
+      stateData.locatedBlocks.set(locatedBlockId, updatedLocatedBlock);
+      return state(stateData)
+        .removeSurroundingBlocks(located)
+        .addSurroundingBlocks(updatedLocatedBlock);
+    },
+    moveChildren: (
+      leftmostChildId: LocatedBlockId,
+      newParentContentId: BlockContentId
+    ): IState2 => {
+      // this could be optimized
+      const parentId = stateData.locatedBlocks.get(leftmostChildId).parentId;
+      const parentContent = stateData.blockContents.get(parentId);
+      const rightmostChildId = parentContent.getRightmostChildId();
+      if (rightmostChildId === leftmostChildId) {
+        return state(stateData).moveLocatedBlock(leftmostChildId, null, newParentContentId);
+      }
+      const nextLeftmostChildId = parentContent.getRightSiblingIdOf(leftmostChildId);
+      return state(stateData)
+        .moveChildren(nextLeftmostChildId, newParentContentId)
+        .moveLocatedBlock(leftmostChildId, null, newParentContentId);
+      let newState = state(stateData).moveLocatedBlock;
     },
   };
 
   const getters = {
-    getUpstairsNeighbor: (hIndex: HierarchyIndex): LocatedBlockId => {
-      if (hIndex.length === 0) {
-        throw new HIndexNotFoundError();
+    getUpstairsNeighbor: (path: Path): LocatedBlockId => {
+      if (path.length === 1) {
+        throw new Error("cannot get upstairs neighbor of root");
       }
-      const fullBlock = helpers.getFullBlockByHIndex(hIndex);
-      if (hIndex[hIndex.length - 1] === 0) {
-        return fullBlock.getParent().locatedBlock.id;
+      const locatedBlockId = path[path.length - 1];
+      const block = fullBlockFromLocatedBlockId(stateData, locatedBlockId);
+      const parentBlock = block.getParent();
+      if (parentBlock.blockContent.childLocatedBlocks[0] === block.locatedBlock.id) {
+        return parentBlock.locatedBlock.id;
       }
-      const parent = fullBlock.getParent();
-      let youngerSibling = parent.getNthChild(hIndex[hIndex.length - 1] - 1);
-
-      // get lowest descendant of youngerSibling
-      let youngerSiblingNumChildren = youngerSibling.blockContent.childLocatedBlocks.length;
-      while (youngerSiblingNumChildren > 0) {
-        youngerSibling = youngerSibling.getNthChild(youngerSiblingNumChildren - 1);
-        youngerSiblingNumChildren = youngerSibling.blockContent.childLocatedBlocks.length;
+      let youngerSiblingId = parentBlock.blockContent.getLeftSiblingIdOf(locatedBlockId);
+      let youngerSibling = fullBlockFromLocatedBlockId(stateData, youngerSiblingId);
+      while (youngerSibling.blockContent.hasChildren()) {
+        youngerSiblingId = youngerSibling.blockContent.getRightmostChildId();
+        youngerSibling = fullBlockFromLocatedBlockId(stateData, youngerSiblingId);
       }
-      return youngerSibling.locatedBlock.id;
+      return youngerSiblingId;
     },
-    getDownstairsNeighbor: (hIndex: HierarchyIndex): LocatedBlockId => {
-      
+    getDownstairsNeighbor: (path: Path): LocatedBlockId => {
+      const locatedBlockId = path[path.length - 1];
+      const block = fullBlockFromLocatedBlockId(stateData, locatedBlockId);
+      if (block.blockContent.hasChildren()) {
+        return block.blockContent.getLeftmostChildId();
+      }
+      let youngerAncestorId = locatedBlockId;
+      for (let i = path.length - 2; i >= 0; i--) {
+        const ancestorId = path[i];
+        const ancestor = fullBlockFromLocatedBlockId(stateData, ancestorId);
+        const rightmostChildId = ancestor.blockContent.getRightmostChildId();
+        if (rightmostChildId !== youngerAncestorId) {
+          // then we've found the point where there's a younger sibling (the downstairs neighbor)
+          return rightmostChildId;
+        }
+        youngerAncestorId = ancestorId;
+      }
+      throw new Error("no downstairs neighbor found");
     },
   };
 
