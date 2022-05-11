@@ -83,6 +83,11 @@ export interface IBlockContentGetters {
   getRightmostChildId: () => LocatedBlockId;
   hasChildren: () => boolean;
   hasLocations: () => boolean;
+  isChildBetween: (
+    childId: LocatedBlockId,
+    bound1: LocatedBlockId,
+    bound2: LocatedBlockId
+  ) => boolean;
 }
 
 export interface IBlockContent
@@ -164,6 +169,24 @@ export function blockContent(blockContentData: IBlockContentData): IBlockContent
     hasLocations: () => {
       return blockContentData.locatedBlocks.length > 0;
     },
+    isChildBetween: (childId: LocatedBlockId, bound1: LocatedBlockId, bound2: LocatedBlockId) => {
+      const childIndex = blockContentData.childLocatedBlocks.indexOf(childId);
+      if (childIndex === -1) {
+        throw new Error("Child not found");
+      }
+      const bound1Index = blockContentData.childLocatedBlocks.indexOf(bound1);
+      if (bound1Index === -1) {
+        throw new Error("Bound 1 not found");
+      }
+      const bound2Index = blockContentData.childLocatedBlocks.indexOf(bound2);
+      if (bound2Index === -1) {
+        throw new Error("Bound 2 not found");
+      }
+      return (
+        (childIndex >= bound1Index && childIndex <= bound2Index) ||
+        (childIndex <= bound1Index && childIndex >= bound2Index)
+      );
+    },
   };
 
   return Object.freeze({
@@ -183,9 +206,9 @@ export interface IFullBlockFunctions {
   getParent: () => IFullBlock | null;
 }
 
-interface IFullBlock extends IFullBlockData, IFullBlockFunctions {}
+export interface IFullBlock extends IFullBlockData, IFullBlockFunctions {}
 
-function fullBlockFromLocatedBlockId(
+export function fullBlockFromLocatedBlockId(
   stateData: IStateData,
   locatedBlockId: LocatedBlockId
 ): IFullBlock {
@@ -197,11 +220,11 @@ function fullBlockFromLocatedBlockId(
 export function fullBlock(stateData: IStateData, data: IFullBlockData): IFullBlock {
   const functions = {
     getParent: () => {
-      const parentId = data.locatedBlock.parentId;
-      if (!parentId) {
+      const parentContentId = data.locatedBlock.parentId;
+      if (!parentContentId) {
         return null;
       }
-      return fullBlockFromLocatedBlockId(stateData, parentId);
+      return fullBlockFromLocatedBlockId(stateData, parentContentId);
     },
   };
   return Object.freeze({
@@ -216,9 +239,7 @@ export interface IStateData {
   locatedBlocks: Map<LocatedBlockId, ILocatedBlock>;
   blockContents: Map<BlockContentId, IBlockContent>;
   // transient, f(page)
-  locatedIdPath: LocatedBlockId[];
-  // deprecated
-  rootLocatedBlockId: LocatedBlockId; // this is kinda confusing, but this is the block in focus from which all others branch
+  locatedIdPath: Path;
   // selection related
   activeParentPath: Path;
   selectionRange: SelectionRange;
@@ -244,16 +265,19 @@ export interface IStateTransitions {
   clearFocusLatch: () => IState2;
 
   // block transitions
+  updateBlockContent: (blockContent: IBlockContent) => IState2;
   insertNewBlock: (
     leftId: LocatedBlockId,
     parentContentId,
     humanText: HumanText,
-    blockType: IBlockType
+    blockType: IBlockType,
+    locatedBlockId?: LocatedBlockId
   ) => IState2;
   insertNewLocatedBlock: (
     leftId: LocatedBlockId,
     parentContentId,
-    blockContentId: BlockContentId
+    blockContentId: BlockContentId,
+    locatedBlockId?: LocatedBlockId
   ) => IState2;
   moveLocatedBlock: (
     LocatedBlockId: LocatedBlockId,
@@ -273,14 +297,14 @@ export interface IStateGetters {
 
 export interface IState2 extends IStateData, IStateTransitions, IStateGetters {}
 
-export function state(stateData: IStateData): IState2 {
+export function createState(stateData: IStateData): IState2 {
   const helpers = {
     // TODO delete this
   };
 
   const transitions: IStateTransitions = {
     // no-op transition (to cause re-render)
-    refresh: () => state(stateData),
+    refresh: () => createState(stateData),
 
     // selection related
     setSelectionParent: (): IState2 => {
@@ -298,13 +322,13 @@ export function state(stateData: IStateData): IState2 {
           break;
         }
       }
-      return state({
+      return createState({
         ...stateData,
         activeParentPath: selectionRange.start.slice(0, parentDepth),
       });
     },
     startSelection: (path: Path) => {
-      return state({
+      return createState({
         ...stateData,
         selectionRange: { start: path, end: path },
         isSelectionActive: true,
@@ -312,13 +336,13 @@ export function state(stateData: IStateData): IState2 {
       }).setSelectionParent();
     },
     changeSelection: (path: Path) => {
-      return state({
+      return createState({
         ...stateData,
         selectionRange: { start: stateData.selectionRange.start, end: path },
       }).setSelectionParent();
     },
     endSelection: () => {
-      return state({
+      return createState({
         ...stateData,
         isSelectionActive: false,
       });
@@ -326,25 +350,30 @@ export function state(stateData: IStateData): IState2 {
 
     // cursor moves
     setFocusLatch: (locatedBlockId: LocatedBlockId, focusPosition: FocusPosition): IState2 => {
-      return state({
+      return createState({
         ...stateData,
         focusLocatedBlockId: locatedBlockId,
         focusPosition,
       });
     },
     clearFocusLatch: (): IState2 => {
-      return state({
+      return createState({
         ...stateData,
         focusLocatedBlockId: null,
       });
     },
 
     // block transitions
+    updateBlockContent: (blockContent: IBlockContent): IState2 => {
+      stateData.blockContents.set(blockContent.id, blockContent);
+      return createState(stateData);
+    },
     insertNewBlock: (
       leftId: LocatedBlockId,
       parentContentId: BlockContentId,
       humanText: HumanText,
-      blockType: IBlockType
+      blockType: IBlockType,
+      locatedBlockId: LocatedBlockId = crypto.randomUUID()
     ) => {
       // insert new block content
       const newBlockContentId = crypto.randomUUID();
@@ -359,12 +388,18 @@ export function state(stateData: IStateData): IState2 {
       stateData.blockContents.set(newBlockContentId, newBlockContent);
 
       // then insert new located block
-      return state(stateData).insertNewLocatedBlock(leftId, parentContentId, newBlockContentId);
+      return createState(stateData).insertNewLocatedBlock(
+        leftId,
+        parentContentId,
+        newBlockContentId,
+        locatedBlockId
+      );
     },
     insertNewLocatedBlock: (
       leftId: LocatedBlockId,
       parentContentId: BlockContentId,
-      blockContentId: BlockContentId
+      blockContentId: BlockContentId,
+      locatedBlockId: LocatedBlockId = crypto.randomUUID()
     ): IState2 => {
       const newLocatedBlockId = crypto.randomUUID();
 
@@ -386,9 +421,11 @@ export function state(stateData: IStateData): IState2 {
       stateData.blockContents.set(blockContentId, updatedBlockContent);
 
       // then update surrounding blocks
-      return state(stateData).addSurroundingBlocks(newLocatedBlock);
+      return createState(stateData).addSurroundingBlocks(newLocatedBlock);
     },
     addSurroundingBlocks: (locatedBlock: ILocatedBlock): IState2 => {
+      console.log("addSurroundingBlocks", locatedBlock);
+      console.log("state.blockContents", stateData.blockContents);
       // update blockContent parent
       const parentContentId = locatedBlock.parentId;
       const parentContent = stateData.blockContents.get(parentContentId);
@@ -406,7 +443,7 @@ export function state(stateData: IStateData): IState2 {
           rightLocatedBlock.setLeftId(locatedBlock.id)
         );
       }
-      return state(stateData);
+      return createState(stateData);
     },
     removeLocatedBlock: (locatedBlockId: LocatedBlockId): IState2 => {
       const { locatedBlock, blockContent } = fullBlockFromLocatedBlockId(stateData, locatedBlockId);
@@ -419,7 +456,7 @@ export function state(stateData: IStateData): IState2 {
       stateData.blockContents.set(blockContent.id, updatedBlockContent);
 
       // update surrounding blocks
-      return state(stateData).removeSurroundingBlocks(locatedBlock);
+      return createState(stateData).removeSurroundingBlocks(locatedBlock);
     },
     removeSurroundingBlocks: (located: ILocatedBlock): IState2 => {
       const { parentId, leftId } = located;
@@ -434,7 +471,7 @@ export function state(stateData: IStateData): IState2 {
         const rightLocatedBlock = stateData.locatedBlocks.get(rightLocatedBlockId);
         stateData.locatedBlocks.set(rightLocatedBlockId, rightLocatedBlock.setLeftId(leftId));
       }
-      return state(stateData);
+      return createState(stateData);
     },
     moveLocatedBlock: (
       locatedBlockId: LocatedBlockId,
@@ -444,7 +481,7 @@ export function state(stateData: IStateData): IState2 {
       const located = stateData.locatedBlocks.get(locatedBlockId);
       const updatedLocatedBlock = located.setLeftId(newLeftId).setParentId(newParentContentId);
       stateData.locatedBlocks.set(locatedBlockId, updatedLocatedBlock);
-      return state(stateData)
+      return createState(stateData)
         .removeSurroundingBlocks(located)
         .addSurroundingBlocks(updatedLocatedBlock);
     },
@@ -457,13 +494,13 @@ export function state(stateData: IStateData): IState2 {
       const parentContent = stateData.blockContents.get(parentId);
       const rightmostChildId = parentContent.getRightmostChildId();
       if (rightmostChildId === leftmostChildId) {
-        return state(stateData).moveLocatedBlock(leftmostChildId, null, newParentContentId);
+        return createState(stateData).moveLocatedBlock(leftmostChildId, null, newParentContentId);
       }
       const nextLeftmostChildId = parentContent.getRightSiblingIdOf(leftmostChildId);
-      return state(stateData)
+      return createState(stateData)
         .moveChildren(nextLeftmostChildId, newParentContentId)
         .moveLocatedBlock(leftmostChildId, null, newParentContentId);
-      let newState = state(stateData).moveLocatedBlock;
+      let newState = createState(stateData).moveLocatedBlock;
     },
   };
 
@@ -499,7 +536,7 @@ export function state(stateData: IStateData): IState2 {
         const rightmostChildId = ancestor.blockContent.getRightmostChildId();
         if (rightmostChildId !== youngerAncestorId) {
           // then we've found the point where there's a younger sibling (the downstairs neighbor)
-          return rightmostChildId;
+          return ancestor.blockContent.getRightSiblingIdOf(youngerAncestorId);
         }
         youngerAncestorId = ancestorId;
       }

@@ -1,7 +1,7 @@
 // random helpers
 
 import { Editor } from "@tiptap/core/dist/packages/core/src/Editor";
-import { FocusPosition, HierarchyIndex } from "../model/state/stateTypes";
+import { Path } from "../model/newState";
 
 // just synchronously waits for a bit
 export const wait = (ms: number) => {
@@ -12,15 +12,15 @@ export const wait = (ms: number) => {
   }
 };
 
-export const hIndexEquals = (hIndex1: HierarchyIndex | null, hIndex2: HierarchyIndex | null) => {
-  if (hIndex1 === null || hIndex2 === null) {
+export const pathEquals = (path1: Path | null, path2: Path | null) => {
+  if ([path1] === null || path2 === null) {
     return false;
   }
-  if (hIndex1.length !== hIndex2.length) {
+  if (path1.length !== path2.length) {
     return false;
   }
-  for (let i = 0; i < hIndex1.length; i++) {
-    if (hIndex1[i] !== hIndex2[i]) {
+  for (let i = 0; i < path1.length; i++) {
+    if (path1[i] !== path2[i]) {
       return false;
     }
   }

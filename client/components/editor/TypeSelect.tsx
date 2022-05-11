@@ -1,4 +1,7 @@
+import { convertNodeHttpToRequest } from "apollo-server-core";
 import { useContext } from "react";
+import { ActionType2 } from "../../model/newActions";
+import { blockContent, IBlockContent, IState2, Path } from "../../model/newState";
 import { ActionType, changeBlockType } from "../../model/state/actions";
 import { IBlockType, BLOCK_TYPES } from "../../model/state/blockType";
 import { BlockId, IState } from "../../model/state/stateTypes";
@@ -34,17 +37,17 @@ const BLOCK_TYPE_PRESENTATIONS = {
 };
 
 export interface ITypeSelectProps {
-  id: BlockId;
-  blockType: IBlockType;
+  content: IBlockContent;
 }
 
 export const TypeSelect = (props: ITypeSelectProps) => {
-  const { dispatch }: { dispatch: (action: ActionType) => {} } = useContext(Context);
-  const presentationData: IBlockTypePresentation = BLOCK_TYPE_PRESENTATIONS[props.blockType.name];
-
+  const { dispatch }: { dispatch: (action: ActionType2) => {} } = useContext(Context);
+  const presentationData: IBlockTypePresentation =
+    BLOCK_TYPE_PRESENTATIONS[props.content.blockType.name];
   const handleButtonClick = () => {
-    dispatch((state: IState) => {
-      return changeBlockType(state, props.id, props.blockType.getNext());
+    dispatch((state: IState2) => {
+      const updatedBlockContent = props.content.updateBlockType(props.content.blockType.getNext());
+      return state.updateBlockContent(updatedBlockContent);
     });
   };
 

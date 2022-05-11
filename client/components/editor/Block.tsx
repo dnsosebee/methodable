@@ -4,49 +4,56 @@ import { BlockId, HierarchyIndex, HumanText, IBlock, IState } from "../../model/
 import { BlockText, IBlockTextProps } from "./BlockText";
 import { ITypeSelectProps, TypeSelect } from "./TypeSelect";
 import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
-import { hIndexEquals } from "../../lib/helpers";
-import { ActionType } from "../../model/state/actions";
+import { pathEquals } from "../../lib/helpers";
 import { ContainerLine, IContainerLineProps } from "./ContainerLine";
-import { BLOCK_TYPES, OPTIONAL_BLOCK_TYPES } from "../../model/state/blockType";
+import { BLOCK_TYPES, IBlockType, OPTIONAL_BLOCK_TYPES } from "../../model/state/blockType";
 import { getBlockIdByHIndex } from "../../model/state/actionHelpers";
 import { RunButton } from "./RunButton";
+import {
+  fullBlock,
+  fullBlockFromLocatedBlockId,
+  IBlockContent,
+  IFullBlock,
+  ILocatedBlock,
+  IState2,
+  LocatedBlockId,
+  Path,
+} from "../../model/newState";
+import { ActionType2 } from "../../model/newActions";
 
+// old
 export interface IBlockProps {
-  id: BlockId;
-  humanText: HumanText;
+  path: Path;
+  content: IBlockContent;
   isShallowSelected: boolean;
   isDeepSelected: boolean;
   isGlobalSelectionActive: boolean;
-  children: BlockId[];
-  hIndex: HierarchyIndex;
+  parentBlockType: IBlockType;
+  orderNum: number;
 }
 
 export const Block = (props: IBlockProps) => {
-  const { state, dispatch }: { state: IState; dispatch: (action: ActionType) => {} } =
+  const { state, dispatch }: { state: IState2; dispatch: (action: ActionType2) => {} } =
     useContext(Context);
 
-  const getChildBlocks = (
-    children: BlockId[],
-    blocksMap: Map<BlockId, IBlock>,
-    isGlobalSelectionActive: boolean
-  ) => {
-    return children.map((childId, childIndex) => {
-      const childBlock: IBlock = blocksMap.get(childId);
-      const childHIndex = [...props.hIndex, childIndex];
-      const childBlockProps = {
-        id: childId,
-        humanText: childBlock.humanText,
-        children: childBlock.children,
-        hIndex: childHIndex,
-        isGlobalSelectionActive,
-        ...getSelectednessInfo(childHIndex),
+  const getChildBlocks = () => {
+    return props.content.childLocatedBlocks.map((childId, childIndex) => {
+      const { blockContent: childBlockContent } = fullBlockFromLocatedBlockId(state, childId);
+      const childPath = [...props.path, childId];
+      const childBlockProps: IBlockProps = {
+        path: childPath,
+        isGlobalSelectionActive: props.isGlobalSelectionActive,
+        content: childBlockContent,
+        parentBlockType: props.content.blockType,
+        orderNum: childIndex + 1,
+        ...getSelectednessInfo(childPath),
       };
       return <Block key={childIndex} {...childBlockProps} />;
     });
   };
 
   const getSelectednessInfo = (
-    hierarchyIndex: HierarchyIndex
+    path: Path
   ): {
     isShallowSelected: boolean;
     isDeepSelected: boolean;
@@ -55,27 +62,20 @@ export const Block = (props: IBlockProps) => {
     let isDeepSelected = false;
     if (state.isSelectionActive) {
       // we know something is selected, nothing more
-      if (state.activeParentIndex.length < hierarchyIndex.length) {
+      if (state.activeParentPath.length < path.length) {
         // we know the selection is higher than this block, nothing more
-        if (
-          hIndexEquals(
-            hierarchyIndex.slice(0, state.activeParentIndex.length),
-            state.activeParentIndex
-          )
-        ) {
+        const parentPathLength = state.activeParentPath.length;
+        if (pathEquals(state.activeParentPath, path.slice(0, parentPathLength))) {
           // we know the selection is on children of this block's parent, nothing more
-          const parentLength = state.activeParentIndex.length;
-          const childIndex = hierarchyIndex[parentLength];
-          const bound1 = state.selectionRange.start[parentLength];
-          const bound2 = state.selectionRange.end[parentLength];
-          if (
-            (childIndex >= bound1 && childIndex <= bound2) ||
-            (childIndex <= bound1 && childIndex >= bound2)
-          ) {
+          const childLocatedBlockId = path[parentPathLength];
+          const bound1 = state.selectionRange.start[parentPathLength];
+          const bound2 = state.selectionRange.end[parentPathLength];
+          const parent = state.blockContents.get(state.activeParentPath[parentPathLength - 1]);
+          if (parent.isChildBetween(childLocatedBlockId, bound1, bound2)) {
             // we know this block or its parent is selected, nothing more (sufficient for deep selection)
             if (state.isSelectionDeep) {
               isDeepSelected = true;
-            } else if (parentLength + 1 === hierarchyIndex.length) {
+            } else if (parentPathLength + 1 === path.length) {
               isShallowSelected = true;
             }
           }
@@ -85,41 +85,29 @@ export const Block = (props: IBlockProps) => {
     return { isShallowSelected, isDeepSelected };
   };
 
-  const childBlocks = getChildBlocks(props.children, state.blocksMap, state.isSelectionActive);
-
-  let parentBlockType = OPTIONAL_BLOCK_TYPES.UNDEFINED;
-  const blockType = state.blocksMap.get(props.id).blockType;
-  let orderNum = 0;
-  if (props.hIndex.length > 0) {
-    const parentHindex = props.hIndex.slice(0, props.hIndex.length - 1);
-    const parentBlock = getBlockIdByHIndex(state.blocksMap, state.rootBlockId, parentHindex);
-    parentBlockType = state.blocksMap.get(parentBlock).blockType.name;
-    orderNum = props.hIndex[props.hIndex.length - 1] + 1;
-  }
+  const childBlocks = getChildBlocks();
 
   const blockTextProps: IBlockTextProps = {
-    id: props.id,
-    humanText: props.humanText,
-    hIndex: props.hIndex,
+    humanText: props.content.humanText,
+    path: props.path,
     isGlobalSelectionActive: props.isGlobalSelectionActive,
     isDeepSelected: props.isDeepSelected,
   };
 
   const typeSelectProps: ITypeSelectProps = {
-    id: props.id,
-    blockType,
+    content: props.content,
   };
 
   const blockHandleProps: IBlockHandleProps = {
-    parentBlockType,
-    orderNum,
+    parentBlockType: props.parentBlockType.name,
+    orderNum: props.orderNum,
   };
 
   const blockContainerLineProps: IContainerLineProps = {
-    parentBlockType,
+    parentBlockType: props.parentBlockType.name,
   };
 
-  const shouldRenderRunButton = blockType.name !== BLOCK_TYPES.REFERENCE;
+  const shouldRenderRunButton = props.content.blockType.name !== BLOCK_TYPES.REFERENCE;
 
   return (
     <div>
@@ -127,7 +115,7 @@ export const Block = (props: IBlockProps) => {
         <BlockHandle {...blockHandleProps} />
         <TypeSelect {...typeSelectProps}></TypeSelect>
         <BlockText {...blockTextProps} />
-        {shouldRenderRunButton && <RunButton {...{ id: props.id }} />}
+        {shouldRenderRunButton && <RunButton {...{ contentId: props.content.id }} />}
       </div>
       {childBlocks.length > 0 && (
         <div className="flex">
