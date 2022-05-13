@@ -1,11 +1,7 @@
-import { convertNodeHttpToRequest } from "apollo-server-core";
 import { useContext } from "react";
 import { ActionType2 } from "../../model/newActions";
-import { blockContent, IBlockContent, IState2, Path } from "../../model/newState";
-import { ActionType, changeBlockType } from "../../model/state/actions";
-import { IBlockType, BLOCK_TYPES } from "../../model/state/blockType";
-import { BlockId, IState } from "../../model/state/stateTypes";
-import { emojiButtonClasses } from "../../styles/styles";
+import { IBlockContent, IState2, Path } from "../../model/newState";
+import { blockType, BLOCK_TYPES } from "../../model/state/blockType";
 import { Context } from "../ContextWrapper";
 interface IBlockTypePresentation {
   text: string;
@@ -46,12 +42,11 @@ export const TypeSelect = (props: ITypeSelectProps) => {
     BLOCK_TYPE_PRESENTATIONS[props.content.blockType.name];
   const handleButtonClick = () => {
     dispatch((state: IState2) => {
-      const updatedBlockContent = props.content.updateBlockType(props.content.blockType.getNext());
-      return state.updateBlockContent(updatedBlockContent);
+      return state.updateBlockType(props.content.id, props.content.blockType.getNext());
     });
   };
 
-  const buttonClasses = `${emojiButtonClasses} ${presentationData.className}`;
+  const buttonClasses = `w-5 m-0.5 p-0.5 select-none border rounded-md text-s ${presentationData.className}`;
 
   return (
     <button onClick={handleButtonClick} className={buttonClasses}>

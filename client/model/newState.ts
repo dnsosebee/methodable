@@ -1,6 +1,5 @@
 // crockford objects for new state
-import { HIndexNotFoundError } from "../lib/errors";
-import { getUpstairsNeighborHIndex, nonRootHIndex } from "./state/actionHelpers";
+import { NoSuchBlockError } from "../lib/errors";
 import { IBlockType } from "./state/blockType";
 
 // types
@@ -98,7 +97,8 @@ export interface IBlockContent
 export function blockContent(blockContentData: IBlockContentData): IBlockContent {
   const transitions: IBlockContentTransitions = {
     updateHumanText: (humanText: HumanText) => {
-      return blockContent({ ...blockContentData, humanText });
+      const newData = { ...blockContentData, humanText };
+      return blockContent(newData);
     },
     updateBlockType: (blockType: IBlockType) => {
       return blockContent({ ...blockContentData, blockType });
@@ -144,7 +144,7 @@ export function blockContent(blockContentData: IBlockContentData): IBlockContent
     getLeftSiblingIdOf: (ofId: LocatedBlockId) => {
       const rightIndex = blockContentData.childLocatedBlocks.indexOf(ofId);
       if (rightIndex === -1) {
-        throw new Error("Child not found");
+        throw new Error("Child not found: " + ofId);
       }
       if (rightIndex === 0) {
         return null;
@@ -203,7 +203,7 @@ export interface IFullBlockData {
 }
 
 export interface IFullBlockFunctions {
-  getParent: () => IFullBlock | null;
+  // getParent: () => IFullBlock | null;
 }
 
 export interface IFullBlock extends IFullBlockData, IFullBlockFunctions {}
@@ -219,13 +219,13 @@ export function fullBlockFromLocatedBlockId(
 
 export function fullBlock(stateData: IStateData, data: IFullBlockData): IFullBlock {
   const functions = {
-    getParent: () => {
-      const parentContentId = data.locatedBlock.parentId;
-      if (!parentContentId) {
-        return null;
-      }
-      return fullBlockFromLocatedBlockId(stateData, parentContentId);
-    },
+    // getParent: () => {
+    //   const parentContentId = data.locatedBlock.parentId;
+    //   if (!parentContentId) {
+    //     return null;
+    //   }
+    //   return fullBlockFromLocatedBlockId(stateData, parentContentId);
+    // },
   };
   return Object.freeze({
     ...data,
@@ -246,7 +246,7 @@ export interface IStateData {
   isSelectionActive: boolean;
   isSelectionDeep: boolean;
   // focus related
-  focusLocatedBlockId: LocatedBlockId | null;
+  focusPath: Path | null;
   focusPosition: FocusPosition;
 }
 
@@ -261,11 +261,12 @@ export interface IStateTransitions {
   endSelection: () => IState2;
 
   // focus related
-  setFocusLatch: (locatedBlockId: LocatedBlockId, focusPosition: FocusPosition) => IState2;
+  setFocusLatch: (path: Path, focusPosition: FocusPosition) => IState2;
   clearFocusLatch: () => IState2;
 
   // block transitions
-  updateBlockContent: (blockContent: IBlockContent) => IState2;
+  updateBlockText: (blockContentId: BlockContentId, humanText: HumanText) => IState2;
+  updateBlockType: (blockContentId: BlockContentId, blockType: IBlockType) => IState2;
   insertNewBlock: (
     leftId: LocatedBlockId,
     parentContentId,
@@ -291,8 +292,8 @@ export interface IStateTransitions {
 }
 
 export interface IStateGetters {
-  getUpstairsNeighbor: (path: Path) => LocatedBlockId;
-  getDownstairsNeighbor: (path: Path) => LocatedBlockId;
+  getUpstairsNeighborPath: (path: Path) => Path;
+  getDownstairsNeighborPath: (path: Path) => Path;
 }
 
 export interface IState2 extends IStateData, IStateTransitions, IStateGetters {}
@@ -314,10 +315,10 @@ export function createState(stateData: IStateData): IState2 {
         selectionRange.start.length - 1,
         selectionRange.end.length - 1
       );
-      let parentDepth = 0;
+      let parentDepth = 1;
       for (let i = 1; i < maxParentDepth; i++) {
         if (selectionRange.start[i] === selectionRange.end[i]) {
-          parentDepth = i;
+          parentDepth += 1;
         } else {
           break;
         }
@@ -328,14 +329,20 @@ export function createState(stateData: IStateData): IState2 {
       });
     },
     startSelection: (path: Path) => {
+      if (path.length < 2) {
+        throw new Error("Can't select root block");
+      }
       return createState({
         ...stateData,
         selectionRange: { start: path, end: path },
         isSelectionActive: true,
-        focusLocatedBlockId: null,
+        focusPath: null,
       }).setSelectionParent();
     },
     changeSelection: (path: Path) => {
+      if (path.length < 2) {
+        throw new Error("Can't select root block");
+      }
       return createState({
         ...stateData,
         selectionRange: { start: stateData.selectionRange.start, end: path },
@@ -349,24 +356,46 @@ export function createState(stateData: IStateData): IState2 {
     },
 
     // cursor moves
-    setFocusLatch: (locatedBlockId: LocatedBlockId, focusPosition: FocusPosition): IState2 => {
+    setFocusLatch: (path: Path, focusPosition: FocusPosition): IState2 => {
       return createState({
         ...stateData,
-        focusLocatedBlockId: locatedBlockId,
+        focusPath: path,
         focusPosition,
       });
     },
     clearFocusLatch: (): IState2 => {
       return createState({
         ...stateData,
-        focusLocatedBlockId: null,
+        focusPath: null,
       });
     },
 
     // block transitions
-    updateBlockContent: (blockContent: IBlockContent): IState2 => {
-      stateData.blockContents.set(blockContent.id, blockContent);
-      return createState(stateData);
+    updateBlockText: (blockContentId: BlockContentId, humanText: HumanText): IState2 => {
+      const blockContent = stateData.blockContents.get(blockContentId);
+      if (!blockContent) {
+        throw new Error(`blockContentId ${blockContentId} not found`);
+      }
+      return createState({
+        ...stateData,
+        blockContents: stateData.blockContents.set(
+          blockContentId,
+          blockContent.updateHumanText(humanText)
+        ),
+      });
+    },
+    updateBlockType: (blockContentId: BlockContentId, blockType: IBlockType): IState2 => {
+      const blockContent = stateData.blockContents.get(blockContentId);
+      if (!blockContent) {
+        throw new Error(`blockContentId ${blockContentId} not found`);
+      }
+      return createState({
+        ...stateData,
+        blockContents: stateData.blockContents.set(
+          blockContentId,
+          blockContent.updateBlockType(blockType)
+        ),
+      });
     },
     insertNewBlock: (
       leftId: LocatedBlockId,
@@ -401,11 +430,9 @@ export function createState(stateData: IStateData): IState2 {
       blockContentId: BlockContentId,
       locatedBlockId: LocatedBlockId = crypto.randomUUID()
     ): IState2 => {
-      const newLocatedBlockId = crypto.randomUUID();
-
       // insert new locatedBlock
       const newLocatedBlock = locatedBlock({
-        id: newLocatedBlockId,
+        id: locatedBlockId,
         parentId: parentContentId,
         contentId: blockContentId,
         userId: "", // TODO
@@ -413,19 +440,19 @@ export function createState(stateData: IStateData): IState2 {
         leftId,
         archived: false,
       });
-      stateData.locatedBlocks.set(newLocatedBlockId, newLocatedBlock);
+      stateData.locatedBlocks.set(locatedBlockId, newLocatedBlock);
 
       // update blockContent
       const blockContent = stateData.blockContents.get(blockContentId);
-      const updatedBlockContent = blockContent.addLocation(newLocatedBlockId);
+      const updatedBlockContent = blockContent.addLocation(locatedBlockId);
       stateData.blockContents.set(blockContentId, updatedBlockContent);
 
       // then update surrounding blocks
       return createState(stateData).addSurroundingBlocks(newLocatedBlock);
     },
     addSurroundingBlocks: (locatedBlock: ILocatedBlock): IState2 => {
-      console.log("addSurroundingBlocks", locatedBlock);
-      console.log("state.blockContents", stateData.blockContents);
+      // should remove this from the public interface
+
       // update blockContent parent
       const parentContentId = locatedBlock.parentId;
       const parentContent = stateData.blockContents.get(parentContentId);
@@ -459,11 +486,9 @@ export function createState(stateData: IStateData): IState2 {
       return createState(stateData).removeSurroundingBlocks(locatedBlock);
     },
     removeSurroundingBlocks: (located: ILocatedBlock): IState2 => {
+      // should remove this from the public interface
       const { parentId, leftId } = located;
-
-      // update blockContent parent
       const parentContent = stateData.blockContents.get(parentId);
-      stateData.blockContents.set(parentContent.id, parentContent.removeChild(located.id));
 
       // update locatedBlock to the right
       const rightLocatedBlockId = parentContent.getRightSiblingIdOf(located.id);
@@ -471,6 +496,9 @@ export function createState(stateData: IStateData): IState2 {
         const rightLocatedBlock = stateData.locatedBlocks.get(rightLocatedBlockId);
         stateData.locatedBlocks.set(rightLocatedBlockId, rightLocatedBlock.setLeftId(leftId));
       }
+
+      // update blockContent parent
+      stateData.blockContents.set(parentContent.id, parentContent.removeChild(located.id));
       return createState(stateData);
     },
     moveLocatedBlock: (
@@ -485,62 +513,74 @@ export function createState(stateData: IStateData): IState2 {
         .removeSurroundingBlocks(located)
         .addSurroundingBlocks(updatedLocatedBlock);
     },
+    // moves children starting at leftmostChildLocatedId to the end of newParentContent's children
+    // could be optimized
     moveChildren: (
-      leftmostChildId: LocatedBlockId,
+      leftmostChildLocatedId: LocatedBlockId,
       newParentContentId: BlockContentId
     ): IState2 => {
-      // this could be optimized
-      const parentId = stateData.locatedBlocks.get(leftmostChildId).parentId;
-      const parentContent = stateData.blockContents.get(parentId);
-      const rightmostChildId = parentContent.getRightmostChildId();
-      if (rightmostChildId === leftmostChildId) {
-        return createState(stateData).moveLocatedBlock(leftmostChildId, null, newParentContentId);
+      console.log("moveChildren", leftmostChildLocatedId, newParentContentId);
+      if (!leftmostChildLocatedId) {
+        // base case
+        return createState(stateData);
       }
-      const nextLeftmostChildId = parentContent.getRightSiblingIdOf(leftmostChildId);
+      // old parent
+      const leftmostChildLocated = stateData.locatedBlocks.get(leftmostChildLocatedId);
+      const oldParentContent = stateData.blockContents.get(leftmostChildLocated.parentId);
+      const nextLeftmostChildId = oldParentContent.getRightSiblingIdOf(leftmostChildLocatedId);
+
+      // new parent
+      const newParentContent = stateData.blockContents.get(newParentContentId);
+      const newParentRightmostChildId = newParentContent.getRightmostChildId();
+
       return createState(stateData)
-        .moveChildren(nextLeftmostChildId, newParentContentId)
-        .moveLocatedBlock(leftmostChildId, null, newParentContentId);
-      let newState = createState(stateData).moveLocatedBlock;
+        .moveLocatedBlock(leftmostChildLocatedId, newParentRightmostChildId, newParentContentId)
+        .moveChildren(nextLeftmostChildId, newParentContentId);
     },
   };
 
   const getters = {
-    getUpstairsNeighbor: (path: Path): LocatedBlockId => {
-      if (path.length === 1) {
-        throw new Error("cannot get upstairs neighbor of root");
+    getUpstairsNeighborPath: (path: Path): Path => {
+      if (path.length < 2) {
+        // root block has no upstairs neighbor
+        throw new NoSuchBlockError();
       }
       const locatedBlockId = path[path.length - 1];
-      const block = fullBlockFromLocatedBlockId(stateData, locatedBlockId);
-      const parentBlock = block.getParent();
-      if (parentBlock.blockContent.childLocatedBlocks[0] === block.locatedBlock.id) {
-        return parentBlock.locatedBlock.id;
+      const locatedBlock = stateData.locatedBlocks.get(locatedBlockId);
+      const parentBlockContent = stateData.blockContents.get(locatedBlock.parentId);
+      if (parentBlockContent.getLeftmostChildId() === locatedBlock.id) {
+        return path.slice(0, -1);
       }
-      let youngerSiblingId = parentBlock.blockContent.getLeftSiblingIdOf(locatedBlockId);
-      let youngerSibling = fullBlockFromLocatedBlockId(stateData, youngerSiblingId);
-      while (youngerSibling.blockContent.hasChildren()) {
-        youngerSiblingId = youngerSibling.blockContent.getRightmostChildId();
-        youngerSibling = fullBlockFromLocatedBlockId(stateData, youngerSiblingId);
+      let upstairsNeighborId = parentBlockContent.getLeftSiblingIdOf(locatedBlockId);
+      let upstairsNeighborPath = [...path.slice(0, -1), upstairsNeighborId];
+      let upstairsNeighbor = fullBlockFromLocatedBlockId(stateData, upstairsNeighborId);
+      while (upstairsNeighbor.blockContent.hasChildren()) {
+        upstairsNeighborId = upstairsNeighbor.blockContent.getRightmostChildId();
+        upstairsNeighbor = fullBlockFromLocatedBlockId(stateData, upstairsNeighborId);
+        upstairsNeighborPath.push(upstairsNeighborId);
       }
-      return youngerSiblingId;
+      return upstairsNeighborPath;
     },
-    getDownstairsNeighbor: (path: Path): LocatedBlockId => {
+    getDownstairsNeighborPath: (path: Path): Path => {
       const locatedBlockId = path[path.length - 1];
       const block = fullBlockFromLocatedBlockId(stateData, locatedBlockId);
       if (block.blockContent.hasChildren()) {
-        return block.blockContent.getLeftmostChildId();
+        // if current block has children, downstairs neighbor is the first child
+        return [...path, block.blockContent.getLeftmostChildId()];
       }
       let youngerAncestorId = locatedBlockId;
       for (let i = path.length - 2; i >= 0; i--) {
         const ancestorId = path[i];
+        const ancestorPath = path.slice(0, i + 1);
         const ancestor = fullBlockFromLocatedBlockId(stateData, ancestorId);
         const rightmostChildId = ancestor.blockContent.getRightmostChildId();
         if (rightmostChildId !== youngerAncestorId) {
           // then we've found the point where there's a younger sibling (the downstairs neighbor)
-          return ancestor.blockContent.getRightSiblingIdOf(youngerAncestorId);
+          return [...ancestorPath, ancestor.blockContent.getRightSiblingIdOf(youngerAncestorId)];
         }
         youngerAncestorId = ancestorId;
       }
-      throw new Error("no downstairs neighbor found");
+      throw new NoSuchBlockError();
     },
   };
 

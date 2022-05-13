@@ -13,7 +13,7 @@ export const wait = (ms: number) => {
 };
 
 export const pathEquals = (path1: Path | null, path2: Path | null) => {
-  if ([path1] === null || path2 === null) {
+  if (!path1 || !path2) {
     return false;
   }
   if (path1.length !== path2.length) {
@@ -25,8 +25,8 @@ export const pathEquals = (path1: Path | null, path2: Path | null) => {
     }
   }
   return true;
-}
+};
 
 export const getFocusPosition = (editor: Editor): number => {
   return editor.view.state.selection.to;
-}
+};

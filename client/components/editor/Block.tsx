@@ -1,27 +1,15 @@
 import React, { useContext } from "react";
 import { Context } from "../ContextWrapper";
-import { BlockId, HierarchyIndex, HumanText, IBlock, IState } from "../../model/state/stateTypes";
 import { BlockText, IBlockTextProps } from "./BlockText";
 import { ITypeSelectProps, TypeSelect } from "./TypeSelect";
 import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
 import { pathEquals } from "../../lib/helpers";
 import { ContainerLine, IContainerLineProps } from "./ContainerLine";
 import { BLOCK_TYPES, IBlockType, OPTIONAL_BLOCK_TYPES } from "../../model/state/blockType";
-import { getBlockIdByHIndex } from "../../model/state/actionHelpers";
 import { RunButton } from "./RunButton";
-import {
-  fullBlock,
-  fullBlockFromLocatedBlockId,
-  IBlockContent,
-  IFullBlock,
-  ILocatedBlock,
-  IState2,
-  LocatedBlockId,
-  Path,
-} from "../../model/newState";
+import { fullBlockFromLocatedBlockId, IBlockContent, IState2, Path } from "../../model/newState";
 import { ActionType2 } from "../../model/newActions";
 
-// old
 export interface IBlockProps {
   path: Path;
   content: IBlockContent;
@@ -48,7 +36,11 @@ export const Block = (props: IBlockProps) => {
         orderNum: childIndex + 1,
         ...getSelectednessInfo(childPath),
       };
-      return <Block key={childIndex} {...childBlockProps} />;
+      return (
+        <>
+          <Block key={childIndex} {...childBlockProps} />
+        </>
+      );
     });
   };
 
@@ -70,8 +62,13 @@ export const Block = (props: IBlockProps) => {
           const childLocatedBlockId = path[parentPathLength];
           const bound1 = state.selectionRange.start[parentPathLength];
           const bound2 = state.selectionRange.end[parentPathLength];
-          const parent = state.blockContents.get(state.activeParentPath[parentPathLength - 1]);
-          if (parent.isChildBetween(childLocatedBlockId, bound1, bound2)) {
+
+          console.log("fullBlockFromLocatedBlockId", state.activeParentPath);
+          const parentContent = fullBlockFromLocatedBlockId(
+            state,
+            state.activeParentPath[parentPathLength - 1]
+          ).blockContent;
+          if (parentContent.isChildBetween(childLocatedBlockId, bound1, bound2)) {
             // we know this block or its parent is selected, nothing more (sufficient for deep selection)
             if (state.isSelectionDeep) {
               isDeepSelected = true;
@@ -99,7 +96,8 @@ export const Block = (props: IBlockProps) => {
   };
 
   const blockHandleProps: IBlockHandleProps = {
-    parentBlockType: props.parentBlockType.name,
+    parentBlockType:
+      props.path.length <= 1 ? OPTIONAL_BLOCK_TYPES.UNDEFINED : props.parentBlockType.name,
     orderNum: props.orderNum,
   };
 

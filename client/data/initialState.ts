@@ -104,6 +104,6 @@ export const initialState: IState2 = createState({
   selectionRange: { start: [], end: [] },
   isSelectionActive: false,
   isSelectionDeep: true,
-  focusLocatedBlockId: null,
+  focusPath: null,
   focusPosition: "start",
 });
