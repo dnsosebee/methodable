@@ -5,6 +5,8 @@ import Layout from "../client/components/Layout";
 import { ApolloProvider } from "@apollo/client";
 import client from "../client/lib/apollo";
 
+import "../client/styles/globalStyles.css";
+
 function MyApp({ Component, pageProps }) {
   return (
     <UserProvider>

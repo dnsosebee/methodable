@@ -1,4 +1,4 @@
-import { OPTIONAL_BLOCK_TYPES } from "../../model/state/blockType";
+import { OPTIONAL_BLOCK_TYPES } from "../../model/blockType";
 
 interface IContainerLinePresentation {
   className: string;
@@ -15,6 +15,9 @@ const CONTAINER_LINE_PRESENTATIONS = {
   [OPTIONAL_BLOCK_TYPES.READ]: {
     className: "bg-gray-200",
   },
+  [OPTIONAL_BLOCK_TYPES.REFERENCE]: {
+    className: "bg-gray-200",
+  },
   [OPTIONAL_BLOCK_TYPES.UNDEFINED]: {
     className: "bg-gray-200",
   },
@@ -27,5 +30,5 @@ export interface IContainerLineProps {
 export const ContainerLine = (props: IContainerLineProps) => {
   const presentationData: IContainerLinePresentation =
     CONTAINER_LINE_PRESENTATIONS[props.parentBlockType];
-  return <div className={`w-1 mr-3 my-1 rounded-sm ${presentationData.className}`} />;
+  return <div className={`w-1 mr-1 ml-3 my-1 rounded-sm ${presentationData.className}`} />;
 };

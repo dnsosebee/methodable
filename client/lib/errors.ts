@@ -2,10 +2,10 @@
 
 import { logError } from "./loggers";
 
-export class HIndexNotFoundError extends Error {
+export class NoSuchBlockError extends Error {
   constructor() {
-    logError("HIndexNotFoundError");
-    super("HierarchyIndex not found");
+    logError("NoSuchBlockError");
+    super("No such block exists");
   }
 }
 

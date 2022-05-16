@@ -11,23 +11,23 @@ const rightPad = (str: string) => {
 };
 
 export const logMouseEvent = (s: string) => {
-  //console.log(rightPad("Mouse Event Log: "),s);
+  // console.log(rightPad("Mouse Event Log: "),s);
 };
 
 export const logAction = (s: string) => {
-  //console.log(rightPad("Action Log: "), s);
+  // console.log(rightPad("Action Log: "), s);
 };
 
 export const logKeyEvent = (s: string) => {
-  //console.log(rightPad("Key Event Log: "), s);
+  // console.log(rightPad("Key Event Log: "), s);
 };
 
 export const logEditorEvent = (s: string) => {
-  //console.log(rightPad("Editor Event Log: "), s);
+  // console.log(rightPad("Editor Event Log: "), s);
 };
 
 export const logEffect = (s: string) => {
-  //console.log(rightPad("Effect Log: "), s);
+  console.log(rightPad("Effect Log: "), s);
 };
 
 export const logError = (s: string) => {
