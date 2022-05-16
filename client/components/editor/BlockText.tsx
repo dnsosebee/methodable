@@ -7,8 +7,10 @@ import { useContext, useEffect, useRef } from "react";
 import { logMouseEvent, logKeyEvent, logEditorEvent, logEffect } from "../../lib/loggers";
 import { Context } from "../ContextWrapper";
 import { getFocusPosition, pathEquals } from "../../lib/helpers";
-import { Action, fullBlockFromLocatedBlockId, HumanText, IState, Path } from "../../model/state";
+import { Action, IState, Path } from "../../model/state";
 import { NoSuchBlockError } from "../../lib/errors";
+import { HumanText } from "../../model/blockContent";
+import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
 
 const PREVENT_TIPTAP_DEFAULT = true;
 const ALLOW_TIPTAP_DEFAULT = false;

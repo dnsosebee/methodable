@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BlockContentId } from "../../model/state";
+import { BlockContentId } from "../../model/blockContent";
 
 // a component that's a button that links to the page to run the current block
 export interface IRunButtonProps {

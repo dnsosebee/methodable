@@ -1,7 +1,8 @@
 import { useContext } from "react";
-import { Action, IBlockContent, IState, Path } from "../../model/state";
+import { Action, IState, Path } from "../../model/state";
 import { blockType, BLOCK_TYPES } from "../../model/blockType";
 import { Context } from "../ContextWrapper";
+import { IBlockContent } from "../../model/blockContent";
 interface IBlockTypePresentation {
   text: string;
   tooltip: string;

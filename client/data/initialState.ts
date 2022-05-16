@@ -1,17 +1,18 @@
 // a temp file for initial state
+import { IState, createState } from "../model/state";
+import { blockType, BLOCK_TYPES } from "../model/blockType";
+import {
+  ILocatedBlock,
+  ILocatedBlockData,
+  locatedBlock,
+  LocatedBlockId,
+} from "../model/locatedBlock";
 import {
   blockContent,
   BlockContentId,
   IBlockContent,
   IBlockContentData,
-  ILocatedBlock,
-  ILocatedBlockData,
-  IState,
-  locatedBlock,
-  LocatedBlockId,
-  createState,
-} from "../model/state";
-import { blockType, BLOCK_TYPES } from "../model/blockType";
+} from "../model/blockContent";
 
 const rootLocatedData: ILocatedBlockData = {
   id: "located-root",

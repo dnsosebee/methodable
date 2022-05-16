@@ -1,8 +1,9 @@
 import { useContext } from "react";
-import { fullBlockFromLocatedBlockId, IState } from "../../model/state";
+import { IState } from "../../model/state";
 import { blockType, OPTIONAL_BLOCK_TYPES } from "../../model/blockType";
 import { Context } from "../ContextWrapper";
 import { Block, IBlockProps } from "./Block";
+import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
 
 export const EditorContainer = () => {
   const { state }: { state: IState } = useContext(Context);

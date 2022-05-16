@@ -7,13 +7,9 @@ import { pathEquals } from "../../lib/helpers";
 import { ContainerLine, IContainerLineProps } from "./ContainerLine";
 import { BLOCK_TYPES, IBlockType, OPTIONAL_BLOCK_TYPES } from "../../model/blockType";
 import { RunButton } from "./RunButton";
-import {
-  Action,
-  fullBlockFromLocatedBlockId,
-  IBlockContent,
-  IState,
-  Path,
-} from "../../model/state";
+import { Action, IState, Path } from "../../model/state";
+import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
+import { IBlockContent } from "../../model/blockContent";
 
 export interface IBlockProps {
   path: Path;
