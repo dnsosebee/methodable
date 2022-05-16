@@ -11,7 +11,7 @@ export const RunButton = (props: IRunButtonProps) => {
     <Link href={`/guide/${props.contentId}`}>
       {/* a button with a link to the page to run the current block */}
       <a>
-        <button className={"text-gray-700 bg-gray-100 border-gray-200"}>
+        <button className={"w-5 h-5 text-xs text-gray-700 bg-gray-100 border-gray-200 border rounded"}>
           ▶︎
         </button>
       </a>

@@ -7,13 +7,7 @@ import { useContext, useEffect, useRef } from "react";
 import { logMouseEvent, logKeyEvent, logEditorEvent, logEffect } from "../../lib/loggers";
 import { Context } from "../ContextWrapper";
 import { getFocusPosition, pathEquals } from "../../lib/helpers";
-import {
-  fullBlockFromLocatedBlockId,
-  HumanText,
-  IState2,
-  LocatedBlockId,
-  Path,
-} from "../../model/newState";
+import { fullBlockFromLocatedBlockId, HumanText, IState2, Path } from "../../model/newState";
 import { ActionType2 } from "../../model/newActions";
 import { NoSuchBlockError } from "../../lib/errors";
 
@@ -164,7 +158,7 @@ export const BlockText = (props: IBlockTextProps) => {
         if (isRootRef.current) {
           return state;
         }
-        const newPath = propsRef.current.path.splice(-1, 1, newLocatedBlockId);
+        const newPath = [...propsRef.current.path.slice(0, -1), newLocatedBlockId];
         return state
           .insertNewBlock(
             blockRef.current.locatedBlock.leftId,
@@ -173,9 +167,10 @@ export const BlockText = (props: IBlockTextProps) => {
             blockRef.current.blockContent.blockType,
             newLocatedBlockId
           )
-          .setFocusLatch(propsRef.current.path.splice(-1, 1, newLocatedBlockId), "start");
+          .setFocusLatch(newPath, "start");
       } else if (blockRef.current.blockContent.childLocatedBlocks.length === 0) {
         // if the old block has no children, we add a sibling after the old block
+        const newPath = [...propsRef.current.path.slice(0, -1), newLocatedBlockId];
         return state
           .insertNewBlock(
             blockRef.current.locatedBlock.id,
@@ -185,9 +180,10 @@ export const BlockText = (props: IBlockTextProps) => {
             newLocatedBlockId
           )
           .updateBlockText(blockRef.current.blockContent.id, leftText)
-          .setFocusLatch(propsRef.current.path.splice(-1, 1, newLocatedBlockId), "start");
+          .setFocusLatch(newPath, "start");
       } else {
         // if the old block does have children, we add a child to the old block
+        const newPath = [...propsRef.current.path, newLocatedBlockId];
         return state
           .insertNewBlock(
             null,
@@ -197,7 +193,7 @@ export const BlockText = (props: IBlockTextProps) => {
             newLocatedBlockId
           )
           .updateBlockText(blockRef.current.blockContent.id, leftText)
-          .setFocusLatch(propsRef.current.path.splice(-1, 0, newLocatedBlockId), "start");
+          .setFocusLatch(newPath, "start");
       }
     });
     return PREVENT_TIPTAP_DEFAULT;
@@ -299,6 +295,7 @@ export const BlockText = (props: IBlockTextProps) => {
           // if the upstairs neighbor is a simple blank line with a single parent and no children,
           // we shift the current line up to replace the upstairs neighbor
           // we do this even when the current block has multiple parents
+          const newPath = [...upstairsNeighborPath.slice(0, -1), blockRef.current.locatedBlock.id];
           return state
             .removeLocatedBlock(upstairsNeighborLocatedBlockId)
             .moveLocatedBlock(
@@ -306,10 +303,7 @@ export const BlockText = (props: IBlockTextProps) => {
               upstairsNeighborBlock.locatedBlock.leftId,
               upstairsNeighborBlock.locatedBlock.parentId
             )
-            .setFocusLatch(
-              upstairsNeighborPath.splice(-1, 1, blockRef.current.locatedBlock.id),
-              "start"
-            );
+            .setFocusLatch(newPath, "start");
         } else if (blockRef.current.blockContent.locatedBlocks.length > 1) {
           // if the current block has multiple parents and the upstairs neighbor is non-simple,
           // we don't do anything
@@ -348,7 +342,7 @@ export const BlockText = (props: IBlockTextProps) => {
         // if we're at the root, we don't do anything
         return state;
       }
-      let focusPath: Path = [...propsRef.current.path];
+      let focusPath: Path;
       let parentContent = state.blockContents.get(blockRef.current.locatedBlock.parentId);
       if (parentContent.getLeftmostChildId() === blockRef.current.locatedBlock.id) {
         // if we're the first child, just add an older sibling and proceed, don't return yet
@@ -361,12 +355,16 @@ export const BlockText = (props: IBlockTextProps) => {
           newLocatedBlockId
         );
         parentContent = state.blockContents.get(parentContent.id);
-        focusPath = focusPath.splice(-1, 1, newLocatedBlockId);
+        focusPath = [...propsRef.current.path.slice(0, -1), newLocatedBlockId];
+      } else {
+        focusPath = [
+          ...propsRef.current.path.slice(0, -1),
+          parentContent.getLeftSiblingIdOf(blockRef.current.locatedBlock.id),
+          blockRef.current.locatedBlock.id,
+        ];
       }
-      const leftSiblingLocatedId = parentContent.getLeftSiblingIdOf(
-        blockRef.current.locatedBlock.id
-      );
-      const leftSiblingBlock = fullBlockFromLocatedBlockId(state, leftSiblingLocatedId);
+      const updatedLeftSibling = parentContent.getLeftSiblingIdOf(blockRef.current.locatedBlock.id);
+      const leftSiblingBlock = fullBlockFromLocatedBlockId(state, updatedLeftSibling);
       return state
         .moveLocatedBlock(
           blockRef.current.locatedBlock.id,
@@ -391,16 +389,14 @@ export const BlockText = (props: IBlockTextProps) => {
       const rightSiblingLocatedId = parentBlock.blockContent.getRightSiblingIdOf(
         blockRef.current.locatedBlock.id
       );
+      const focusPath = [...propsRef.current.path.slice(0, -2), blockRef.current.locatedBlock.id];
       const updatedState = state
         .moveLocatedBlock(
           blockRef.current.locatedBlock.id,
           parentLocatedBlockId,
           parentBlock.locatedBlock.parentId
         )
-        .setFocusLatch(
-          propsRef.current.path.splice(-2, 1, blockRef.current.locatedBlock.id),
-          focusPosition
-        );
+        .setFocusLatch(focusPath, focusPosition);
       if (rightSiblingLocatedId) {
         return updatedState.moveChildren(rightSiblingLocatedId, blockRef.current.blockContent.id);
       }

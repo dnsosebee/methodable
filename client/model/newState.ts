@@ -519,7 +519,6 @@ export function createState(stateData: IStateData): IState2 {
       leftmostChildLocatedId: LocatedBlockId,
       newParentContentId: BlockContentId
     ): IState2 => {
-      console.log("moveChildren", leftmostChildLocatedId, newParentContentId);
       if (!leftmostChildLocatedId) {
         // base case
         return createState(stateData);
