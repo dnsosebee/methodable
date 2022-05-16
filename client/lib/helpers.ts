@@ -1,7 +1,7 @@
 // random helpers
 
 import { Editor } from "@tiptap/core/dist/packages/core/src/Editor";
-import { Path } from "../model/newState";
+import { Path } from "../model/state";
 
 // just synchronously waits for a bit
 export const wait = (ms: number) => {

@@ -5,10 +5,15 @@ import { ITypeSelectProps, TypeSelect } from "./TypeSelect";
 import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
 import { pathEquals } from "../../lib/helpers";
 import { ContainerLine, IContainerLineProps } from "./ContainerLine";
-import { BLOCK_TYPES, IBlockType, OPTIONAL_BLOCK_TYPES } from "../../model/state/blockType";
+import { BLOCK_TYPES, IBlockType, OPTIONAL_BLOCK_TYPES } from "../../model/blockType";
 import { RunButton } from "./RunButton";
-import { fullBlockFromLocatedBlockId, IBlockContent, IState2, Path } from "../../model/newState";
-import { ActionType2 } from "../../model/newActions";
+import {
+  Action,
+  fullBlockFromLocatedBlockId,
+  IBlockContent,
+  IState,
+  Path,
+} from "../../model/state";
 
 export interface IBlockProps {
   path: Path;
@@ -21,7 +26,7 @@ export interface IBlockProps {
 }
 
 export const Block = (props: IBlockProps) => {
-  const { state, dispatch }: { state: IState2; dispatch: (action: ActionType2) => {} } =
+  const { state, dispatch }: { state: IState; dispatch: (action: Action) => {} } =
     useContext(Context);
 
   const getChildBlocks = () => {
@@ -62,8 +67,6 @@ export const Block = (props: IBlockProps) => {
           const childLocatedBlockId = path[parentPathLength];
           const bound1 = state.selectionRange.start[parentPathLength];
           const bound2 = state.selectionRange.end[parentPathLength];
-
-          console.log("fullBlockFromLocatedBlockId", state.activeParentPath);
           const parentContent = fullBlockFromLocatedBlockId(
             state,
             state.activeParentPath[parentPathLength - 1]

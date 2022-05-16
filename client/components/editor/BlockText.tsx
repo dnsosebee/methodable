@@ -7,8 +7,7 @@ import { useContext, useEffect, useRef } from "react";
 import { logMouseEvent, logKeyEvent, logEditorEvent, logEffect } from "../../lib/loggers";
 import { Context } from "../ContextWrapper";
 import { getFocusPosition, pathEquals } from "../../lib/helpers";
-import { fullBlockFromLocatedBlockId, HumanText, IState2, Path } from "../../model/newState";
-import { ActionType2 } from "../../model/newActions";
+import { Action, fullBlockFromLocatedBlockId, HumanText, IState, Path } from "../../model/state";
 import { NoSuchBlockError } from "../../lib/errors";
 
 const PREVENT_TIPTAP_DEFAULT = true;
@@ -23,7 +22,7 @@ export interface IBlockTextProps {
 
 export const BlockText = (props: IBlockTextProps) => {
   let clickOriginatedInThisText = useRef(false); // whether the current click/drag started in this text
-  const { state, dispatch }: { state: IState2; dispatch: (action: ActionType2) => {} } =
+  const { state, dispatch }: { state: IState; dispatch: (action: Action) => {} } =
     useContext(Context);
   let blockRef = useRef(fullBlockFromLocatedBlockId(state, props.path[props.path.length - 1]));
   let isFocused = useRef(false); // whether the current text is focused
@@ -37,7 +36,7 @@ export const BlockText = (props: IBlockTextProps) => {
   const mouseEnter = (e: React.MouseEvent) => {
     if (isMouseDown(e)) {
       logMouseEvent("onMouseEnter mouseIsDown " + props.humanText);
-      dispatch((state: IState2) => {
+      dispatch((state: IState) => {
         if (isRootRef.current) {
           return state;
         }
@@ -56,7 +55,7 @@ export const BlockText = (props: IBlockTextProps) => {
     if (isMouseDown(e)) {
       logMouseEvent("onMouseLeave mouseIsDown " + props.humanText);
       if (clickOriginatedInThisText.current) {
-        dispatch((state: IState2) => {
+        dispatch((state: IState) => {
           if (isRootRef.current) {
             return state;
           }
@@ -72,7 +71,7 @@ export const BlockText = (props: IBlockTextProps) => {
   const mouseDown = () => {
     logMouseEvent("onMouseDown " + props.humanText);
     clickOriginatedInThisText.current = true;
-    dispatch((state: IState2) => {
+    dispatch((state: IState) => {
       return state.endSelection();
     });
   };
@@ -126,7 +125,7 @@ export const BlockText = (props: IBlockTextProps) => {
       content: props.humanText,
       onUpdate({ editor }) {
         logEditorEvent("onUpdate:" + propsRef.current.path);
-        dispatch((state: IState2) => {
+        dispatch((state: IState) => {
           return state.updateBlockText(blockRef.current.blockContent.id, editor.getText());
         });
       },
@@ -150,7 +149,7 @@ export const BlockText = (props: IBlockTextProps) => {
     const focusPosition = getFocusPosition(editor);
     const leftText = editorText.slice(0, focusPosition - 1);
     const rightText = editorText.slice(focusPosition - 1);
-    dispatch((state: IState2) => {
+    dispatch((state: IState) => {
       const newLocatedBlockId = crypto.randomUUID();
       if (leftText.length === 0) {
         // if enter is pressed at the beginning of the line, we just bump that block down a line, and focus on the new line above
@@ -201,7 +200,7 @@ export const BlockText = (props: IBlockTextProps) => {
 
   const handleUpArrowPress = (editor: Editor) => {
     logKeyEvent("onUpArrowPress, path: " + propsRef.current.path);
-    dispatch((state: IState2) => {
+    dispatch((state: IState) => {
       try {
         const upstairsNeighborPath = state.getUpstairsNeighborPath(propsRef.current.path);
         return state.setFocusLatch(upstairsNeighborPath, getFocusPosition(editor));
@@ -217,7 +216,7 @@ export const BlockText = (props: IBlockTextProps) => {
 
   const handleDownArrowPress = (editor: Editor) => {
     logKeyEvent("onDownArrowPress, path: " + propsRef.current.path);
-    dispatch((state: IState2) => {
+    dispatch((state: IState) => {
       try {
         const downstairsNeighborPath = state.getDownstairsNeighborPath(propsRef.current.path);
         return state.setFocusLatch(downstairsNeighborPath, getFocusPosition(editor));
@@ -236,7 +235,7 @@ export const BlockText = (props: IBlockTextProps) => {
     const focusPosition = getFocusPosition(editor);
     if (focusPosition === 1) {
       // we're at the beginning of the line already, so dispatch the action
-      dispatch((state: IState2) => {
+      dispatch((state: IState) => {
         try {
           const upstairsNeighborPath = state.getUpstairsNeighborPath(propsRef.current.path);
           return state.setFocusLatch(upstairsNeighborPath, "end");
@@ -257,7 +256,7 @@ export const BlockText = (props: IBlockTextProps) => {
     const focusPosition = getFocusPosition(editor);
     if (focusPosition === editor.getText().length + 1) {
       // we're at the end of the line already, so dispatch the action
-      dispatch((state: IState2) => {
+      dispatch((state: IState) => {
         try {
           const downstairsNeighborPath = state.getDownstairsNeighborPath(propsRef.current.path);
           return state.setFocusLatch(downstairsNeighborPath, "start");
@@ -279,7 +278,7 @@ export const BlockText = (props: IBlockTextProps) => {
     const focusPosition = getFocusPosition(editor);
     if (focusPosition === 1 && !isRootRef.current) {
       // we're at the beginning of the line already, so dispatch the action
-      dispatch((state: IState2) => {
+      dispatch((state: IState) => {
         const upstairsNeighborPath = state.getUpstairsNeighborPath(propsRef.current.path);
         const upstairsNeighborLocatedBlockId =
           upstairsNeighborPath[upstairsNeighborPath.length - 1];
@@ -337,7 +336,7 @@ export const BlockText = (props: IBlockTextProps) => {
   const handleTabPress = (editor: Editor) => {
     logKeyEvent("onTabPress, path: " + propsRef.current.path);
     const focusPosition = getFocusPosition(editor);
-    dispatch((state: IState2) => {
+    dispatch((state: IState) => {
       if (isRootRef.current) {
         // if we're at the root, we don't do anything
         return state;
@@ -379,7 +378,7 @@ export const BlockText = (props: IBlockTextProps) => {
   const handleShiftTabPress = (editor: Editor) => {
     logKeyEvent("onShiftTabPress, path: " + propsRef.current.path);
     const focusPosition = getFocusPosition(editor);
-    dispatch((state: IState2) => {
+    dispatch((state: IState) => {
       if (propsRef.current.path.length < 3) {
         // If there's no granparent, we don't do anything
         return state;
@@ -447,7 +446,7 @@ export const BlockText = (props: IBlockTextProps) => {
         );
         editor.commands.setContent(props.humanText);
         editor.commands.focus(state.focusPosition);
-        dispatch((state: IState2) => {
+        dispatch((state: IState) => {
           return state.clearFocusLatch();
         });
       }

@@ -1,17 +1,17 @@
 import { useContext, useState } from "react";
-import { BLOCK_TYPES } from "../../model/state/blockType";
-import { IBlock, IState } from "../../model/state/stateTypes";
+import { BLOCK_TYPES } from "../../model/blockType";
+import { IState2 } from "../../model/state";
 import { Context } from "../ContextWrapper";
 import { DoPage, IDoPageProps } from "./DoPage";
 import { Entry, IEntryProps } from "./Entry";
 
-const getPathToNext = (state: IState): string => {
+const getPathToNext = (state: IState2): string => {
   const ancestors = state.idPath.slice(0, state.idPath.length - 2);
   return "";
 };
 
 export const GuideContainer = () => {
-  const { state }: { state: IState } = useContext(Context);
+  const { state }: { state: IState2 } = useContext(Context);
   const [showEntry, setShowEntry] = useState(state.idPath.length === 1);
   const showEntryCallback = () => {
     setShowEntry(false);

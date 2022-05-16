@@ -1,6 +1,6 @@
 // crockford objects for new state
 import { NoSuchBlockError } from "../lib/errors";
-import { IBlockType } from "./state/blockType";
+import { IBlockType } from "./blockType";
 
 // types
 export type BlockStatus = "not started" | "in progress" | "complete";
@@ -11,6 +11,9 @@ export type HumanText = string;
 export type Path = LocatedBlockId[];
 export type SelectionRange = { start: Path; end: Path };
 export type FocusPosition = number | "start" | "end";
+
+//actions
+export type Action = (state: IState) => IState;
 
 // crockford object for LocatedBlock
 export interface ILocatedBlockData {
@@ -252,43 +255,43 @@ export interface IStateData {
 
 export interface IStateTransitions {
   // no-op transition (to cause re-render)
-  refresh: () => IState2;
+  refresh: () => IState;
 
   // selection related
-  setSelectionParent: () => IState2;
-  startSelection: (path: Path) => IState2;
-  changeSelection: (path: Path) => IState2;
-  endSelection: () => IState2;
+  setSelectionParent: () => IState;
+  startSelection: (path: Path) => IState;
+  changeSelection: (path: Path) => IState;
+  endSelection: () => IState;
 
   // focus related
-  setFocusLatch: (path: Path, focusPosition: FocusPosition) => IState2;
-  clearFocusLatch: () => IState2;
+  setFocusLatch: (path: Path, focusPosition: FocusPosition) => IState;
+  clearFocusLatch: () => IState;
 
   // block transitions
-  updateBlockText: (blockContentId: BlockContentId, humanText: HumanText) => IState2;
-  updateBlockType: (blockContentId: BlockContentId, blockType: IBlockType) => IState2;
+  updateBlockText: (blockContentId: BlockContentId, humanText: HumanText) => IState;
+  updateBlockType: (blockContentId: BlockContentId, blockType: IBlockType) => IState;
   insertNewBlock: (
     leftId: LocatedBlockId,
     parentContentId,
     humanText: HumanText,
     blockType: IBlockType,
     locatedBlockId?: LocatedBlockId
-  ) => IState2;
+  ) => IState;
   insertNewLocatedBlock: (
     leftId: LocatedBlockId,
     parentContentId,
     blockContentId: BlockContentId,
     locatedBlockId?: LocatedBlockId
-  ) => IState2;
+  ) => IState;
   moveLocatedBlock: (
     LocatedBlockId: LocatedBlockId,
     newLeftId: LocatedBlockId,
     newParentContentId: BlockContentId
-  ) => IState2;
-  removeLocatedBlock: (LocatedBlockId: LocatedBlockId) => IState2;
-  removeSurroundingBlocks: (LocatedBlock: ILocatedBlock) => IState2;
-  addSurroundingBlocks: (locatedBlock: ILocatedBlock) => IState2;
-  moveChildren: (leftmostChildId: LocatedBlockId, newParentContentId: BlockContentId) => IState2;
+  ) => IState;
+  removeLocatedBlock: (LocatedBlockId: LocatedBlockId) => IState;
+  removeSurroundingBlocks: (LocatedBlock: ILocatedBlock) => IState;
+  addSurroundingBlocks: (locatedBlock: ILocatedBlock) => IState;
+  moveChildren: (leftmostChildId: LocatedBlockId, newParentContentId: BlockContentId) => IState;
 }
 
 export interface IStateGetters {
@@ -296,19 +299,15 @@ export interface IStateGetters {
   getDownstairsNeighborPath: (path: Path) => Path;
 }
 
-export interface IState2 extends IStateData, IStateTransitions, IStateGetters {}
+export interface IState extends IStateData, IStateTransitions, IStateGetters {}
 
-export function createState(stateData: IStateData): IState2 {
-  const helpers = {
-    // TODO delete this
-  };
-
+export function createState(stateData: IStateData): IState {
   const transitions: IStateTransitions = {
     // no-op transition (to cause re-render)
     refresh: () => createState(stateData),
 
     // selection related
-    setSelectionParent: (): IState2 => {
+    setSelectionParent: (): IState => {
       // must run after selectionRange is updated
       const { selectionRange } = stateData;
       const maxParentDepth = Math.min(
@@ -356,14 +355,14 @@ export function createState(stateData: IStateData): IState2 {
     },
 
     // cursor moves
-    setFocusLatch: (path: Path, focusPosition: FocusPosition): IState2 => {
+    setFocusLatch: (path: Path, focusPosition: FocusPosition): IState => {
       return createState({
         ...stateData,
         focusPath: path,
         focusPosition,
       });
     },
-    clearFocusLatch: (): IState2 => {
+    clearFocusLatch: (): IState => {
       return createState({
         ...stateData,
         focusPath: null,
@@ -371,7 +370,7 @@ export function createState(stateData: IStateData): IState2 {
     },
 
     // block transitions
-    updateBlockText: (blockContentId: BlockContentId, humanText: HumanText): IState2 => {
+    updateBlockText: (blockContentId: BlockContentId, humanText: HumanText): IState => {
       const blockContent = stateData.blockContents.get(blockContentId);
       if (!blockContent) {
         throw new Error(`blockContentId ${blockContentId} not found`);
@@ -384,7 +383,7 @@ export function createState(stateData: IStateData): IState2 {
         ),
       });
     },
-    updateBlockType: (blockContentId: BlockContentId, blockType: IBlockType): IState2 => {
+    updateBlockType: (blockContentId: BlockContentId, blockType: IBlockType): IState => {
       const blockContent = stateData.blockContents.get(blockContentId);
       if (!blockContent) {
         throw new Error(`blockContentId ${blockContentId} not found`);
@@ -410,7 +409,7 @@ export function createState(stateData: IStateData): IState2 {
         id: newBlockContentId,
         blockType,
         humanText,
-        userId: "", // TODO
+        userId: "TODO",
         childLocatedBlocks: [],
         locatedBlocks: [],
       });
@@ -429,13 +428,13 @@ export function createState(stateData: IStateData): IState2 {
       parentContentId: BlockContentId,
       blockContentId: BlockContentId,
       locatedBlockId: LocatedBlockId = crypto.randomUUID()
-    ): IState2 => {
+    ): IState => {
       // insert new locatedBlock
       const newLocatedBlock = locatedBlock({
         id: locatedBlockId,
         parentId: parentContentId,
         contentId: blockContentId,
-        userId: "", // TODO
+        userId: "TODO",
         blockStatus: "not started",
         leftId,
         archived: false,
@@ -450,7 +449,7 @@ export function createState(stateData: IStateData): IState2 {
       // then update surrounding blocks
       return createState(stateData).addSurroundingBlocks(newLocatedBlock);
     },
-    addSurroundingBlocks: (locatedBlock: ILocatedBlock): IState2 => {
+    addSurroundingBlocks: (locatedBlock: ILocatedBlock): IState => {
       // should remove this from the public interface
 
       // update blockContent parent
@@ -472,7 +471,7 @@ export function createState(stateData: IStateData): IState2 {
       }
       return createState(stateData);
     },
-    removeLocatedBlock: (locatedBlockId: LocatedBlockId): IState2 => {
+    removeLocatedBlock: (locatedBlockId: LocatedBlockId): IState => {
       const { locatedBlock, blockContent } = fullBlockFromLocatedBlockId(stateData, locatedBlockId);
 
       // archive locatedBlock
@@ -485,7 +484,7 @@ export function createState(stateData: IStateData): IState2 {
       // update surrounding blocks
       return createState(stateData).removeSurroundingBlocks(locatedBlock);
     },
-    removeSurroundingBlocks: (located: ILocatedBlock): IState2 => {
+    removeSurroundingBlocks: (located: ILocatedBlock): IState => {
       // should remove this from the public interface
       const { parentId, leftId } = located;
       const parentContent = stateData.blockContents.get(parentId);
@@ -505,7 +504,7 @@ export function createState(stateData: IStateData): IState2 {
       locatedBlockId: LocatedBlockId,
       newLeftId: LocatedBlockId,
       newParentContentId: BlockContentId
-    ): IState2 => {
+    ): IState => {
       const located = stateData.locatedBlocks.get(locatedBlockId);
       const updatedLocatedBlock = located.setLeftId(newLeftId).setParentId(newParentContentId);
       stateData.locatedBlocks.set(locatedBlockId, updatedLocatedBlock);
@@ -518,7 +517,7 @@ export function createState(stateData: IStateData): IState2 {
     moveChildren: (
       leftmostChildLocatedId: LocatedBlockId,
       newParentContentId: BlockContentId
-    ): IState2 => {
+    ): IState => {
       if (!leftmostChildLocatedId) {
         // base case
         return createState(stateData);

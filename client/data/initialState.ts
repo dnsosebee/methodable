@@ -6,12 +6,12 @@ import {
   IBlockContentData,
   ILocatedBlock,
   ILocatedBlockData,
-  IState2,
+  IState,
   locatedBlock,
   LocatedBlockId,
   createState,
-} from "../model/newState";
-import { blockType, BLOCK_TYPES } from "../model/state/blockType";
+} from "../model/state";
+import { blockType, BLOCK_TYPES } from "../model/blockType";
 
 const rootLocatedData: ILocatedBlockData = {
   id: "located-root",
@@ -87,7 +87,7 @@ const contentCData: IBlockContentData = {
 };
 const contentC = blockContent(contentCData);
 
-export const initialState: IState2 = createState({
+export const initialState: IState = createState({
   locatedBlocks: new Map<LocatedBlockId, ILocatedBlock>([
     ["located-root", rootLocated],
     ["located-child1", child1Located],

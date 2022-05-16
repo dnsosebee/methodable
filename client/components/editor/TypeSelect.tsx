@@ -1,7 +1,6 @@
 import { useContext } from "react";
-import { ActionType2 } from "../../model/newActions";
-import { IBlockContent, IState2, Path } from "../../model/newState";
-import { blockType, BLOCK_TYPES } from "../../model/state/blockType";
+import { Action, IBlockContent, IState, Path } from "../../model/state";
+import { blockType, BLOCK_TYPES } from "../../model/blockType";
 import { Context } from "../ContextWrapper";
 interface IBlockTypePresentation {
   text: string;
@@ -37,11 +36,11 @@ export interface ITypeSelectProps {
 }
 
 export const TypeSelect = (props: ITypeSelectProps) => {
-  const { dispatch }: { dispatch: (action: ActionType2) => {} } = useContext(Context);
+  const { dispatch }: { dispatch: (action: Action) => {} } = useContext(Context);
   const presentationData: IBlockTypePresentation =
     BLOCK_TYPE_PRESENTATIONS[props.content.blockType.name];
   const handleButtonClick = () => {
-    dispatch((state: IState2) => {
+    dispatch((state: IState) => {
       return state.updateBlockType(props.content.id, props.content.blockType.getNext());
     });
   };

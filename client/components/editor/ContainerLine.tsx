@@ -1,4 +1,4 @@
-import { OPTIONAL_BLOCK_TYPES } from "../../model/state/blockType";
+import { OPTIONAL_BLOCK_TYPES } from "../../model/blockType";
 
 interface IContainerLinePresentation {
   className: string;

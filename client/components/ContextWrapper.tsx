@@ -1,17 +1,16 @@
 import React, { createContext, useReducer } from "react";
 import { initialState } from "../data/initialState";
-import { ActionType2 } from "../model/newActions";
-import { IState2 } from "../model/newState";
+import { Action, IState } from "../model/state";
 
-const reducer = (state: IState2, action: ActionType2): IState2 => {
+const reducer = (state: IState, action: Action): IState => {
   return action(state);
 };
 
 export const Context = createContext(null);
 
 export const ContextWrapper = ({ children, idPath }) => {
-  const [state, dispatch]: [state: IState2, dispatch: React.Dispatch<ActionType2>] = useReducer<
-    React.Reducer<IState2, ActionType2>
+  const [state, dispatch]: [state: IState, dispatch: React.Dispatch<Action>] = useReducer<
+    React.Reducer<IState, Action>
   >(reducer, initialState);
   return (
     <Context.Provider value={{ state, dispatch }}>
