@@ -58,6 +58,17 @@ const child3LocatedData: ILocatedBlockData = {
 };
 const child3Located = locatedBlock(child3LocatedData);
 
+const child4LocatedData: ILocatedBlockData = {
+  id: "located-child4",
+  contentId: "content-c",
+  userId: "TODO",
+  blockStatus: "not started",
+  parentId: "content-b",
+  leftId: null,
+  archived: false,
+};
+const child4Located = locatedBlock(child4LocatedData);
+
 const contentAData: IBlockContentData = {
   id: "content-a",
   blockType: blockType(BLOCK_TYPES.DO),
@@ -73,7 +84,7 @@ const contentBData: IBlockContentData = {
   blockType: blockType(BLOCK_TYPES.READ),
   humanText: "Read this",
   userId: "TODO",
-  childLocatedBlocks: [],
+  childLocatedBlocks: [child4Located.id],
   locatedBlocks: [child1Located.id],
 };
 const contentB = blockContent(contentBData);
@@ -94,13 +105,15 @@ export const initialState: IState = createState({
     ["located-child1", child1Located],
     ["located-child2", child2Located],
     ["located-child3", child3Located],
+    ["located-child4", child4Located],
   ]),
   blockContents: new Map<BlockContentId, IBlockContent>([
     ["content-a", contentA],
     ["content-b", contentB],
     ["content-c", contentC],
   ]),
-  locatedIdPath: [rootLocated.id],
+  rootContentId: "content-a",
+  rootRelativePath: [],
   activeParentPath: [],
   selectionRange: { start: [], end: [] },
   isSelectionActive: false,

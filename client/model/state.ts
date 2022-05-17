@@ -18,14 +18,15 @@ export interface IStateData {
   // persistent
   locatedBlocks: Map<LocatedBlockId, ILocatedBlock>;
   blockContents: Map<BlockContentId, IBlockContent>;
-  // transient, f(page)
-  locatedIdPath: Path;
+  // transient, f(page): where are we?
+  rootContentId: BlockContentId;
+  rootRelativePath: Path;
   // selection related
   activeParentPath: Path;
   selectionRange: SelectionRange;
   isSelectionActive: boolean;
   isSelectionDeep: boolean;
-  // focus related
+  // focus related: focusPath is relative to locatedIdPath, which is relative to rootContentId
   focusPath: Path | null;
   focusPosition: FocusPosition;
 }
@@ -43,6 +44,9 @@ export interface IStateTransitions {
   // focus related
   setFocusLatch: (path: Path, focusPosition: FocusPosition) => IState;
   clearFocusLatch: () => IState;
+
+  // path related
+  setRootAndPath: (rootContentId: BlockContentId, locatedIdPath: Path) => IState;
 
   // block transitions
   updateBlockText: (blockContentId: BlockContentId, humanText: HumanText) => IState;
@@ -74,6 +78,8 @@ export interface IStateTransitions {
 export interface IStateGetters {
   getUpstairsNeighborPath: (path: Path) => Path;
   getDownstairsNeighborPath: (path: Path) => Path;
+  // gets the content at the end of the path, or the end of rootRelativePath if path is empty
+  getContentFromPath: (path?: Path, useRootRelative?: boolean) => IBlockContent;
 }
 
 export interface IState extends IStateData, IStateTransitions, IStateGetters {}
@@ -91,8 +97,8 @@ export function createState(stateData: IStateData): IState {
         selectionRange.start.length - 1,
         selectionRange.end.length - 1
       );
-      let parentDepth = 1;
-      for (let i = 1; i < maxParentDepth; i++) {
+      let parentDepth = 0;
+      for (let i = 0; i < maxParentDepth; i++) {
         if (selectionRange.start[i] === selectionRange.end[i]) {
           parentDepth += 1;
         } else {
@@ -105,7 +111,7 @@ export function createState(stateData: IStateData): IState {
       });
     },
     startSelection: (path: Path) => {
-      if (path.length < 2) {
+      if (path.length < 1) {
         throw new Error("Can't select root block");
       }
       return createState({
@@ -116,7 +122,7 @@ export function createState(stateData: IStateData): IState {
       }).setSelectionParent();
     },
     changeSelection: (path: Path) => {
-      if (path.length < 2) {
+      if (path.length < 1) {
         throw new Error("Can't select root block");
       }
       return createState({
@@ -143,6 +149,15 @@ export function createState(stateData: IStateData): IState {
       return createState({
         ...stateData,
         focusPath: null,
+      });
+    },
+
+    // path related
+    setRootAndPath: (contentId: BlockContentId, idPath: Path): IState => {
+      return createState({
+        ...stateData,
+        rootContentId: contentId,
+        rootRelativePath: idPath,
       });
     },
 
@@ -314,49 +329,71 @@ export function createState(stateData: IStateData): IState {
     },
   };
 
-  const getters = {
-    getUpstairsNeighborPath: (path: Path): Path => {
-      if (path.length < 2) {
-        // root block has no upstairs neighbor
-        throw new NoSuchBlockError();
-      }
-      const locatedBlockId = path[path.length - 1];
-      const locatedBlock = stateData.locatedBlocks.get(locatedBlockId);
-      const parentBlockContent = stateData.blockContents.get(locatedBlock.parentId);
-      if (parentBlockContent.getLeftmostChildId() === locatedBlock.id) {
-        return path.slice(0, -1);
-      }
-      let upstairsNeighborId = parentBlockContent.getLeftSiblingIdOf(locatedBlockId);
-      let upstairsNeighborPath = [...path.slice(0, -1), upstairsNeighborId];
-      let upstairsNeighbor = fullBlockFromLocatedBlockId(stateData, upstairsNeighborId);
-      while (upstairsNeighbor.blockContent.hasChildren()) {
-        upstairsNeighborId = upstairsNeighbor.blockContent.getRightmostChildId();
-        upstairsNeighbor = fullBlockFromLocatedBlockId(stateData, upstairsNeighborId);
-        upstairsNeighborPath.push(upstairsNeighborId);
-      }
-      return upstairsNeighborPath;
-    },
-    getDownstairsNeighborPath: (path: Path): Path => {
-      const locatedBlockId = path[path.length - 1];
-      const block = fullBlockFromLocatedBlockId(stateData, locatedBlockId);
-      if (block.blockContent.hasChildren()) {
-        // if current block has children, downstairs neighbor is the first child
-        return [...path, block.blockContent.getLeftmostChildId()];
-      }
-      let youngerAncestorId = locatedBlockId;
-      for (let i = path.length - 2; i >= 0; i--) {
-        const ancestorId = path[i];
-        const ancestorPath = path.slice(0, i + 1);
-        const ancestor = fullBlockFromLocatedBlockId(stateData, ancestorId);
-        const rightmostChildId = ancestor.blockContent.getRightmostChildId();
-        if (rightmostChildId !== youngerAncestorId) {
-          // then we've found the point where there's a younger sibling (the downstairs neighbor)
-          return [...ancestorPath, ancestor.blockContent.getRightSiblingIdOf(youngerAncestorId)];
-        }
-        youngerAncestorId = ancestorId;
-      }
+  const getUpstairsNeighborPath = (path: Path): Path => {
+    if (path.length < 1) {
+      // root block has no upstairs neighbor
       throw new NoSuchBlockError();
-    },
+    }
+    const locatedBlockId = path[path.length - 1];
+    const locatedBlock = stateData.locatedBlocks.get(locatedBlockId);
+    const parentBlockContent = stateData.blockContents.get(locatedBlock.parentId);
+    if (parentBlockContent.getLeftmostChildId() === locatedBlock.id) {
+      return path.slice(0, -1);
+    }
+    let upstairsNeighborId = parentBlockContent.getLeftSiblingIdOf(locatedBlockId);
+    let upstairsNeighborPath = [...path.slice(0, -1), upstairsNeighborId];
+    let upstairsNeighbor = fullBlockFromLocatedBlockId(stateData, upstairsNeighborId);
+    while (upstairsNeighbor.blockContent.hasChildren()) {
+      upstairsNeighborId = upstairsNeighbor.blockContent.getRightmostChildId();
+      upstairsNeighbor = fullBlockFromLocatedBlockId(stateData, upstairsNeighborId);
+      upstairsNeighborPath.push(upstairsNeighborId);
+    }
+    return upstairsNeighborPath;
+  };
+
+  const getDownstairsNeighborPath = (path: Path): Path => {
+    const content = getContentFromPath(path, true);
+    if (content.hasChildren()) {
+      // if current block has children, downstairs neighbor is the first child
+      return [...path, content.getLeftmostChildId()];
+    }
+    if (path.length < 1) {
+      throw new NoSuchBlockError();
+    }
+    for (let i = path.length - 1; i >= 0; i--) {
+      let youngerAncestorId = path[i];
+      const ancestorPath = path.slice(0, i);
+      const ancestorContent = getContentFromPath(ancestorPath, true);
+      const rightmostChildId = ancestorContent.getRightmostChildId();
+      if (rightmostChildId !== youngerAncestorId) {
+        // then we've found the point where there's a younger sibling (the downstairs neighbor)
+        return [...ancestorPath, ancestorContent.getRightSiblingIdOf(youngerAncestorId)];
+      }
+    }
+    throw new NoSuchBlockError();
+  };
+
+  const getContentFromPath = (
+    path: Path = stateData.rootRelativePath,
+    useRootRelative = false
+  ): IBlockContent => {
+    let locatedId: LocatedBlockId;
+    if (path.length === 0) {
+      if (stateData.rootRelativePath.length === 0 || !useRootRelative) {
+        return stateData.blockContents.get(stateData.rootContentId);
+      }
+      locatedId = stateData.rootRelativePath[stateData.rootRelativePath.length - 1];
+    } else {
+      locatedId = path[path.length - 1];
+    }
+    const locatedBlock = stateData.locatedBlocks.get(locatedId);
+    return stateData.blockContents.get(locatedBlock.contentId);
+  };
+
+  const getters = {
+    getUpstairsNeighborPath,
+    getDownstairsNeighborPath,
+    getContentFromPath,
   };
 
   return Object.freeze({

@@ -63,10 +63,7 @@ export const Block = (props: IBlockProps) => {
           const childLocatedBlockId = path[parentPathLength];
           const bound1 = state.selectionRange.start[parentPathLength];
           const bound2 = state.selectionRange.end[parentPathLength];
-          const parentContent = fullBlockFromLocatedBlockId(
-            state,
-            state.activeParentPath[parentPathLength - 1]
-          ).blockContent;
+          const parentContent = state.getContentFromPath(state.activeParentPath, true);
           if (parentContent.isChildBetween(childLocatedBlockId, bound1, bound2)) {
             // we know this block or its parent is selected, nothing more (sufficient for deep selection)
             if (state.isSelectionDeep) {
@@ -84,6 +81,7 @@ export const Block = (props: IBlockProps) => {
   const childBlocks = getChildBlocks();
 
   const blockTextProps: IBlockTextProps = {
+    contentId: props.content.id,
     humanText: props.content.humanText,
     path: props.path,
     isGlobalSelectionActive: props.isGlobalSelectionActive,
@@ -96,8 +94,10 @@ export const Block = (props: IBlockProps) => {
 
   const blockHandleProps: IBlockHandleProps = {
     parentBlockType:
-      props.path.length <= 1 ? OPTIONAL_BLOCK_TYPES.UNDEFINED : props.parentBlockType.name,
+      props.path.length == 0 ? OPTIONAL_BLOCK_TYPES.UNDEFINED : props.parentBlockType.name,
     orderNum: props.orderNum,
+    rootContentId: state.rootContentId,
+    pathRelativeToRoot: [...state.rootRelativePath, ...props.path],
   };
 
   const blockContainerLineProps: IContainerLineProps = {
@@ -107,7 +107,7 @@ export const Block = (props: IBlockProps) => {
   const shouldRenderRunButton = props.content.blockType.name !== BLOCK_TYPES.REFERENCE;
 
   return (
-    <div>
+    <>
       <div className="flex">
         <BlockHandle {...blockHandleProps} />
         <TypeSelect {...typeSelectProps}></TypeSelect>
@@ -120,6 +120,6 @@ export const Block = (props: IBlockProps) => {
           <div className="flex-grow">{childBlocks}</div>
         </div>
       )}
-    </div>
+    </>
   );
 };

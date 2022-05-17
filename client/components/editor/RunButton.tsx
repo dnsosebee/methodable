@@ -12,7 +12,7 @@ export const RunButton = (props: IRunButtonProps) => {
       {/* a button with a link to the page to run the current block */}
       <a>
         <button
-          className={"w-5 h-5 text-xs text-gray-700 bg-gray-100 border-gray-200 border rounded"}
+          className={"w-5 h-5 text-xs text-gray-700 bg-gray-100 border-gray-200 border rounded select-none"}
         >
           ▶︎
         </button>

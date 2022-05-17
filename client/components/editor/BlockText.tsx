@@ -3,19 +3,21 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Editor } from "@tiptap/core";
-import { useContext, useEffect, useRef } from "react";
+import { MutableRefObject, useContext, useEffect, useRef } from "react";
 import { logMouseEvent, logKeyEvent, logEditorEvent, logEffect } from "../../lib/loggers";
 import { Context } from "../ContextWrapper";
 import { getFocusPosition, pathEquals } from "../../lib/helpers";
 import { Action, IState, Path } from "../../model/state";
 import { NoSuchBlockError } from "../../lib/errors";
-import { HumanText } from "../../model/blockContent";
+import { BlockContentId, HumanText, IBlockContent } from "../../model/blockContent";
 import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
+import { ILocatedBlock } from "../../model/locatedBlock";
 
 const PREVENT_TIPTAP_DEFAULT = true;
 const ALLOW_TIPTAP_DEFAULT = false;
 
 export interface IBlockTextProps {
+  contentId: BlockContentId;
   path: Path;
   humanText: HumanText;
   isDeepSelected: boolean;
@@ -23,13 +25,20 @@ export interface IBlockTextProps {
 }
 
 export const BlockText = (props: IBlockTextProps) => {
-  let clickOriginatedInThisText = useRef(false); // whether the current click/drag started in this text
+  const clickOriginatedInThisText = useRef(false); // whether the current click/drag started in this text
   const { state, dispatch }: { state: IState; dispatch: (action: Action) => {} } =
     useContext(Context);
-  let blockRef = useRef(fullBlockFromLocatedBlockId(state, props.path[props.path.length - 1]));
+  const contentRef: MutableRefObject<IBlockContent> = useRef(
+    state.blockContents.get(props.contentId)
+  );
+  const locatedRef: MutableRefObject<null | ILocatedBlock> = useRef(null);
+  const isRootRef: MutableRefObject<boolean> = useRef(true);
+  if (props.path.length > 0) {
+    isRootRef.current = false;
+    locatedRef.current = state.locatedBlocks.get(props.path[props.path.length - 1]);
+  }
   let isFocused = useRef(false); // whether the current text is focused
   let propsRef = useRef(props); // yuck: using this to forego stale closures
-  const isRootRef = useRef(props.path.length === 1);
 
   const click = () => {
     logMouseEvent("onClick " + props.humanText);
@@ -128,7 +137,7 @@ export const BlockText = (props: IBlockTextProps) => {
       onUpdate({ editor }) {
         logEditorEvent("onUpdate:" + propsRef.current.path);
         dispatch((state: IState) => {
-          return state.updateBlockText(blockRef.current.blockContent.id, editor.getText());
+          return state.updateBlockText(contentRef.current.id, editor.getText());
         });
       },
       onFocus() {
@@ -162,38 +171,38 @@ export const BlockText = (props: IBlockTextProps) => {
         const newPath = [...propsRef.current.path.slice(0, -1), newLocatedBlockId];
         return state
           .insertNewBlock(
-            blockRef.current.locatedBlock.leftId,
-            blockRef.current.locatedBlock.parentId,
+            locatedRef.current.leftId,
+            locatedRef.current.parentId,
             "",
-            blockRef.current.blockContent.blockType,
+            contentRef.current.blockType,
             newLocatedBlockId
           )
           .setFocusLatch(newPath, "start");
-      } else if (blockRef.current.blockContent.childLocatedBlocks.length === 0) {
-        // if the old block has no children, we add a sibling after the old block
+      } else if (contentRef.current.childLocatedBlocks.length === 0 && !isRootRef.current) {
+        // if the old block has no children and isn't root, we add a sibling after the old block
         const newPath = [...propsRef.current.path.slice(0, -1), newLocatedBlockId];
         return state
           .insertNewBlock(
-            blockRef.current.locatedBlock.id,
-            blockRef.current.locatedBlock.parentId,
+            locatedRef.current.id,
+            locatedRef.current.parentId,
             rightText,
-            blockRef.current.blockContent.blockType,
+            contentRef.current.blockType,
             newLocatedBlockId
           )
-          .updateBlockText(blockRef.current.blockContent.id, leftText)
+          .updateBlockText(contentRef.current.id, leftText)
           .setFocusLatch(newPath, "start");
       } else {
-        // if the old block does have children, we add a child to the old block
+        // if the old block does have children or is root, we add a child to the old block
         const newPath = [...propsRef.current.path, newLocatedBlockId];
         return state
           .insertNewBlock(
             null,
-            blockRef.current.locatedBlock.contentId,
+            contentRef.current.id,
             rightText,
-            blockRef.current.blockContent.blockType,
+            contentRef.current.blockType,
             newLocatedBlockId
           )
-          .updateBlockText(blockRef.current.blockContent.id, leftText)
+          .updateBlockText(contentRef.current.id, leftText)
           .setFocusLatch(newPath, "start");
       }
     });
@@ -282,36 +291,38 @@ export const BlockText = (props: IBlockTextProps) => {
       // we're at the beginning of the line already, so dispatch the action
       dispatch((state: IState) => {
         const upstairsNeighborPath = state.getUpstairsNeighborPath(propsRef.current.path);
-        const upstairsNeighborLocatedBlockId =
-          upstairsNeighborPath[upstairsNeighborPath.length - 1];
-        const upstairsNeighborBlock = fullBlockFromLocatedBlockId(
-          state,
-          upstairsNeighborLocatedBlockId
-        );
+        const upstairsNeighborContent = state.getContentFromPath(upstairsNeighborPath, true);
+        const upstairsNeighborHasLocation = upstairsNeighborPath.length > 0;
         if (
-          upstairsNeighborBlock.blockContent.childLocatedBlocks.length <= 1 &&
-          upstairsNeighborBlock.blockContent.locatedBlocks.length <= 1 &&
-          upstairsNeighborBlock.blockContent.humanText.length === 0
+          upstairsNeighborContent.childLocatedBlocks.length <= 1 &&
+          upstairsNeighborContent.locatedBlocks.length <= 1 &&
+          upstairsNeighborContent.humanText.length === 0 &&
+          upstairsNeighborHasLocation
         ) {
           // if the upstairs neighbor is a simple blank line with a single parent and no children,
           // we shift the current line up to replace the upstairs neighbor
           // we do this even when the current block has multiple parents
-          const newPath = [...upstairsNeighborPath.slice(0, -1), blockRef.current.locatedBlock.id];
+          const upstairsNeighborLocatedBlockId =
+            upstairsNeighborPath[upstairsNeighborPath.length - 1];
+          const upstairsNeighborLocatedBlock = state.locatedBlocks.get(
+            upstairsNeighborLocatedBlockId
+          );
+          const newPath = [...upstairsNeighborPath.slice(0, -1), locatedRef.current.id];
           return state
             .removeLocatedBlock(upstairsNeighborLocatedBlockId)
             .moveLocatedBlock(
-              blockRef.current.locatedBlock.id,
-              upstairsNeighborBlock.locatedBlock.leftId,
-              upstairsNeighborBlock.locatedBlock.parentId
+              locatedRef.current.id,
+              upstairsNeighborLocatedBlock.leftId,
+              upstairsNeighborLocatedBlock.parentId
             )
             .setFocusLatch(newPath, "start");
-        } else if (blockRef.current.blockContent.locatedBlocks.length > 1) {
+        } else if (contentRef.current.locatedBlocks.length > 1) {
           // if the current block has multiple parents and the upstairs neighbor is non-simple,
           // we don't do anything
           return state;
         } else if (
-          blockRef.current.blockContent.childLocatedBlocks.length > 0 &&
-          upstairsNeighborBlock.blockContent.childLocatedBlocks.length > 1
+          contentRef.current.childLocatedBlocks.length > 0 &&
+          upstairsNeighborContent.childLocatedBlocks.length > 1
         ) {
           // if both merging blocks have children, that's weird and we don't do anything
           return state;
@@ -319,15 +330,12 @@ export const BlockText = (props: IBlockTextProps) => {
           // in all other cases,
           // we merge current block into upstairs neighbor, maintaining upstairs neighbor's id
           return state
-            .removeLocatedBlock(blockRef.current.locatedBlock.id)
+            .removeLocatedBlock(locatedRef.current.id)
             .updateBlockText(
-              upstairsNeighborBlock.blockContent.id,
-              upstairsNeighborBlock.blockContent.humanText + editorText
+              upstairsNeighborContent.id,
+              upstairsNeighborContent.humanText + editorText
             )
-            .setFocusLatch(
-              upstairsNeighborPath,
-              upstairsNeighborBlock.blockContent.humanText.length + 1
-            );
+            .setFocusLatch(upstairsNeighborPath, upstairsNeighborContent.humanText.length + 1);
         }
       });
       return PREVENT_TIPTAP_DEFAULT;
@@ -344,15 +352,15 @@ export const BlockText = (props: IBlockTextProps) => {
         return state;
       }
       let focusPath: Path;
-      let parentContent = state.blockContents.get(blockRef.current.locatedBlock.parentId);
-      if (parentContent.getLeftmostChildId() === blockRef.current.locatedBlock.id) {
+      let parentContent = state.blockContents.get(locatedRef.current.parentId);
+      if (parentContent.getLeftmostChildId() === locatedRef.current.id) {
         // if we're the first child, just add an older sibling and proceed, don't return yet
         const newLocatedBlockId = crypto.randomUUID();
         state = state.insertNewBlock(
           null,
           parentContent.id,
           "",
-          blockRef.current.blockContent.blockType,
+          contentRef.current.blockType,
           newLocatedBlockId
         );
         parentContent = state.blockContents.get(parentContent.id);
@@ -360,15 +368,15 @@ export const BlockText = (props: IBlockTextProps) => {
       } else {
         focusPath = [
           ...propsRef.current.path.slice(0, -1),
-          parentContent.getLeftSiblingIdOf(blockRef.current.locatedBlock.id),
-          blockRef.current.locatedBlock.id,
+          parentContent.getLeftSiblingIdOf(locatedRef.current.id),
+          locatedRef.current.id,
         ];
       }
-      const updatedLeftSibling = parentContent.getLeftSiblingIdOf(blockRef.current.locatedBlock.id);
+      const updatedLeftSibling = parentContent.getLeftSiblingIdOf(locatedRef.current.id);
       const leftSiblingBlock = fullBlockFromLocatedBlockId(state, updatedLeftSibling);
       return state
         .moveLocatedBlock(
-          blockRef.current.locatedBlock.id,
+          locatedRef.current.id,
           leftSiblingBlock.blockContent.getRightmostChildId(),
           leftSiblingBlock.blockContent.id
         )
@@ -381,25 +389,25 @@ export const BlockText = (props: IBlockTextProps) => {
     logKeyEvent("onShiftTabPress, path: " + propsRef.current.path);
     const focusPosition = getFocusPosition(editor);
     dispatch((state: IState) => {
-      if (propsRef.current.path.length < 3) {
+      if (propsRef.current.path.length < 2) {
         // If there's no granparent, we don't do anything
         return state;
       }
       const parentLocatedBlockId = propsRef.current.path[propsRef.current.path.length - 2];
       const parentBlock = fullBlockFromLocatedBlockId(state, parentLocatedBlockId);
       const rightSiblingLocatedId = parentBlock.blockContent.getRightSiblingIdOf(
-        blockRef.current.locatedBlock.id
+        locatedRef.current.id
       );
-      const focusPath = [...propsRef.current.path.slice(0, -2), blockRef.current.locatedBlock.id];
+      const focusPath = [...propsRef.current.path.slice(0, -2), locatedRef.current.id];
       const updatedState = state
         .moveLocatedBlock(
-          blockRef.current.locatedBlock.id,
+          locatedRef.current.id,
           parentLocatedBlockId,
           parentBlock.locatedBlock.parentId
         )
         .setFocusLatch(focusPath, focusPosition);
       if (rightSiblingLocatedId) {
-        return updatedState.moveChildren(rightSiblingLocatedId, blockRef.current.blockContent.id);
+        return updatedState.moveChildren(rightSiblingLocatedId, contentRef.current.id);
       }
       return updatedState;
     });
@@ -411,11 +419,17 @@ export const BlockText = (props: IBlockTextProps) => {
     propsRef.current = props;
   }, [props]);
 
-  // keep blockRef and isRootRef up to date
+  // keep locatedRef and contentRef and isRootRef up to date
   useEffect(() => {
-    blockRef.current = fullBlockFromLocatedBlockId(state, props.path[props.path.length - 1]);
-    isRootRef.current = props.path.length === 1;
-  }, [props.path]);
+    contentRef.current = state.blockContents.get(props.contentId);
+    if (props.path.length > 0) {
+      locatedRef.current = state.locatedBlocks.get(props.path[props.path.length - 1]);
+      isRootRef.current = false;
+    } else {
+      locatedRef.current = null;
+      isRootRef.current = true;
+    }
+  }, [props.path, props.contentId]);
 
   // We blur whenever a selection starts, so that only our synthetic selection is visible/active
   useEffect(() => {

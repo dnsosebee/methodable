@@ -1,18 +1,23 @@
 import { useContext } from "react";
-import { IState } from "../../model/state";
+import { IState, Path } from "../../model/state";
 import { blockType, OPTIONAL_BLOCK_TYPES } from "../../model/blockType";
 import { Context } from "../ContextWrapper";
 import { Block, IBlockProps } from "./Block";
-import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
+import { Breadcrumbs, IBreadcrumbsProps } from "./Breadcrumbs";
+import { BlockContentId } from "../../model/blockContent";
 
-export const EditorContainer = () => {
+export interface IEditorContainerProps {
+  rootContentId: BlockContentId;
+  rootRelativePath: Path;
+}
+
+export const EditorContainer = (props: IEditorContainerProps) => {
   const { state }: { state: IState } = useContext(Context);
-  const rootLocatedBlockId = state.locatedIdPath[state.locatedIdPath.length - 1];
-  const rootBlock = fullBlockFromLocatedBlockId(state, rootLocatedBlockId);
+  const rootContent = state.getContentFromPath();
 
   const rootBlockProps: IBlockProps = {
-    path: [rootLocatedBlockId],
-    content: rootBlock.blockContent,
+    path: [],
+    content: rootContent,
     isShallowSelected: false,
     isDeepSelected: false,
     isGlobalSelectionActive: state.isSelectionActive,
@@ -20,5 +25,15 @@ export const EditorContainer = () => {
     orderNum: 0,
   };
 
-  return <Block {...rootBlockProps} />;
+  const breadcrumbProps: IBreadcrumbsProps = {
+    rootContentId: state.rootContentId,
+    rootRelativePath: state.rootRelativePath,
+  };
+
+  return (
+    <>
+      {state.rootRelativePath.length > 0 ? <Breadcrumbs {...breadcrumbProps} /> : null}
+      <Block {...rootBlockProps} />
+    </>
+  );
 };

@@ -46,7 +46,7 @@ export const TypeSelect = (props: ITypeSelectProps) => {
     });
   };
 
-  const buttonClasses = `w-5 h-5 m-0.5 select-none border rounded-md text-xs ${presentationData.className}`;
+  const buttonClasses = `w-5 h-5 m-0.5 select-none border rounded-md text-xs hover:bg-gray-200 hover:border-gray-200 ${presentationData.className}`;
 
   return (
     <button onClick={handleButtonClick} className={buttonClasses}>
