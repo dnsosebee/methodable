@@ -12,15 +12,15 @@ interface IBlockHandlePresentation {
 const BLOCK_HANDLE_PRESENTATIONS = {
   [OPTIONAL_BLOCK_TYPES.DO]: {
     text: (orderNum: number) => `${orderNum}.`,
-    className: "text-blue-200 hover:bg-gray-200",
+    className: "text-blue-200 hover:bg-gray-100",
   },
   [OPTIONAL_BLOCK_TYPES.CHOOSE]: {
     text: (orderNum: number) => `${orderNum}.`,
-    className: "text-green-200 hover:bg-gray-200",
+    className: "text-green-200 hover:bg-gray-100",
   },
   [OPTIONAL_BLOCK_TYPES.READ]: {
     text: (orderNum: number) => "•",
-    className: "text-orange-200 pr-1.5 hover:bg-gray-200",
+    className: "text-orange-200 pr-1.5 hover:bg-gray-100",
   },
   [OPTIONAL_BLOCK_TYPES.UNDEFINED]: {
     text: (orderNum: number) => "✦",
@@ -28,7 +28,7 @@ const BLOCK_HANDLE_PRESENTATIONS = {
   },
   [OPTIONAL_BLOCK_TYPES.REFERENCE]: {
     text: (orderNum: number) => "•",
-    className: "text-purple-200 pr-1.5 hover:bg-gray-200",
+    className: "text-purple-200 pr-1.5 hover:bg-gray-100",
   },
 };
 
