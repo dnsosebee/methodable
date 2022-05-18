@@ -27,8 +27,10 @@ export interface IStateData {
   isSelectionActive: boolean;
   isSelectionDeep: boolean;
   // focus related: focusPath is relative to locatedIdPath, which is relative to rootContentId
+  // focus is also used to store progress in a program
   focusPath: Path | null;
   focusPosition: FocusPosition;
+  isFocusSpecifiedInURL: boolean;
 }
 
 export interface IStateTransitions {
@@ -46,7 +48,12 @@ export interface IStateTransitions {
   clearFocusLatch: () => IState;
 
   // path related
-  setRootAndPath: (rootContentId: BlockContentId, locatedIdPath: Path) => IState;
+  setPaths: (
+    rootContentId: BlockContentId,
+    rootRelativePath: Path,
+    focusPath: Path,
+    isFocusSpecifiedInURL: boolean
+  ) => IState;
 
   // block transitions
   updateBlockText: (blockContentId: BlockContentId, humanText: HumanText) => IState;
@@ -153,11 +160,18 @@ export function createState(stateData: IStateData): IState {
     },
 
     // path related
-    setRootAndPath: (contentId: BlockContentId, idPath: Path): IState => {
+    setPaths: (
+      rootContentId: BlockContentId,
+      rootRelativePath: Path,
+      focusPath: Path,
+      isFocusSpecifiedInURL: boolean
+    ): IState => {
       return createState({
         ...stateData,
-        rootContentId: contentId,
-        rootRelativePath: idPath,
+        rootContentId,
+        rootRelativePath,
+        focusPath,
+        isFocusSpecifiedInURL,
       });
     },
 

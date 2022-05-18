@@ -6,12 +6,7 @@ import { Block, IBlockProps } from "./Block";
 import { Breadcrumbs, IBreadcrumbsProps } from "./Breadcrumbs";
 import { BlockContentId } from "../../model/blockContent";
 
-export interface IEditorContainerProps {
-  rootContentId: BlockContentId;
-  rootRelativePath: Path;
-}
-
-export const EditorContainer = (props: IEditorContainerProps) => {
+export const EditorContainer = () => {
   const { state }: { state: IState } = useContext(Context);
   const rootContent = state.getContentFromPath();
 

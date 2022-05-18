@@ -120,4 +120,5 @@ export const initialState: IState = createState({
   isSelectionDeep: true,
   focusPath: null,
   focusPosition: "start",
+  isFocusSpecifiedInURL: false,
 });
