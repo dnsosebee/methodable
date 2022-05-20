@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
-import { Context } from "../ContextWrapper";
-import { BlockText, IBlockTextProps } from "./BlockText";
-import { ITypeSelectProps, TypeSelect } from "./TypeSelect";
-import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
 import { pathEquals } from "../../lib/helpers";
-import { ContainerLine, IContainerLineProps } from "./ContainerLine";
-import { BLOCK_TYPES, IBlockType, OPTIONAL_BLOCK_TYPES } from "../../model/blockType";
-import { RunButton } from "./RunButton";
-import { Action, IState, Path } from "../../model/state";
-import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
 import { IBlockContent } from "../../model/blockContent";
+import { BLOCK_TYPES, IBlockType, OPTIONAL_BLOCK_TYPES } from "../../model/blockType";
+import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
+import { Action, IState, Path } from "../../model/state";
+import { Context } from "../ContextWrapper";
+import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
+import { BlockText, IBlockTextProps } from "./BlockText";
+import { ContainerLine, IContainerLineProps } from "./ContainerLine";
+import { RunButton } from "./RunButton";
+import { ITypeSelectProps, TypeSelect } from "./TypeSelect";
 
 export interface IBlockProps {
   path: Path;
@@ -105,9 +105,12 @@ export const Block = (props: IBlockProps) => {
   };
 
   const shouldRenderRunButton = props.content.blockType.name !== BLOCK_TYPES.REFERENCE;
+  const shallowSelectedClasses = props.isShallowSelected
+    ? "shadow-[inset_0px_0px_5px_5px_rgba(0,0,0,0.1)]"
+    : "";
 
   return (
-    <>
+    <div className={shallowSelectedClasses}>
       <div className="flex">
         <BlockHandle {...blockHandleProps} />
         <TypeSelect {...typeSelectProps}></TypeSelect>
@@ -120,6 +123,6 @@ export const Block = (props: IBlockProps) => {
           <div className="flex-grow">{childBlocks}</div>
         </div>
       )}
-    </>
+    </div>
   );
 };

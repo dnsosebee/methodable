@@ -24,7 +24,7 @@ const Container = () => {
     paths = ".";
   }
   if (paths.includes('.')) {
-    const [rootRelativePath, focusPath] = paths.split('.');
+    [rootRelativePath, focusPath] = paths.split('.');
     isFocusSpecifiedInPaths = true;
   } else {
     rootRelativePath = paths;

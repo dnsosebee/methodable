@@ -30,5 +30,5 @@ export interface IContainerLineProps {
 export const ContainerLine = (props: IContainerLineProps) => {
   const presentationData: IContainerLinePresentation =
     CONTAINER_LINE_PRESENTATIONS[props.parentBlockType];
-  return <div className={`w-1 mr-1 ml-3 my-1 rounded-sm ${presentationData.className}`} />;
+  return <div className={`w-1 mr-1 ml-3 my-1 rounded-sm select-none ${presentationData.className}`} />;
 };

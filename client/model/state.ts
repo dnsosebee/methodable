@@ -42,6 +42,7 @@ export interface IStateTransitions {
   startSelection: (path: Path) => IState;
   changeSelection: (path: Path) => IState;
   endSelection: () => IState;
+  toggleSelectionType: () => IState;
 
   // focus related
   setFocusLatch: (path: Path, focusPosition: FocusPosition) => IState;
@@ -97,6 +98,12 @@ export function createState(stateData: IStateData): IState {
     refresh: () => createState(stateData),
 
     // selection related
+    toggleSelectionType: () => {
+      return createState({
+        ...stateData,
+        isSelectionDeep: !stateData.isSelectionDeep,
+      });
+    },
     setSelectionParent: (): IState => {
       // must run after selectionRange is updated
       const { selectionRange } = stateData;

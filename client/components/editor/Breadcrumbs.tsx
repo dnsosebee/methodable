@@ -42,9 +42,11 @@ export const Breadcrumbs = (props: IBreadcrumbsProps) => {
         return (
           <span key={index} className="flex flex-none">
             <Link href={info.link}>
-              <a className="text-xs text-gray-500 rounded py-0.5 px-1 bg-gray-100 hover:bg-gray-200">{info.text}</a>
+              <a className="select-none text-xs text-gray-500 rounded py-0.5 px-1 bg-gray-100 hover:bg-gray-200">
+                {info.text}
+              </a>
             </Link>
-            <p className="mx-2 text-xs py-0.5 text-gray-500">
+            <p className="mx-2 text-xs py-0.5 text-gray-500 select-none">
               {index < breadcrumbInfos.length - 1 ? "❯" : ""}
             </p>
           </span>

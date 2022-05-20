@@ -1,17 +1,17 @@
+import { Editor } from "@tiptap/core";
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { Editor } from "@tiptap/core";
 import { MutableRefObject, useContext, useEffect, useRef } from "react";
-import { logMouseEvent, logKeyEvent, logEditorEvent, logEffect } from "../../lib/loggers";
-import { Context } from "../ContextWrapper";
-import { getFocusPosition, pathEquals } from "../../lib/helpers";
-import { Action, IState, Path } from "../../model/state";
 import { NoSuchBlockError } from "../../lib/errors";
+import { getFocusPosition, pathEquals } from "../../lib/helpers";
+import { logEditorEvent, logEffect, logKeyEvent, logMouseEvent } from "../../lib/loggers";
 import { BlockContentId, HumanText, IBlockContent } from "../../model/blockContent";
 import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
 import { ILocatedBlock } from "../../model/locatedBlock";
+import { Action, IState, Path } from "../../model/state";
+import { Context } from "../ContextWrapper";
 
 const PREVENT_TIPTAP_DEFAULT = true;
 const ALLOW_TIPTAP_DEFAULT = false;
@@ -105,7 +105,9 @@ export const BlockText = (props: IBlockTextProps) => {
     onCopy: copy,
   };
 
-  const selectedClass = propsRef.current.isGlobalSelectionActive ? "select-none" : "";
+  const selectedClass = propsRef.current.isGlobalSelectionActive
+    ? "selection:bg-transparent"
+    : "selection:bg-gray-200";
   const containerDeepSelectedClass = props.isDeepSelected ? "bg-gray-200" : "";
 
   const CustomExtension = Document.extend({
@@ -149,7 +151,7 @@ export const BlockText = (props: IBlockTextProps) => {
         isFocused.current = false;
       },
     },
-    [props.isGlobalSelectionActive]
+    [props.isGlobalSelectionActive, state.selectionRange]
   );
 
   const handleEnterPress = (editor: Editor) => {
