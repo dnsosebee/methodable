@@ -8,15 +8,7 @@ import client from "../client/lib/apollo";
 import "../client/styles/globalStyles.css";
 
 function MyApp({ Component, pageProps }) {
-  return (
-    <UserProvider>
-      <ApolloProvider client={client}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ApolloProvider>
-    </UserProvider>
-  );
+  return <Component {...pageProps} />;
 }
 
 export default MyApp;
