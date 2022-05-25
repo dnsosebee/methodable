@@ -1,5 +1,5 @@
 //backend
-import { BlockType, BlockState, AccessType, User } from "@prisma/client";
+import { BlockState, AccessType, User, BlockType } from "@prisma/client";
 import { Context } from "./context";
 
 export const resolvers = {

@@ -1,9 +1,22 @@
 // crockford object for state
 import { NoSuchBlockError } from "../lib/errors";
-import { blockContent, BlockContentId, HumanText, IBlockContent } from "./blockContent";
+import {
+  blockContent,
+  BlockContentId,
+  contentFromJson,
+  contentToJson,
+  HumanText,
+  IBlockContent,
+} from "./blockContent";
 import { IBlockType } from "./blockType";
 import { fullBlockFromLocatedBlockId } from "./fullBlock";
-import { ILocatedBlock, locatedBlock, LocatedBlockId } from "./locatedBlock";
+import {
+  ILocatedBlock,
+  locatedBlock,
+  locatedBlockFromJson,
+  LocatedBlockId,
+  locatedBlockToJson,
+} from "./locatedBlock";
 
 // types
 export type UserId = string;
@@ -423,3 +436,67 @@ export function createState(stateData: IStateData): IState {
     ...getters,
   });
 }
+
+export const stateToJson = (state: IState): string => {
+  const { blockContents, locatedBlocks } = state;
+  const contentsArray = [];
+  blockContents.forEach(function (val, key) {
+    contentsArray.push(contentToJson(val));
+  });
+  const locatedBlocksArray = [];
+  locatedBlocks.forEach(function (val, key) {
+    locatedBlocksArray.push(locatedBlockToJson(val));
+  });
+  return JSON.stringify({
+    blockContents: contentsArray,
+    locatedBlocks: locatedBlocksArray,
+  });
+};
+
+export const stateFromJson = (json: string, state: IState): IState => {
+  const parsed = JSON.parse(json);
+  const blockContents: Map<BlockContentId, IBlockContent> = new Map();
+  const locatedBlocks: Map<LocatedBlockId, ILocatedBlock> = new Map();
+  const blockContentsChildren: Map<BlockContentId, LocatedBlockId[]> = new Map();
+  parsed.blockContents.forEach(function (val) {
+    blockContents.set(val.id, contentFromJson(val));
+    blockContentsChildren.set(val.id, []);
+  });
+  parsed.locatedBlocks.forEach(function (val) {
+    blockContents.set(val.contentId, blockContents.get(val.contentId).addLocation(val.id));
+    if (val.parentId) {
+      blockContentsChildren.get(val.parentId).push(val.id);
+    }
+    locatedBlocks.set(val.id, locatedBlockFromJson(val));
+  });
+  blockContentsChildren.forEach((val: LocatedBlockId[], key) => {
+    let left = null;
+    while (val.length > 0) {
+      const childId = val.find((id) => {
+        const child = locatedBlocks.get(id);
+        if (child.leftId === left) {
+          return true;
+        }
+        return false;
+      });
+      blockContents.set(key, blockContents.get(key).addChildAfter(left, childId));
+      left = childId;
+      val.splice(val.indexOf(childId), 1);
+    }
+  });
+  const newState = createState({
+    blockContents,
+    locatedBlocks,
+    rootContentId: state.rootContentId,
+    rootRelativePath: state.rootRelativePath,
+    activeParentPath: state.activeParentPath,
+    selectionRange: state.selectionRange,
+    isSelectionActive: state.isSelectionActive,
+    isSelectionDeep: state.isSelectionDeep,
+    focusPath: state.focusPath,
+    focusPosition: state.focusPosition,
+    isFocusSpecifiedInURL: state.isFocusSpecifiedInURL,
+  });
+  console.log(newState);
+  return newState;
+};

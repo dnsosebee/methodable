@@ -47,34 +47,12 @@ const child2LocatedData: ILocatedBlockData = {
 };
 const child2Located = locatedBlock(child2LocatedData);
 
-const child3LocatedData: ILocatedBlockData = {
-  id: "located-child3",
-  contentId: "content-c",
-  userId: "TODO",
-  blockStatus: "not started",
-  parentId: "content-a",
-  leftId: "located-child2",
-  archived: false,
-};
-const child3Located = locatedBlock(child3LocatedData);
-
-const child4LocatedData: ILocatedBlockData = {
-  id: "located-child4",
-  contentId: "content-c",
-  userId: "TODO",
-  blockStatus: "not started",
-  parentId: "content-b",
-  leftId: null,
-  archived: false,
-};
-const child4Located = locatedBlock(child4LocatedData);
-
 const contentAData: IBlockContentData = {
   id: "content-a",
   blockType: blockType(BLOCK_TYPES.DO),
   humanText: "Do the following things",
   userId: "TODO",
-  childLocatedBlocks: [child1Located.id, child2Located.id, child3Located.id],
+  childLocatedBlocks: [child1Located.id, child2Located.id],
   locatedBlocks: [rootLocated.id],
 };
 const contentA = blockContent(contentAData);
@@ -84,7 +62,7 @@ const contentBData: IBlockContentData = {
   blockType: blockType(BLOCK_TYPES.READ),
   humanText: "Read this",
   userId: "TODO",
-  childLocatedBlocks: [child4Located.id],
+  childLocatedBlocks: [],
   locatedBlocks: [child1Located.id],
 };
 const contentB = blockContent(contentBData);
@@ -95,7 +73,7 @@ const contentCData: IBlockContentData = {
   humanText: "Do this specific thing",
   userId: "TODO",
   childLocatedBlocks: [],
-  locatedBlocks: [child2Located.id, child3Located.id],
+  locatedBlocks: [child2Located.id],
 };
 const contentC = blockContent(contentCData);
 
@@ -104,8 +82,6 @@ export const initialState: IState = createState({
     ["located-root", rootLocated],
     ["located-child1", child1Located],
     ["located-child2", child2Located],
-    ["located-child3", child3Located],
-    ["located-child4", child4Located],
   ]),
   blockContents: new Map<BlockContentId, IBlockContent>([
     ["content-a", contentA],
