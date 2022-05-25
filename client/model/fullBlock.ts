@@ -2,7 +2,7 @@
 
 import { IBlockContent } from "./blockContent";
 import { ILocatedBlock, LocatedBlockId } from "./locatedBlock";
-import { IStateData } from "./state";
+import { IGraphData } from "./graph";
 
 export interface IFullBlockData {
   locatedBlock: ILocatedBlock;
@@ -14,7 +14,7 @@ export interface IFullBlockFunctions {}
 export interface IFullBlock extends IFullBlockData, IFullBlockFunctions {}
 
 export function fullBlockFromLocatedBlockId(
-  stateData: IStateData,
+  stateData: IGraphData,
   locatedBlockId: LocatedBlockId
 ): IFullBlock {
   const locatedBlock = stateData.locatedBlocks.get(locatedBlockId);
@@ -22,7 +22,7 @@ export function fullBlockFromLocatedBlockId(
   return fullBlock(stateData, { locatedBlock, blockContent });
 }
 
-export function fullBlock(stateData: IStateData, data: IFullBlockData): IFullBlock {
+export function fullBlock(stateData: IGraphData, data: IFullBlockData): IFullBlock {
   return Object.freeze({
     ...data,
   });

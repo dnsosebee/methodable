@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
 import { pathEquals } from "../../lib/helpers";
 import { IBlockContent } from "../../model/blockContent";
-import { BLOCK_TYPES, IBlockType, OPTIONAL_BLOCK_TYPES } from "../../model/blockType";
 import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
-import { Action, IState, Path } from "../../model/state";
-import { Context } from "../ContextWrapper";
+import { GraphAction, IGraph, Path } from "../../model/graph";
+import { IVerb, verb, VERB } from "../../model/verbs/verb";
+import { GraphContext } from "../GraphContextWrapper";
 import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
 import { BlockText, IBlockTextProps } from "./BlockText";
-import { ContainerLine, IContainerLineProps } from "./ContainerLine";
+import { ContainerLine } from "./ContainerLine";
 import { RunButton } from "./RunButton";
-import { ITypeSelectProps, TypeSelect } from "./TypeSelect";
+import { IVerbSelectProps, VerbSelect } from "./VerbSelect";
 
 export interface IBlockProps {
   path: Path;
@@ -17,15 +17,16 @@ export interface IBlockProps {
   isShallowSelected: boolean;
   isDeepSelected: boolean;
   isGlobalSelectionActive: boolean;
-  parentBlockType: IBlockType;
-  orderNum: number;
+  parentVerb?: IVerb;
+  orderIndex: number;
 }
 
 export const Block = (props: IBlockProps) => {
-  const { state, dispatch }: { state: IState; dispatch: (action: Action) => {} } =
-    useContext(Context);
+  const { state, dispatch }: { state: IGraph; dispatch: (action: GraphAction) => {} } =
+    useContext(GraphContext);
 
   const getChildBlocks = () => {
+    let numAdditiveBlocks = 0;
     return props.content.childLocatedBlocks.map((childId, childIndex) => {
       const { blockContent: childBlockContent } = fullBlockFromLocatedBlockId(state, childId);
       const childPath = [...props.path, childId];
@@ -33,13 +34,13 @@ export const Block = (props: IBlockProps) => {
         path: childPath,
         isGlobalSelectionActive: props.isGlobalSelectionActive,
         content: childBlockContent,
-        parentBlockType: props.content.blockType,
-        orderNum: childIndex + 1,
+        parentVerb: props.content.verb,
+        orderIndex: childIndex - numAdditiveBlocks,
         ...getSelectednessInfo(childPath),
       };
       return (
         <>
-          <Block key={childIndex} {...childBlockProps} />
+          <Block key={childId} {...childBlockProps} />
         </>
       );
     });
@@ -63,7 +64,7 @@ export const Block = (props: IBlockProps) => {
           const childLocatedBlockId = path[parentPathLength];
           const bound1 = state.selectionRange.start[parentPathLength];
           const bound2 = state.selectionRange.end[parentPathLength];
-          const parentContent = state.getContentFromPath(state.activeParentPath, true);
+          const parentContent = state.getContentFromPath({ focusPath: state.activeParentPath });
           if (parentContent.isChildBetween(childLocatedBlockId, bound1, bound2)) {
             // we know this block or its parent is selected, nothing more (sufficient for deep selection)
             if (state.isSelectionDeep) {
@@ -88,23 +89,19 @@ export const Block = (props: IBlockProps) => {
     isDeepSelected: props.isDeepSelected,
   };
 
-  const typeSelectProps: ITypeSelectProps = {
+  const verbSelectProps: IVerbSelectProps = {
     content: props.content,
   };
 
   const blockHandleProps: IBlockHandleProps = {
-    parentBlockType:
-      props.path.length == 0 ? OPTIONAL_BLOCK_TYPES.UNDEFINED : props.parentBlockType.name,
-    orderNum: props.orderNum,
+    parentVerb: props.path.length == 0 ? verb(VERB.UNDEFINED) : props.parentVerb,
+    verb: props.content.verb,
+    orderIndex: props.orderIndex,
     rootContentId: state.rootContentId,
     pathRelativeToRoot: [...state.rootRelativePath, ...props.path],
   };
 
-  const blockContainerLineProps: IContainerLineProps = {
-    parentBlockType: props.parentBlockType.name,
-  };
-
-  const shouldRenderRunButton = props.content.blockType.name !== BLOCK_TYPES.REFERENCE;
+  const shouldRenderRunButton = props.content.verb.isAdditive() === false;
   const shallowSelectedClasses = props.isShallowSelected
     ? "shadow-[inset_0px_0px_5px_5px_rgba(0,0,0,0.1)]"
     : "";
@@ -112,14 +109,14 @@ export const Block = (props: IBlockProps) => {
   return (
     <div className={shallowSelectedClasses}>
       <div className="flex">
-        <BlockHandle {...blockHandleProps} />
-        <TypeSelect {...typeSelectProps}></TypeSelect>
+        { props.parentVerb.name !== VERB.UNDEFINED && <BlockHandle {...blockHandleProps} /> }
+        <VerbSelect {...verbSelectProps}></VerbSelect>
         <BlockText {...blockTextProps} />
         {shouldRenderRunButton && <RunButton {...{ contentId: props.content.id }} />}
       </div>
       {childBlocks.length > 0 && (
         <div className="flex">
-          <ContainerLine {...blockContainerLineProps} />
+          { props.parentVerb.name !== VERB.UNDEFINED && <ContainerLine /> }
           <div className="flex-grow">{childBlocks}</div>
         </div>
       )}

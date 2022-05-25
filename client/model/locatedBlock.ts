@@ -1,5 +1,6 @@
 // crockford object for LocatedBlock
 
+import { rightPad } from "../lib/loggers";
 import { BlockContentId } from "./blockContent";
 
 export type LocatedBlockId = string;
@@ -18,10 +19,18 @@ export interface ILocatedBlockData {
 interface ILocatedBlockTransitions {
   setLeftId: (leftId: LocatedBlockId) => ILocatedBlock;
   setParentId: (parentId: BlockContentId) => ILocatedBlock;
+  setContentId: (contentId: BlockContentId) => ILocatedBlock;
   setArchived: (archived: boolean) => ILocatedBlock;
 }
 
-export interface ILocatedBlock extends ILocatedBlockData, ILocatedBlockTransitions {}
+interface ILocatedBlockGetters {
+  toString: () => string;
+}
+
+export interface ILocatedBlock
+  extends ILocatedBlockData,
+    ILocatedBlockTransitions,
+    ILocatedBlockGetters {}
 
 export function locatedBlock(data: ILocatedBlockData): ILocatedBlock {
   const transitions: ILocatedBlockTransitions = {
@@ -31,13 +40,22 @@ export function locatedBlock(data: ILocatedBlockData): ILocatedBlock {
     setParentId: (parentId: BlockContentId) => {
       return locatedBlock({ ...data, parentId });
     },
+    setContentId: (contentId: BlockContentId) => {
+      return locatedBlock({ ...data, contentId });
+    },
     setArchived: (archived: boolean) => {
       return locatedBlock({ ...data, archived });
     },
   };
+  const toString = () => {
+    return `LocatedBlock(${rightPad(data.id)}) -- contentId: ${rightPad(
+      data.contentId
+    )}, leftId: ${rightPad(data.leftId)}, parentId: ${rightPad(data.parentId)}, archived: ${data.archived}`;
+  };
   return Object.freeze({
     ...data,
     ...transitions,
+    toString,
   });
 }
 
