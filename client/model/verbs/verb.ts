@@ -5,13 +5,17 @@ import { ILocatedBlock } from "../locatedBlock";
 import { IFullPath, Path } from "../graph";
 import { chooseGetters } from "./choose";
 import { doGetters } from "./do";
+import { readGetters } from "./read";
+import { viewGetters } from "./view";
+import { editGetters } from "./edit";
+import { undefinedGetters } from "./undefined";
 
 export enum VERB {
   UNDEFINED = "UNDEFINED", // for non-existent parent verbs
   DO = "DO",
   CHOOSE = "CHOOSE",
   READ = "READ",
-  QUOTE = "QUOTE",
+  VIEW = "VIEW",
   EDIT = "EDIT",
 }
 
@@ -36,20 +40,20 @@ const verbGetters = (name: VERB): IVerbGetters => {
     case VERB.CHOOSE:
       return chooseGetters;
     case VERB.READ:
-      return doGetters; // TODO fix
-    case VERB.QUOTE:
-      return doGetters; // TODO fix
+      return readGetters;
+    case VERB.VIEW:
+      return viewGetters;
     case VERB.EDIT:
-      return doGetters; // TODO fix
+      return editGetters;
     case VERB.UNDEFINED:
-      return doGetters; // TODO fix
+      return undefinedGetters;
     default:
       throw new Error("Unknown verb: " + name);
   }
 };
 
 export function verb(name: VERB): IVerb {
-  const VERB_ORDER = [VERB.DO, VERB.CHOOSE, VERB.READ, VERB.QUOTE, VERB.EDIT];
+  const VERB_ORDER = [VERB.DO, VERB.CHOOSE, VERB.READ, VERB.VIEW, VERB.EDIT];
   const getters = verbGetters(name);
 
   const getNext = (): IVerb => {
@@ -69,6 +73,14 @@ export function verb(name: VERB): IVerb {
       className: getters.getChildBlockHandleClasses(),
     };
   };
+
+  if (!getters.alwaysPresents) {
+    getters.alwaysPresents = () => true;
+  }
+
+  if (!getters.isAdditive) {
+    getters.isAdditive = () => false;
+  }
 
   if (!getters.getDefaultChildVerb) {
     if (getters.isAdditive()) {
@@ -92,14 +104,6 @@ export function verb(name: VERB): IVerb {
     } else {
       getters.getDefaultParentVerb = () => verb(name);
     }
-  }
-
-  if (!getters.alwaysPresents) {
-    getters.alwaysPresents = () => true;
-  }
-
-  if (!getters.isAdditive) {
-    getters.isAdditive = () => false;
   }
 
   return Object.freeze({

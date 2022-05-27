@@ -176,12 +176,19 @@ export const contentToJson = (blockContent: IBlockContent) => {
 
 export const contentFromJson = (json): IBlockContent => {
   let verbType: string;
+
+  // backwards compatibility
   if (json.verb) {
     verbType = json.verb;
   } else if (json.blockType) {
     verbType = json.blockType;
   } else {
     throw new Error("Verb not found");
+  }
+
+  // backwards compatibility
+  if (verbType === "REFERENCE") {
+    verbType = "VIEW";
   }
 
   const blockVerb = verb(VERB[verbType]);
