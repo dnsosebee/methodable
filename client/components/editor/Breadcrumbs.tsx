@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { useContext } from "react";
+import { PATH_DELIMITER } from "../../../pages/[mode]/[rootContentId]";
 import { BlockContentId } from "../../model/blockContent";
-import { IState, Path } from "../../model/state";
-import { Context } from "../ContextWrapper";
+import { IGraph, Path } from "../../model/graph";
+import { GraphContext } from "../GraphContextWrapper";
 
 export interface IBreadcrumbsProps {
   rootContentId: BlockContentId;
@@ -17,17 +18,17 @@ interface IBreadcrumbInfo {
 const MAX_LENGTH_OF_BREADCRUMB_TEXT = 40;
 
 export const Breadcrumbs = (props: IBreadcrumbsProps) => {
-  const { state }: { state: IState } = useContext(Context);
+  const { state }: { state: IGraph } = useContext(GraphContext);
 
   const getBreadcrumbInfos = (relativePath: Path): IBreadcrumbInfo[] => {
-    const content = state.getContentFromPath(relativePath, false);
+    const content = state.getContentFromPath({ rootRelativePath: relativePath });
     let text = content.humanText;
     if (text.length > MAX_LENGTH_OF_BREADCRUMB_TEXT) {
       text = text.substring(0, MAX_LENGTH_OF_BREADCRUMB_TEXT - 3) + "...";
     }
     const info: IBreadcrumbInfo = {
       text,
-      link: `/edit/${props.rootContentId}/${relativePath.join(",")}`,
+      link: `/edit/${props.rootContentId}/${relativePath.join(PATH_DELIMITER)}`,
     };
     if (relativePath.length === 0) {
       return [info];

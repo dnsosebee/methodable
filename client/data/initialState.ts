@@ -1,6 +1,5 @@
 // a temp file for initial state
-import { IState, createState } from "../model/state";
-import { blockType, BLOCK_TYPES } from "../model/blockType";
+import { IGraph, createGraph } from "../model/graph";
 import {
   ILocatedBlock,
   ILocatedBlockData,
@@ -13,6 +12,7 @@ import {
   IBlockContent,
   IBlockContentData,
 } from "../model/blockContent";
+import { VERB, verb } from "../model/verbs/verb";
 
 const rootLocatedData: ILocatedBlockData = {
   id: "located-root",
@@ -47,19 +47,30 @@ const child2LocatedData: ILocatedBlockData = {
 };
 const child2Located = locatedBlock(child2LocatedData);
 
+const child3LocatedData: ILocatedBlockData = {
+  id: "located-child3",
+  contentId: "content-c",
+  userId: "TODO",
+  blockStatus: "not started",
+  parentId: "content-a",
+  leftId: "located-child2",
+  archived: false,
+};
+const child3Located = locatedBlock(child3LocatedData);
+
 const contentAData: IBlockContentData = {
   id: "content-a",
-  blockType: blockType(BLOCK_TYPES.DO),
+  verb: verb(VERB.DO),
   humanText: "Do the following things",
   userId: "TODO",
-  childLocatedBlocks: [child1Located.id, child2Located.id],
+  childLocatedBlocks: [child1Located.id, child2Located.id, child3Located.id],
   locatedBlocks: [rootLocated.id],
 };
 const contentA = blockContent(contentAData);
 
 const contentBData: IBlockContentData = {
   id: "content-b",
-  blockType: blockType(BLOCK_TYPES.READ),
+  verb: verb(VERB.CHOOSE),
   humanText: "Read this",
   userId: "TODO",
   childLocatedBlocks: [],
@@ -69,19 +80,20 @@ const contentB = blockContent(contentBData);
 
 const contentCData: IBlockContentData = {
   id: "content-c",
-  blockType: blockType(BLOCK_TYPES.DO),
+  verb: verb(VERB.DO),
   humanText: "Do this specific thing",
   userId: "TODO",
   childLocatedBlocks: [],
-  locatedBlocks: [child2Located.id],
+  locatedBlocks: [child2Located.id, child3Located.id],
 };
 const contentC = blockContent(contentCData);
 
-export const initialState: IState = createState({
+export const initialState: IGraph = createGraph({
   locatedBlocks: new Map<LocatedBlockId, ILocatedBlock>([
     ["located-root", rootLocated],
     ["located-child1", child1Located],
     ["located-child2", child2Located],
+    ["located-child3", child3Located],
   ]),
   blockContents: new Map<BlockContentId, IBlockContent>([
     ["content-a", contentA],
@@ -94,7 +106,7 @@ export const initialState: IState = createState({
   selectionRange: { start: [], end: [] },
   isSelectionActive: false,
   isSelectionDeep: true,
-  focusPath: null,
+  focusPath: [],
   focusPosition: "start",
   isFocusSpecifiedInURL: false,
 });

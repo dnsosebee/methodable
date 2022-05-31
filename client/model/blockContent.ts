@@ -1,15 +1,16 @@
 // crockford object for BlockContent
 
-import { blockType, BLOCK_TYPES, IBlockType } from "./blockType";
 import { LocatedBlockId } from "./locatedBlock";
-import { UserId } from "./state";
+import { UserId } from "./graph";
+import { IVerb, VERB, verb } from "./verbs/verb";
+import { rightPad } from "../lib/loggers";
 
 export type BlockContentId = string;
 export type HumanText = string;
 
 export interface IBlockContentPersistentData {
   id: BlockContentId;
-  blockType: IBlockType;
+  verb: IVerb;
   humanText: HumanText;
   userId: UserId;
 }
@@ -25,7 +26,7 @@ export interface IBlockContentData
 
 export interface IBlockContentTransitions {
   updateHumanText: (humanText: HumanText) => IBlockContent;
-  updateBlockType: (blockType: IBlockType) => IBlockContent;
+  updateVerb: (verb: IVerb) => IBlockContent;
   addChildAfter: (leftId: LocatedBlockId, newId: LocatedBlockId) => IBlockContent;
   removeChild: (id: LocatedBlockId) => IBlockContent;
   addLocation: (id: LocatedBlockId) => IBlockContent;
@@ -44,6 +45,7 @@ export interface IBlockContentGetters {
     bound1: LocatedBlockId,
     bound2: LocatedBlockId
   ) => boolean;
+  toString: () => string;
 }
 
 export interface IBlockContent
@@ -57,8 +59,8 @@ export function blockContent(blockContentData: IBlockContentData): IBlockContent
       const newData = { ...blockContentData, humanText };
       return blockContent(newData);
     },
-    updateBlockType: (blockType: IBlockType) => {
-      return blockContent({ ...blockContentData, blockType });
+    updateVerb: (verb: IVerb) => {
+      return blockContent({ ...blockContentData, verb });
     },
     addChildAfter: (leftId: LocatedBlockId, newId: LocatedBlockId) => {
       const leftIndex = blockContentData.childLocatedBlocks.indexOf(leftId);
@@ -144,6 +146,16 @@ export function blockContent(blockContentData: IBlockContentData): IBlockContent
         (childIndex <= bound1Index && childIndex >= bound2Index)
       );
     },
+    toString: () => {
+      const verbString = blockContentData.verb.name;
+      return `blockContent(${rightPad(blockContentData.id)}), verb: ${rightPad(
+        verbString
+      )}, humanText: ${rightPad(
+        blockContentData.humanText
+      )}\n    locations: ${blockContentData.locatedBlocks.join(
+        ", "
+      )}\n    children: ${blockContentData.childLocatedBlocks.join(", ")}`;
+    },
   };
 
   return Object.freeze({
@@ -156,17 +168,33 @@ export function blockContent(blockContentData: IBlockContentData): IBlockContent
 export const contentToJson = (blockContent: IBlockContent) => {
   return {
     id: blockContent.id,
-    blockType: blockContent.blockType.name.toString().slice(7, -1),
+    verb: blockContent.verb.name.toString(),
     humanText: blockContent.humanText,
     userId: blockContent.userId,
   };
 };
 
 export const contentFromJson = (json): IBlockContent => {
-  const type = blockType(BLOCK_TYPES[json.blockType]);
+  let verbType: string;
+
+  // backwards compatibility
+  if (json.verb) {
+    verbType = json.verb;
+  } else if (json.blockType) {
+    verbType = json.blockType;
+  } else {
+    throw new Error("Verb not found");
+  }
+
+  // backwards compatibility
+  if (verbType === "REFERENCE") {
+    verbType = "VIEW";
+  }
+
+  const blockVerb = verb(VERB[verbType]);
   return blockContent({
     id: json.id,
-    blockType: type,
+    verb: blockVerb,
     humanText: json.humanText,
     userId: json.userId,
     childLocatedBlocks: [],

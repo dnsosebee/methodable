@@ -1,15 +1,17 @@
 import { useContext } from "react";
-import { Action, IState, stateFromJson, stateToJson } from "../../model/state";
-import { blockType, OPTIONAL_BLOCK_TYPES } from "../../model/blockType";
-import { Context } from "../ContextWrapper";
+import { GraphAction, IGraph, stateFromJson, stateToJson } from "../../model/graph";
+import { GraphContext } from "../GraphContextWrapper";
 import { Block, IBlockProps } from "./Block";
 import { Breadcrumbs, IBreadcrumbsProps } from "./Breadcrumbs";
 import { logAction } from "../../lib/loggers";
+import { VERB, verb } from "../../model/verbs/verb";
+import { PATH_DELIMITER, PATH_SEPARATOR, SELECTION_BASE_URL } from "../../../pages/[mode]/[rootContentId]";
+import { Wrapper } from "../Wrapper";
 
 export const EditorContainer = () => {
-  const { state, dispatch }: { state: IState; dispatch: (action: Action) => IState } =
-    useContext(Context);
-  const rootContent = state.getContentFromPath();
+  const { state, dispatch }: { state: IGraph; dispatch: (action: GraphAction) => IGraph } =
+    useContext(GraphContext);
+  const rootContent = state.getContentFromPath({});
 
   const rootBlockProps: IBlockProps = {
     path: [],
@@ -17,13 +19,13 @@ export const EditorContainer = () => {
     isShallowSelected: false,
     isDeepSelected: false,
     isGlobalSelectionActive: state.isSelectionActive,
-    parentBlockType: blockType(OPTIONAL_BLOCK_TYPES.UNDEFINED),
-    orderNum: 0,
+    parentVerb: verb(VERB.UNDEFINED),
+    orderIndex: 0,
   };
 
   // shallow
   const getShallowClipboardVals = (): string => {
-    const parent = state.getContentFromPath(state.activeParentPath, true);
+    const parent = state.getContentFromPath({ focusPath: state.activeParentPath });
     const children = parent.childLocatedBlocks;
     const bound1 = state.selectionRange.start[state.activeParentPath.length];
     const bound2 = state.selectionRange.end[state.activeParentPath.length];
@@ -32,13 +34,13 @@ export const EditorContainer = () => {
       const childId = children[i];
       if (parent.isChildBetween(childId, bound1, bound2)) {
         result +=
-          "localhost:3000/edit/" +
+          SELECTION_BASE_URL +
           state.rootContentId +
           "/" +
-          state.rootRelativePath.join(",") +
-          "." +
-          state.activeParentPath.join(",") +
-          (state.activeParentPath.length > 0 ? "," : "") +
+          state.rootRelativePath.join(PATH_DELIMITER) +
+          PATH_SEPARATOR +
+          state.activeParentPath.join(PATH_DELIMITER) +
+          (state.activeParentPath.length > 0 ? PATH_DELIMITER : "") +
           childId +
           "\n";
       }
@@ -65,7 +67,7 @@ export const EditorContainer = () => {
 
   const toggleSelectionDepth = () => {
     logAction("toggleSelectionDepth");
-    dispatch((state: IState): IState => {
+    dispatch((state: IGraph): IGraph => {
       return state.toggleSelectionType();
     });
   };
@@ -110,7 +112,7 @@ export const EditorContainer = () => {
       // get file contents
       const fileData = await fileHandle.getFile();
       const stringData = await fileData.text();
-      dispatch((state: IState): IState => {
+      dispatch((graph: IGraph): IGraph => {
         return stateFromJson(stringData, state);
       });
     } catch (e) {
@@ -119,24 +121,28 @@ export const EditorContainer = () => {
   };
 
   return (
-    <div onCopy={copyHandler}>
-      <div id="select-this"></div>
-      <div className="">
-        <div className="flex border-b mb-1 select-none">
-          <span className="mx-2">Options:</span>
-          <button onClick={toggleSelectionDepth} className={buttonClasses(state.isSelectionActive)}>
-            {toggleSelectionText}
-          </button>
-          <button onClick={saveHandler} className={buttonClasses(true)}>
-            Save All Programs
-          </button>
-          <button onClick={loadHandler} className={buttonClasses(true)}>
-            Load All Programs
-          </button>
+    <Wrapper shouldGrow={false}>
+      <div onCopy={copyHandler}>
+        <div className="">
+          <div className="flex border-b mb-1 select-none">
+            <span className="mx-2">Options:</span>
+            <button
+              onClick={toggleSelectionDepth}
+              className={buttonClasses(state.isSelectionActive)}
+            >
+              {toggleSelectionText}
+            </button>
+            <button onClick={saveHandler} className={buttonClasses(true)}>
+              Save All Programs
+            </button>
+            <button onClick={loadHandler} className={buttonClasses(true)}>
+              Load All Programs
+            </button>
+          </div>
+          {state.rootRelativePath.length > 0 ? <Breadcrumbs {...breadcrumbProps} /> : null}
+          <Block {...rootBlockProps} />
         </div>
-        {state.rootRelativePath.length > 0 ? <Breadcrumbs {...breadcrumbProps} /> : null}
-        <Block {...rootBlockProps} />
       </div>
-    </div>
+    </Wrapper>
   );
 };

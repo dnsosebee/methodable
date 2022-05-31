@@ -1,9 +1,12 @@
 // Abstractions over the console.log function,
 // so that we can easily disable logging on a per-feature bases
 
-const PAD_LENGTH = 20;
+const PAD_LENGTH = 18;
 
-const rightPad = (str: string) => {
+export const rightPad = (str: string) => {
+  if (!str) {
+    str = "";
+  }
   while (str.length < PAD_LENGTH) {
     str += " ";
   }
@@ -19,7 +22,7 @@ export const logAction = (s: string) => {
 };
 
 export const logKeyEvent = (s: string) => {
-  // console.log(rightPad("Key Event Log: "), s);
+  console.log(rightPad("Key Event Log: "), s);
 };
 
 export const logEditorEvent = (s: string) => {

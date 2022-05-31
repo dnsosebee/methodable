@@ -10,8 +10,10 @@ import { logEditorEvent, logEffect, logKeyEvent, logMouseEvent } from "../../lib
 import { BlockContentId, HumanText, IBlockContent } from "../../model/blockContent";
 import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
 import { ILocatedBlock } from "../../model/locatedBlock";
-import { Action, IState, Path } from "../../model/state";
-import { Context } from "../ContextWrapper";
+import { GraphAction, IGraph, Path } from "../../model/graph";
+import { GraphContext } from "../GraphContextWrapper";
+import { enterPressActionGenerator } from "../../model/actions";
+import { pasteActionGenerator } from "../../lib/paste";
 
 const PREVENT_TIPTAP_DEFAULT = true;
 const ALLOW_TIPTAP_DEFAULT = false;
@@ -26,8 +28,8 @@ export interface IBlockTextProps {
 
 export const BlockText = (props: IBlockTextProps) => {
   const clickOriginatedInThisText = useRef(false); // whether the current click/drag started in this text
-  const { state, dispatch }: { state: IState; dispatch: (action: Action) => {} } =
-    useContext(Context);
+  const { state, dispatch }: { state: IGraph; dispatch: (action: GraphAction) => {} } =
+    useContext(GraphContext);
   const contentRef: MutableRefObject<IBlockContent> = useRef(
     state.blockContents.get(props.contentId)
   );
@@ -47,7 +49,7 @@ export const BlockText = (props: IBlockTextProps) => {
   const mouseEnter = (e: React.MouseEvent) => {
     if (isMouseDown(e)) {
       logMouseEvent("onMouseEnter mouseIsDown " + props.humanText);
-      dispatch((state: IState) => {
+      dispatch((state: IGraph) => {
         if (isRootRef.current) {
           return state;
         }
@@ -66,7 +68,7 @@ export const BlockText = (props: IBlockTextProps) => {
     if (isMouseDown(e)) {
       logMouseEvent("onMouseLeave mouseIsDown " + props.humanText);
       if (clickOriginatedInThisText.current) {
-        dispatch((state: IState) => {
+        dispatch((state: IGraph) => {
           if (isRootRef.current) {
             return state;
           }
@@ -82,7 +84,7 @@ export const BlockText = (props: IBlockTextProps) => {
   const mouseDown = () => {
     logMouseEvent("onMouseDown " + props.humanText);
     clickOriginatedInThisText.current = true;
-    dispatch((state: IState) => {
+    dispatch((state: IGraph) => {
       return state.endSelection();
     });
   };
@@ -133,12 +135,16 @@ export const BlockText = (props: IBlockTextProps) => {
         attributes: {
           class: `focus:outline-none text-gray-700 ${selectedClass}`,
         },
+        handlePaste: () => {
+          handlePaste();
+          return PREVENT_TIPTAP_DEFAULT;
+        },
       },
       editable: !props.isGlobalSelectionActive,
       content: props.humanText,
       onUpdate({ editor }) {
         logEditorEvent("onUpdate:" + propsRef.current.path);
-        dispatch((state: IState) => {
+        dispatch((state: IGraph) => {
           return state.updateBlockText(contentRef.current.id, editor.getText());
         });
       },
@@ -162,58 +168,22 @@ export const BlockText = (props: IBlockTextProps) => {
     const focusPosition = getFocusPosition(editor);
     const leftText = editorText.slice(0, focusPosition - 1);
     const rightText = editorText.slice(focusPosition - 1);
-    dispatch((state: IState) => {
-      const newLocatedBlockId = crypto.randomUUID();
-      if (leftText.length === 0) {
-        // if enter is pressed at the beginning of the line, we just bump that block down a line, and focus on the new line above
-        // oldBlock text stays the same
-        if (isRootRef.current) {
-          return state;
-        }
-        const newPath = [...propsRef.current.path.slice(0, -1), newLocatedBlockId];
-        return state
-          .insertNewBlock(
-            locatedRef.current.leftId,
-            locatedRef.current.parentId,
-            "",
-            contentRef.current.blockType,
-            newLocatedBlockId
-          )
-          .setFocusLatch(newPath, "start");
-      } else if (contentRef.current.childLocatedBlocks.length === 0 && !isRootRef.current) {
-        // if the old block has no children and isn't root, we add a sibling after the old block
-        const newPath = [...propsRef.current.path.slice(0, -1), newLocatedBlockId];
-        return state
-          .insertNewBlock(
-            locatedRef.current.id,
-            locatedRef.current.parentId,
-            rightText,
-            contentRef.current.blockType,
-            newLocatedBlockId
-          )
-          .updateBlockText(contentRef.current.id, leftText)
-          .setFocusLatch(newPath, "start");
-      } else {
-        // if the old block does have children or is root, we add a child to the old block
-        const newPath = [...propsRef.current.path, newLocatedBlockId];
-        return state
-          .insertNewBlock(
-            null,
-            contentRef.current.id,
-            rightText,
-            contentRef.current.blockType,
-            newLocatedBlockId
-          )
-          .updateBlockText(contentRef.current.id, leftText)
-          .setFocusLatch(newPath, "start");
-      }
-    });
+    dispatch(
+      enterPressActionGenerator(
+        locatedRef.current,
+        contentRef.current,
+        isRootRef.current,
+        leftText,
+        rightText,
+        propsRef.current.path
+      )
+    );
     return PREVENT_TIPTAP_DEFAULT;
   };
 
   const handleUpArrowPress = (editor: Editor) => {
     logKeyEvent("onUpArrowPress, path: " + propsRef.current.path);
-    dispatch((state: IState) => {
+    dispatch((state: IGraph) => {
       try {
         const upstairsNeighborPath = state.getUpstairsNeighborPath(propsRef.current.path);
         return state.setFocusLatch(upstairsNeighborPath, getFocusPosition(editor));
@@ -229,7 +199,7 @@ export const BlockText = (props: IBlockTextProps) => {
 
   const handleDownArrowPress = (editor: Editor) => {
     logKeyEvent("onDownArrowPress, path: " + propsRef.current.path);
-    dispatch((state: IState) => {
+    dispatch((state: IGraph) => {
       try {
         const downstairsNeighborPath = state.getDownstairsNeighborPath(propsRef.current.path);
         return state.setFocusLatch(downstairsNeighborPath, getFocusPosition(editor));
@@ -248,7 +218,7 @@ export const BlockText = (props: IBlockTextProps) => {
     const focusPosition = getFocusPosition(editor);
     if (focusPosition === 1) {
       // we're at the beginning of the line already, so dispatch the action
-      dispatch((state: IState) => {
+      dispatch((state: IGraph) => {
         try {
           const upstairsNeighborPath = state.getUpstairsNeighborPath(propsRef.current.path);
           return state.setFocusLatch(upstairsNeighborPath, "end");
@@ -269,7 +239,7 @@ export const BlockText = (props: IBlockTextProps) => {
     const focusPosition = getFocusPosition(editor);
     if (focusPosition === editor.getText().length + 1) {
       // we're at the end of the line already, so dispatch the action
-      dispatch((state: IState) => {
+      dispatch((state: IGraph) => {
         try {
           const downstairsNeighborPath = state.getDownstairsNeighborPath(propsRef.current.path);
           return state.setFocusLatch(downstairsNeighborPath, "start");
@@ -291,9 +261,11 @@ export const BlockText = (props: IBlockTextProps) => {
     const focusPosition = getFocusPosition(editor);
     if (focusPosition === 1 && !isRootRef.current) {
       // we're at the beginning of the line already, so dispatch the action
-      dispatch((state: IState) => {
+      dispatch((state: IGraph) => {
         const upstairsNeighborPath = state.getUpstairsNeighborPath(propsRef.current.path);
-        const upstairsNeighborContent = state.getContentFromPath(upstairsNeighborPath, true);
+        const upstairsNeighborContent = state.getContentFromPath({
+          focusPath: upstairsNeighborPath,
+        });
         const upstairsNeighborHasLocation = upstairsNeighborPath.length > 0;
         if (
           upstairsNeighborContent.childLocatedBlocks.length <= 1 &&
@@ -348,7 +320,7 @@ export const BlockText = (props: IBlockTextProps) => {
   const handleTabPress = (editor: Editor) => {
     logKeyEvent("onTabPress, path: " + propsRef.current.path);
     const focusPosition = getFocusPosition(editor);
-    dispatch((state: IState) => {
+    dispatch((state: IGraph) => {
       if (isRootRef.current) {
         // if we're at the root, we don't do anything
         return state;
@@ -362,7 +334,7 @@ export const BlockText = (props: IBlockTextProps) => {
           null,
           parentContent.id,
           "",
-          contentRef.current.blockType,
+          contentRef.current.verb.getDefaultParentVerb(),
           newLocatedBlockId
         );
         parentContent = state.blockContents.get(parentContent.id);
@@ -390,7 +362,7 @@ export const BlockText = (props: IBlockTextProps) => {
   const handleShiftTabPress = (editor: Editor) => {
     logKeyEvent("onShiftTabPress, path: " + propsRef.current.path);
     const focusPosition = getFocusPosition(editor);
-    dispatch((state: IState) => {
+    dispatch((state: IGraph) => {
       if (propsRef.current.path.length < 2) {
         // If there's no granparent, we don't do anything
         return state;
@@ -414,6 +386,18 @@ export const BlockText = (props: IBlockTextProps) => {
       return updatedState;
     });
     return PREVENT_TIPTAP_DEFAULT;
+  };
+
+  const handlePaste = async () => {
+    logKeyEvent("onPaste, path: " + propsRef.current.path);
+    const pasteAction: GraphAction = pasteActionGenerator(
+      state, // TODO might have to ref this, unclear if stale...
+      locatedRef.current.id,
+      propsRef.current.path,
+      isRootRef.current,
+      await navigator.clipboard.readText()
+    );
+    dispatch(pasteAction);
   };
 
   // keep propsRef up to date
@@ -464,12 +448,11 @@ export const BlockText = (props: IBlockTextProps) => {
         );
         editor.commands.setContent(props.humanText);
         editor.commands.focus(state.focusPosition);
-        dispatch((state: IState) => {
-          return state.clearFocusLatch();
-        });
+      } else {
+        isFocused.current = false;
       }
     }
-  }, [!!editor, state.focusPath, props.path]);
+  }, [!!editor, state.focusPath]);
 
   return (
     <div {...mouseEvents} className={`flex-grow ${selectedClass} ${containerDeepSelectedClass}`}>

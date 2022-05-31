@@ -1,21 +1,26 @@
-import { useState } from "react";
+import Link from "next/link";
+import { BASE_URL } from "../../../pages/[mode]/[rootContentId]";
+import { IBlockContent } from "../../model/blockContent";
 
 export interface IEntryProps {
-  humanText: string;
-  showEntryCallback: () => void;
+  content: IBlockContent;
 }
 
 export const Entry = (props: IEntryProps) => {
   return (
-    <div className={"flex flex-col h-max"}>
-      <h1>{props.humanText}</h1>
+    <div className={"flex flex-col flex-grow"}>
+      <h1>{props.content.humanText}</h1>
       <p className={"italic text-sm mb-5 flex-grow"}>A Human Program</p>
-      <button
-        onClick={props.showEntryCallback}
-        className={`p-2 text-gray-700 bg-gray-100 border-gray-200`}
-      >
-        Click here to begin
-      </button>
+      <Link href={BASE_URL + "edit/" + props.content.id + "/,"}>
+        <a
+          onClick={() => {
+            console.log("TODO");
+          }}
+          className={`p-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded justify-self-end`}
+        >
+          Click here to begin
+        </a>
+      </Link>
     </div>
   );
 };

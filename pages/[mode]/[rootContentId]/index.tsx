@@ -1,14 +1,20 @@
 import { useRouter } from "next/router";
-import { ContextWrapper } from "../../../client/components/ContextWrapper";
+import { GraphContextWrapper } from "../../../client/components/GraphContextWrapper";
 import { EditorContainer } from "../../../client/components/editor/EditorContainer";
 import { GuideContainer } from "../../../client/components/guide/GuideContainer";
-import { Path } from "../../../client/model/state";
+import { Path } from "../../../client/model/graph";
 import FourOhFour from "../../404";
 
 const MODES = {
   EDIT: "edit",
   GUIDE: "guide",
 };
+
+export const BASE_URL = "https://localhost:3000/";
+export const SELECTION_RELATIVE_URL = "select/";
+export const SELECTION_BASE_URL = BASE_URL + SELECTION_RELATIVE_URL;
+export const PATH_DELIMITER = ",";
+export const PATH_SEPARATOR = ";";
 
 // TODO - fill in routes for ""
 export const getChildComponent = (mode: string) => {
@@ -39,9 +45,9 @@ const Container = () => {
     rootContentId,
     rootRelativePath: [] as Path,
     focusPath: [] as Path,
-    isFocusSpecifiedInPaths: false,
+    isFocusSpecifiedInURL: false,
   };
-  return <ContextWrapper {...contextWrapperProps}>{getChildComponent(mode)}</ContextWrapper>;
+  return <GraphContextWrapper {...contextWrapperProps}>{getChildComponent(mode)}</GraphContextWrapper>;
 };
 
 export default Container;
