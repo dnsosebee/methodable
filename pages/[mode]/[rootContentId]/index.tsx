@@ -5,6 +5,8 @@ import { GuideContainer } from "../../../client/components/guide/GuideContainer"
 import { Path } from "../../../client/model/graph";
 import FourOhFour from "../../404";
 import { FullPathProvider } from "../../../client/components/FullPathProvider";
+import { LocatedBlockId } from "../../../client/model/locatedBlock";
+import { List } from "immutable";
 
 const MODES = {
   EDIT: "edit",
@@ -44,8 +46,8 @@ const Container = () => {
   }
   const contextWrapperProps = {
     rootContentId,
-    rootRelativePath: [] as Path,
-    focusPath: [] as Path,
+    rootRelativePath: List<LocatedBlockId>() as Path,
+    focusPath: List<LocatedBlockId>() as Path,
     isFocusSpecifiedInURL: false,
   };
   return (

@@ -1,22 +1,28 @@
+import { List } from "immutable";
+import { useContext } from "react";
 import {
   PATH_DELIMITER,
   PATH_SEPARATOR,
-  SELECTION_BASE_URL
+  SELECTION_BASE_URL,
 } from "../../../pages/[mode]/[rootContentId]";
-import { logAction } from "../../lib/loggers";
+import { logAction, logKeyEvent } from "../../lib/loggers";
 import { graphFromJson, graphToJson, IGraph } from "../../model/graph";
-import { useGraphWithPaths } from "../../model/graphWithPaths";
+import { getContentFromPath } from "../../model/graphWithPaths";
 import { VERB, verb } from "../../model/verbs/verb";
+import { useFullPath } from "../FullPathProvider";
+import { graphContext, useGraph } from "../GraphProvider";
 import { Wrapper } from "../Wrapper";
 import { Block, IBlockProps } from "./Block";
 import { Breadcrumbs, IBreadcrumbsProps } from "./Breadcrumbs";
 
 export const EditorContainer = () => {
-  const { graphState, fullPathState, graphDispatch, getContentFromPath } = useGraphWithPaths();
-  const rootContent = getContentFromPath({});
+  const { graphState, graphDispatch } = useContext(graphContext);
+  const { fullPathState } = useFullPath();
+
+  const rootContent = getContentFromPath(graphState, fullPathState, {});
 
   const rootBlockProps: IBlockProps = {
-    path: [],
+    path: List(),
     content: rootContent,
     isShallowSelected: false,
     isDeepSelected: false,
@@ -27,13 +33,15 @@ export const EditorContainer = () => {
 
   // shallow
   const getShallowClipboardVals = (): string => {
-    const parent = getContentFromPath({ focusPath: graphState.activeParentPath });
+    const parent = getContentFromPath(graphState, fullPathState, {
+      focusPath: graphState.activeParentPath,
+    });
     const children = parent.childLocatedBlocks;
-    const bound1 = graphState.selectionRange.start[graphState.activeParentPath.length];
-    const bound2 = graphState.selectionRange.end[graphState.activeParentPath.length];
+    const bound1 = graphState.selectionRange.start.get(graphState.activeParentPath.size);
+    const bound2 = graphState.selectionRange.end.get(graphState.activeParentPath.size);
     let result = "";
-    for (let i = 0; i < children.length; i++) {
-      const childId = children[i];
+    for (let i = 0; i < children.size; i++) {
+      const childId = children.get(i);
       if (parent.isChildBetween(childId, bound1, bound2)) {
         result +=
           SELECTION_BASE_URL +
@@ -42,7 +50,7 @@ export const EditorContainer = () => {
           fullPathState.rootRelativePath.join(PATH_DELIMITER) +
           PATH_SEPARATOR +
           graphState.activeParentPath.join(PATH_DELIMITER) +
-          (graphState.activeParentPath.length > 0 ? PATH_DELIMITER : "") +
+          (graphState.activeParentPath.size > 0 ? PATH_DELIMITER : "") +
           childId +
           "\n";
       }
@@ -57,20 +65,19 @@ export const EditorContainer = () => {
   };
 
   const copyHandler = async () => {
-    console.log("copy");
     if (graphState.isSelectionActive) {
       const clipboardVals = graphState.isSelectionDeep
         ? getDeepClipboardVals()
         : getShallowClipboardVals();
-      console.log(clipboardVals);
+      logKeyEvent("copy:\n" + clipboardVals);
       await navigator.clipboard.writeText(clipboardVals);
     }
   };
 
   const toggleSelectionDepth = () => {
     logAction("toggleSelectionDepth");
-    graphDispatch((graphState: IGraph): IGraph => {
-      return graphState.toggleSelectionType();
+    graphDispatch((state: IGraph): IGraph => {
+      return state.toggleSelectionType();
     });
   };
 
@@ -114,8 +121,8 @@ export const EditorContainer = () => {
       // get file contents
       const fileData = await fileHandle.getFile();
       const stringData = await fileData.text();
-      graphDispatch((graph: IGraph): IGraph => {
-        return graphFromJson(stringData, graphState);
+      graphDispatch((state: IGraph): IGraph => {
+        return graphFromJson(stringData, state);
       });
     } catch (e) {
       console.error(e);
@@ -141,7 +148,7 @@ export const EditorContainer = () => {
               Load All Programs
             </button>
           </div>
-          {fullPathState.rootRelativePath.length > -1 ? <Breadcrumbs {...breadcrumbProps} /> : null}
+          {fullPathState.rootRelativePath.size > -1 ? <Breadcrumbs {...breadcrumbProps} /> : null}
           <Block {...rootBlockProps} />
         </div>
       </div>

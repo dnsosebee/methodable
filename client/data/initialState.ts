@@ -3,17 +3,17 @@ import { IGraph, createGraph } from "../model/graph";
 import {
   ILocatedBlock,
   ILocatedBlockData,
-  locatedBlock,
+  createLocatedBlock,
   LocatedBlockId,
 } from "../model/locatedBlock";
 import {
-  blockContent,
+  createBlockContent,
   BlockContentId,
   IBlockContent,
   IBlockContentData,
 } from "../model/blockContent";
 import { VERB, verb } from "../model/verbs/verb";
-import { createFullPath, IFullPath } from "../model/fullPath";
+import { List, Map } from "immutable";
 
 const rootLocatedData: ILocatedBlockData = {
   id: "located-root",
@@ -24,7 +24,7 @@ const rootLocatedData: ILocatedBlockData = {
   leftId: null,
   archived: false,
 };
-const rootLocated = locatedBlock(rootLocatedData);
+const rootLocated = createLocatedBlock(rootLocatedData);
 
 const child1LocatedData: ILocatedBlockData = {
   id: "located-child1",
@@ -35,7 +35,7 @@ const child1LocatedData: ILocatedBlockData = {
   leftId: null,
   archived: false,
 };
-const child1Located = locatedBlock(child1LocatedData);
+const child1Located = createLocatedBlock(child1LocatedData);
 
 const child2LocatedData: ILocatedBlockData = {
   id: "located-child2",
@@ -46,7 +46,7 @@ const child2LocatedData: ILocatedBlockData = {
   leftId: "located-child1",
   archived: false,
 };
-const child2Located = locatedBlock(child2LocatedData);
+const child2Located = createLocatedBlock(child2LocatedData);
 
 const child3LocatedData: ILocatedBlockData = {
   id: "located-child3",
@@ -57,59 +57,52 @@ const child3LocatedData: ILocatedBlockData = {
   leftId: "located-child2",
   archived: false,
 };
-const child3Located = locatedBlock(child3LocatedData);
+const child3Located = createLocatedBlock(child3LocatedData);
 
 const contentAData: IBlockContentData = {
   id: "content-a",
   verb: verb(VERB.DO),
   humanText: "Do the following things",
   userId: "TODO",
-  childLocatedBlocks: [child1Located.id, child2Located.id, child3Located.id],
-  locatedBlocks: [rootLocated.id],
+  childLocatedBlocks: List([child1Located.id, child2Located.id, child3Located.id]),
+  locatedBlocks: List([rootLocated.id]),
 };
-const contentA = blockContent(contentAData);
+const contentA = createBlockContent(contentAData);
 
 const contentBData: IBlockContentData = {
   id: "content-b",
   verb: verb(VERB.CHOOSE),
   humanText: "Read this",
   userId: "TODO",
-  childLocatedBlocks: [],
-  locatedBlocks: [child1Located.id],
+  childLocatedBlocks: List([]),
+  locatedBlocks: List([child1Located.id]),
 };
-const contentB = blockContent(contentBData);
+const contentB = createBlockContent(contentBData);
 
 const contentCData: IBlockContentData = {
   id: "content-c",
   verb: verb(VERB.DO),
   humanText: "Do this specific thing",
   userId: "TODO",
-  childLocatedBlocks: [],
-  locatedBlocks: [child2Located.id, child3Located.id],
+  childLocatedBlocks: List([]),
+  locatedBlocks: List([child2Located.id, child3Located.id]),
 };
-const contentC = blockContent(contentCData);
+const contentC = createBlockContent(contentCData);
 
 export const initialGraphState: IGraph = createGraph({
-  locatedBlocks: new Map<LocatedBlockId, ILocatedBlock>([
-    ["located-root", rootLocated],
-    ["located-child1", child1Located],
-    ["located-child2", child2Located],
-    ["located-child3", child3Located],
-  ]),
-  blockContents: new Map<BlockContentId, IBlockContent>([
-    ["content-a", contentA],
-    ["content-b", contentB],
-    ["content-c", contentC],
-  ]),
-  activeParentPath: [],
-  selectionRange: { start: [], end: [] },
+  locatedBlocks: Map<LocatedBlockId, ILocatedBlock>({
+    "located-root": rootLocated,
+    "located-child1": child1Located,
+    "located-child2": child2Located,
+    "located-child3": child3Located,
+  }),
+  blockContents: Map<BlockContentId, IBlockContent>({
+    "content-a": contentA,
+    "content-b": contentB,
+    "content-c": contentC,
+  }),
+  activeParentPath: List([]),
+  selectionRange: { start: List([]), end: List([]) },
   isSelectionActive: false,
   isSelectionDeep: false,
 });
-
-// export const initialFullPathState: IFullPath = createFullPath({
-//   rootContentId: "content-a",
-//   rootRelativePath: [],
-//   focusPath: [],
-//   isFocusSpecifiedInURL: false,
-// });

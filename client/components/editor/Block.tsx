@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { pathEquals } from "../../lib/helpers";
 import { IBlockContent } from "../../model/blockContent";
 import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
 import { Path } from "../../model/graph";
-import { useGraphWithPaths } from "../../model/graphWithPaths";
+import { getContentFromPath } from "../../model/graphWithPaths";
 import { IVerb, verb, VERB } from "../../model/verbs/verb";
+import { useFullPath } from "../FullPathProvider";
+import { graphContext, useGraph } from "../GraphProvider";
 import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
 import { BlockText, IBlockTextProps } from "./BlockText";
 import { ContainerLine } from "./ContainerLine";
@@ -22,13 +24,14 @@ export interface IBlockProps {
 }
 
 export const Block = (props: IBlockProps) => {
-  const { graphState, fullPathState, getContentFromPath } = useGraphWithPaths();
+  const { graphState } = useContext(graphContext);
+  const { fullPathState } = useFullPath();
 
   const getChildBlocks = () => {
     let numAdditiveBlocks = 0;
     return props.content.childLocatedBlocks.map((childId, childIndex) => {
       const { blockContent: childBlockContent } = fullBlockFromLocatedBlockId(graphState, childId);
-      const childPath = [...props.path, childId];
+      const childPath = props.path.push(childId);
       const childBlockProps: IBlockProps = {
         path: childPath,
         isGlobalSelectionActive: props.isGlobalSelectionActive,
@@ -37,11 +40,7 @@ export const Block = (props: IBlockProps) => {
         orderIndex: childIndex - numAdditiveBlocks,
         ...getSelectednessInfo(childPath),
       };
-      return (
-        <>
-          <Block key={childId} {...childBlockProps} />
-        </>
-      );
+      return <Block key={childId} {...childBlockProps} />;
     });
   };
 
@@ -55,22 +54,22 @@ export const Block = (props: IBlockProps) => {
     let isDeepSelected = false;
     if (graphState.isSelectionActive) {
       // we know something is selected, nothing more
-      if (graphState.activeParentPath.length < path.length) {
+      if (graphState.activeParentPath.size < path.size) {
         // we know the selection is higher than this block, nothing more
-        const parentPathLength = graphState.activeParentPath.length;
+        const parentPathLength = graphState.activeParentPath.size;
         if (pathEquals(graphState.activeParentPath, path.slice(0, parentPathLength))) {
           // we know the selection is on children of this block's parent, nothing more
-          const childLocatedBlockId = path[parentPathLength];
-          const bound1 = graphState.selectionRange.start[parentPathLength];
-          const bound2 = graphState.selectionRange.end[parentPathLength];
-          const parentContent = getContentFromPath({
+          const childLocatedBlockId = path.get(parentPathLength);
+          const bound1 = graphState.selectionRange.start.get(parentPathLength);
+          const bound2 = graphState.selectionRange.end.get(parentPathLength);
+          const parentContent = getContentFromPath(graphState, fullPathState, {
             focusPath: graphState.activeParentPath,
           });
           if (parentContent.isChildBetween(childLocatedBlockId, bound1, bound2)) {
             // we know this block or its parent is selected, nothing more (sufficient for deep selection)
             if (graphState.isSelectionDeep) {
               isDeepSelected = true;
-            } else if (parentPathLength + 1 === path.length) {
+            } else if (parentPathLength + 1 === path.size) {
               isShallowSelected = true;
             }
           }
@@ -95,11 +94,11 @@ export const Block = (props: IBlockProps) => {
   };
 
   const blockHandleProps: IBlockHandleProps = {
-    parentVerb: props.path.length == 0 ? verb(VERB.UNDEFINED) : props.parentVerb,
+    parentVerb: props.path.size == 0 ? verb(VERB.UNDEFINED) : props.parentVerb,
     verb: props.content.verb,
     orderIndex: props.orderIndex,
     rootContentId: fullPathState.rootContentId,
-    pathRelativeToRoot: [...fullPathState.rootRelativePath, ...props.path],
+    pathRelativeToRoot: fullPathState.rootRelativePath.concat(props.path),
   };
 
   const shouldRenderRunButton = props.content.verb.isAdditive() === false;
@@ -107,7 +106,7 @@ export const Block = (props: IBlockProps) => {
     ? "shadow-[inset_0px_0px_5px_7px_rgba(0,100,256,0.15)]"
     : "";
 
-  const isRoot = props.path.length === 0;
+  const isRoot = props.path.size === 0;
   const rootRowClasses = isRoot ? "border-b mb-0.5 border-gray-200 " : "";
   return (
     <>
@@ -124,7 +123,7 @@ export const Block = (props: IBlockProps) => {
             <BlockText {...blockTextProps} />
             {shouldRenderRunButton && <RunButton {...{ contentId: props.content.id }} />}
           </div>
-          {childBlocks.length > 0 && childBlocks}
+          {childBlocks.size > 0 && childBlocks}
         </div>
       </div>
     </>

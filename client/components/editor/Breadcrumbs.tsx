@@ -2,7 +2,8 @@ import Link from "next/link";
 import { PATH_DELIMITER } from "../../../pages/[mode]/[rootContentId]";
 import { BlockContentId } from "../../model/blockContent";
 import { IGraph, Path } from "../../model/graph";
-import { useGraphWithPaths } from "../../model/graphWithPaths";
+import { getContentFromPath } from "../../model/graphWithPaths";
+import { useFullPath } from "../FullPathProvider";
 import { useGraph } from "../GraphProvider";
 
 export interface IBreadcrumbsProps {
@@ -18,10 +19,13 @@ interface IBreadcrumbInfo {
 const MAX_LENGTH_OF_BREADCRUMB_TEXT = 40;
 
 export const Breadcrumbs = (props: IBreadcrumbsProps) => {
-  const {graphState, getContentFromPath} = useGraphWithPaths();
+  const { graphState } = useGraph();
+  const { fullPathState } = useFullPath();
 
   const getBreadcrumbInfos = (relativePath: Path): IBreadcrumbInfo[] => {
-    const content = getContentFromPath({ rootRelativePath: relativePath });
+    const content = getContentFromPath(graphState, fullPathState, {
+      rootRelativePath: relativePath,
+    });
     let text = content.humanText;
     if (text.length > MAX_LENGTH_OF_BREADCRUMB_TEXT) {
       text = text.substring(0, MAX_LENGTH_OF_BREADCRUMB_TEXT - 3) + "...";
@@ -30,13 +34,16 @@ export const Breadcrumbs = (props: IBreadcrumbsProps) => {
       text,
       link: `/edit/${props.rootContentId}/${relativePath.join(PATH_DELIMITER)}`,
     };
-    if (relativePath.length === 0) {
+    if (relativePath.size === 0) {
       return [info];
     }
     return [...getBreadcrumbInfos(relativePath.slice(0, -1)), info];
   };
 
-  const breadcrumbInfos = props.rootRelativePath.length > 0 ? getBreadcrumbInfos(props.rootRelativePath.slice(0, -1)) : [];
+  const breadcrumbInfos =
+    props.rootRelativePath.size > 0
+      ? getBreadcrumbInfos(props.rootRelativePath.slice(0, -1))
+      : [];
   return (
     <div className="flex mb-2 h-5">
       {breadcrumbInfos.map((info, index) => {

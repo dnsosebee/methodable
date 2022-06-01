@@ -30,7 +30,7 @@ export const logEditorEvent = (s: string) => {
 };
 
 export const logEffect = (s: string) => {
-  console.log(rightPad("Effect Log: "), s);
+  // console.log(rightPad("Effect Log: "), s);
 };
 
 export const logError = (s: string) => {

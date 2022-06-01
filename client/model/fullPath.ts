@@ -4,11 +4,11 @@ import { IGraph, Path } from "./graph";
 export type FocusPosition = number | "start" | "end";
 
 export interface IFullPathData {
-  rootContentId: BlockContentId;
-  rootRelativePath: Path;
-  focusPath: Path | null;
-  focusPosition: FocusPosition;
-  isFocusSpecifiedInURL: boolean;
+  rootContentId: Readonly<BlockContentId>;
+  rootRelativePath: Readonly<Path>;
+  focusPath: Readonly<Path | null>;
+  focusPosition: Readonly<FocusPosition>;
+  isFocusSpecifiedInURL: Readonly<boolean>;
 }
 
 export interface IFullPathTransitions {
@@ -19,7 +19,7 @@ export interface IFullPathGetters {}
 
 export interface IFullPath extends IFullPathData, IFullPathTransitions {}
 
-export function createFullPath(fullPathData: IFullPathData): IFullPath {
+export function createFullPath(fullPathData: Readonly<IFullPathData>): IFullPath {
   const setFocus = (path: Path, focusPosition: FocusPosition): IFullPath => {
     return createFullPath({
       ...fullPathData,

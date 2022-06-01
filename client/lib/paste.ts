@@ -8,6 +8,7 @@ import { enterPressActionGenerator } from "../model/actions";
 import { GraphAction } from "../components/GraphProvider";
 import { FullPathAction } from "../components/FullPathProvider";
 import { IFullPath } from "../model/fullPath";
+import { getContentFromPath } from "../model/graphWithPaths";
 
 export interface IBlockCreationArg {
   humanText?: string;
@@ -17,15 +18,15 @@ export interface IBlockCreationArg {
 
 export const getBlockCreationArg = (
   line: string,
-  graph: IGraph,
-  getContentFromPath
+  graphState: IGraph,
+  fullPathState: IFullPath
 ): IBlockCreationArg => {
   if (line.slice(0, SELECTION_BASE_URL.length) === SELECTION_BASE_URL) {
     try {
-      const [contentId, paths] = line.slice(SELECTION_BASE_URL.length).split("/");
+      const [rootContentId, paths] = line.slice(SELECTION_BASE_URL.length).split("/");
       const { rootRelativePath, focusPath } = getURLPaths(paths);
-      const lineContent = getContentFromPath({
-        contentId,
+      const lineContent = getContentFromPath(graphState, fullPathState, {
+        rootContentId,
         rootRelativePath,
         focusPath,
       });
@@ -40,25 +41,23 @@ export const getBlockCreationArg = (
 export const pasteActionGenerator = (
   pasteLocationId: LocatedBlockId,
   clipboardVal: string,
-  graphState: IGraph,
   fullPathState: IFullPath,
-  fullPathDispatch: React.Dispatch<FullPathAction>,
-  getContentFromPath
-): GraphAction => {
+  fullPathDispatch: React.Dispatch<FullPathAction>
+): GraphAction => (state: IGraph) => {
   const blockCreationArgs: IBlockCreationArg[] = clipboardVal.split("\n").map((line) => {
-    return getBlockCreationArg(line, graphState, getContentFromPath);
+    return getBlockCreationArg(line, state, fullPathState);
   });
-  let currentGraphState = graphState;
-  let currentLocatedBlock = graphState.locatedBlocks.get(pasteLocationId);
-  let currentBlockContent = graphState.blockContents.get(currentLocatedBlock.contentId);
+  let currentGraphState = state;
+  let currentLocatedBlock = currentGraphState.locatedBlocks.get(pasteLocationId);
+  let currentBlockContent = currentGraphState.blockContents.get(currentLocatedBlock.contentId);
   let currentFocusPath = fullPathState.focusPath;
-  let currentIsRoot = currentFocusPath.length === 0;
+  let currentIsRoot = currentFocusPath.size === 0;
   for (let i = 0; i < blockCreationArgs.length; i++) {
     const blockCreationArg = blockCreationArgs[i];
     if (i > 0) {
       // we create a sibling newline after the first pasted block, as long as there are more blocks to paste
       const newLocatedBlockId = crypto.randomUUID();
-      currentFocusPath = [...currentFocusPath.slice(0, -1), newLocatedBlockId];
+      currentFocusPath = currentFocusPath.splice(-1, 1, newLocatedBlockId);
       currentGraphState = currentGraphState.insertNewBlock(
         currentLocatedBlock.id,
         currentLocatedBlock.parentId,
@@ -89,9 +88,7 @@ export const pasteActionGenerator = (
           proxyDispatch
         )(currentGraphState);
         currentIsRoot = false;
-        currentLocatedBlock = currentGraphState.locatedBlocks.get(
-          currentFocusPath[currentFocusPath.length - 1]
-        );
+        currentLocatedBlock = currentGraphState.locatedBlocks.get(currentFocusPath.last());
         currentBlockContent = currentGraphState.blockContents.get(currentLocatedBlock.contentId);
       }
       // then regardless, we link up the new content
@@ -118,5 +115,5 @@ export const pasteActionGenerator = (
     }
   }
   fullPathDispatch((state: IFullPath) => state.setFocus(currentFocusPath, "end"));
-  return (state: IGraph) => currentGraphState;
+  return currentGraphState;
 };

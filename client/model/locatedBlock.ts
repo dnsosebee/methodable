@@ -7,13 +7,13 @@ export type LocatedBlockId = string;
 export type BlockStatus = "not started" | "in progress" | "complete";
 
 export interface ILocatedBlockData {
-  id: LocatedBlockId;
-  contentId: BlockContentId;
-  userId: string;
-  blockStatus: BlockStatus;
-  parentId: BlockContentId;
-  leftId: LocatedBlockId;
-  archived: boolean;
+  id: Readonly<LocatedBlockId>;
+  contentId: Readonly<BlockContentId>;
+  userId: Readonly<string>;
+  blockStatus: Readonly<BlockStatus>;
+  parentId: Readonly<BlockContentId>;
+  leftId: Readonly<LocatedBlockId>;
+  archived: Readonly<boolean>;
 }
 
 interface ILocatedBlockTransitions {
@@ -32,19 +32,19 @@ export interface ILocatedBlock
     ILocatedBlockTransitions,
     ILocatedBlockGetters {}
 
-export function locatedBlock(data: ILocatedBlockData): ILocatedBlock {
+export function createLocatedBlock(data: Readonly<ILocatedBlockData>): ILocatedBlock {
   const transitions: ILocatedBlockTransitions = {
     setLeftId: (leftId: LocatedBlockId) => {
-      return locatedBlock({ ...data, leftId });
+      return createLocatedBlock({ ...data, leftId });
     },
     setParentId: (parentId: BlockContentId) => {
-      return locatedBlock({ ...data, parentId });
+      return createLocatedBlock({ ...data, parentId });
     },
     setContentId: (contentId: BlockContentId) => {
-      return locatedBlock({ ...data, contentId });
+      return createLocatedBlock({ ...data, contentId });
     },
     setArchived: (archived: boolean) => {
-      return locatedBlock({ ...data, archived });
+      return createLocatedBlock({ ...data, archived });
     },
   };
   const toString = () => {
@@ -72,7 +72,7 @@ export const locatedBlockToJson = (locatedBlock: ILocatedBlock) => {
 };
 
 export const locatedBlockFromJson = (json): ILocatedBlock => {
-  return locatedBlock({
+  return createLocatedBlock({
     id: json.id,
     contentId: json.contentId,
     userId: json.userId,

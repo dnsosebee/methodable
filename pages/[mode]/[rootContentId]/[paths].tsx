@@ -1,8 +1,10 @@
+import { List } from "immutable";
 import { useRouter } from "next/router";
 import { getChildComponent, PATH_DELIMITER, PATH_SEPARATOR } from ".";
 import { FullPathProvider } from "../../../client/components/FullPathProvider";
 import { GraphProvider } from "../../../client/components/GraphProvider";
 import { Path } from "../../../client/model/graph";
+import { LocatedBlockId } from "../../../client/model/locatedBlock";
 
 export const getURLPaths = (
   paths: string
@@ -20,8 +22,8 @@ export const getURLPaths = (
     rootRelativePath = paths;
   }
   const rootRelativePathArray =
-    rootRelativePath === "" ? [] : rootRelativePath.split(PATH_DELIMITER);
-  const focusPathArray = focusPath === "" ? [] : focusPath.split(PATH_DELIMITER);
+    rootRelativePath === "" ? List<LocatedBlockId>() : List(rootRelativePath.split(PATH_DELIMITER));
+  const focusPathArray = focusPath === "" ? List<LocatedBlockId>() : List(focusPath.split(PATH_DELIMITER));
   return {
     rootRelativePath: rootRelativePathArray,
     focusPath: focusPathArray,
@@ -62,7 +64,7 @@ const Container = () => {
     isFocusSpecifiedInURL,
   };
   return (
-    <GraphProvider {...contextWrapperProps}>
+    <GraphProvider {...contextWrapperProps}> 
       <FullPathProvider {...contextWrapperProps}>{getChildComponent(mode)}</FullPathProvider>
     </GraphProvider>
   );

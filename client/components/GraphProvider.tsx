@@ -2,12 +2,12 @@ import React, { createContext, useEffect, useReducer } from "react";
 import { initialGraphState } from "../data/initialState";
 import { IGraph, Path } from "../model/graph";
 
-export type GraphAction = (state: IGraph) => IGraph;
+export type GraphAction = (state: Readonly<IGraph>) => IGraph;
 
-const graphReducer = (graph: IGraph, action: GraphAction): IGraph => {
-  const newGraph = action(graph);
-  validateGraph(graph, newGraph);
-  return newGraph;
+const graphReducer = (oldGraph: IGraph, action: GraphAction): IGraph => {
+  const graph = action(oldGraph);
+  validateGraph(oldGraph, graph);
+  return graph;
 };
 
 const assert = (condition: boolean, message: string, oldGraph: IGraph, graph: IGraph): void => {
@@ -24,6 +24,7 @@ const validateGraph = (oldGraph: IGraph, graph: IGraph): void => {
   graph.locatedBlocks.forEach((locatedBlock) => {
     const content = graph.blockContents.get(locatedBlock.contentId);
     const parent = graph.blockContents.get(locatedBlock.parentId);
+
     if (locatedBlock.archived) {
       if (parent) {
         assert(
@@ -35,7 +36,7 @@ const validateGraph = (oldGraph: IGraph, graph: IGraph): void => {
       }
       if (content) {
         assert(
-          !content.childLocatedBlocks.length,
+          !content.childLocatedBlocks.size,
           `archived locatedBlock ${locatedBlock.id} content still recognizes it`,
           oldGraph,
           graph
@@ -43,6 +44,12 @@ const validateGraph = (oldGraph: IGraph, graph: IGraph): void => {
       }
     } else {
       assert(!!content, `block content not found for location ${locatedBlock.id}`, oldGraph, graph);
+      assert(
+        locatedBlock.parentId === null || !!parent,
+        `LocatedBlock ${locatedBlock.id} has a parentId ${locatedBlock.parentId} that doesn't exist in the graph`,
+        oldGraph,
+        graph
+      );
       assert(
         content.locatedBlocks.includes(locatedBlock.id),
         `non-archived locatedBlock ${locatedBlock.id} not found in it's content`,
@@ -60,6 +67,12 @@ const validateGraph = (oldGraph: IGraph, graph: IGraph): void => {
         assert(
           locatedBlock.parentId === leftBlock.parentId,
           `left block ${locatedBlock.leftId} has different parent than ${locatedBlock.id}`,
+          oldGraph,
+          graph
+        );
+        assert(
+          !!parent,
+          `non-archived locatedBlock ${locatedBlock.id} with leftId ${locatedBlock.leftId} must have parent in graph. Parent is ${locatedBlock.parentId}.`,
           oldGraph,
           graph
         );
@@ -87,15 +100,30 @@ const validateGraph = (oldGraph: IGraph, graph: IGraph): void => {
   });
   graph.blockContents.forEach((blockContent) => {
     assert(
-      blockContent.locatedBlocks.length > 0,
+      blockContent.locatedBlocks.size > 0,
       `block content ${blockContent.id} has no located blocks`,
       oldGraph,
       graph
     );
+    blockContent.childLocatedBlocks.forEach((locatedBlockId) => {
+      const locatedBlock = graph.locatedBlocks.get(locatedBlockId);
+      assert(
+        !!locatedBlock,
+        `locatedBlock ${locatedBlockId} not found in graph desipte being child of block content ${blockContent.id}`,
+        oldGraph,
+        graph
+      );
+      assert(
+        locatedBlock.parentId === blockContent.id,
+        `locatedBlock ${locatedBlockId} has parentId ${locatedBlock.parentId} but block content ${blockContent.id} has it as child`,
+        oldGraph,
+        graph
+      );
+    });
   });
 };
 
-const graphContext = createContext(null);
+export const graphContext = createContext<IGraphContext>(null);
 
 export type IGraphContext = { graphState: IGraph; graphDispatch: React.Dispatch<GraphAction> };
 
@@ -120,6 +148,7 @@ export const GraphProvider = (props: IGraphProviderProps) => {
     graphReducer,
     initialGraphState
   );
+
   return (
     <graphContext.Provider value={{ graphState, graphDispatch }}>
       {props.children}

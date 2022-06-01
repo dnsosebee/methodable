@@ -11,12 +11,16 @@ import { BlockContentId, HumanText, IBlockContent } from "../../model/blockConte
 import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
 import { ILocatedBlock } from "../../model/locatedBlock";
 import { IGraph, Path } from "../../model/graph";
-import { GraphAction } from "../GraphProvider";
+import { GraphAction, useGraph } from "../GraphProvider";
 import { enterPressActionGenerator } from "../../model/actions";
 import { pasteActionGenerator } from "../../lib/paste";
-import { useGraphWithPaths } from "../../model/graphWithPaths";
 import { IFullPath } from "../../model/fullPath";
-import { viewGetters } from "../../model/verbs/view";
+import {
+  getContentFromPath,
+  getUpstairsNeighborPath,
+  getDownstairsNeighborPath,
+} from "../../model/graphWithPaths";
+import { useFullPath } from "../FullPathProvider";
 
 const PREVENT_TIPTAP_DEFAULT = true;
 const ALLOW_TIPTAP_DEFAULT = false;
@@ -31,26 +35,48 @@ export interface IBlockTextProps {
 
 export const BlockText = (props: IBlockTextProps) => {
   const clickOriginatedInThisText = useRef(false); // whether the current click/drag started in this text
-  const {
-    graphState,
-    graphDispatch,
-    fullPathState,
-    fullPathDispatch,
-    getContentFromPath,
-    getDownstairsNeighborPath,
-    getUpstairsNeighborPath,
-  } = useGraphWithPaths();
+  const { graphState, graphDispatch } = useGraph();
+  const { fullPathState, fullPathDispatch } = useFullPath();
   const contentRef: MutableRefObject<IBlockContent> = useRef(
     graphState.blockContents.get(props.contentId)
   );
   const locatedRef: MutableRefObject<null | ILocatedBlock> = useRef(null);
   const isRootRef: MutableRefObject<boolean> = useRef(true);
-  if (props.path.length > 0) {
+  const graphRef: MutableRefObject<IGraph> = useRef(graphState);
+  const fullPathRef: MutableRefObject<IFullPath> = useRef(fullPathState);
+  if (props.path.size > 0) {
     isRootRef.current = false;
-    locatedRef.current = graphState.locatedBlocks.get(props.path[props.path.length - 1]);
+    locatedRef.current = graphState.locatedBlocks.get(props.path.last());
   }
   let isFocused = useRef(false); // whether the current text is focused
   let propsRef = useRef(props); // yuck: using this to forego stale closures
+
+  // keep propsRef up to date
+  useEffect(() => {
+    propsRef.current = props;
+  }, [props]);
+
+  // keep locatedRef and contentRef and isRootRef up to date
+  useEffect(() => {
+    contentRef.current = graphState.blockContents.get(props.contentId);
+    if (props.path.size > 0) {
+      locatedRef.current = graphState.locatedBlocks.get(props.path.last());
+      isRootRef.current = false;
+    } else {
+      locatedRef.current = null;
+      isRootRef.current = true;
+    }
+  }, [props.path, props.contentId]);
+
+  // keep graphRef up to date
+  useEffect(() => {
+    graphRef.current = graphState;
+  }, [graphState]);
+
+  // keep fullPathRef up to date
+  useEffect(() => {
+    fullPathRef.current = fullPathState;
+  }, [fullPathState]);
 
   const click = () => {
     logMouseEvent("onClick " + props.humanText);
@@ -59,11 +85,11 @@ export const BlockText = (props: IBlockTextProps) => {
   const mouseEnter = (e: React.MouseEvent) => {
     if (isMouseDown(e)) {
       logMouseEvent("onMouseEnter mouseIsDown " + props.humanText);
-      graphDispatch((graphState: IGraph) => {
+      graphDispatch((state: IGraph) => {
         if (isRootRef.current) {
-          return graphState;
+          return state;
         }
-        return graphState.changeSelection(props.path);
+        return state.changeSelection(props.path);
       });
     } else {
       logMouseEvent("onMouseEnter mouseisUp " + props.humanText);
@@ -78,11 +104,11 @@ export const BlockText = (props: IBlockTextProps) => {
     if (isMouseDown(e)) {
       logMouseEvent("onMouseLeave mouseIsDown " + props.humanText);
       if (clickOriginatedInThisText.current) {
-        graphDispatch((graphState: IGraph) => {
+        graphDispatch((state: IGraph) => {
           if (isRootRef.current) {
-            return graphState;
+            return state;
           }
-          return graphState.startSelection(props.path);
+          return state.startSelection(props.path);
         });
       }
     } else {
@@ -94,8 +120,8 @@ export const BlockText = (props: IBlockTextProps) => {
   const mouseDown = () => {
     logMouseEvent("onMouseDown " + props.humanText);
     clickOriginatedInThisText.current = true;
-    graphDispatch((graphState: IGraph) => {
-      return graphState.endSelection();
+    graphDispatch((state: IGraph) => {
+      return state.endSelection();
     });
   };
 
@@ -146,7 +172,7 @@ export const BlockText = (props: IBlockTextProps) => {
           class: `focus:outline-none text-gray-700 ${selectedClass}`,
         },
         handlePaste: (view) => {
-          view.focus()
+          view.focus();
           handlePaste();
           return PREVENT_TIPTAP_DEFAULT;
         },
@@ -155,8 +181,8 @@ export const BlockText = (props: IBlockTextProps) => {
       content: props.humanText,
       onUpdate({ editor }) {
         logEditorEvent("onUpdate:" + propsRef.current.path);
-        graphDispatch((graphState: IGraph) => {
-          return graphState.updateBlockText(contentRef.current.id, editor.getText());
+        graphDispatch((state: IGraph) => {
+          return state.updateBlockText(contentRef.current.id, editor.getText());
         });
       },
       onFocus() {
@@ -198,22 +224,30 @@ export const BlockText = (props: IBlockTextProps) => {
     if (isRootRef.current) {
       return ALLOW_TIPTAP_DEFAULT;
     }
-    fullPathDispatch((fullPathState: IFullPath): IFullPath => {
-      const upstairsNeighborPath = getUpstairsNeighborPath(propsRef.current.path);
-      return fullPathState.setFocus(upstairsNeighborPath, getFocusPosition(editor));
+    fullPathDispatch((state: IFullPath): IFullPath => {
+      const upstairsNeighborPath = getUpstairsNeighborPath(
+        graphRef.current,
+        state,
+        propsRef.current.path
+      );
+      return state.setFocus(upstairsNeighborPath, getFocusPosition(editor));
     });
     return PREVENT_TIPTAP_DEFAULT;
   };
 
   const handleDownArrowPress = (editor: Editor) => {
     logKeyEvent("onDownArrowPress, path: " + propsRef.current.path);
-    fullPathDispatch((fullPathState: IFullPath): IFullPath => {
+    fullPathDispatch((state: IFullPath): IFullPath => {
       try {
-        const downstairsNeighborPath = getDownstairsNeighborPath(propsRef.current.path);
-        return fullPathState.setFocus(downstairsNeighborPath, getFocusPosition(editor));
+        const downstairsNeighborPath = getDownstairsNeighborPath(
+          graphRef.current,
+          state,
+          propsRef.current.path
+        );
+        return state.setFocus(downstairsNeighborPath, getFocusPosition(editor));
       } catch (e) {
         if (e instanceof NoSuchBlockError) {
-          return fullPathState;
+          return state;
         }
         throw e;
       }
@@ -229,9 +263,13 @@ export const BlockText = (props: IBlockTextProps) => {
       if (isRootRef.current) {
         return ALLOW_TIPTAP_DEFAULT;
       }
-      fullPathDispatch((fullPathState: IFullPath): IFullPath => {
-        const upstairsNeighborPath = getUpstairsNeighborPath(propsRef.current.path);
-        return fullPathState.setFocus(upstairsNeighborPath, "end");
+      fullPathDispatch((state: IFullPath): IFullPath => {
+        const upstairsNeighborPath = getUpstairsNeighborPath(
+          graphRef.current,
+          state,
+          propsRef.current.path
+        );
+        return state.setFocus(upstairsNeighborPath, "end");
       });
       return PREVENT_TIPTAP_DEFAULT;
     }
@@ -243,13 +281,17 @@ export const BlockText = (props: IBlockTextProps) => {
     const focusPosition = getFocusPosition(editor);
     if (focusPosition === editor.getText().length + 1) {
       // we're at the end of the line already, so graphDispatch the action
-      fullPathDispatch((fullPathState: IFullPath): IFullPath => {
+      fullPathDispatch((state: IFullPath): IFullPath => {
         try {
-          const downstairsNeighborPath = getDownstairsNeighborPath(propsRef.current.path);
-          return fullPathState.setFocus(downstairsNeighborPath, "start");
+          const downstairsNeighborPath = getDownstairsNeighborPath(
+            graphRef.current,
+            state,
+            propsRef.current.path
+          );
+          return state.setFocus(downstairsNeighborPath, "start");
         } catch (e) {
           if (e instanceof NoSuchBlockError) {
-            return fullPathState;
+            return state;
           }
           throw e;
         }
@@ -265,62 +307,65 @@ export const BlockText = (props: IBlockTextProps) => {
     const focusPosition = getFocusPosition(editor);
     if (focusPosition === 1 && !isRootRef.current) {
       // we're at the beginning of the line already, so graphDispatch the action
-      graphDispatch((graphState: IGraph) => {
-        const upstairsNeighborPath = getUpstairsNeighborPath(propsRef.current.path);
-        const upstairsNeighborContent = getContentFromPath({
+      graphDispatch((state: IGraph) => {
+        const upstairsNeighborPath = getUpstairsNeighborPath(
+          state,
+          fullPathRef.current,
+          propsRef.current.path
+        );
+        const upstairsNeighborContent = getContentFromPath(state, fullPathRef.current, {
           focusPath: upstairsNeighborPath,
         });
-        const upstairsNeighborHasLocation = upstairsNeighborPath.length > 0;
+        const upstairsNeighborHasLocation = upstairsNeighborPath.size > 0;
         if (
-          upstairsNeighborContent.childLocatedBlocks.length <= 1 &&
-          upstairsNeighborContent.locatedBlocks.length <= 1 &&
+          upstairsNeighborContent.childLocatedBlocks.size <= 1 &&
+          upstairsNeighborContent.locatedBlocks.size <= 1 &&
           upstairsNeighborContent.humanText.length === 0 &&
           upstairsNeighborHasLocation
         ) {
           // if the upstairs neighbor is a simple blank line with a single parent and no children,
           // we shift the current line up to replace the upstairs neighbor
           // we do this even when the current block has multiple parents
-          const upstairsNeighborLocatedBlockId =
-            upstairsNeighborPath[upstairsNeighborPath.length - 1];
-          const upstairsNeighborLocatedBlock = graphState.locatedBlocks.get(
+          const upstairsNeighborLocatedBlockId = upstairsNeighborPath.last();
+          const upstairsNeighborLocatedBlock = state.locatedBlocks.get(
             upstairsNeighborLocatedBlockId
           );
-          const newPath = [...upstairsNeighborPath.slice(0, -1), locatedRef.current.id];
-          fullPathDispatch((fullPathState: IFullPath): IFullPath => {
-            return fullPathState.setFocus(newPath, "start");
+          const newPath = upstairsNeighborPath.splice(-1, 1, locatedRef.current.id);
+          fullPathDispatch((state: IFullPath): IFullPath => {
+            return state.setFocus(newPath, "start");
           });
-          return graphState
+          return state
             .removeLocatedBlock(upstairsNeighborLocatedBlockId)
             .moveLocatedBlock(
               locatedRef.current.id,
               upstairsNeighborLocatedBlock.leftId,
               upstairsNeighborLocatedBlock.parentId
-            )
-        } else if (contentRef.current.locatedBlocks.length > 1) {
+            );
+        } else if (contentRef.current.locatedBlocks.size > 1) {
           // if the current block has multiple parents and the upstairs neighbor is non-simple,
           // we don't do anything
-          return graphState;
+          return state;
         } else if (
-          contentRef.current.childLocatedBlocks.length > 0 &&
-          upstairsNeighborContent.childLocatedBlocks.length > 1
+          contentRef.current.childLocatedBlocks.size > 0 &&
+          upstairsNeighborContent.childLocatedBlocks.size > 1
         ) {
           // if both merging blocks have children, that's weird and we don't do anything
-          return graphState;
+          return state;
         } else {
           // in all other cases,
           // we merge current block into upstairs neighbor, maintaining upstairs neighbor's id
-          fullPathDispatch((fullPathState: IFullPath): IFullPath => {
-            return fullPathState.setFocus(
+          fullPathDispatch((state: IFullPath): IFullPath => {
+            return state.setFocus(
               upstairsNeighborPath,
               upstairsNeighborContent.humanText.length + 1
             );
           });
-          return graphState
+          return state
             .removeLocatedBlock(locatedRef.current.id)
             .updateBlockText(
               upstairsNeighborContent.id,
               upstairsNeighborContent.humanText + editorText
-            )
+            );
         }
       });
       return PREVENT_TIPTAP_DEFAULT;
@@ -331,73 +376,75 @@ export const BlockText = (props: IBlockTextProps) => {
   const handleTabPress = (editor: Editor) => {
     logKeyEvent("onTabPress, path: " + propsRef.current.path);
     const focusPosition = getFocusPosition(editor);
-    graphDispatch((graphState: IGraph) => {
-      if (isRootRef.current) {
-        // if we're at the root, we don't do anything
-        return graphState;
-      }
-      let focusPath: Path;
-      let parentContent = graphState.blockContents.get(locatedRef.current.parentId);
-      if (parentContent.getLeftmostChildId() === locatedRef.current.id) {
-        // if we're the first child, just add an older sibling and proceed, don't return yet
-        const newLocatedBlockId = crypto.randomUUID();
-        graphState = graphState.insertNewBlock(
-          null,
-          parentContent.id,
-          "",
-          contentRef.current.verb.getDefaultParentVerb(),
-          newLocatedBlockId
+    if (!isRootRef.current) {
+      graphDispatch((state: Readonly<IGraph>) => {
+        let focusPath: Path;
+        let newState: IGraph = state;
+        let parentContent = newState.blockContents.get(locatedRef.current.parentId);
+        if (parentContent.getLeftmostChildId() === locatedRef.current.id) {
+          // if we're the first child, just add an older sibling and proceed, don't return yet
+          const newLocatedBlockId = crypto.randomUUID();
+          newState = newState.insertNewBlock(
+            null,
+            parentContent.id,
+            "",
+            contentRef.current.verb.getDefaultParentVerb(),
+            newLocatedBlockId
+          );
+          parentContent = newState.blockContents.get(parentContent.id);
+          focusPath = propsRef.current.path.splice(-1, 1, newLocatedBlockId);
+        } else {
+          focusPath = propsRef.current.path.splice(
+            -1,
+            1,
+            parentContent.getLeftSiblingIdOf(locatedRef.current.id),
+            locatedRef.current.id
+          );
+        }
+        const updatedLeftSibling = parentContent.getLeftSiblingIdOf(locatedRef.current.id);
+        const { blockContent: leftSiblingBlockContent } = fullBlockFromLocatedBlockId(
+          newState,
+          updatedLeftSibling
         );
-        parentContent = graphState.blockContents.get(parentContent.id);
-        focusPath = [...propsRef.current.path.slice(0, -1), newLocatedBlockId];
-      } else {
-        focusPath = [
-          ...propsRef.current.path.slice(0, -1),
-          parentContent.getLeftSiblingIdOf(locatedRef.current.id),
+        fullPathDispatch((state: IFullPath): IFullPath => {
+          return state.setFocus(focusPath, focusPosition);
+        });
+        newState = newState.moveLocatedBlock(
           locatedRef.current.id,
-        ];
-      }
-      const updatedLeftSibling = parentContent.getLeftSiblingIdOf(locatedRef.current.id);
-      const leftSiblingBlock = fullBlockFromLocatedBlockId(graphState, updatedLeftSibling);
-      fullPathDispatch((fullPathState: IFullPath): IFullPath => {
-        return fullPathState.setFocus(focusPath, focusPosition);
+          leftSiblingBlockContent.getRightmostChildId(),
+          leftSiblingBlockContent.id
+        );
+        return newState;
       });
-      return graphState
-        .moveLocatedBlock(
-          locatedRef.current.id,
-          leftSiblingBlock.blockContent.getRightmostChildId(),
-          leftSiblingBlock.blockContent.id
-        )
-    });
+    }
     return PREVENT_TIPTAP_DEFAULT;
   };
 
   const handleShiftTabPress = (editor: Editor) => {
     logKeyEvent("onShiftTabPress, path: " + propsRef.current.path);
     const focusPosition = getFocusPosition(editor);
-    graphDispatch((graphState: IGraph) => {
-      if (propsRef.current.path.length < 2) {
+    graphDispatch((state: IGraph) => {
+      if (propsRef.current.path.size < 2) {
         // If there's no granparent, we don't do anything
-        return graphState;
+        return state;
       }
-      const parentLocatedBlockId = propsRef.current.path[propsRef.current.path.length - 2];
-      const parentBlock = fullBlockFromLocatedBlockId(graphState, parentLocatedBlockId);
+      const parentLocatedBlockId = propsRef.current.path.get(propsRef.current.path.size - 2);
+      const parentBlock = fullBlockFromLocatedBlockId(state, parentLocatedBlockId);
       const rightSiblingLocatedId = parentBlock.blockContent.getRightSiblingIdOf(
         locatedRef.current.id
       );
-      const focusPath = [...propsRef.current.path.slice(0, -2), locatedRef.current.id];
-      const updatedgraphState = graphState
-        .moveLocatedBlock(
-          locatedRef.current.id,
-          parentLocatedBlockId,
-          parentBlock.locatedBlock.parentId
-        )
+      const focusPath = propsRef.current.path.splice(-2, 2, locatedRef.current.id);
+      const updatedgraphState = state.moveLocatedBlock(
+        locatedRef.current.id,
+        parentLocatedBlockId,
+        parentBlock.locatedBlock.parentId
+      );
+      fullPathDispatch((state: IFullPath): IFullPath => {
+        return state.setFocus(focusPath, focusPosition);
+      });
       if (rightSiblingLocatedId) {
         return updatedgraphState.moveChildren(rightSiblingLocatedId, contentRef.current.id);
       }
-      fullPathDispatch((fullPathState: IFullPath): IFullPath => {
-        return fullPathState.setFocus(focusPath, focusPosition);
-      });
       return updatedgraphState;
     });
     return PREVENT_TIPTAP_DEFAULT;
@@ -408,30 +455,11 @@ export const BlockText = (props: IBlockTextProps) => {
     const pasteAction: GraphAction = pasteActionGenerator(
       locatedRef.current.id,
       await navigator.clipboard.readText(),
-      graphState,
       fullPathState,
-      fullPathDispatch,
-      getContentFromPath
+      fullPathDispatch
     );
     graphDispatch(pasteAction);
   };
-
-  // keep propsRef up to date
-  useEffect(() => {
-    propsRef.current = props;
-  }, [props]);
-
-  // keep locatedRef and contentRef and isRootRef up to date
-  useEffect(() => {
-    contentRef.current = graphState.blockContents.get(props.contentId);
-    if (props.path.length > 0) {
-      locatedRef.current = graphState.locatedBlocks.get(props.path[props.path.length - 1]);
-      isRootRef.current = false;
-    } else {
-      locatedRef.current = null;
-      isRootRef.current = true;
-    }
-  }, [props.path, props.contentId]);
 
   // We blur whenever a selection starts, so that only our synthetic selection is visible/active
   useEffect(() => {
@@ -455,6 +483,16 @@ export const BlockText = (props: IBlockTextProps) => {
     }
   }, [!!editor, props.humanText, isFocused.current]);
 
+  // the one exception to the above; we force update editor content when contentId changes
+  useEffect(() => {
+    if (editor && !editor.isDestroyed) {
+      if (props.humanText !== editor.getText()) {
+        logEffect("updating editor content for path: " + props.path + " due to contentId change");
+        editor.commands.setContent(props.humanText);
+      }
+    }
+  }, [!!editor, props.contentId]);
+
   // set editor focus based on whether graphState's focusPath is this block's path
   useEffect(() => {
     if (editor && !editor.isDestroyed && fullPathState) {
@@ -472,6 +510,16 @@ export const BlockText = (props: IBlockTextProps) => {
       }
     }
   }, [!!editor, fullPathState.focusPath]);
+
+  useEffect(
+    () => () => {
+      // TODO this might be useful, but there's still the same console warning: can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
+      if (editor && !editor.isDestroyed) {
+        editor.destroy();
+      }
+    },
+    []
+  );
 
   const rootClass = isRootRef.current ? "text-xl font-bold" : "";
 

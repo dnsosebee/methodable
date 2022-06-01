@@ -2,10 +2,12 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 import { createFullPath, IFullPath } from "../model/fullPath";
 import { Path } from "../model/graph";
 
-export type FullPathAction = (fullPath: IFullPath) => IFullPath;
+export type FullPathAction = (fullPath: Readonly<IFullPath>) => IFullPath;
 
 const fullPathReducer = (fullPathState: IFullPath, action: FullPathAction) => {
-  return action(fullPathState);
+  const newState = action(fullPathState);
+  console.log("newState", JSON.stringify(newState));
+  return newState;
 };
 
 const fullPathContext = createContext(null);

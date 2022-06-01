@@ -13,7 +13,7 @@ export const enterPressActionGenerator =
     leftText: HumanText,
     rightText: HumanText,
     path: Path,
-    fullPathDispatch: (action: FullPathAction) => void,
+    fullPathDispatch: (action: FullPathAction) => void
   ): GraphAction =>
   (state: IGraph): IGraph => {
     const newLocatedBlockId = crypto.randomUUID();
@@ -23,21 +23,20 @@ export const enterPressActionGenerator =
       if (isRoot) {
         return state;
       }
-      const newPath = [...path.slice(0, -1), newLocatedBlockId];
+      const newPath = path.splice(-1, 1, newLocatedBlockId);
       fullPathDispatch((fullPath: IFullPath): IFullPath => {
         return fullPath.setFocus(newPath, "start");
       });
-      return state
-        .insertNewBlock(
-          locatedBlock.leftId,
-          locatedBlock.parentId,
-          "",
-          content.verb.getDefaultSiblingVerb(),
-          newLocatedBlockId
-        )
-    } else if (content.childLocatedBlocks.length === 0 && !isRoot) {
+      return state.insertNewBlock(
+        locatedBlock.leftId,
+        locatedBlock.parentId,
+        "",
+        content.verb.getDefaultSiblingVerb(),
+        newLocatedBlockId
+      );
+    } else if (content.childLocatedBlocks.size === 0 && !isRoot) {
       // if the old block has no children and isn't root, we add a sibling after the old block
-      const newPath = [...path.slice(0, -1), newLocatedBlockId];
+      const newPath = path.splice(-1, 1, newLocatedBlockId);
       fullPathDispatch((fullPath: IFullPath): IFullPath => {
         return fullPath.setFocus(newPath, "start");
       });
@@ -49,10 +48,10 @@ export const enterPressActionGenerator =
           content.verb.getDefaultSiblingVerb(),
           newLocatedBlockId
         )
-        .updateBlockText(content.id, leftText)
+        .updateBlockText(content.id, leftText);
     } else {
       // if the old block does have children or is root, we add a child to the old block
-      const newPath = [...path, newLocatedBlockId];
+      const newPath = path.push(newLocatedBlockId);
       fullPathDispatch((fullPath: IFullPath): IFullPath => {
         return fullPath.setFocus(newPath, "start");
       });
@@ -64,6 +63,6 @@ export const enterPressActionGenerator =
           content.verb.getDefaultChildVerb(),
           newLocatedBlockId
         )
-        .updateBlockText(content.id, leftText)
+        .updateBlockText(content.id, leftText);
     }
   };

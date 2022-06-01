@@ -1,6 +1,6 @@
 // crockford object for state
 import {
-  blockContent,
+  createBlockContent,
   BlockContentId,
   contentFromJson,
   contentToJson,
@@ -10,18 +10,20 @@ import {
 import { fullBlockFromLocatedBlockId } from "./fullBlock";
 import {
   ILocatedBlock,
-  locatedBlock,
+  createLocatedBlock,
   locatedBlockFromJson,
   LocatedBlockId,
   locatedBlockToJson,
 } from "./locatedBlock";
 import { IVerb } from "./verbs/verb";
+import { List, Map } from "immutable";
 
 // types
 export type UserId = string;
-export type SelectionRange = { start: Path; end: Path };
+export type SelectionRange = Readonly<{ start: Path; end: Path }>;
 export type FocusPosition = number | "start" | "end";
-export type Path = LocatedBlockId[];
+export type LocationList = List<LocatedBlockId>;
+export type Path = LocationList;
 
 export interface IProgress {
   content: IBlockContent;
@@ -35,10 +37,10 @@ export interface IGraphData {
 
   // editor specific stuff
   // selection related
-  activeParentPath: Path;
-  selectionRange: SelectionRange;
-  isSelectionActive: boolean;
-  isSelectionDeep: boolean;
+  activeParentPath: Readonly<Path>;
+  selectionRange: Readonly<SelectionRange>;
+  isSelectionActive: Readonly<boolean>;
+  isSelectionDeep: Readonly<boolean>;
 }
 
 export interface IGraphTransitions {
@@ -86,7 +88,7 @@ export interface IGraphGetters {
 
 export interface IGraph extends IGraphData, IGraphTransitions, IGraphGetters {}
 
-export function createGraph(graphData: IGraphData): IGraph {
+export function createGraph(graphData: Readonly<IGraphData>): IGraph {
   const transitions: IGraphTransitions = {
     // no-op transition (to cause re-render)
     refresh: () => createGraph(graphData),
@@ -101,13 +103,10 @@ export function createGraph(graphData: IGraphData): IGraph {
     setSelectionParent: (): IGraph => {
       // must run after selectionRange is updated
       const { selectionRange } = graphData;
-      const maxParentDepth = Math.min(
-        selectionRange.start.length - 1,
-        selectionRange.end.length - 1
-      );
+      const maxParentDepth = Math.min(selectionRange.start.size - 1, selectionRange.end.size - 1);
       let parentDepth = 0;
       for (let i = 0; i < maxParentDepth; i++) {
-        if (selectionRange.start[i] === selectionRange.end[i]) {
+        if (selectionRange.start.get(i) === selectionRange.end.get(i)) {
           parentDepth += 1;
         } else {
           break;
@@ -119,7 +118,7 @@ export function createGraph(graphData: IGraphData): IGraph {
       });
     },
     startSelection: (path: Path) => {
-      if (path.length < 1) {
+      if (path.size < 1) {
         throw new Error("Can't select root block");
       }
       return createGraph({
@@ -129,7 +128,7 @@ export function createGraph(graphData: IGraphData): IGraph {
       }).setSelectionParent();
     },
     changeSelection: (path: Path) => {
-      if (path.length < 1) {
+      if (path.size < 1) {
         throw new Error("Can't select root block");
       }
       return createGraph({
@@ -183,18 +182,26 @@ export function createGraph(graphData: IGraphData): IGraph {
       const updatedLocatedBlock = locatedBlock.setContentId(blockContentId);
 
       // reset the maps
-      graphData.locatedBlocks.set(locatedBlockId, updatedLocatedBlock);
-      graphData.blockContents.set(blockContentId, updatedNewContent);
-      if (updatedExistingContent.locatedBlocks.length < 1) {
+      let updatedlocatedBlocks = graphData.locatedBlocks.set(locatedBlockId, updatedLocatedBlock);
+      let updatedBlockContents = graphData.blockContents.set(
+        updatedNewContent.id,
+        updatedNewContent
+      );
+      if (updatedExistingContent.locatedBlocks.size < 1) {
         // if the content we're replacing only has this location,
         // let's delete the content from the graph
-        graphData.blockContents.delete(locatedBlock.contentId);
+        updatedBlockContents = updatedBlockContents.delete(locatedBlock.contentId);
       } else {
         // otherwise, update the existing content
-        graphData.blockContents.set(locatedBlock.contentId, updatedExistingContent);
+        updatedBlockContents = updatedBlockContents.set(
+          locatedBlock.contentId,
+          updatedExistingContent
+        );
       }
       return createGraph({
         ...graphData,
+        locatedBlocks: updatedlocatedBlocks,
+        blockContents: updatedBlockContents,
       });
     },
     insertNewBlock: (
@@ -206,23 +213,20 @@ export function createGraph(graphData: IGraphData): IGraph {
     ) => {
       // insert new block content
       const newBlockContentId = crypto.randomUUID();
-      const newBlockContent = blockContent({
+      const newBlockContent = createBlockContent({
         id: newBlockContentId,
         verb,
         humanText,
         userId: "TODO",
-        childLocatedBlocks: [],
-        locatedBlocks: [],
+        childLocatedBlocks: List(),
+        locatedBlocks: List(),
       });
-      graphData.blockContents.set(newBlockContentId, newBlockContent);
 
       // then insert new located block
-      return createGraph(graphData).insertNewLocatedBlock(
-        leftId,
-        parentContentId,
-        newBlockContentId,
-        locatedBlockId
-      );
+      return createGraph({
+        ...graphData,
+        blockContents: graphData.blockContents.set(newBlockContentId, newBlockContent),
+      }).insertNewLocatedBlock(leftId, parentContentId, newBlockContentId, locatedBlockId);
     },
     insertNewLocatedBlock: (
       leftId: LocatedBlockId,
@@ -231,7 +235,7 @@ export function createGraph(graphData: IGraphData): IGraph {
       locatedBlockId: LocatedBlockId = crypto.randomUUID()
     ): IGraph => {
       // insert new locatedBlock
-      const newLocatedBlock = locatedBlock({
+      const newLocatedBlock = createLocatedBlock({
         id: locatedBlockId,
         parentId: parentContentId,
         contentId: blockContentId,
@@ -240,57 +244,73 @@ export function createGraph(graphData: IGraphData): IGraph {
         leftId,
         archived: false,
       });
-      graphData.locatedBlocks.set(locatedBlockId, newLocatedBlock);
+      const updatedlocatedBlocks = graphData.locatedBlocks.set(locatedBlockId, newLocatedBlock);
 
-      // update blockContent
+      // update its blockContent
       const blockContent = graphData.blockContents.get(blockContentId);
       const updatedBlockContent = blockContent.addLocation(locatedBlockId);
-      graphData.blockContents.set(blockContentId, updatedBlockContent);
+      const updatedBlockContents = graphData.blockContents.set(blockContentId, updatedBlockContent);
 
       // then update surrounding blocks
-      return createGraph(graphData).addSurroundingBlocks(newLocatedBlock);
+      return createGraph({
+        ...graphData,
+        locatedBlocks: updatedlocatedBlocks,
+        blockContents: updatedBlockContents,
+      }).addSurroundingBlocks(newLocatedBlock);
     },
     addSurroundingBlocks: (locatedBlock: ILocatedBlock): IGraph => {
-      // should remove this from the public interface
+      // should remove this from the public interface ^
 
       // update blockContent parent
       const parentContentId = locatedBlock.parentId;
-      const parentContent = graphData.blockContents.get(parentContentId);
-      graphData.blockContents.set(
-        parentContent.id,
-        parentContent.addChildAfter(locatedBlock.leftId, locatedBlock.id)
-      );
+      const parentContent = graphData.blockContents
+        .get(parentContentId)
+        .addChildAfter(locatedBlock.leftId, locatedBlock.id);
+      const updatedBlockContents = graphData.blockContents.set(parentContent.id, parentContent);
 
       // update locatedBlock to the right
+      let updatedLocatedBlocks = graphData.locatedBlocks;
       const rightLocatedBlockId = parentContent.getRightSiblingIdOf(locatedBlock.id);
       if (rightLocatedBlockId) {
         const rightLocatedBlock = graphData.locatedBlocks.get(rightLocatedBlockId);
-        graphData.locatedBlocks.set(
+        updatedLocatedBlocks = graphData.locatedBlocks.set(
           rightLocatedBlockId,
           rightLocatedBlock.setLeftId(locatedBlock.id)
         );
       }
-      return createGraph(graphData);
+      return createGraph({
+        ...graphData,
+        blockContents: updatedBlockContents,
+        locatedBlocks: updatedLocatedBlocks,
+      });
     },
     removeLocatedBlock: (locatedBlockId: LocatedBlockId): IGraph => {
       const { locatedBlock, blockContent } = fullBlockFromLocatedBlockId(graphData, locatedBlockId);
 
       // archive locatedBlock
-      graphData.locatedBlocks.set(locatedBlockId, locatedBlock.setArchived(true));
+      let updatedlocatedBlocks = graphData.locatedBlocks.set(
+        locatedBlockId,
+        locatedBlock.setArchived(true)
+      );
 
       // remove location from the associated content
+      let updatedBlockContents;
       const updatedBlockContent = blockContent.removeLocation(locatedBlockId);
-      if (updatedBlockContent.locatedBlocks.length < 1) {
+      if (updatedBlockContent.locatedBlocks.size < 1) {
         // if the content only has this location,
         // let's delete the content from the graph
-        graphData.blockContents.delete(blockContent.id);
+        updatedBlockContents = graphData.blockContents.delete(blockContent.id);
       } else {
         // otherwise, update the existing content
-        graphData.blockContents.set(blockContent.id, updatedBlockContent);
+        updatedBlockContents = graphData.blockContents.set(blockContent.id, updatedBlockContent);
       }
 
       // update surrounding blocks
-      return createGraph(graphData).removeSurroundingBlocks(locatedBlock);
+      return createGraph({
+        ...graphData,
+        locatedBlocks: updatedlocatedBlocks,
+        blockContents: updatedBlockContents,
+      }).removeSurroundingBlocks(locatedBlock);
     },
     removeSurroundingBlocks: (located: ILocatedBlock): IGraph => {
       // should remove this function from the public interface
@@ -298,15 +318,26 @@ export function createGraph(graphData: IGraphData): IGraph {
       const parentContent = graphData.blockContents.get(parentId);
 
       // update locatedBlock to the right
+      let updatedlocatedBlocks = graphData.locatedBlocks;
       const rightLocatedBlockId = parentContent.getRightSiblingIdOf(located.id);
       if (rightLocatedBlockId) {
         const rightLocatedBlock = graphData.locatedBlocks.get(rightLocatedBlockId);
-        graphData.locatedBlocks.set(rightLocatedBlockId, rightLocatedBlock.setLeftId(leftId));
+        updatedlocatedBlocks = graphData.locatedBlocks.set(
+          rightLocatedBlockId,
+          rightLocatedBlock.setLeftId(leftId)
+        );
       }
 
       // update blockContent parent
-      graphData.blockContents.set(parentContent.id, parentContent.removeChild(located.id));
-      return createGraph(graphData);
+      const updatedBlockContents = graphData.blockContents.set(
+        parentContent.id,
+        parentContent.removeChild(located.id)
+      );
+      return createGraph({
+        ...graphData,
+        locatedBlocks: updatedlocatedBlocks,
+        blockContents: updatedBlockContents,
+      });
     },
     moveLocatedBlock: (
       locatedBlockId: LocatedBlockId,
@@ -315,8 +346,8 @@ export function createGraph(graphData: IGraphData): IGraph {
     ): IGraph => {
       const located = graphData.locatedBlocks.get(locatedBlockId);
       const updatedLocatedBlock = located.setLeftId(newLeftId).setParentId(newParentContentId);
-      graphData.locatedBlocks.set(locatedBlockId, updatedLocatedBlock);
-      return createGraph(graphData)
+      const updatedLocatedBlocks = graphData.locatedBlocks.set(locatedBlockId, updatedLocatedBlock);
+      return createGraph({ ...graphData, locatedBlocks: updatedLocatedBlocks })
         .removeSurroundingBlocks(located)
         .addSurroundingBlocks(updatedLocatedBlock);
     },
@@ -344,25 +375,6 @@ export function createGraph(graphData: IGraphData): IGraph {
         .moveChildren(nextLeftmostChildId, newParentContentId);
     },
   };
-
-  // const getProgress = (focusPath: Path): IProgress[] => {
-  //   const progress: IProgress[] = [];
-  //   for (let i = 0; i <= focusPath.length; ++i) {
-  //     const locatedChildId = focusPath[i];
-  //     progress.push({
-  //       content: getContentFromPath({ focusPath: focusPath.slice(0, i) }),
-  //       locatedChildId,
-  //     });
-  //   }
-  //   return progress;
-  // };
-
-  // const getNextInstructionPath = (fullPath: IFullPath): IFullPath => {
-  //   // const { rootContentId, rootRelativePath, focusPath } = resolvePath(fullPath);
-  //   // const progress = getProgress(focusPath);
-  //   // while (progress[progress.length].content.)
-  //   return null;
-  // };
 
   const toString = (): string => {
     const contentsArray = [];
@@ -408,21 +420,24 @@ export const graphToJson = (graph: IGraph): string => {
 
 export const graphFromJson = (json: string, graph: IGraph): IGraph => {
   const parsed = JSON.parse(json);
-  const blockContents: Map<BlockContentId, IBlockContent> = new Map();
-  const locatedBlocks: Map<LocatedBlockId, ILocatedBlock> = new Map();
-  const blockContentsChildren: Map<BlockContentId, LocatedBlockId[]> = new Map();
+  let blockContents: Map<BlockContentId, IBlockContent> = Map();
+  let locatedBlocks: Map<LocatedBlockId, ILocatedBlock> = Map();
+  let blockContentsChildren: Map<BlockContentId, LocatedBlockId[]> = Map();
   parsed.blockContents.forEach(function (val) {
-    blockContents.set(val.id, contentFromJson(val));
-    blockContentsChildren.set(val.id, []);
+    blockContents = blockContents.set(val.id, contentFromJson(val));
+    blockContentsChildren = blockContentsChildren.set(val.id, []);
   });
   parsed.locatedBlocks.forEach(function (val) {
     if (!val.archived) {
-      blockContents.set(val.contentId, blockContents.get(val.contentId).addLocation(val.id));
+      blockContents = blockContents.set(
+        val.contentId,
+        blockContents.get(val.contentId).addLocation(val.id)
+      );
       if (val.parentId) {
         blockContentsChildren.get(val.parentId).push(val.id);
       }
     }
-    locatedBlocks.set(val.id, locatedBlockFromJson(val));
+    locatedBlocks = locatedBlocks.set(val.id, locatedBlockFromJson(val));
   });
   blockContentsChildren.forEach((val: LocatedBlockId[], key) => {
     let left = null;
@@ -434,7 +449,7 @@ export const graphFromJson = (json: string, graph: IGraph): IGraph => {
         }
         return false;
       });
-      blockContents.set(key, blockContents.get(key).addChildAfter(left, childId));
+      blockContents = blockContents.set(key, blockContents.get(key).addChildAfter(left, childId));
       left = childId;
       val.splice(val.indexOf(childId), 1);
     }

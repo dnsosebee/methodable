@@ -16,8 +16,8 @@ export const VerbSelect = (props: IVerbSelectProps) => {
   const { graphDispatch } = useGraph();
   const presentation = props.content.verb.getVerbSelectPresentation();
   const handleButtonClick = () => {
-    graphDispatch((graphState: IGraph) => {
-      return graphState.updateBlockVerb(props.content.id, props.content.verb.getNext());
+    graphDispatch((state: IGraph) => {
+      return state.updateBlockVerb(props.content.id, props.content.verb.getNext());
     });
   };
 
