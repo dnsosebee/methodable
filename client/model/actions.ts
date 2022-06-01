@@ -1,5 +1,8 @@
+import { FullPathAction } from "../components/FullPathProvider";
+import { GraphAction } from "../components/GraphProvider";
 import { HumanText, IBlockContent } from "./blockContent";
-import { GraphAction, IGraph, Path } from "./graph";
+import { IFullPath } from "./fullPath";
+import { IGraph, Path } from "./graph";
 import { ILocatedBlock } from "./locatedBlock";
 
 export const enterPressActionGenerator =
@@ -9,7 +12,8 @@ export const enterPressActionGenerator =
     isRoot: boolean,
     leftText: HumanText,
     rightText: HumanText,
-    path: Path
+    path: Path,
+    fullPathDispatch: (action: FullPathAction) => void,
   ): GraphAction =>
   (state: IGraph): IGraph => {
     const newLocatedBlockId = crypto.randomUUID();
@@ -20,6 +24,9 @@ export const enterPressActionGenerator =
         return state;
       }
       const newPath = [...path.slice(0, -1), newLocatedBlockId];
+      fullPathDispatch((fullPath: IFullPath): IFullPath => {
+        return fullPath.setFocus(newPath, "start");
+      });
       return state
         .insertNewBlock(
           locatedBlock.leftId,
@@ -28,10 +35,12 @@ export const enterPressActionGenerator =
           content.verb.getDefaultSiblingVerb(),
           newLocatedBlockId
         )
-        .setFocusLatch(newPath, "start");
     } else if (content.childLocatedBlocks.length === 0 && !isRoot) {
       // if the old block has no children and isn't root, we add a sibling after the old block
       const newPath = [...path.slice(0, -1), newLocatedBlockId];
+      fullPathDispatch((fullPath: IFullPath): IFullPath => {
+        return fullPath.setFocus(newPath, "start");
+      });
       return state
         .insertNewBlock(
           locatedBlock.id,
@@ -41,10 +50,12 @@ export const enterPressActionGenerator =
           newLocatedBlockId
         )
         .updateBlockText(content.id, leftText)
-        .setFocusLatch(newPath, "start");
     } else {
       // if the old block does have children or is root, we add a child to the old block
       const newPath = [...path, newLocatedBlockId];
+      fullPathDispatch((fullPath: IFullPath): IFullPath => {
+        return fullPath.setFocus(newPath, "start");
+      });
       return state
         .insertNewBlock(
           null,
@@ -54,6 +65,5 @@ export const enterPressActionGenerator =
           newLocatedBlockId
         )
         .updateBlockText(content.id, leftText)
-        .setFocusLatch(newPath, "start");
     }
   };

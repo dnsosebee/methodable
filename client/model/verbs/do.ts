@@ -1,5 +1,5 @@
 import { ILocatedBlock } from "../locatedBlock";
-import { IFullPath, Path } from "../graph";
+import { Path } from "../graph";
 import { IVerbGetters } from "./verb";
 
 export const doGetters: IVerbGetters = {

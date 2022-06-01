@@ -8,5 +8,5 @@ export const Wrapper = ({
   shouldGrow: boolean;
 }) => {
   const growClasses = shouldGrow ? "flex-grow" : "";
-  return <div className={`border border-secondary rounded p-2 m-2 ${growClasses}`}>{children}</div>;
+  return <div className={`border border-secondary rounded p-2 m-2 shadow-lg ${growClasses}`}>{children}</div>;
 };

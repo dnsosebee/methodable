@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
-import { GraphContextWrapper } from "../../../client/components/GraphContextWrapper";
+import { GraphProvider } from "../../../client/components/GraphProvider";
 import { EditorContainer } from "../../../client/components/editor/EditorContainer";
 import { GuideContainer } from "../../../client/components/guide/GuideContainer";
 import { Path } from "../../../client/model/graph";
 import FourOhFour from "../../404";
+import { FullPathProvider } from "../../../client/components/FullPathProvider";
 
 const MODES = {
   EDIT: "edit",
@@ -47,7 +48,11 @@ const Container = () => {
     focusPath: [] as Path,
     isFocusSpecifiedInURL: false,
   };
-  return <GraphContextWrapper {...contextWrapperProps}>{getChildComponent(mode)}</GraphContextWrapper>;
+  return (
+    <GraphProvider {...contextWrapperProps}>
+      <FullPathProvider {...contextWrapperProps}>{getChildComponent(mode)}</FullPathProvider>
+    </GraphProvider>
+  );
 };
 
 export default Container;

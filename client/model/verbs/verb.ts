@@ -1,8 +1,7 @@
 import { IBlockHandlePresentation } from "../../components/editor/BlockHandle";
 import { IVerbSelectPresentation } from "../../components/editor/VerbSelect";
-import { IBlockContent } from "../blockContent";
 import { ILocatedBlock } from "../locatedBlock";
-import { IFullPath, Path } from "../graph";
+import { Path } from "../graph";
 import { chooseGetters } from "./choose";
 import { doGetters } from "./do";
 import { readGetters } from "./read";

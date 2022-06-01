@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { getChildComponent, PATH_DELIMITER, PATH_SEPARATOR } from ".";
-import { GraphContextWrapper } from "../../../client/components/GraphContextWrapper";
+import { FullPathProvider } from "../../../client/components/FullPathProvider";
+import { GraphProvider } from "../../../client/components/GraphProvider";
 import { Path } from "../../../client/model/graph";
 
 export const getURLPaths = (
@@ -18,7 +19,8 @@ export const getURLPaths = (
   } else {
     rootRelativePath = paths;
   }
-  const rootRelativePathArray = rootRelativePath === "" ? [] : rootRelativePath.split(PATH_DELIMITER);
+  const rootRelativePathArray =
+    rootRelativePath === "" ? [] : rootRelativePath.split(PATH_DELIMITER);
   const focusPathArray = focusPath === "" ? [] : focusPath.split(PATH_DELIMITER);
   return {
     rootRelativePath: rootRelativePathArray,
@@ -59,7 +61,11 @@ const Container = () => {
     focusPath: focusPath,
     isFocusSpecifiedInURL,
   };
-  return <GraphContextWrapper {...contextWrapperProps}>{getChildComponent(mode)}</GraphContextWrapper>;
+  return (
+    <GraphProvider {...contextWrapperProps}>
+      <FullPathProvider {...contextWrapperProps}>{getChildComponent(mode)}</FullPathProvider>
+    </GraphProvider>
+  );
 };
 
 export default Container;

@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { useContext } from "react";
 import { PATH_DELIMITER } from "../../../pages/[mode]/[rootContentId]";
 import { BlockContentId } from "../../model/blockContent";
 import { IGraph, Path } from "../../model/graph";
-import { GraphContext } from "../GraphContextWrapper";
+import { useGraphWithPaths } from "../../model/graphWithPaths";
+import { useGraph } from "../GraphProvider";
 
 export interface IBreadcrumbsProps {
   rootContentId: BlockContentId;
@@ -18,10 +18,10 @@ interface IBreadcrumbInfo {
 const MAX_LENGTH_OF_BREADCRUMB_TEXT = 40;
 
 export const Breadcrumbs = (props: IBreadcrumbsProps) => {
-  const { state }: { state: IGraph } = useContext(GraphContext);
+  const {graphState, getContentFromPath} = useGraphWithPaths();
 
   const getBreadcrumbInfos = (relativePath: Path): IBreadcrumbInfo[] => {
-    const content = state.getContentFromPath({ rootRelativePath: relativePath });
+    const content = getContentFromPath({ rootRelativePath: relativePath });
     let text = content.humanText;
     if (text.length > MAX_LENGTH_OF_BREADCRUMB_TEXT) {
       text = text.substring(0, MAX_LENGTH_OF_BREADCRUMB_TEXT - 3) + "...";
@@ -36,9 +36,9 @@ export const Breadcrumbs = (props: IBreadcrumbsProps) => {
     return [...getBreadcrumbInfos(relativePath.slice(0, -1)), info];
   };
 
-  const breadcrumbInfos = getBreadcrumbInfos(props.rootRelativePath.slice(0, -1));
+  const breadcrumbInfos = props.rootRelativePath.length > 0 ? getBreadcrumbInfos(props.rootRelativePath.slice(0, -1)) : [];
   return (
-    <div className="flex mb-2">
+    <div className="flex mb-2 h-5">
       {breadcrumbInfos.map((info, index) => {
         return (
           <span key={index} className="flex flex-none">

@@ -13,6 +13,7 @@ import {
   IBlockContentData,
 } from "../model/blockContent";
 import { VERB, verb } from "../model/verbs/verb";
+import { createFullPath, IFullPath } from "../model/fullPath";
 
 const rootLocatedData: ILocatedBlockData = {
   id: "located-root",
@@ -88,7 +89,7 @@ const contentCData: IBlockContentData = {
 };
 const contentC = blockContent(contentCData);
 
-export const initialState: IGraph = createGraph({
+export const initialGraphState: IGraph = createGraph({
   locatedBlocks: new Map<LocatedBlockId, ILocatedBlock>([
     ["located-root", rootLocated],
     ["located-child1", child1Located],
@@ -100,13 +101,15 @@ export const initialState: IGraph = createGraph({
     ["content-b", contentB],
     ["content-c", contentC],
   ]),
-  rootContentId: "content-a",
-  rootRelativePath: [],
   activeParentPath: [],
   selectionRange: { start: [], end: [] },
   isSelectionActive: false,
-  isSelectionDeep: true,
-  focusPath: [],
-  focusPosition: "start",
-  isFocusSpecifiedInURL: false,
+  isSelectionDeep: false,
 });
+
+// export const initialFullPathState: IFullPath = createFullPath({
+//   rootContentId: "content-a",
+//   rootRelativePath: [],
+//   focusPath: [],
+//   isFocusSpecifiedInURL: false,
+// });

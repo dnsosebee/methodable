@@ -1,5 +1,4 @@
 // crockford object for state
-import { NoSuchBlockError } from "../lib/errors";
 import {
   blockContent,
   BlockContentId,
@@ -23,36 +22,23 @@ export type UserId = string;
 export type SelectionRange = { start: Path; end: Path };
 export type FocusPosition = number | "start" | "end";
 export type Path = LocatedBlockId[];
-export interface IFullPath {
-  rootContentId?: BlockContentId;
-  rootRelativePath?: Path;
-  focusPath?: Path;
-}
+
 export interface IProgress {
   content: IBlockContent;
   locatedChildId: LocatedBlockId;
 }
 
-//actions
-export type GraphAction = (state: IGraph) => IGraph;
-
 export interface IGraphData {
-  // persistent
+  // graph stuff
   locatedBlocks: Map<LocatedBlockId, ILocatedBlock>;
   blockContents: Map<BlockContentId, IBlockContent>;
-  // transient, f(page): where are we?
-  rootContentId: BlockContentId;
-  rootRelativePath: Path;
+
+  // editor specific stuff
   // selection related
   activeParentPath: Path;
   selectionRange: SelectionRange;
   isSelectionActive: boolean;
   isSelectionDeep: boolean;
-  // focus related: focusPath is relative to locatedIdPath, which is relative to rootContentId
-  // focus is also used to store progress in a program
-  focusPath: Path | null;
-  focusPosition: FocusPosition;
-  isFocusSpecifiedInURL: boolean;
 }
 
 export interface IGraphTransitions {
@@ -65,18 +51,6 @@ export interface IGraphTransitions {
   changeSelection: (path: Path) => IGraph;
   endSelection: () => IGraph;
   toggleSelectionType: () => IGraph;
-
-  // focus related
-  setFocusLatch: (path: Path, focusPosition: FocusPosition) => IGraph;
-  clearFocusLatch: () => IGraph; // DEPRECATED
-
-  // path related
-  setPaths: (
-    rootContentId: BlockContentId,
-    rootRelativePath: Path,
-    focusPath: Path,
-    isFocusSpecifiedInURL: boolean
-  ) => IGraph;
 
   // block transitions
   updateBlockText: (blockContentId: BlockContentId, humanText: HumanText) => IGraph;
@@ -107,14 +81,6 @@ export interface IGraphTransitions {
 }
 
 export interface IGraphGetters {
-  getUpstairsNeighborPath: (path: Path) => Path;
-  getDownstairsNeighborPath: (path: Path) => Path;
-  // gets the content at the end of the path, or the end of rootRelativePath if path is empty
-  getContentFromPath: (data: {
-    contentId?: BlockContentId;
-    rootRelativePath?: Path;
-    focusPath?: Path;
-  }) => IBlockContent;
   toString: () => string;
 }
 
@@ -160,7 +126,6 @@ export function createGraph(graphData: IGraphData): IGraph {
         ...graphData,
         selectionRange: { start: path, end: path },
         isSelectionActive: true,
-        focusPath: null,
       }).setSelectionParent();
     },
     changeSelection: (path: Path) => {
@@ -176,37 +141,6 @@ export function createGraph(graphData: IGraphData): IGraph {
       return createGraph({
         ...graphData,
         isSelectionActive: false,
-      });
-    },
-
-    // cursor moves
-    setFocusLatch: (path: Path, focusPosition: FocusPosition): IGraph => {
-      return createGraph({
-        ...graphData,
-        focusPath: path,
-        focusPosition,
-      });
-    },
-    clearFocusLatch: (): IGraph => {
-      return createGraph({
-        ...graphData,
-        focusPath: null,
-      });
-    },
-
-    // path related
-    setPaths: (
-      rootContentId: BlockContentId,
-      rootRelativePath: Path,
-      focusPath: Path,
-      isFocusSpecifiedInURL: boolean
-    ): IGraph => {
-      return createGraph({
-        ...graphData,
-        rootContentId,
-        rootRelativePath,
-        focusPath,
-        isFocusSpecifiedInURL,
       });
     },
 
@@ -411,102 +345,24 @@ export function createGraph(graphData: IGraphData): IGraph {
     },
   };
 
-  const getUpstairsNeighborPath = (path: Path): Path => {
-    if (path.length < 1) {
-      // root block has no upstairs neighbor
-      throw new NoSuchBlockError();
-    }
-    const locatedBlockId = path[path.length - 1];
-    const locatedBlock = graphData.locatedBlocks.get(locatedBlockId);
-    const parentBlockContent = graphData.blockContents.get(locatedBlock.parentId);
-    if (parentBlockContent.getLeftmostChildId() === locatedBlock.id) {
-      return path.slice(0, -1);
-    }
-    console.log("parent: " + parentBlockContent.toString());
-    console.log("located: " + locatedBlockId.toString());
-    let upstairsNeighborId = parentBlockContent.getLeftSiblingIdOf(locatedBlockId);
-    let upstairsNeighborPath = [...path.slice(0, -1), upstairsNeighborId];
-    let upstairsNeighbor = fullBlockFromLocatedBlockId(graphData, upstairsNeighborId);
-    while (upstairsNeighbor.blockContent.hasChildren()) {
-      upstairsNeighborId = upstairsNeighbor.blockContent.getRightmostChildId();
-      upstairsNeighbor = fullBlockFromLocatedBlockId(graphData, upstairsNeighborId);
-      upstairsNeighborPath.push(upstairsNeighborId);
-    }
-    return upstairsNeighborPath;
-  };
+  // const getProgress = (focusPath: Path): IProgress[] => {
+  //   const progress: IProgress[] = [];
+  //   for (let i = 0; i <= focusPath.length; ++i) {
+  //     const locatedChildId = focusPath[i];
+  //     progress.push({
+  //       content: getContentFromPath({ focusPath: focusPath.slice(0, i) }),
+  //       locatedChildId,
+  //     });
+  //   }
+  //   return progress;
+  // };
 
-  const getDownstairsNeighborPath = (path: Path): Path => {
-    const content = getContentFromPath({ focusPath: path });
-    if (content.hasChildren()) {
-      // if current block has children, downstairs neighbor is the first child
-      return [...path, content.getLeftmostChildId()];
-    }
-    if (path.length < 1) {
-      throw new NoSuchBlockError();
-    }
-    for (let i = path.length - 1; i >= 0; i--) {
-      let youngerAncestorId = path[i];
-      const ancestorPath = path.slice(0, i);
-      const ancestorContent = getContentFromPath({ focusPath: ancestorPath });
-      const rightmostChildId = ancestorContent.getRightmostChildId();
-      if (rightmostChildId !== youngerAncestorId) {
-        // then we've found the point where there's a younger sibling (the downstairs neighbor)
-        return [...ancestorPath, ancestorContent.getRightSiblingIdOf(youngerAncestorId)];
-      }
-    }
-    throw new NoSuchBlockError();
-  };
-
-  const resolvePath = (fullPath: IFullPath): IFullPath => {
-    let { rootContentId, rootRelativePath, focusPath } = fullPath;
-    if (!rootContentId) {
-      rootContentId = graphData.rootContentId;
-    }
-    if (!rootRelativePath) {
-      rootRelativePath = graphData.rootRelativePath;
-    }
-    if (!focusPath) {
-      focusPath = [];
-    }
-    return {
-      rootContentId,
-      rootRelativePath,
-      focusPath,
-    };
-  };
-
-  const getContentFromPath = (fullPath: IFullPath): IBlockContent => {
-    let { rootContentId, rootRelativePath, focusPath } = resolvePath(fullPath);
-    let locatedId: LocatedBlockId;
-    if (focusPath.length > 0) {
-      locatedId = focusPath[focusPath.length - 1];
-    } else if (rootRelativePath.length > 0) {
-      locatedId = rootRelativePath[rootRelativePath.length - 1];
-    } else {
-      return graphData.blockContents.get(rootContentId);
-    }
-    const locatedBlock = graphData.locatedBlocks.get(locatedId);
-    return graphData.blockContents.get(locatedBlock.contentId);
-  };
-
-  const getProgress = (focusPath: Path): IProgress[] => {
-    const progress: IProgress[] = [];
-    for (let i = 0; i <= focusPath.length; ++i) {
-      const locatedChildId = focusPath[i];
-      progress.push({
-        content: getContentFromPath({ focusPath: focusPath.slice(0, i) }),
-        locatedChildId,
-      });
-    }
-    return progress;
-  };
-
-  const getNextInstructionPath = (fullPath: IFullPath): IFullPath => {
-    // const { rootContentId, rootRelativePath, focusPath } = resolvePath(fullPath);
-    // const progress = getProgress(focusPath);
-    // while (progress[progress.length].content.)
-    return null;
-  };
+  // const getNextInstructionPath = (fullPath: IFullPath): IFullPath => {
+  //   // const { rootContentId, rootRelativePath, focusPath } = resolvePath(fullPath);
+  //   // const progress = getProgress(focusPath);
+  //   // while (progress[progress.length].content.)
+  //   return null;
+  // };
 
   const toString = (): string => {
     const contentsArray = [];
@@ -517,16 +373,13 @@ export function createGraph(graphData: IGraphData): IGraph {
     graphData.locatedBlocks.forEach((located, id) => {
       locationsArray.push(located.toString());
     });
-    let str = `BlockGraph -- focusPath: ${graphData.focusPath}\n`;
+    let str = `BlockGraph\n`;
     str += `BlockContents:\n${contentsArray.join("\n")}\n`;
     str += `LocatedBlocks:\n${locationsArray.join("\n")}\n`;
     return str;
   };
 
   const getters = {
-    getUpstairsNeighborPath,
-    getDownstairsNeighborPath,
-    getContentFromPath,
     toString,
   };
 
@@ -537,7 +390,7 @@ export function createGraph(graphData: IGraphData): IGraph {
   });
 }
 
-export const stateToJson = (graph: IGraph): string => {
+export const graphToJson = (graph: IGraph): string => {
   const { blockContents, locatedBlocks } = graph;
   const contentsArray = [];
   blockContents.forEach(function (val, key) {
@@ -553,7 +406,7 @@ export const stateToJson = (graph: IGraph): string => {
   });
 };
 
-export const stateFromJson = (json: string, graph: IGraph): IGraph => {
+export const graphFromJson = (json: string, graph: IGraph): IGraph => {
   const parsed = JSON.parse(json);
   const blockContents: Map<BlockContentId, IBlockContent> = new Map();
   const locatedBlocks: Map<LocatedBlockId, ILocatedBlock> = new Map();
@@ -589,15 +442,10 @@ export const stateFromJson = (json: string, graph: IGraph): IGraph => {
   const newGraph = createGraph({
     blockContents,
     locatedBlocks,
-    rootContentId: graph.rootContentId,
-    rootRelativePath: graph.rootRelativePath,
     activeParentPath: graph.activeParentPath,
     selectionRange: graph.selectionRange,
     isSelectionActive: graph.isSelectionActive,
     isSelectionDeep: graph.isSelectionDeep,
-    focusPath: graph.focusPath,
-    focusPosition: graph.focusPosition,
-    isFocusSpecifiedInURL: graph.isFocusSpecifiedInURL,
   });
   return newGraph;
 };

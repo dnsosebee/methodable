@@ -1,8 +1,10 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
-import { initialState } from "../data/initialState";
-import { GraphAction, IGraph, Path } from "../model/graph";
+import React, { createContext, useEffect, useReducer } from "react";
+import { initialGraphState } from "../data/initialState";
+import { IGraph, Path } from "../model/graph";
 
-const reducer = (graph: IGraph, action: GraphAction): IGraph => {
+export type GraphAction = (state: IGraph) => IGraph;
+
+const graphReducer = (graph: IGraph, action: GraphAction): IGraph => {
   const newGraph = action(graph);
   validateGraph(graph, newGraph);
   return newGraph;
@@ -93,9 +95,19 @@ const validateGraph = (oldGraph: IGraph, graph: IGraph): void => {
   });
 };
 
-export const GraphContext = createContext(null);
+const graphContext = createContext(null);
 
-export interface IGraphContextWrapperProps {
+export type IGraphContext = { graphState: IGraph; graphDispatch: React.Dispatch<GraphAction> };
+
+export const useGraph = (): IGraphContext => {
+  const context = React.useContext(graphContext);
+  if (context === undefined) {
+    throw new Error("useGraph must be used within a GraphProvider");
+  }
+  return context;
+};
+
+export interface IGraphProviderProps {
   children: JSX.Element;
   rootContentId: string;
   rootRelativePath: Path;
@@ -103,31 +115,14 @@ export interface IGraphContextWrapperProps {
   isFocusSpecifiedInURL: boolean;
 }
 
-export const GraphContextWrapper = (props: IGraphContextWrapperProps) => {
-  const newInitialState = initialState.setPaths(
-    props.rootContentId,
-    props.rootRelativePath,
-    props.focusPath,
-    props.isFocusSpecifiedInURL
+export const GraphProvider = (props: IGraphProviderProps) => {
+  const [graphState, graphDispatch] = useReducer<React.Reducer<IGraph, GraphAction>>(
+    graphReducer,
+    initialGraphState
   );
-  const [graphState, graphDispatch]: [
-    graphState: IGraph,
-    graphDispatch: React.Dispatch<GraphAction>
-  ] = useReducer<React.Reducer<IGraph, GraphAction>>(reducer, newInitialState);
-  useEffect(() => {
-    graphDispatch((state: IGraph): IGraph => {
-      const newState = state.setPaths(
-        props.rootContentId,
-        props.rootRelativePath,
-        props.focusPath,
-        props.isFocusSpecifiedInURL
-      );
-      return newState;
-    });
-  }, [props]);
   return (
-    <GraphContext.Provider value={{ state: graphState, dispatch: graphDispatch }}>
+    <graphContext.Provider value={{ graphState, graphDispatch }}>
       {props.children}
-    </GraphContext.Provider>
+    </graphContext.Provider>
   );
 };
