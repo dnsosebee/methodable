@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useReducer } from "react";
 import { initialGraphState } from "../data/initialState";
 import { isDev } from "../lib/helpers";
-import { IGraph, Path } from "../model/graph";
+import { graphFromJson, graphToJson, IGraph, Path } from "../model/graph";
 
 export type GraphAction = (state: Readonly<IGraph>) => IGraph;
 
@@ -13,10 +13,11 @@ const graphReducer = (oldGraph: IGraph, action: GraphAction): IGraph => {
     if (isDev()) {
       throw e;
     } else {
-      alert("Sorry, we were unable to process that command. Please send the error message below to the developer. After that you can close this popup and keep working.\n" + e);
+      alert("Sorry, we were unable to process that command. You may close this popup to continue. If you'd like help with this problem, please send the developer a copy of the message below:\n\n" + e);
       return oldGraph;
     }
   }
+  localStorage.setItem("graph", graphToJson(graph));
   return graph;
 };
 
@@ -39,15 +40,15 @@ const validateGraph = (oldGraph: IGraph, graph: IGraph): void => {
       if (parent) {
         assert(
           !parent.childLocatedBlocks.includes(locatedBlock.id),
-          `archived locatedBlock ${locatedBlock.id} parent still recognizes it`,
+          `archived locatedBlock ${locatedBlock.id} parent ${parent.id} still recognizes it`,
           oldGraph,
           graph
         );
       }
       if (content) {
         assert(
-          !content.childLocatedBlocks.size,
-          `archived locatedBlock ${locatedBlock.id} content still recognizes it`,
+          !content.childLocatedBlocks.includes(locatedBlock.id),
+          `archived locatedBlock ${locatedBlock.id} content ${content.id} still recognizes it`,
           oldGraph,
           graph
         );
@@ -154,9 +155,11 @@ export interface IGraphProviderProps {
 }
 
 export const GraphProvider = (props: IGraphProviderProps) => {
+  const storedState = localStorage.getItem("graph");
+  const initialState = storedState ? graphFromJson(storedState, initialGraphState) : initialGraphState;
   const [graphState, graphDispatch] = useReducer<React.Reducer<IGraph, GraphAction>>(
     graphReducer,
-    initialGraphState
+    initialState
   );
 
   return (

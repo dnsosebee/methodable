@@ -1,12 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { pathEquals } from "../../lib/helpers";
 import { IBlockContent } from "../../model/blockContent";
 import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
-import { Path } from "../../model/graph";
-import { getContentFromPath } from "../../model/graphWithPaths";
+import { isChildBetweenSelection, Path } from "../../model/graph";
 import { IVerb, verb, VERB } from "../../model/verbs/verb";
 import { useFullPath } from "../FullPathProvider";
-import { graphContext, useGraph } from "../GraphProvider";
+import { useGraph } from "../GraphProvider";
 import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
 import { BlockText, IBlockTextProps } from "./BlockText";
 import { ContainerLine } from "./ContainerLine";
@@ -24,7 +23,7 @@ export interface IBlockProps {
 }
 
 export const Block = (props: IBlockProps) => {
-  const { graphState } = useContext(graphContext);
+  const { graphState } = useGraph();
   const { fullPathState } = useFullPath();
 
   const getChildBlocks = () => {
@@ -60,14 +59,9 @@ export const Block = (props: IBlockProps) => {
         if (pathEquals(graphState.activeParentPath, path.slice(0, parentPathLength))) {
           // we know the selection is on children of this block's parent, nothing more
           const childLocatedBlockId = path.get(parentPathLength);
-          const bound1 = graphState.selectionRange.start.get(parentPathLength);
-          const bound2 = graphState.selectionRange.end.get(parentPathLength);
-          const parentContent = getContentFromPath(graphState, fullPathState, {
-            focusPath: graphState.activeParentPath,
-          });
-          if (parentContent.isChildBetween(childLocatedBlockId, bound1, bound2)) {
+          if (isChildBetweenSelection(graphState, childLocatedBlockId)) {
             // we know this block or its parent is selected, nothing more (sufficient for deep selection)
-            if (graphState.isSelectionDeep) {
+            if (graphState.isSelectionByText) {
               isDeepSelected = true;
             } else if (parentPathLength + 1 === path.size) {
               isShallowSelected = true;

@@ -14,6 +14,7 @@ export interface IBlockContentPersistentData {
   verb: Readonly<IVerb>;
   humanText: Readonly<HumanText>;
   userId: Readonly<UserId>;
+  archived: Readonly<boolean>;
 }
 
 export interface IBlockContentAuxiliaryData {
@@ -32,6 +33,7 @@ export interface IBlockContentTransitions {
   removeChild: (id: LocatedBlockId) => IBlockContent;
   addLocation: (id: LocatedBlockId) => IBlockContent;
   removeLocation: (id: LocatedBlockId) => IBlockContent;
+  setArchived: (archived: boolean) => IBlockContent;
 }
 
 export interface IBlockContentGetters {
@@ -92,6 +94,9 @@ export function createBlockContent(blockContentData: Readonly<IBlockContentData>
       }
       const updatedLocatedBlocks = blockContentData.locatedBlocks.splice(index, 1);
       return createBlockContent({ ...blockContentData, locatedBlocks: updatedLocatedBlocks });
+    },
+    setArchived: (archived: boolean) => {
+      return createBlockContent({ ...blockContentData, archived });
     },
   };
 
@@ -177,6 +182,7 @@ export const contentToJson = (blockContent: IBlockContent) => {
     verb: blockContent.verb.name.toString(),
     humanText: blockContent.humanText,
     userId: blockContent.userId,
+    archived: blockContent.archived,
   };
 };
 
@@ -191,10 +197,11 @@ export const contentFromJson = (json): IBlockContent => {
   } else {
     throw new Error("Verb not found");
   }
-
-  // backwards compatibility
   if (verbType === "REFERENCE") {
     verbType = "VIEW";
+  }
+  if (!json.archived) {
+    json.archived = false;
   }
 
   const blockVerb = verb(VERB[verbType]);
@@ -205,5 +212,6 @@ export const contentFromJson = (json): IBlockContent => {
     userId: json.userId,
     childLocatedBlocks: List(),
     locatedBlocks: List(),
+    archived: json.archived,
   });
 };

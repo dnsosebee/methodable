@@ -40,7 +40,7 @@ export interface IGraphData {
   activeParentPath: Readonly<Path>;
   selectionRange: Readonly<SelectionRange>;
   isSelectionActive: Readonly<boolean>;
-  isSelectionDeep: Readonly<boolean>;
+  isSelectionByText: Readonly<boolean>;
 }
 
 export interface IGraphTransitions {
@@ -57,6 +57,7 @@ export interface IGraphTransitions {
   // block transitions
   updateBlockText: (blockContentId: BlockContentId, humanText: HumanText) => IGraph;
   updateBlockVerb: (blockContentId: BlockContentId, verb: IVerb) => IGraph;
+  removeLocatedBlockFromContent: (content: IBlockContent, locatedBlockId: LocatedBlockId) => IGraph;
   linkNewContent: (LocatedBlockId: LocatedBlockId, blockContentId: BlockContentId) => IGraph;
   insertNewBlock: (
     leftId: LocatedBlockId,
@@ -97,7 +98,7 @@ export function createGraph(graphData: Readonly<IGraphData>): IGraph {
     toggleSelectionType: () => {
       return createGraph({
         ...graphData,
-        isSelectionDeep: !graphData.isSelectionDeep,
+        isSelectionByText: !graphData.isSelectionByText,
       });
     },
     setSelectionParent: (): IGraph => {
@@ -167,6 +168,65 @@ export function createGraph(graphData: Readonly<IGraphData>): IGraph {
         blockContents: graphData.blockContents.set(blockContentId, blockContent.updateVerb(verb)),
       });
     },
+    // recursively remove stuff
+    removeLocatedBlockFromContent: (
+      content: IBlockContent,
+      locatedBlockId: LocatedBlockId
+    ): IGraph => {
+      // const updatedContent = content.removeLocation(locatedBlockId);
+      // if (!updatedContent.hasLocations()) {
+      //   const archiveContentAndChildren = (contentToArchive: IBlockContent): {
+      //     locatedBlocks: Map<LocatedBlockId, ILocatedBlock>;
+      //     blockContents: Map<LocatedBlockId, IBlockContent>;
+      //   } => {
+      //     let locatedBlocks = Map<LocatedBlockId, ILocatedBlock>();
+      //     let blockContents = Map<LocatedBlockId, IBlockContent>();
+      //     contentToArchive = contentToArchive.setArchived(true);
+      //     blockContents.set(contentToArchive.id, contentToArchive);
+      //     contentToArchive.childLocatedBlocks.forEach((childLocatedBlockId) => {
+      //       const childLocatedBlock = graphData.locatedBlocks.get(childLocatedBlockId);
+      //       const childContent = graphData.blockContents.get(childLocatedBlock.contentId);
+      //       locatedBlocks.set(childLocatedBlockId, childLocatedBlock.setArchived(true));
+      //       let shouldArchive  = true;
+      //       childContent.locatedBlocks.forEach((locatedBlockId) => {
+      //         if (!graphData.locatedBlocks.get(locatedBlockId).archived && !locatedBlocks.has(locatedBlockId)) {
+      //           shouldArchive = false;
+      //         }
+      //       });
+      //       if (shouldArchive) {
+      //         const incoming = archiveContentAndChildren(childContent);
+      //         locatedBlocks = locatedBlocks.merge(incoming.locatedBlocks);
+      //         blockContents = blockContents.merge(incoming.blockContents);
+      //       }
+      //     });
+      //     return {
+      //       locatedBlocks: locatedBlocks,
+      //       blockContents: blockContents,
+      //     };
+      //   }
+      //   const { locatedBlocks, blockContents } = archiveContentAndChildren(updatedContent);
+      //   const locatedBlockArray = Array.from(locatedBlocks.values());
+      //   const blockContentArray = Array.from(blockContents.values());
+
+      // }
+      // let updatedBlockContents = graphData.blockContents.set(
+      //   updatedContent.id,
+      //   updatedContent
+      // );
+      // if (updatedContent.locatedBlocks.size < 1) {
+      //   // if the content we're replacing only has this location,
+      //   // let's delete the content from the graph
+      //   updatedBlockContents = updatedBlockContents.delete(locatedBlock.contentId);
+      // } else {
+      //   // otherwise, update the existing content
+      //   updatedBlockContents = updatedBlockContents.set(
+      //     locatedBlock.contentId,
+      //     updatedExistingContent
+      //   );
+      // }
+
+      return null;
+    },
     linkNewContent: (locatedBlockId: LocatedBlockId, blockContentId: BlockContentId): IGraph => {
       const locatedBlock = graphData.locatedBlocks.get(locatedBlockId);
 
@@ -220,6 +280,7 @@ export function createGraph(graphData: Readonly<IGraphData>): IGraph {
         userId: "TODO",
         childLocatedBlocks: List(),
         locatedBlocks: List(),
+        archived: false,
       });
 
       // then insert new located block
@@ -418,6 +479,7 @@ export const graphToJson = (graph: IGraph): string => {
   });
 };
 
+// param graph is an existing graph that contains info not in the json
 export const graphFromJson = (json: string, graph: IGraph): IGraph => {
   const parsed = JSON.parse(json);
   let blockContents: Map<BlockContentId, IBlockContent> = Map();
@@ -460,7 +522,16 @@ export const graphFromJson = (json: string, graph: IGraph): IGraph => {
     activeParentPath: graph.activeParentPath,
     selectionRange: graph.selectionRange,
     isSelectionActive: graph.isSelectionActive,
-    isSelectionDeep: graph.isSelectionDeep,
+    isSelectionByText: graph.isSelectionByText,
   });
   return newGraph;
+};
+
+export const isChildBetweenSelection = (graph: IGraph, locatedBlockId) => {
+  const parentPathLength = graph.activeParentPath.size;
+  const bound1 = graph.selectionRange.start.get(parentPathLength);
+  const bound2 = graph.selectionRange.end.get(parentPathLength);
+  const bound1LocatedBlock = graph.locatedBlocks.get(bound1);
+  const parentContent = graph.blockContents.get(bound1LocatedBlock.parentId);
+  return parentContent.isChildBetween(locatedBlockId, bound1, bound2);
 };

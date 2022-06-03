@@ -66,6 +66,7 @@ const contentAData: IBlockContentData = {
   userId: "TODO",
   childLocatedBlocks: List([child1Located.id, child2Located.id, child3Located.id]),
   locatedBlocks: List([rootLocated.id]),
+  archived: false,
 };
 const contentA = createBlockContent(contentAData);
 
@@ -76,6 +77,7 @@ const contentBData: IBlockContentData = {
   userId: "TODO",
   childLocatedBlocks: List([]),
   locatedBlocks: List([child1Located.id]),
+  archived: false,
 };
 const contentB = createBlockContent(contentBData);
 
@@ -86,6 +88,7 @@ const contentCData: IBlockContentData = {
   userId: "TODO",
   childLocatedBlocks: List([]),
   locatedBlocks: List([child2Located.id, child3Located.id]),
+  archived: false,
 };
 const contentC = createBlockContent(contentCData);
 
@@ -104,5 +107,5 @@ export const initialGraphState: IGraph = createGraph({
   activeParentPath: List([]),
   selectionRange: { start: List([]), end: List([]) },
   isSelectionActive: false,
-  isSelectionDeep: false,
+  isSelectionByText: false,
 });
