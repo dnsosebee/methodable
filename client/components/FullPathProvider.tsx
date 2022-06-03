@@ -6,7 +6,6 @@ export type FullPathAction = (fullPath: Readonly<IFullPath>) => IFullPath;
 
 const fullPathReducer = (fullPathState: IFullPath, action: FullPathAction) => {
   const newState = action(fullPathState);
-  console.log("newState", JSON.stringify(newState));
   return newState;
 };
 

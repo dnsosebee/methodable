@@ -316,6 +316,13 @@ export const BlockText = (props: IBlockTextProps) => {
         const upstairsNeighborContent = getContentFromPath(state, fullPathRef.current, {
           focusPath: upstairsNeighborPath,
         });
+        if (
+          contentRef.current.childLocatedBlocks.size > 0 &&
+          upstairsNeighborContent.childLocatedBlocks.size > 1
+        ) {
+          // if both merging blocks have children, that's weird and we don't do anything
+          return state;
+        }
         const upstairsNeighborHasLocation = upstairsNeighborPath.size > 0;
         if (
           upstairsNeighborContent.childLocatedBlocks.size <= 1 &&
@@ -335,38 +342,30 @@ export const BlockText = (props: IBlockTextProps) => {
             return state.setFocus(newPath, "start");
           });
           return state
-            .removeLocatedBlock(upstairsNeighborLocatedBlockId)
             .moveLocatedBlock(
               locatedRef.current.id,
               upstairsNeighborLocatedBlock.leftId,
               upstairsNeighborLocatedBlock.parentId
-            );
-        } else if (contentRef.current.locatedBlocks.size > 1) {
+            )
+            .removeLocatedBlock(upstairsNeighborLocatedBlockId);
+        }
+        if (contentRef.current.locatedBlocks.size > 1) {
           // if the current block has multiple parents and the upstairs neighbor is non-simple,
           // we don't do anything
           return state;
-        } else if (
-          contentRef.current.childLocatedBlocks.size > 0 &&
-          upstairsNeighborContent.childLocatedBlocks.size > 1
-        ) {
-          // if both merging blocks have children, that's weird and we don't do anything
-          return state;
-        } else {
-          // in all other cases,
-          // we merge current block into upstairs neighbor, maintaining upstairs neighbor's id
-          fullPathDispatch((state: IFullPath): IFullPath => {
-            return state.setFocus(
-              upstairsNeighborPath,
-              upstairsNeighborContent.humanText.length + 1
-            );
-          });
-          return state
-            .removeLocatedBlock(locatedRef.current.id)
-            .updateBlockText(
-              upstairsNeighborContent.id,
-              upstairsNeighborContent.humanText + editorText
-            );
         }
+        // in all other cases,
+        // we merge current block into upstairs neighbor, maintaining upstairs neighbor's id
+        fullPathDispatch((state: IFullPath): IFullPath => {
+          return state.setFocus(upstairsNeighborPath, upstairsNeighborContent.humanText.length + 1);
+        });
+        return state
+          .moveChildren(contentRef.current.getLeftmostChildId(), upstairsNeighborContent.id)
+          .removeLocatedBlock(locatedRef.current.id)
+          .updateBlockText(
+            upstairsNeighborContent.id,
+            upstairsNeighborContent.humanText + editorText
+          );
       });
       return PREVENT_TIPTAP_DEFAULT;
     }

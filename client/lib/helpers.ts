@@ -30,3 +30,7 @@ export const pathEquals = (path1: Path | null, path2: Path | null) => {
 export const getFocusPosition = (editor: Editor): number => {
   return editor.view.state.selection.to;
 };
+
+export const isDev = () => {
+  return !process.env.NODE_ENV || process.env.NODE_ENV === "development";
+};

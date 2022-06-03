@@ -22,7 +22,7 @@ export const BlockHandle = (props: IBlockHandleProps) => {
     props.orderIndex
   );
   const buttonClasses = `select-none w-6 text-right rounded ${presentation.className}`;
-  const link = `/edit/${props.rootContentId}/${props.pathRelativeToRoot}`;
+  const link = `/edit/${props.rootContentId}/${props.pathRelativeToRoot.join(',')}`;
 
   return (
     <Link href={link}>

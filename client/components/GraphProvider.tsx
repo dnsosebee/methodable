@@ -1,12 +1,22 @@
 import React, { createContext, useEffect, useReducer } from "react";
 import { initialGraphState } from "../data/initialState";
+import { isDev } from "../lib/helpers";
 import { IGraph, Path } from "../model/graph";
 
 export type GraphAction = (state: Readonly<IGraph>) => IGraph;
 
 const graphReducer = (oldGraph: IGraph, action: GraphAction): IGraph => {
   const graph = action(oldGraph);
-  validateGraph(oldGraph, graph);
+  try {
+    validateGraph(oldGraph, graph);
+  } catch (e) {
+    if (isDev()) {
+      throw e;
+    } else {
+      alert("Sorry, we were unable to process that command. Please send the error message below to the developer. After that you can close this popup and keep working.\n" + e);
+      return oldGraph;
+    }
+  }
   return graph;
 };
 
