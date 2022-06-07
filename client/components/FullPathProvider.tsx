@@ -4,7 +4,7 @@ import { Path } from "../model/graph";
 
 export type FullPathAction = (fullPath: Readonly<IFullPath>) => IFullPath;
 
-const fullPathReducer = (fullPathState: IFullPath, action: FullPathAction) => {
+const fullPathReducer = (fullPathState: IFullPath, action: FullPathAction): IFullPath => {
   const newState = action(fullPathState);
   return newState;
 };

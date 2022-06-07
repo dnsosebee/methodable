@@ -168,7 +168,8 @@ export function createGraph(graphData: Readonly<IGraphData>): IGraph {
         blockContents: graphData.blockContents.set(blockContentId, blockContent.updateVerb(verb)),
       });
     },
-    // recursively remove stuff
+    // recursively remove stuff. This is TODO. I also may want to archive things shallowly,
+    // even give them a new parent to the trash can, rather than recursively archiving.
     removeLocatedBlockFromContent: (
       content: IBlockContent,
       locatedBlockId: LocatedBlockId

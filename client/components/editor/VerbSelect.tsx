@@ -21,7 +21,7 @@ export const VerbSelect = (props: IVerbSelectProps) => {
     });
   };
 
-  const buttonClasses = `w-5 h-5 m-0.5 select-none border rounded-md text-xs self-center ${presentation.className}`;
+  const buttonClasses = `flex-none w-5 h-5 m-0.5 select-none border rounded-md text-xs self-top ${presentation.className}`;
 
   return (
     <button onClick={handleButtonClick} className={buttonClasses}>

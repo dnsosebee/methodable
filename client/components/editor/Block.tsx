@@ -9,6 +9,7 @@ import { useGraph } from "../GraphProvider";
 import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
 import { BlockText, IBlockTextProps } from "./BlockText";
 import { ContainerLine } from "./ContainerLine";
+import { IRefCountProps, RefCount } from "./RefCount";
 import { RunButton } from "./RunButton";
 import { IVerbSelectProps, VerbSelect } from "./VerbSelect";
 
@@ -87,6 +88,10 @@ export const Block = (props: IBlockProps) => {
     content: props.content,
   };
 
+  const refCountProps: IRefCountProps = {
+    content: props.content,
+  };
+
   const blockHandleProps: IBlockHandleProps = {
     parentVerb: props.path.size == 0 ? verb(VERB.UNDEFINED) : props.parentVerb,
     verb: props.content.verb,
@@ -114,6 +119,7 @@ export const Block = (props: IBlockProps) => {
         <div className={`flex-col flex-grow ${shallowSelectedClasses}`}>
           <div className={`flex ${rootRowClasses}`}>
             <VerbSelect {...verbSelectProps}></VerbSelect>
+            <RefCount {...refCountProps} />
             <BlockText {...blockTextProps} />
             {shouldRenderRunButton && <RunButton {...{ contentId: props.content.id }} />}
           </div>
