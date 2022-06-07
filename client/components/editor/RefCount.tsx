@@ -9,7 +9,7 @@ export const RefCount = (props: IRefCountProps) => {
     return null;
   }
 
-  const buttonClasses = `flex-none mr-0.5 select-none self-top text-xs text-yellow-500`;
+  const buttonClasses = `flex-none mr-0.5 select-none text-xs text-yellow-500`;
 
   return (
     <div

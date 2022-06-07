@@ -21,7 +21,7 @@ export const BlockHandle = (props: IBlockHandleProps) => {
     props.verb,
     props.orderIndex
   );
-  const buttonClasses = `select-none w-6 text-right rounded ${presentation.className}`;
+  const buttonClasses = `font-bold select-none w-5 text-right py-1 pr-0.5 text-xs rounded ${presentation.className}`;
   const link = `/edit/${props.rootContentId}/${props.pathRelativeToRoot.join(',')}`;
 
   return (

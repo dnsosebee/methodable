@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { pathEquals } from "../../lib/helpers";
 import { IBlockContent } from "../../model/blockContent";
 import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
@@ -8,6 +8,7 @@ import { useFullPath } from "../FullPathProvider";
 import { useGraph } from "../GraphProvider";
 import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
 import { BlockText, IBlockTextProps } from "./BlockText";
+import { CollapseToggle, ICollapseToggleProps } from "./CollapseToggle";
 import { ContainerLine } from "./ContainerLine";
 import { IRefCountProps, RefCount } from "./RefCount";
 import { RunButton } from "./RunButton";
@@ -26,6 +27,9 @@ export interface IBlockProps {
 export const Block = (props: IBlockProps) => {
   const { graphState } = useGraph();
   const { fullPathState } = useFullPath();
+  const [collapsed, setCollapsed] = React.useState(
+    props.content.locatedBlocks.size > 1 && props.content.childLocatedBlocks.size > 0
+  );
 
   const getChildBlocks = () => {
     let numAdditiveBlocks = 0;
@@ -100,32 +104,71 @@ export const Block = (props: IBlockProps) => {
     pathRelativeToRoot: fullPathState.rootRelativePath.concat(props.path),
   };
 
+  const collapseToggleProps: ICollapseToggleProps = {
+    collapsed,
+    visible: props.content.childLocatedBlocks.size > 0,
+    onToggle: () => setCollapsed(!collapsed),
+  };
+
   const shouldRenderRunButton = props.content.verb.isAdditive() === false;
   const shallowSelectedClasses = props.isShallowSelected
     ? "shadow-[inset_0px_0px_5px_7px_rgba(0,100,256,0.15)]"
     : "";
 
   const isRoot = props.path.size === 0;
-  const rootRowClasses = isRoot ? "border-b mb-0.5 border-gray-200 " : "";
+  const rootRowClasses = isRoot ? "border-b pb-0.5 mb-0.5 border-gray-200 " : "";
+
+  useEffect((): void => {
+    if (
+      fullPathState.focusPath.size > props.path.size &&
+      pathEquals(fullPathState.focusPath.slice(0, props.path.size), props.path)
+    ) {
+      setCollapsed(false);
+    }
+  }, [fullPathState.focusPath]);
+
   return (
-    <>
-      <div className="flex">
-        {!isRoot && (
+    <div className="flex">
+      {!isRoot && (
+        <>
+          <CollapseToggle {...collapseToggleProps} />
           <div className="flex flex-col">
             <BlockHandle {...blockHandleProps} />
             <ContainerLine />
           </div>
-        )}
-        <div className={`flex-col flex-grow ${shallowSelectedClasses}`}>
-          <div className={`flex ${rootRowClasses}`}>
-            <VerbSelect {...verbSelectProps}></VerbSelect>
-            <RefCount {...refCountProps} />
-            <BlockText {...blockTextProps} />
-            {shouldRenderRunButton && <RunButton {...{ contentId: props.content.id }} />}
-          </div>
-          {childBlocks.size > 0 && childBlocks}
+        </>
+      )}
+      <div className={`flex-col flex-grow ${shallowSelectedClasses}`}>
+        <div className={`flex ${rootRowClasses}`}>
+          <VerbSelect {...verbSelectProps}></VerbSelect>
+          <RefCount {...refCountProps} />
+          <BlockText {...blockTextProps} />
+          {shouldRenderRunButton && <RunButton {...{ contentId: props.content.id }} />}
         </div>
+        {childBlocks.size > 0 && !collapsed && childBlocks}
       </div>
-    </>
+    </div>
+
+    // <div className="flex flex-col">
+    //   <div className="flex">
+    //     {!isRoot && (
+    //       <>
+    //         <CollapseToggle {...collapseToggleProps} />
+    //         <BlockHandle {...blockHandleProps} />
+    //       </>
+    //     )}
+    //     <VerbSelect {...verbSelectProps}></VerbSelect>
+    //     <RefCount {...refCountProps} />
+    //     <BlockText {...blockTextProps} />
+    //     {shouldRenderRunButton && <RunButton {...{ contentId: props.content.id }} />}
+    //   </div>
+    //   <div className="flex">
+    //     <ContainerLine />
+    //     <div className={`flex-col flex-grow ${shallowSelectedClasses}`}>
+    //       <div className={`flex ${rootRowClasses}`}></div>
+    //       {childBlocks.size > 0 && !collapsed && childBlocks}
+    //     </div>
+    //   </div>
+    // </div>
   );
 };
