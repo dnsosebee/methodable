@@ -28,7 +28,8 @@ export const Block = (props: IBlockProps) => {
   const { graphState } = useGraph();
   const { fullPathState } = useFullPath();
   const [collapsed, setCollapsed] = React.useState(
-    props.content.locatedBlocks.size > 1 && props.content.childLocatedBlocks.size > 0
+    props.content.childLocatedBlocks.size > 0 && props.path.size > 0 &&
+      (props.content.locatedBlocks.size > 1 || props.parentVerb.name === VERB.CHOOSE)
   );
 
   const getChildBlocks = () => {

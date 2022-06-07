@@ -129,6 +129,7 @@ export const EditorContainer = () => {
     }
   };
 
+  // TODO this is broken, only the delete references button works
   const keyDownHandler = (event: KeyboardEvent) => {
     switch (event.key) {
       case "Backspace":
