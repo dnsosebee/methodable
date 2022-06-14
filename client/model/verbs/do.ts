@@ -1,10 +1,14 @@
-import { ILocatedBlock } from "../locatedBlock";
-import { Path } from "../graph";
+import { List } from "immutable";
+import { IWorkspaceProps } from "../../components/guide/GuidePage";
+import { DoContext, DoPage } from "../../components/guide/verbs/Do";
+import { fullBlockFromLocatedBlockId, IFullBlock } from "../graph/fullBlock";
+import { IGraph, Path } from "../graph/graph";
+import { LocatedBlockId } from "../graph/locatedBlock";
+import { IView, MODE } from "../view";
 import { IVerbGetters } from "./verb";
 
 export const doGetters: IVerbGetters = {
-  isAdditive: () => false,
-  alwaysPresents: () => false,
+  isWorkspace: () => false,
   getVerbSelectPresentation: () => ({
     text: "🏃",
     tooltip: "Do an instruction",
@@ -14,14 +18,39 @@ export const doGetters: IVerbGetters = {
   getDefaultChildBlockHandleText: (orderIndex: number = -1) => {
     return `${orderIndex + 1}.`;
   },
-  getGuideComponent: function (jsxChildren: JSX.Element): JSX.Element {
+  getContext: DoContext,
+  getPage: DoPage,
+  getWorkspace: function (props: IWorkspaceProps): JSX.Element {
     throw new Error("Function not implemented.");
   },
-  begin: function (children: ILocatedBlock[]): Path | null {
-    // for (const child of children) {
-    return null;
-  },
-  proceed: function (children: ILocatedBlock[], currentChildId: ILocatedBlock): Path | null {
-    throw new Error("Function not implemented.");
+  getNextView: (
+    graphState: IGraph,
+    childBlocks: List<IFullBlock>,
+    path: Path,
+    currentChild: LocatedBlockId,
+    fallback: IView
+  ) => {
+    const childIndex = currentChild
+      ? childBlocks.findIndex((child) => child.locatedBlock.id === currentChild)
+      : -1;
+    for (let i = childIndex + 1; i < childBlocks.size; i++) {
+      const child = childBlocks.get(i);
+      const childPath = path ? path.push(child.locatedBlock.id) : List([child.locatedBlock.id]);
+      if (!child.blockContent.verb.isWorkspace()) {
+        fallback = fallback.setFocus(childPath, fallback.focusPosition).setMode(MODE.GUIDE);
+        const grandchildren = child.blockContent.childLocatedBlocks.map((childId) =>
+          fullBlockFromLocatedBlockId(graphState, childId)
+        );
+
+        return child.blockContent.verb.getNextView(
+          graphState,
+          grandchildren,
+          childPath,
+          null,
+          fallback
+        );
+      }
+    }
+    return fallback;
   },
 };

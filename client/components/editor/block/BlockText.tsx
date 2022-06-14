@@ -4,23 +4,23 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { MutableRefObject, useEffect, useRef } from "react";
-import { NoSuchBlockError } from "../../lib/errors";
-import { getFocusPosition, pathEquals } from "../../lib/helpers";
-import { logEditorEvent, logEffect, logKeyEvent, logMouseEvent } from "../../lib/loggers";
-import { BlockContentId, HumanText, IBlockContent } from "../../model/blockContent";
-import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
-import { ILocatedBlock } from "../../model/locatedBlock";
-import { IGraph, Path } from "../../model/graph";
-import { GraphAction, useGraph } from "../GraphProvider";
-import { enterPressActionGenerator } from "../../model/actions";
-import { pasteActionGenerator } from "../../lib/paste";
-import { IFullPath } from "../../model/fullPath";
+import { NoSuchBlockError } from "../../../lib/errors";
+import { getFocusPosition, pathEquals } from "../../../lib/helpers";
+import { logEditorEvent, logEffect, logKeyEvent, logMouseEvent } from "../../../lib/loggers";
+import { pasteActionGenerator } from "../../../lib/paste";
+import { BlockContentId, HumanText, IBlockContent } from "../../../model/graph/blockContent";
+import { fullBlockFromLocatedBlockId } from "../../../model/graph/fullBlock";
+import { IGraph, Path } from "../../../model/graph/graph";
+import { enterPressActionGenerator } from "../../../model/graph/graphActions";
+import { ILocatedBlock } from "../../../model/graph/locatedBlock";
 import {
   getContentFromPath,
-  getUpstairsNeighborPath,
   getDownstairsNeighborPath,
-} from "../../model/graphWithPaths";
-import { useFullPath } from "../FullPathProvider";
+  getUpstairsNeighborPath,
+} from "../../../model/graphWithView";
+import { IView } from "../../../model/view";
+import { GraphAction, useGraph } from "../../GraphProvider";
+import { useView } from "../../ViewProvider";
 
 const PREVENT_TIPTAP_DEFAULT = true;
 const ALLOW_TIPTAP_DEFAULT = false;
@@ -36,14 +36,14 @@ export interface IBlockTextProps {
 export const BlockText = (props: IBlockTextProps) => {
   const clickOriginatedInThisText = useRef(false); // whether the current click/drag started in this text
   const { graphState, graphDispatch } = useGraph();
-  const { fullPathState, fullPathDispatch } = useFullPath();
+  const { viewState, viewDispatch } = useView();
   const contentRef: MutableRefObject<IBlockContent> = useRef(
     graphState.blockContents.get(props.contentId)
   );
   const locatedRef: MutableRefObject<null | ILocatedBlock> = useRef(null);
   const isRootRef: MutableRefObject<boolean> = useRef(true);
   const graphRef: MutableRefObject<IGraph> = useRef(graphState);
-  const fullPathRef: MutableRefObject<IFullPath> = useRef(fullPathState);
+  const viewRef: MutableRefObject<IView> = useRef(viewState);
   if (props.path.size > 0) {
     isRootRef.current = false;
     locatedRef.current = graphState.locatedBlocks.get(props.path.last());
@@ -73,10 +73,10 @@ export const BlockText = (props: IBlockTextProps) => {
     graphRef.current = graphState;
   }, [graphState]);
 
-  // keep fullPathRef up to date
+  // keep viewRef up to date
   useEffect(() => {
-    fullPathRef.current = fullPathState;
-  }, [fullPathState]);
+    viewRef.current = viewState;
+  }, [viewState]);
 
   const click = () => {
     logMouseEvent("onClick " + props.humanText);
@@ -169,7 +169,7 @@ export const BlockText = (props: IBlockTextProps) => {
       extensions: [CustomExtension, Paragraph, Text],
       editorProps: {
         attributes: {
-          class: `focus:outline-none text-gray-700 ${selectedClass}`,
+          class: `focus:outline-none text-gray-700 py-0.5 ${selectedClass}`,
         },
         handlePaste: (view) => {
           view.focus();
@@ -185,8 +185,11 @@ export const BlockText = (props: IBlockTextProps) => {
           return state.updateBlockText(contentRef.current.id, editor.getText());
         });
       },
-      onFocus() {
+      onFocus({ transaction }) {
         logEditorEvent("onFocus: [" + propsRef.current.path);
+        viewDispatch((state: IView) => {
+          return state.setFocusPath(propsRef.current.path);
+        });
         isFocused.current = true;
       },
       onBlur() {
@@ -213,7 +216,7 @@ export const BlockText = (props: IBlockTextProps) => {
         leftText,
         rightText,
         propsRef.current.path,
-        fullPathDispatch
+        viewDispatch
       )
     );
     return PREVENT_TIPTAP_DEFAULT;
@@ -224,7 +227,7 @@ export const BlockText = (props: IBlockTextProps) => {
     if (isRootRef.current) {
       return ALLOW_TIPTAP_DEFAULT;
     }
-    fullPathDispatch((state: IFullPath): IFullPath => {
+    viewDispatch((state: IView): IView => {
       const upstairsNeighborPath = getUpstairsNeighborPath(
         graphRef.current,
         state,
@@ -237,7 +240,7 @@ export const BlockText = (props: IBlockTextProps) => {
 
   const handleDownArrowPress = (editor: Editor) => {
     logKeyEvent("onDownArrowPress, path: " + propsRef.current.path);
-    fullPathDispatch((state: IFullPath): IFullPath => {
+    viewDispatch((state: IView): IView => {
       try {
         const downstairsNeighborPath = getDownstairsNeighborPath(
           graphRef.current,
@@ -263,7 +266,7 @@ export const BlockText = (props: IBlockTextProps) => {
       if (isRootRef.current) {
         return ALLOW_TIPTAP_DEFAULT;
       }
-      fullPathDispatch((state: IFullPath): IFullPath => {
+      viewDispatch((state: IView): IView => {
         const upstairsNeighborPath = getUpstairsNeighborPath(
           graphRef.current,
           state,
@@ -281,7 +284,7 @@ export const BlockText = (props: IBlockTextProps) => {
     const focusPosition = getFocusPosition(editor);
     if (focusPosition === editor.getText().length + 1) {
       // we're at the end of the line already, so graphDispatch the action
-      fullPathDispatch((state: IFullPath): IFullPath => {
+      viewDispatch((state: IView): IView => {
         try {
           const downstairsNeighborPath = getDownstairsNeighborPath(
             graphRef.current,
@@ -310,10 +313,10 @@ export const BlockText = (props: IBlockTextProps) => {
       graphDispatch((state: IGraph) => {
         const upstairsNeighborPath = getUpstairsNeighborPath(
           state,
-          fullPathRef.current,
+          viewRef.current,
           propsRef.current.path
         );
-        const upstairsNeighborContent = getContentFromPath(state, fullPathRef.current, {
+        const upstairsNeighborContent = getContentFromPath(state, viewRef.current, {
           focusPath: upstairsNeighborPath,
         });
         if (
@@ -338,7 +341,7 @@ export const BlockText = (props: IBlockTextProps) => {
             upstairsNeighborLocatedBlockId
           );
           const newPath = upstairsNeighborPath.splice(-1, 1, locatedRef.current.id);
-          fullPathDispatch((state: IFullPath): IFullPath => {
+          viewDispatch((state: IView): IView => {
             return state.setFocus(newPath, "start");
           });
           return state
@@ -356,7 +359,7 @@ export const BlockText = (props: IBlockTextProps) => {
         }
         // in all other cases,
         // we merge current block into upstairs neighbor, maintaining upstairs neighbor's id
-        fullPathDispatch((state: IFullPath): IFullPath => {
+        viewDispatch((state: IView): IView => {
           return state.setFocus(upstairsNeighborPath, upstairsNeighborContent.humanText.length + 1);
         });
         return state
@@ -405,7 +408,7 @@ export const BlockText = (props: IBlockTextProps) => {
           newState,
           updatedLeftSibling
         );
-        fullPathDispatch((state: IFullPath): IFullPath => {
+        viewDispatch((state: IView): IView => {
           return state.setFocus(focusPath, focusPosition);
         });
         newState = newState.moveLocatedBlock(
@@ -438,7 +441,7 @@ export const BlockText = (props: IBlockTextProps) => {
         parentLocatedBlockId,
         parentBlock.locatedBlock.parentId
       );
-      fullPathDispatch((state: IFullPath): IFullPath => {
+      viewDispatch((state: IView): IView => {
         return state.setFocus(focusPath, focusPosition);
       });
       if (rightSiblingLocatedId) {
@@ -454,8 +457,8 @@ export const BlockText = (props: IBlockTextProps) => {
     const pasteAction: GraphAction = pasteActionGenerator(
       locatedRef.current.id,
       await navigator.clipboard.readText(),
-      fullPathState,
-      fullPathDispatch
+      viewState,
+      viewDispatch
     );
     graphDispatch(pasteAction);
   };
@@ -494,21 +497,18 @@ export const BlockText = (props: IBlockTextProps) => {
 
   // set editor focus based on whether graphState's focusPath is this block's path
   useEffect(() => {
-    if (editor && !editor.isDestroyed && fullPathState) {
-      if (pathEquals(fullPathState.focusPath, props.path)) {
+    if (editor && !editor.isDestroyed && viewState) {
+      if (pathEquals(viewState.focusPath, props.path) && !isFocused.current) {
         logEffect(
-          "setting focus for path: " +
-            props.path +
-            ", focus position: " +
-            fullPathState.focusPosition
+          "setting focus for path: " + props.path + ", focus position: " + viewState.focusPosition
         );
         editor.commands.setContent(props.humanText);
-        editor.commands.focus(fullPathState.focusPosition);
+        editor.commands.focus(viewState.focusPosition);
       } else {
         isFocused.current = false;
       }
     }
-  }, [!!editor, fullPathState.focusPath]);
+  }, [!!editor, viewState.focusPath]);
 
   useEffect(
     () => () => {

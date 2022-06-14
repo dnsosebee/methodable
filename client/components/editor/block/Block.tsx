@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { pathEquals } from "../../lib/helpers";
-import { IBlockContent } from "../../model/blockContent";
-import { fullBlockFromLocatedBlockId } from "../../model/fullBlock";
-import { isChildBetweenSelection, Path } from "../../model/graph";
-import { IVerb, verb, VERB } from "../../model/verbs/verb";
-import { useFullPath } from "../FullPathProvider";
-import { useGraph } from "../GraphProvider";
+import { pathEquals } from "../../../lib/helpers";
+import { IBlockContent } from "../../../model/graph/blockContent";
+import { fullBlockFromLocatedBlockId } from "../../../model/graph/fullBlock";
+import { isChildBetweenSelection, Path } from "../../../model/graph/graph";
+import { createVerb, IVerb, VERB } from "../../../model/verbs/verb";
+import { useGraph } from "../../GraphProvider";
+import { useView } from "../../ViewProvider";
 import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
 import { BlockText, IBlockTextProps } from "./BlockText";
 import { CollapseToggle, ICollapseToggleProps } from "./CollapseToggle";
@@ -26,14 +26,15 @@ export interface IBlockProps {
 
 export const Block = (props: IBlockProps) => {
   const { graphState } = useGraph();
-  const { fullPathState } = useFullPath();
+  const { viewState } = useView();
   const [collapsed, setCollapsed] = React.useState(
-    props.content.childLocatedBlocks.size > 0 && props.path.size > 0 &&
+    props.content.childLocatedBlocks.size > 0 &&
+      props.path.size > 0 &&
       (props.content.locatedBlocks.size > 1 || props.parentVerb.name === VERB.CHOOSE)
   );
 
   const getChildBlocks = () => {
-    let numAdditiveBlocks = 0;
+    let numWorkspaceBlocks = 0;
     return props.content.childLocatedBlocks.map((childId, childIndex) => {
       const { blockContent: childBlockContent } = fullBlockFromLocatedBlockId(graphState, childId);
       const childPath = props.path.push(childId);
@@ -42,7 +43,7 @@ export const Block = (props: IBlockProps) => {
         isGlobalSelectionActive: props.isGlobalSelectionActive,
         content: childBlockContent,
         parentVerb: props.content.verb,
-        orderIndex: childIndex - numAdditiveBlocks,
+        orderIndex: childIndex - numWorkspaceBlocks,
         ...getSelectednessInfo(childPath),
       };
       return <Block key={childId} {...childBlockProps} />;
@@ -98,11 +99,11 @@ export const Block = (props: IBlockProps) => {
   };
 
   const blockHandleProps: IBlockHandleProps = {
-    parentVerb: props.path.size == 0 ? verb(VERB.UNDEFINED) : props.parentVerb,
+    parentVerb: props.path.size == 0 ? createVerb(VERB.UNDEFINED) : props.parentVerb,
     verb: props.content.verb,
     orderIndex: props.orderIndex,
-    rootContentId: fullPathState.rootContentId,
-    pathRelativeToRoot: fullPathState.rootRelativePath.concat(props.path),
+    rootContentId: viewState.rootContentId,
+    pathRelativeToRoot: viewState.rootRelativePath.concat(props.path),
   };
 
   const collapseToggleProps: ICollapseToggleProps = {
@@ -111,7 +112,7 @@ export const Block = (props: IBlockProps) => {
     onToggle: () => setCollapsed(!collapsed),
   };
 
-  const shouldRenderRunButton = props.content.verb.isAdditive() === false;
+  const shouldRenderRunButton = props.content.verb.isWorkspace() === false;
   const shallowSelectedClasses = props.isShallowSelected
     ? "shadow-[inset_0px_0px_5px_7px_rgba(0,100,256,0.15)]"
     : "";
@@ -121,12 +122,13 @@ export const Block = (props: IBlockProps) => {
 
   useEffect((): void => {
     if (
-      fullPathState.focusPath.size > props.path.size &&
-      pathEquals(fullPathState.focusPath.slice(0, props.path.size), props.path)
+      viewState.focusPath &&
+      viewState.focusPath.size > props.path.size &&
+      pathEquals(viewState.focusPath.slice(0, props.path.size), props.path)
     ) {
       setCollapsed(false);
     }
-  }, [fullPathState.focusPath]);
+  }, [viewState.focusPath]);
 
   return (
     <div className="flex">
@@ -155,7 +157,7 @@ export const Block = (props: IBlockProps) => {
     //     {!isRoot && (
     //       <>
     //         <CollapseToggle {...collapseToggleProps} />
-    //         <BlockHandle {...blockHandleProps} />
+    //         <BlockHandle {...blockHandleProps}></BlockHandle>
     //       </>
     //     )}
     //     <VerbSelect {...verbSelectProps}></VerbSelect>

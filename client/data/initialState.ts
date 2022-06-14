@@ -1,19 +1,19 @@
 // a temp file for initial state
-import { IGraph, createGraph } from "../model/graph";
+import { List, Map } from "immutable";
 import {
-  ILocatedBlock,
-  ILocatedBlockData,
-  createLocatedBlock,
-  LocatedBlockId,
-} from "../model/locatedBlock";
-import {
-  createBlockContent,
   BlockContentId,
+  createBlockContent,
   IBlockContent,
   IBlockContentData,
-} from "../model/blockContent";
-import { VERB, verb } from "../model/verbs/verb";
-import { List, Map } from "immutable";
+} from "../model/graph/blockContent";
+import { createGraph, IGraph } from "../model/graph/graph";
+import {
+  createLocatedBlock,
+  ILocatedBlock,
+  ILocatedBlockData,
+  LocatedBlockId,
+} from "../model/graph/locatedBlock";
+import { createVerb, VERB } from "../model/verbs/verb";
 
 const rootLocatedData: ILocatedBlockData = {
   id: "located-root",
@@ -61,7 +61,7 @@ const child3Located = createLocatedBlock(child3LocatedData);
 
 const contentAData: IBlockContentData = {
   id: "content-a",
-  verb: verb(VERB.DO),
+  verb: createVerb(VERB.DO),
   humanText: "Do the following things",
   userId: "TODO",
   childLocatedBlocks: List([child1Located.id, child2Located.id, child3Located.id]),
@@ -72,7 +72,7 @@ const contentA = createBlockContent(contentAData);
 
 const contentBData: IBlockContentData = {
   id: "content-b",
-  verb: verb(VERB.CHOOSE),
+  verb: createVerb(VERB.CHOOSE),
   humanText: "Read this",
   userId: "TODO",
   childLocatedBlocks: List([]),
@@ -83,7 +83,7 @@ const contentB = createBlockContent(contentBData);
 
 const contentCData: IBlockContentData = {
   id: "content-c",
-  verb: verb(VERB.DO),
+  verb: createVerb(VERB.DO),
   humanText: "Do this specific thing",
   userId: "TODO",
   childLocatedBlocks: List([]),

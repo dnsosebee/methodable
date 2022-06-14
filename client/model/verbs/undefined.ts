@@ -1,6 +1,13 @@
-import { IVerbSelectPresentation } from "../../components/editor/VerbSelect";
-import { Path } from "../graph";
-import { ILocatedBlock } from "../locatedBlock";
+import { List } from "immutable";
+import { IVerbSelectPresentation } from "../../components/editor/block/VerbSelect";
+import {
+  IVerbContextProps,
+  IVerbPageProps,
+  IWorkspaceProps,
+} from "../../components/guide/GuidePage";
+import { IFullBlock } from "../graph/fullBlock";
+import { IGraph, LocationList } from "../graph/graph";
+import { IView } from "../view";
 import { IVerbGetters } from "./verb";
 
 export const undefinedGetters: IVerbGetters = {
@@ -13,13 +20,22 @@ export const undefinedGetters: IVerbGetters = {
   getChildBlockHandleClasses: function (): string {
     throw new Error("Function not implemented.");
   },
-  getGuideComponent: function (jsxChildren: JSX.Element): JSX.Element {
+  getPage: function (props: IVerbPageProps): JSX.Element {
     throw new Error("Function not implemented.");
   },
-  begin: function (children: ILocatedBlock[]): Path {
+  getContext: function (props: IVerbContextProps): JSX.Element {
     throw new Error("Function not implemented.");
   },
-  proceed: function (children: ILocatedBlock[], currentChildId: ILocatedBlock): Path {
+  getWorkspace: function (props: IWorkspaceProps): JSX.Element {
+    throw new Error("Function not implemented.");
+  },
+  getNextView: function (
+    graphState: IGraph,
+    children: List<IFullBlock>,
+    path: LocationList,
+    currentChild: string,
+    fallback: IView
+  ): IView {
     throw new Error("Function not implemented.");
   },
 };

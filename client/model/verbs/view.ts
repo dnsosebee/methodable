@@ -1,12 +1,15 @@
-import { ILocatedBlock } from "../locatedBlock";
-import { Path } from "../graph";
+import { List } from "immutable";
+import { IVerbContextProps, IWorkspaceProps } from "../../components/guide/GuidePage";
+import { DoPage } from "../../components/guide/verbs/Do";
+import { IFullBlock } from "../graph/fullBlock";
+import { IGraph, LocationList } from "../graph/graph";
+import { IView } from "../view";
 import { IVerbGetters } from "./verb";
 
 export const viewGetters: IVerbGetters = {
-  isAdditive: () => false,
-  alwaysPresents: () => false,
+  isWorkspace: () => false,
   getVerbSelectPresentation: () => ({
-    text: "👀", // or, maybe use   ”
+    text: "👀",
     tooltip: "add a view to all descendants of the parent block",
     className:
       "text-purple-700 bg-purple-100 border-purple-200 hover:bg-purple-200 hover:border-purple-400",
@@ -15,14 +18,20 @@ export const viewGetters: IVerbGetters = {
   getDefaultChildBlockHandleText: (orderIndex: number = -1) => {
     return "•";
   },
-  getGuideComponent: function (jsxChildren: JSX.Element): JSX.Element {
+  getPage: DoPage,
+  getContext: function (props: IVerbContextProps): JSX.Element {
     throw new Error("Function not implemented.");
   },
-  begin: function (children: ILocatedBlock[]): Path | null {
-    // for (const child of children) {
-    return null;
+  getWorkspace: function (props: IWorkspaceProps): JSX.Element {
+    throw new Error("Function not implemented.");
   },
-  proceed: function (children: ILocatedBlock[], currentChildId: ILocatedBlock): Path | null {
+  getNextView: function (
+    graphState: IGraph,
+    children: List<IFullBlock>,
+    path: LocationList,
+    currentChild: string,
+    fallback: IView
+  ): IView {
     throw new Error("Function not implemented.");
   },
 };

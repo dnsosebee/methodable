@@ -1,4 +1,4 @@
-import { IBlockContent } from "../../model/blockContent";
+import { IBlockContent } from "../../../model/graph/blockContent";
 
 export interface IRefCountProps {
   content: IBlockContent;
@@ -15,6 +15,8 @@ export const RefCount = (props: IRefCountProps) => {
     <div
       className={buttonClasses}
       // style={{ background: `#${props.content.id.slice(0, 6)}` }}
-    >{props.content.locatedBlocks.size}</div>
+    >
+      {props.content.locatedBlocks.size}
+    </div>
   );
 };

@@ -1,8 +1,8 @@
 // crockford object for fullBlock, an auxiliary object that contains both location and content
 
 import { IBlockContent } from "./blockContent";
-import { ILocatedBlock, LocatedBlockId } from "./locatedBlock";
 import { IGraphData } from "./graph";
+import { ILocatedBlock, LocatedBlockId } from "./locatedBlock";
 
 export interface IFullBlockData {
   locatedBlock: Readonly<ILocatedBlock>;
@@ -19,8 +19,9 @@ export function fullBlockFromLocatedBlockId(
 ): IFullBlock {
   const locatedBlock = graphData.locatedBlocks.get(locatedBlockId);
   if (!locatedBlock) {
-
-    throw new Error(`Located block ${locatedBlockId} not found. graph data: \n${graphData.toString()}`);
+    throw new Error(
+      `Located block ${locatedBlockId} not found. graph data: \n${graphData.toString()}`
+    );
   }
   const blockContent = graphData.blockContents.get(locatedBlock.contentId);
   if (!blockContent) {

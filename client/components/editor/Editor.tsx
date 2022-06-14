@@ -1,25 +1,32 @@
 import { List } from "immutable";
-import { KeyboardEvent } from "react";
+import { KeyboardEvent, useState } from "react";
 import {
   PATH_DELIMITER,
   PATH_SEPARATOR,
   SELECTION_BASE_URL,
 } from "../../../pages/[mode]/[rootContentId]";
 import { logAction, logKeyEvent } from "../../lib/loggers";
-import { graphFromJson, graphToJson, IGraph, isChildBetweenSelection } from "../../model/graph";
-import { getContentFromPath } from "../../model/graphWithPaths";
-import { VERB, verb } from "../../model/verbs/verb";
-import { useFullPath } from "../FullPathProvider";
+import {
+  graphFromJson,
+  graphToJson,
+  IGraph,
+  isChildBetweenSelection,
+} from "../../model/graph/graph";
+import { getContentFromPath } from "../../model/graphWithView";
+import { createVerb, VERB } from "../../model/verbs/verb";
 import { useGraph } from "../GraphProvider";
+import { Guide } from "../guide/Guide";
+import { useView } from "../ViewProvider";
 import { Wrapper } from "../Wrapper";
-import { Block, IBlockProps } from "./Block";
+import { Block, IBlockProps } from "./block/Block";
 import { Breadcrumbs, IBreadcrumbsProps } from "./Breadcrumbs";
 
-export const EditorContainer = () => {
+export const Editor = () => {
   const { graphState, graphDispatch } = useGraph();
-  const { fullPathState } = useFullPath();
+  const { viewState } = useView();
+  const [isPreviewActive, setIsPreviewActive] = useState(false);
 
-  const rootContent = getContentFromPath(graphState, fullPathState, {});
+  const rootContent = getContentFromPath(graphState, viewState, {});
 
   const rootBlockProps: IBlockProps = {
     path: List(),
@@ -27,13 +34,13 @@ export const EditorContainer = () => {
     isShallowSelected: false,
     isDeepSelected: false,
     isGlobalSelectionActive: graphState.isSelectionActive,
-    parentVerb: verb(VERB.UNDEFINED),
+    parentVerb: createVerb(VERB.UNDEFINED),
     orderIndex: 0,
   };
 
   // shallow
   const getShallowClipboardVals = (): string => {
-    const parent = getContentFromPath(graphState, fullPathState, {
+    const parent = getContentFromPath(graphState, viewState, {
       focusPath: graphState.activeParentPath,
     });
     const children = parent.childLocatedBlocks;
@@ -45,9 +52,9 @@ export const EditorContainer = () => {
       if (parent.isChildBetween(childId, bound1, bound2)) {
         result +=
           SELECTION_BASE_URL +
-          fullPathState.rootContentId +
+          viewState.rootContentId +
           "/" +
-          fullPathState.rootRelativePath.join(PATH_DELIMITER) +
+          viewState.rootRelativePath.join(PATH_DELIMITER) +
           PATH_SEPARATOR +
           graphState.activeParentPath.join(PATH_DELIMITER) +
           (graphState.activeParentPath.size > 0 ? PATH_DELIMITER : "") +
@@ -81,14 +88,14 @@ export const EditorContainer = () => {
     });
   };
 
-  const toggleSelectionText = graphState.isSelectionByText ? "select text" : "select references";
+  // const toggleSelectionText = graphState.isSelectionByText ? "select text" : "select references";
   const buttonClasses = (isActive: boolean) =>
     `${
-      isActive ? "bg-gray-100 text-black" : "bg-gray-100 text-gray-300"
-    } hover:bg-gray-200 select-none mb-2 rounded px-1 py-0.5 w-48 mr-2`;
+      isActive ? "bg-gray-200 text-black" : "bg-gray-100 text-gray-300"
+    } shadow flex-none text-xs hover:bg-gray-200 select-none mb-2 rounded px-1 py-0.5 max-w-48 mr-2`;
   const breadcrumbProps: IBreadcrumbsProps = {
-    rootContentId: fullPathState.rootContentId,
-    rootRelativePath: fullPathState.rootRelativePath,
+    rootContentId: viewState.rootContentId,
+    rootRelativePath: viewState.rootRelativePath,
   };
 
   const saveHandler = async () => {
@@ -142,7 +149,7 @@ export const EditorContainer = () => {
       logKeyEvent("Backspace");
       graphDispatch((state: IGraph): IGraph => {
         const locatedBlocksToRemove = [];
-        const activeParentContent = getContentFromPath(state, fullPathState, {
+        const activeParentContent = getContentFromPath(state, viewState, {
           focusPath: state.activeParentPath,
         });
         activeParentContent.childLocatedBlocks.forEach((childLocatedId) => {
@@ -158,12 +165,16 @@ export const EditorContainer = () => {
     }
   };
 
+  const togglePreview = () => {
+    setIsPreviewActive(!isPreviewActive);
+  };
+
   return (
     <Wrapper shouldGrow={false}>
-      <div onCopy={copyHandler} onKeyDown={keyDownHandler}>
-        <div className="">
+      <div className="flex-grow flex">
+        <div onCopy={copyHandler} onKeyDown={keyDownHandler} className="flex-1">
           <div className="flex border-b mb-1 select-none">
-            <span className="mx-2">Options:</span>
+            <span className="mx-2 text-sm">Options:</span>
             {/* <button
               onClick={toggleSelectionDepth}
               className={buttonClasses(graphState.isSelectionActive)}
@@ -177,15 +188,23 @@ export const EditorContainer = () => {
               delete references
             </button>
             <button onClick={saveHandler} className={buttonClasses(true)}>
-              Save All Programs
+              Save Programs
             </button>
             <button onClick={loadHandler} className={buttonClasses(true)}>
-              Load All Programs
+              Load Programs
+            </button>
+            <button onClick={togglePreview} className={buttonClasses(true)}>
+              {isPreviewActive ? "Hide Preview" : "Show Preview"}
             </button>
           </div>
-          {fullPathState.rootRelativePath.size > -1 ? <Breadcrumbs {...breadcrumbProps} /> : null}
+          {viewState.rootRelativePath.size > -1 ? <Breadcrumbs {...breadcrumbProps} /> : null}
           <Block {...rootBlockProps} />
         </div>
+        {isPreviewActive ? (
+          <div className="flex-1">
+            <Guide {...{ graphState, viewState }} />
+          </div>
+        ) : null}
       </div>
     </Wrapper>
   );

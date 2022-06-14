@@ -1,26 +1,42 @@
-import Link from "next/link";
-import { BASE_URL } from "../../../pages/[mode]/[rootContentId]";
-import { IBlockContent } from "../../model/blockContent";
+import { IBlockContent } from "../../model/graph/blockContent";
+import { fullBlockFromLocatedBlockId } from "../../model/graph/fullBlock";
+import { getLink, IView } from "../../model/view";
+import { useGraph } from "../GraphProvider";
+import { useView } from "../ViewProvider";
+import { GuideButton } from "./GuideButton";
 
 export interface IEntryProps {
   content: IBlockContent;
+  viewAfterCompletion: IView;
 }
 
 export const Entry = (props: IEntryProps) => {
+  const { viewState } = useView();
+  const { graphState } = useGraph();
+  const children = props.content.childLocatedBlocks.map((childId) =>
+    fullBlockFromLocatedBlockId(graphState, childId)
+  );
   return (
-    <div className={"flex flex-col flex-grow"}>
-      <h1>{props.content.humanText}</h1>
-      <p className={"italic text-sm mb-5 flex-grow"}>A Human Program</p>
-      <Link href={BASE_URL + "edit/" + props.content.id + "/,"}>
-        <a
-          onClick={() => {
-            console.log("TODO");
-          }}
-          className={`p-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded justify-self-end`}
-        >
-          Click here to begin
-        </a>
-      </Link>
-    </div>
+    <>
+      <h1 className="text-xl font-bold">{props.content.humanText}</h1>
+      <p className={"italic text-sm"}>A Human Program</p>
+      <div className={"flex-grow"}></div>
+      <GuideButton
+        {...{
+          text: "Begin",
+          href: getLink(
+            viewState,
+            props.content.verb.getNextView(
+              graphState,
+              children,
+              null,
+              null,
+              props.viewAfterCompletion
+            )
+          ),
+          highlight: true,
+        }}
+      ></GuideButton>
+    </>
   );
 };

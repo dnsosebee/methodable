@@ -1,28 +1,37 @@
-import { ILocatedBlock } from "../locatedBlock";
-import { Path } from "../graph";
+import { List } from "immutable";
+import { IWorkspaceProps } from "../../components/guide/GuidePage";
+import { ReadContext, ReadPage } from "../../components/guide/verbs/Read";
+import { IFullBlock } from "../graph/fullBlock";
+import { IGraph, Path } from "../graph/graph";
+import { LocatedBlockId } from "../graph/locatedBlock";
+import { IView, MODE, resolveView } from "../view";
 import { IVerbGetters } from "./verb";
 
 export const readGetters: IVerbGetters = {
-  isAdditive: () => false,
-  alwaysPresents: () => true,
+  isWorkspace: () => false,
+  isTerminal: () => true,
   getVerbSelectPresentation: () => ({
     text: "📖",
     tooltip: "Read a note",
     className:
       "text-orange-700 bg-orange-100 border-orange-200 hover:bg-orange-200 hover:border-orange-400",
   }),
-  getChildBlockHandleClasses: () => "text-orange-300 pr-1.5 hover:bg-gray-100",
+  getChildBlockHandleClasses: () => "text-orange-300 pr-1 hover:bg-gray-100",
   getDefaultChildBlockHandleText: (orderIndex: number = -1) => {
     return `•`;
   },
-  getGuideComponent: function (jsxChildren: JSX.Element): JSX.Element {
+  getContext: ReadContext,
+  getPage: ReadPage,
+  getWorkspace: function (props: IWorkspaceProps): JSX.Element {
     throw new Error("Function not implemented.");
   },
-  begin: function (children: ILocatedBlock[]): Path | null {
-    // for (const child of children) {
-    return null;
-  },
-  proceed: function (children: ILocatedBlock[], currentChildId: ILocatedBlock): Path | null {
-    throw new Error("Function not implemented.");
+  getNextView: (
+    graphState: IGraph,
+    children: List<IFullBlock>,
+    path: Path,
+    currentChild: LocatedBlockId,
+    fallback: IView
+  ) => {
+    return resolveView(fallback, { focusPath: path ? path : List(), mode: MODE.GUIDE });
   },
 };

@@ -1,8 +1,8 @@
 // components/Layout/Header.tsx
-import React from "react";
-import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
 import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
 const Header = () => {
   const { user } = useUser();

@@ -1,27 +1,26 @@
 // crockford object for state
+import { List, Map } from "immutable";
+import { IVerb } from "../verbs/verb";
 import {
-  createBlockContent,
   BlockContentId,
   contentFromJson,
   contentToJson,
+  createBlockContent,
   HumanText,
   IBlockContent,
 } from "./blockContent";
 import { fullBlockFromLocatedBlockId } from "./fullBlock";
 import {
-  ILocatedBlock,
   createLocatedBlock,
+  ILocatedBlock,
   locatedBlockFromJson,
   LocatedBlockId,
   locatedBlockToJson,
 } from "./locatedBlock";
-import { IVerb } from "./verbs/verb";
-import { List, Map } from "immutable";
 
 // types
 export type UserId = string;
 export type SelectionRange = Readonly<{ start: Path; end: Path }>;
-export type FocusPosition = number | "start" | "end";
 export type LocationList = List<LocatedBlockId>;
 export type Path = LocationList;
 

@@ -1,10 +1,10 @@
 // crockford object for BlockContent
 
-import { LocatedBlockId } from "./locatedBlock";
-import { LocationList, Path, UserId } from "./graph";
-import { IVerb, VERB, verb } from "./verbs/verb";
-import { rightPad } from "../lib/loggers";
 import { List } from "immutable";
+import { rightPad } from "../../lib/loggers";
+import { createVerb, IVerb, VERB } from "../verbs/verb";
+import { LocationList, UserId } from "./graph";
+import { LocatedBlockId } from "./locatedBlock";
 
 export type BlockContentId = string;
 export type HumanText = string;
@@ -204,7 +204,7 @@ export const contentFromJson = (json): IBlockContent => {
     json.archived = false;
   }
 
-  const blockVerb = verb(VERB[verbType]);
+  const blockVerb = createVerb(VERB[verbType]);
   return createBlockContent({
     id: json.id,
     verb: blockVerb,

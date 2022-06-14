@@ -1,23 +1,37 @@
-import React, { createContext, useEffect, useReducer } from "react";
+import React, { createContext, useReducer } from "react";
 import { initialGraphState } from "../data/initialState";
 import { isDev } from "../lib/helpers";
-import { graphFromJson, graphToJson, IGraph, Path } from "../model/graph";
+import { logTime } from "../lib/loggers";
+import { graphFromJson, graphToJson, IGraph } from "../model/graph/graph";
 
 export type GraphAction = (state: Readonly<IGraph>) => IGraph;
 
 const graphReducer = (oldGraph: IGraph, action: GraphAction): IGraph => {
+  let oldTime = Date.now();
   const graph = action(oldGraph);
+  let newTime = Date.now();
+  logTime("time to take action: " + (newTime - oldTime));
+  oldTime = newTime;
   try {
     validateGraph(oldGraph, graph);
   } catch (e) {
     if (isDev()) {
       throw e;
     } else {
-      alert("Sorry, we were unable to process that command. You may close this popup to continue. If you'd like help with this problem, please send the developer a copy of the message below:\n\n" + e);
+      alert(
+        "Sorry, we were unable to process that command. You may close this popup to continue. If you'd like help with this problem, please send the developer a copy of the message below:\n\n" +
+          e
+      );
       return oldGraph;
     }
   }
+  newTime = Date.now();
+  logTime("time to validate graph: " + (newTime - oldTime));
+  oldTime = newTime;
   localStorage.setItem("graph", graphToJson(graph));
+  newTime = Date.now();
+  logTime("time to save graph: " + (newTime - oldTime));
+  oldTime = newTime;
   return graph;
 };
 
@@ -148,15 +162,13 @@ export const useGraph = (): IGraphContext => {
 
 export interface IGraphProviderProps {
   children: JSX.Element;
-  rootContentId: string;
-  rootRelativePath: Path;
-  focusPath: Path;
-  isFocusSpecifiedInURL: boolean;
 }
 
 export const GraphProvider = (props: IGraphProviderProps) => {
   const storedState = localStorage.getItem("graph");
-  const initialState = storedState ? graphFromJson(storedState, initialGraphState) : initialGraphState;
+  const initialState = storedState
+    ? graphFromJson(storedState, initialGraphState)
+    : initialGraphState;
   const [graphState, graphDispatch] = useReducer<React.Reducer<IGraph, GraphAction>>(
     graphReducer,
     initialState

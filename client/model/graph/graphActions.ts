@@ -1,7 +1,7 @@
-import { FullPathAction } from "../components/FullPathProvider";
-import { GraphAction } from "../components/GraphProvider";
+import { GraphAction } from "../../components/GraphProvider";
+import { ViewAction } from "../../components/ViewProvider";
+import { IView } from "../view";
 import { HumanText, IBlockContent } from "./blockContent";
-import { IFullPath } from "./fullPath";
 import { IGraph, Path } from "./graph";
 import { ILocatedBlock } from "./locatedBlock";
 
@@ -13,7 +13,7 @@ export const enterPressActionGenerator =
     leftText: HumanText,
     rightText: HumanText,
     path: Path,
-    fullPathDispatch: (action: FullPathAction) => void
+    viewDispatch: (action: ViewAction) => void
   ): GraphAction =>
   (state: IGraph): IGraph => {
     const newLocatedBlockId = crypto.randomUUID();
@@ -24,8 +24,8 @@ export const enterPressActionGenerator =
         return state;
       }
       const newPath = path.splice(-1, 1, newLocatedBlockId);
-      fullPathDispatch((fullPath: IFullPath): IFullPath => {
-        return fullPath.setFocus(newPath, "start");
+      viewDispatch((state: IView): IView => {
+        return state.setFocus(newPath, "start");
       });
       return state.insertNewBlock(
         locatedBlock.leftId,
@@ -37,8 +37,8 @@ export const enterPressActionGenerator =
     } else if (content.childLocatedBlocks.size === 0 && !isRoot) {
       // if the old block has no children and isn't root, we add a sibling after the old block
       const newPath = path.splice(-1, 1, newLocatedBlockId);
-      fullPathDispatch((fullPath: IFullPath): IFullPath => {
-        return fullPath.setFocus(newPath, "start");
+      viewDispatch((state: IView): IView => {
+        return state.setFocus(newPath, "start");
       });
       return state
         .insertNewBlock(
@@ -52,8 +52,8 @@ export const enterPressActionGenerator =
     } else {
       // if the old block does have children or is root, we add a child to the old block
       const newPath = path.push(newLocatedBlockId);
-      fullPathDispatch((fullPath: IFullPath): IFullPath => {
-        return fullPath.setFocus(newPath, "start");
+      viewDispatch((state: IView): IView => {
+        return state.setFocus(newPath, "start");
       });
       return state
         .insertNewBlock(

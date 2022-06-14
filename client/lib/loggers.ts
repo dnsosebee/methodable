@@ -18,7 +18,7 @@ export const logMouseEvent = (s: string) => {
 };
 
 export const logAction = (s: string) => {
-  // console.log(rightPad("Action Log: "), s);
+  console.log(rightPad("Action Log: "), s);
 };
 
 export const logKeyEvent = (s: string) => {
@@ -35,4 +35,8 @@ export const logEffect = (s: string) => {
 
 export const logError = (s: string) => {
   console.log(rightPad("Error Log: "), s);
+};
+
+export const logTime = (s: string) => {
+  console.log(rightPad("Time Log: "), s);
 };

@@ -1,51 +1,18 @@
-import { List } from "immutable";
-import { IFullPathContext, useFullPath } from "../components/FullPathProvider";
-import { IGraphContext, useGraph } from "../components/GraphProvider";
 import { NoSuchBlockError } from "../lib/errors";
-import { IBlockContent } from "./blockContent";
-import { fullBlockFromLocatedBlockId } from "./fullBlock";
-import { createFullPath, IFullPath } from "./fullPath";
-import { IGraph, Path } from "./graph";
-import { LocatedBlockId } from "./locatedBlock";
-
-export const resolvePartialPath = (
-  fullPathState: IFullPath,
-  fullPath: Partial<IFullPath>
-): IFullPath => {
-  let { rootContentId, rootRelativePath, focusPath, focusPosition, isFocusSpecifiedInURL } =
-    fullPath;
-  if (!rootContentId) {
-    rootContentId = fullPathState.rootContentId;
-  }
-  if (!rootRelativePath) {
-    rootRelativePath = fullPathState.rootRelativePath;
-  }
-  if (!focusPath) {
-    focusPath = List();
-  }
-  if (!focusPosition) {
-    focusPosition = fullPathState.focusPosition;
-  }
-  if (!isFocusSpecifiedInURL) {
-    isFocusSpecifiedInURL = fullPathState.isFocusSpecifiedInURL;
-  }
-  return createFullPath({
-    rootContentId,
-    rootRelativePath,
-    focusPath,
-    focusPosition,
-    isFocusSpecifiedInURL,
-  });
-};
+import { IBlockContent } from "./graph/blockContent";
+import { fullBlockFromLocatedBlockId } from "./graph/fullBlock";
+import { IGraph, Path } from "./graph/graph";
+import { LocatedBlockId } from "./graph/locatedBlock";
+import { IView, resolveView } from "./view";
 
 export const getContentFromPath = (
   graphState: IGraph,
-  fullPathState: IFullPath,
-  fullPath: Partial<IFullPath>
+  viewState: IView,
+  view: Partial<IView>
 ): IBlockContent => {
-  let { rootContentId, rootRelativePath, focusPath } = resolvePartialPath(fullPathState, fullPath);
+  let { rootContentId, rootRelativePath, focusPath } = resolveView(viewState, view);
   let locatedId: LocatedBlockId;
-  if (focusPath.size > 0) {
+  if (focusPath && focusPath.size > 0) {
     locatedId = focusPath.last();
   } else if (rootRelativePath.size > 0) {
     locatedId = rootRelativePath.last();
@@ -56,11 +23,7 @@ export const getContentFromPath = (
   return graphState.blockContents.get(locatedBlock.contentId);
 };
 
-export const getUpstairsNeighborPath = (
-  graphState: IGraph,
-  fullPathState: IFullPath,
-  path: Path
-): Path => {
+export const getUpstairsNeighborPath = (graphState: IGraph, viewState: IView, path: Path): Path => {
   if (path.size < 1) {
     // root block has no upstairs neighbor
     throw new NoSuchBlockError();
@@ -84,10 +47,10 @@ export const getUpstairsNeighborPath = (
 
 export const getDownstairsNeighborPath = (
   graphState: IGraph,
-  fullPathState: IFullPath,
+  viewState: IView,
   path: Path
 ): Path => {
-  const content = getContentFromPath(graphState, fullPathState, { focusPath: path });
+  const content = getContentFromPath(graphState, viewState, { focusPath: path });
   if (content.hasChildren()) {
     // if current block has children, downstairs neighbor is the first child
     return path.push(content.getLeftmostChildId());
@@ -98,7 +61,7 @@ export const getDownstairsNeighborPath = (
   for (let i = path.size - 1; i >= 0; i--) {
     let youngerAncestorId = path.get(i);
     const ancestorPath = path.slice(0, i);
-    const ancestorContent = getContentFromPath(graphState, fullPathState, {
+    const ancestorContent = getContentFromPath(graphState, viewState, {
       focusPath: ancestorPath,
     });
     const rightmostChildId = ancestorContent.getRightmostChildId();

@@ -1,6 +1,6 @@
-import { IGraph } from "../../model/graph";
-import { useGraph } from "../GraphProvider";
-import { IBlockContent } from "../../model/blockContent";
+import { IBlockContent } from "../../../model/graph/blockContent";
+import { IGraph } from "../../../model/graph/graph";
+import { useGraph } from "../../GraphProvider";
 
 export interface IVerbSelectPresentation {
   text: string;
@@ -21,7 +21,7 @@ export const VerbSelect = (props: IVerbSelectProps) => {
     });
   };
 
-  const buttonClasses = `flex-none w-5 mt-0.5 mr-0.5 select-none border rounded-md text-xs ${presentation.className}`;
+  const buttonClasses = `flex-none w-5 h-6 mt-0.5 mr-0.5 select-none border rounded-md text-xs ${presentation.className}`;
 
   return (
     <button onClick={handleButtonClick} className={buttonClasses}>

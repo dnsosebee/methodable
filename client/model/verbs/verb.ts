@@ -1,13 +1,21 @@
-import { IBlockHandlePresentation } from "../../components/editor/BlockHandle";
-import { IVerbSelectPresentation } from "../../components/editor/VerbSelect";
-import { ILocatedBlock } from "../locatedBlock";
-import { Path } from "../graph";
+import { List } from "immutable";
+import { IBlockHandlePresentation } from "../../components/editor/block/BlockHandle";
+import { IVerbSelectPresentation } from "../../components/editor/block/VerbSelect";
+import {
+  IVerbContextProps,
+  IVerbPageProps,
+  IWorkspaceProps,
+} from "../../components/guide/GuidePage";
+import { IFullBlock } from "../graph/fullBlock";
+import { IGraph, Path } from "../graph/graph";
+import { LocatedBlockId } from "../graph/locatedBlock";
+import { IView } from "../view";
 import { chooseGetters } from "./choose";
 import { doGetters } from "./do";
-import { readGetters } from "./read";
-import { viewGetters } from "./view";
 import { editGetters } from "./edit";
+import { readGetters } from "./read";
 import { undefinedGetters } from "./undefined";
+import { viewGetters } from "./view";
 
 export enum VERB {
   UNDEFINED = "UNDEFINED", // for non-existent parent verbs
@@ -19,17 +27,24 @@ export enum VERB {
 }
 
 export interface IVerbGetters {
-  isAdditive?: () => boolean;
-  alwaysPresents?: () => boolean; // deprecated
+  isWorkspace?: () => boolean;
+  isTerminal?: () => boolean;
   getVerbSelectPresentation: () => IVerbSelectPresentation;
   getDefaultChildBlockHandleText: (orderIndex?: number) => string;
   getChildBlockHandleClasses: () => string;
   getDefaultChildVerb?: () => IVerb;
   getDefaultSiblingVerb?: () => IVerb;
   getDefaultParentVerb?: () => IVerb;
-  getGuideComponent: (jsxChildren: JSX.Element) => JSX.Element;
-  begin: (children: ILocatedBlock[]) => Path | null; // returns a fullPath for the first instruction page from this block, null if the block isn't an instruction.
-  proceed: (children: ILocatedBlock[], currentChildId: ILocatedBlock) => Path | null; // returns a fullPath for the next instruction after the child
+  getContext: (props: IVerbContextProps) => JSX.Element; // this one's not optional, the next two are (cause you gotta choose one)
+  getPage: (props: IVerbPageProps) => JSX.Element;
+  getWorkspace: (props: IWorkspaceProps) => JSX.Element;
+  getNextView: (
+    graphState: IGraph,
+    childBlocks: List<IFullBlock>,
+    path: Path,
+    currentChild: LocatedBlockId,
+    fallback: IView
+  ) => IView;
 }
 
 const verbGetters = (name: VERB): IVerbGetters => {
@@ -51,8 +66,17 @@ const verbGetters = (name: VERB): IVerbGetters => {
   }
 };
 
-export function verb(name: VERB): IVerb {
-  const VERB_ORDER = [VERB.DO, VERB.CHOOSE, VERB.READ, VERB.VIEW, VERB.EDIT];
+export interface IVerb extends IVerbGetters {
+  name: VERB;
+  getNext: () => IVerb;
+  getChildBlockHandlePresentation: (
+    childVerb: IVerb,
+    orderIndex?: number
+  ) => IBlockHandlePresentation;
+}
+
+export function createVerb(name: VERB): IVerb {
+  const VERB_ORDER = [VERB.DO, VERB.CHOOSE, VERB.READ, VERB.EDIT]; // removing view for now: it has a bad name and is not super necessary for MVP
   const getters = verbGetters(name);
 
   const getNext = (): IVerb => {
@@ -60,7 +84,7 @@ export function verb(name: VERB): IVerb {
       throw new Error(`Block type has no successor: ${String(name)}`);
     }
     const nextIndex = (VERB_ORDER.indexOf(name) + 1) % VERB_ORDER.length;
-    return verb(VERB_ORDER[nextIndex]);
+    return createVerb(VERB_ORDER[nextIndex]);
   };
 
   const getChildBlockHandlePresentation = (
@@ -68,40 +92,40 @@ export function verb(name: VERB): IVerb {
     orderIndex?: number
   ): IBlockHandlePresentation => {
     return {
-      text: childVerb.isAdditive() ? "+" : getters.getDefaultChildBlockHandleText(orderIndex),
+      text: childVerb.isWorkspace() ? "+" : getters.getDefaultChildBlockHandleText(orderIndex),
       className: getters.getChildBlockHandleClasses(),
     };
   };
 
-  if (!getters.alwaysPresents) {
-    getters.alwaysPresents = () => true;
+  if (!getters.isWorkspace) {
+    getters.isWorkspace = () => false;
   }
 
-  if (!getters.isAdditive) {
-    getters.isAdditive = () => false;
+  if (!getters.isTerminal) {
+    getters.isTerminal = () => false;
   }
 
   if (!getters.getDefaultChildVerb) {
-    if (getters.isAdditive()) {
-      getters.getDefaultChildVerb = () => verb(VERB.DO);
+    if (getters.isWorkspace()) {
+      getters.getDefaultChildVerb = () => createVerb(VERB.DO);
     } else {
-      getters.getDefaultChildVerb = () => verb(name);
+      getters.getDefaultChildVerb = () => createVerb(name);
     }
   }
 
   if (!getters.getDefaultSiblingVerb) {
-    if (getters.isAdditive()) {
-      getters.getDefaultChildVerb = () => verb(VERB.DO);
+    if (getters.isWorkspace()) {
+      getters.getDefaultChildVerb = () => createVerb(VERB.DO);
     } else {
-      getters.getDefaultSiblingVerb = () => verb(name);
+      getters.getDefaultSiblingVerb = () => createVerb(name);
     }
   }
 
   if (!getters.getDefaultParentVerb) {
-    if (getters.isAdditive()) {
-      getters.getDefaultParentVerb = () => verb(VERB.DO);
+    if (getters.isWorkspace()) {
+      getters.getDefaultParentVerb = () => createVerb(VERB.DO);
     } else {
-      getters.getDefaultParentVerb = () => verb(name);
+      getters.getDefaultParentVerb = () => createVerb(name);
     }
   }
 
@@ -111,13 +135,4 @@ export function verb(name: VERB): IVerb {
     getChildBlockHandlePresentation,
     ...getters,
   });
-}
-
-export interface IVerb extends IVerbGetters {
-  name: VERB;
-  getNext: () => IVerb;
-  getChildBlockHandlePresentation: (
-    childVerb: IVerb,
-    orderIndex?: number
-  ) => IBlockHandlePresentation;
 }

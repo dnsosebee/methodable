@@ -1,6 +1,6 @@
 // crockford object for LocatedBlock
 
-import { rightPad } from "../lib/loggers";
+import { rightPad } from "../../lib/loggers";
 import { BlockContentId } from "./blockContent";
 
 export type LocatedBlockId = string;
@@ -50,7 +50,9 @@ export function createLocatedBlock(data: Readonly<ILocatedBlockData>): ILocatedB
   const toString = () => {
     return `LocatedBlock(${rightPad(data.id)}) -- contentId: ${rightPad(
       data.contentId
-    )}, leftId: ${rightPad(data.leftId)}, parentId: ${rightPad(data.parentId)}, archived: ${data.archived}`;
+    )}, leftId: ${rightPad(data.leftId)}, parentId: ${rightPad(data.parentId)}, archived: ${
+      data.archived
+    }`;
   };
   return Object.freeze({
     ...data,
