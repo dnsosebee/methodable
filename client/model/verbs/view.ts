@@ -1,9 +1,10 @@
 import { List } from "immutable";
 import { IVerbContextProps, IWorkspaceProps } from "../../components/guide/GuidePage";
 import { DoPage } from "../../components/guide/verbs/Do";
+import { IBlockContent } from "../graph/blockContent";
 import { IFullBlock } from "../graph/fullBlock";
-import { IGraph, LocationList } from "../graph/graph";
-import { IView } from "../view";
+import { IGraph, Path } from "../graph/graph";
+import { LocatedBlockId } from "../graph/locatedBlock";
 import { IVerbGetters } from "./verb";
 
 export const viewGetters: IVerbGetters = {
@@ -25,13 +26,9 @@ export const viewGetters: IVerbGetters = {
   getWorkspace: function (props: IWorkspaceProps): JSX.Element {
     throw new Error("Function not implemented.");
   },
-  getNextView: function (
-    graphState: IGraph,
-    children: List<IFullBlock>,
-    path: LocationList,
-    currentChild: string,
-    fallback: IView
-  ): IView {
-    throw new Error("Function not implemented.");
-  },
+  getContinuationChildId: (
+    controlFlowChildBlocks: List<IFullBlock>,
+    childLocatedId: LocatedBlockId
+  ): LocatedBlockId => null,
+  getBeginPath: (graphState: IGraph, content: IBlockContent): Path => List(),
 };

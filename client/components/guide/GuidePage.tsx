@@ -12,15 +12,15 @@ import { ShowContext } from "./ShowContext";
 export interface IGuidePageProps {
   parentVerb: IVerb;
   path: Path;
-  viewAfterCompletion: IView;
+  continuationPath: Path;
   contextElements: List<JSX.Element>;
   workspaceElements: List<JSX.Element>;
 }
 
 export interface IVerbPageProps extends IGuidePageProps {
   children: JSX.Element; // workspaces
-  childBlocks: List<IFullBlock>;
-  hasChildren: boolean;
+  controlFlowChildBlocks: List<IFullBlock>;
+  hasControlFlowChildren: boolean;
   content: IBlockContent;
 }
 
@@ -35,27 +35,27 @@ export interface IWorkspaceProps {
   path: Path;
 }
 
-const getChildLists = (
+export const getChildLists = (
   content: IBlockContent,
   graphState: IGraph
-): { workspaceChildBlocks: List<IFullBlock>; childBlocks: List<IFullBlock> } => {
-  let childBlocks = List<IFullBlock>();
+): { workspaceChildBlocks: List<IFullBlock>; controlFlowChildBlocks: List<IFullBlock> } => {
+  let controlFlowChildBlocks = List<IFullBlock>();
   let workspaceChildBlocks = List<IFullBlock>();
   content.childLocatedBlocks.forEach((childBlockId) => {
     const childBlock = fullBlockFromLocatedBlockId(graphState, childBlockId);
     if (childBlock.blockContent.verb.isWorkspace()) {
       workspaceChildBlocks = workspaceChildBlocks.push(childBlock);
     } else {
-      childBlocks = childBlocks.push(childBlock);
+      controlFlowChildBlocks = controlFlowChildBlocks.push(childBlock);
     }
   });
-  return { childBlocks, workspaceChildBlocks };
+  return { controlFlowChildBlocks, workspaceChildBlocks };
 };
 
 export const GuidePage = (props: IGuidePageProps) => {
   const { graphState } = useGraph();
   const { viewState } = useView();
-  const { path, viewAfterCompletion: viewAfterCompletion, contextElements, parentVerb } = props;
+  const { path, continuationPath, contextElements, parentVerb } = props;
   let { workspaceElements } = props;
   const content = getContentFromPath(graphState, viewState, { focusPath: path });
 
@@ -76,7 +76,7 @@ export const GuidePage = (props: IGuidePageProps) => {
     );
   }
 
-  const { childBlocks, workspaceChildBlocks } = getChildLists(content, graphState);
+  const { controlFlowChildBlocks, workspaceChildBlocks } = getChildLists(content, graphState);
   // update workspaces
   workspaceElements = workspaceElements.concat(
     workspaceChildBlocks.map((child) => (
@@ -96,19 +96,18 @@ export const GuidePage = (props: IGuidePageProps) => {
     );
     const pathToNext = viewState.focusPath.slice(0, path.size + 1);
     const childId = pathToNext.last();
-    const nextContent = getContentFromPath(graphState, viewState, { focusPath: pathToNext });
-    const nextVerb = nextContent.verb;
+    const childContinuationPath = content.verb.getChildContinuationPath(
+      graphState,
+      path,
+      controlFlowChildBlocks,
+      childId,
+      continuationPath
+    );
     return (
       <GuidePage
         {...{
           path: pathToNext,
-          viewAfterCompletion: content.verb.getNextView(
-            graphState,
-            childBlocks,
-            path,
-            childId,
-            viewAfterCompletion
-          ),
+          continuationPath: childContinuationPath,
           contextElements: contextElements.concat(contextComponent),
           workspaceElements,
           parentVerb: content.verb,
@@ -124,7 +123,12 @@ export const GuidePage = (props: IGuidePageProps) => {
     <>
       <ShowContext key={path.last()}>{contextElements}</ShowContext>
       <content.verb.getPage
-        {...{ ...props, childBlocks, hasChildren: !childBlocks.isEmpty(), content }}
+        {...{
+          ...props,
+          controlFlowChildBlocks: controlFlowChildBlocks,
+          hasControlFlowChildren: !controlFlowChildBlocks.isEmpty(),
+          content,
+        }}
         key={path.last()}
       >
         <>{workspaceElements}</>

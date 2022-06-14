@@ -4,10 +4,9 @@ import { VERB } from "../../../model/verbs/verb";
 import { getLink, IView, MODE } from "../../../model/view";
 import { useGraph } from "../../GraphProvider";
 import { useView } from "../../ViewProvider";
+import { ContinueButton } from "../buttons/ContinueButton";
 import { ContextLine } from "../ContextLine";
-import { GuideButton } from "../GuideButton";
 import { IVerbContextProps, IVerbPageProps } from "../GuidePage";
-import { useGuide } from "../GuideProvider";
 
 export const ReadContext = (props: IVerbContextProps) => {
   const { parentVerb, viewState, path, content } = props;
@@ -32,8 +31,7 @@ export const ReadContext = (props: IVerbContextProps) => {
 export const ReadPage = (props: IVerbPageProps) => {
   const { graphState } = useGraph();
   const { viewState } = useView();
-  const { guideDispatch } = useGuide();
-  const { content, path, childBlocks, children: childElements, viewAfterCompletion } = props;
+  const { content, path, controlFlowChildBlocks, children: workspaces, continuationPath } = props;
 
   let pre = "Read: ";
 
@@ -43,20 +41,20 @@ export const ReadPage = (props: IVerbPageProps) => {
         <span className="text-gray-400 bg-yellow-200">{pre}</span>
         <span className="">{content.humanText}</span>
       </p>
-      {childBlocks.map((child) => (
+      {controlFlowChildBlocks.map((child) => (
         <ReadingBlock
           {...{ graphState, viewState, path: path.push(child.locatedBlock.id), depth: 1 }}
         />
       ))}
-      {childElements}
+      {workspaces}
       <div className="flex-grow"></div>
-      <GuideButton
+      <ContinueButton
         {...{
           text: "proceed to next step",
-          href: getLink(viewState, viewAfterCompletion),
           center: true,
-          key: "proceed",
           highlight: true,
+          continuationPath,
+          key: "proceed",
         }}
       />
     </>

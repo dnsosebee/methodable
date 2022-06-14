@@ -6,10 +6,10 @@ import {
   IVerbPageProps,
   IWorkspaceProps,
 } from "../../components/guide/GuidePage";
+import { IBlockContent } from "../graph/blockContent";
 import { IFullBlock } from "../graph/fullBlock";
 import { IGraph, Path } from "../graph/graph";
 import { LocatedBlockId } from "../graph/locatedBlock";
-import { IView } from "../view";
 import { chooseGetters } from "./choose";
 import { doGetters } from "./do";
 import { editGetters } from "./edit";
@@ -38,13 +38,11 @@ export interface IVerbGetters {
   getContext: (props: IVerbContextProps) => JSX.Element; // this one's not optional, the next two are (cause you gotta choose one)
   getPage: (props: IVerbPageProps) => JSX.Element;
   getWorkspace: (props: IWorkspaceProps) => JSX.Element;
-  getNextView: (
-    graphState: IGraph,
-    childBlocks: List<IFullBlock>,
-    path: Path,
-    currentChild: LocatedBlockId,
-    fallback: IView
-  ) => IView;
+  getContinuationChildId: (
+    controlFlowChildBlocks: List<IFullBlock>,
+    childLocatedId: LocatedBlockId
+  ) => LocatedBlockId;
+  getBeginPath: (graphState: IGraph, content: IBlockContent) => Path;
 }
 
 const verbGetters = (name: VERB): IVerbGetters => {
@@ -73,6 +71,13 @@ export interface IVerb extends IVerbGetters {
     childVerb: IVerb,
     orderIndex?: number
   ) => IBlockHandlePresentation;
+  getChildContinuationPath: (
+    graphState: IGraph,
+    path: Path,
+    controlFlowChildBlocks: List<IFullBlock>,
+    childLocatedId: LocatedBlockId,
+    oldContinuationPath: Path
+  ) => Path;
 }
 
 export function createVerb(name: VERB): IVerb {
@@ -95,6 +100,31 @@ export function createVerb(name: VERB): IVerb {
       text: childVerb.isWorkspace() ? "+" : getters.getDefaultChildBlockHandleText(orderIndex),
       className: getters.getChildBlockHandleClasses(),
     };
+  };
+
+  const getChildContinuationPath = (
+    graphState: IGraph,
+    path: Path,
+    controlFlowChildBlocks: List<IFullBlock>,
+    childLocatedId: LocatedBlockId,
+    oldContinuationPath: Path
+  ): Path => {
+    const continuationChildId = getters.getContinuationChildId(
+      controlFlowChildBlocks,
+      childLocatedId
+    );
+    if (continuationChildId) {
+      const continuationBlock = controlFlowChildBlocks.find(
+        (block) => block.locatedBlock.id === continuationChildId
+      );
+      const beginPath = continuationBlock.blockContent.verb.getBeginPath(
+        graphState,
+        continuationBlock.blockContent
+      );
+      const childContinuationPath = path.push(continuationChildId).concat(beginPath);
+      return childContinuationPath;
+    }
+    return oldContinuationPath;
   };
 
   if (!getters.isWorkspace) {
@@ -133,6 +163,7 @@ export function createVerb(name: VERB): IVerb {
     name,
     getNext,
     getChildBlockHandlePresentation,
+    getChildContinuationPath,
     ...getters,
   });
 }

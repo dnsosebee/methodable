@@ -1,9 +1,10 @@
 import { List } from "immutable";
 import { IVerbPageProps } from "../../components/guide/GuidePage";
 import { EditContext, EditWorkspace } from "../../components/guide/verbs/Edit";
+import { IBlockContent } from "../graph/blockContent";
 import { IFullBlock } from "../graph/fullBlock";
-import { IGraph, LocationList } from "../graph/graph";
-import { IView } from "../view";
+import { IGraph, Path } from "../graph/graph";
+import { LocatedBlockId } from "../graph/locatedBlock";
 import { createVerb, IVerbGetters, VERB } from "./verb";
 
 export const editGetters: IVerbGetters = {
@@ -24,13 +25,9 @@ export const editGetters: IVerbGetters = {
     return EditWorkspace({ path: props.path });
   },
   getWorkspace: EditWorkspace,
-  getNextView: function (
-    graphState: IGraph,
-    children: List<IFullBlock>,
-    path: LocationList,
-    currentChild: string,
-    fallback: IView
-  ): IView {
-    throw new Error("Function not implemented.");
-  },
+  getContinuationChildId: (
+    controlFlowChildBlocks: List<IFullBlock>,
+    childLocatedId: LocatedBlockId
+  ): LocatedBlockId => null,
+  getBeginPath: (graphState: IGraph, content: IBlockContent): Path => List(),
 };

@@ -1,10 +1,10 @@
 import { List } from "immutable";
-import { IWorkspaceProps } from "../../components/guide/GuidePage";
+import { getChildLists, IWorkspaceProps } from "../../components/guide/GuidePage";
 import { DoContext, DoPage } from "../../components/guide/verbs/Do";
-import { fullBlockFromLocatedBlockId, IFullBlock } from "../graph/fullBlock";
+import { IBlockContent } from "../graph/blockContent";
+import { IFullBlock } from "../graph/fullBlock";
 import { IGraph, Path } from "../graph/graph";
 import { LocatedBlockId } from "../graph/locatedBlock";
-import { IView, MODE } from "../view";
 import { IVerbGetters } from "./verb";
 
 export const doGetters: IVerbGetters = {
@@ -23,34 +23,30 @@ export const doGetters: IVerbGetters = {
   getWorkspace: function (props: IWorkspaceProps): JSX.Element {
     throw new Error("Function not implemented.");
   },
-  getNextView: (
-    graphState: IGraph,
-    childBlocks: List<IFullBlock>,
-    path: Path,
-    currentChild: LocatedBlockId,
-    fallback: IView
-  ) => {
-    const childIndex = currentChild
-      ? childBlocks.findIndex((child) => child.locatedBlock.id === currentChild)
-      : -1;
-    for (let i = childIndex + 1; i < childBlocks.size; i++) {
-      const child = childBlocks.get(i);
-      const childPath = path ? path.push(child.locatedBlock.id) : List([child.locatedBlock.id]);
-      if (!child.blockContent.verb.isWorkspace()) {
-        fallback = fallback.setFocus(childPath, fallback.focusPosition).setMode(MODE.GUIDE);
-        const grandchildren = child.blockContent.childLocatedBlocks.map((childId) =>
-          fullBlockFromLocatedBlockId(graphState, childId)
-        );
-
-        return child.blockContent.verb.getNextView(
-          graphState,
-          grandchildren,
-          childPath,
-          null,
-          fallback
-        );
-      }
+  getContinuationChildId: function (
+    controlFlowChildBlocks: List<IFullBlock>,
+    childLocatedId: LocatedBlockId
+  ): LocatedBlockId {
+    const childIndex = controlFlowChildBlocks.findIndex(
+      (child) => child.locatedBlock.id === childLocatedId
+    );
+    if (childLocatedId === controlFlowChildBlocks.last().locatedBlock.id) {
+      return null;
     }
-    return fallback;
+    const nextChild = controlFlowChildBlocks.get(childIndex + 1);
+    return nextChild.locatedBlock.id;
+  },
+  getBeginPath: function (graphState: IGraph, content: IBlockContent): Path {
+    const { controlFlowChildBlocks } = getChildLists(content, graphState);
+    if (controlFlowChildBlocks.isEmpty()) {
+      return List();
+    }
+    const firstControlFlowChild = controlFlowChildBlocks.first();
+    return List([firstControlFlowChild.locatedBlock.id]).concat(
+      firstControlFlowChild.blockContent.verb.getBeginPath(
+        graphState,
+        firstControlFlowChild.blockContent
+      )
+    );
   },
 };

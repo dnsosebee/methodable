@@ -2,8 +2,9 @@ import { VERB } from "../../../model/verbs/verb";
 import { getLink, MODE } from "../../../model/view";
 import { useGraph } from "../../GraphProvider";
 import { useView } from "../../ViewProvider";
+import { BeginButton } from "../buttons/BeginButton";
+import { ContinueButton } from "../buttons/ContinueButton";
 import { ContextLine } from "../ContextLine";
-import { GuideButton } from "../GuideButton";
 import { IVerbContextProps, IVerbPageProps } from "../GuidePage";
 
 export const ChooseContext = (props: IVerbContextProps) => {
@@ -25,12 +26,12 @@ export const ChooseContext = (props: IVerbContextProps) => {
 
 export const ChoosePage = (props: IVerbPageProps) => {
   const {
-    childBlocks,
-    hasChildren,
+    controlFlowChildBlocks,
+    hasControlFlowChildren,
     parentVerb,
     content,
     path,
-    viewAfterCompletion,
+    continuationPath,
     children: workspaces,
   } = props;
   const { graphState } = useGraph();
@@ -53,35 +54,29 @@ export const ChoosePage = (props: IVerbPageProps) => {
       </p>
       {workspaces}
       <div className="flex-grow"></div>
-      {hasChildren ? (
+      {hasControlFlowChildren ? (
         <div className="flex flex-col">
-          {childBlocks.map((child, index) => (
-            <GuideButton
+          {controlFlowChildBlocks.map((child, index) => (
+            <BeginButton
               {...{
                 text: `${index + 1}. ${child.blockContent.humanText}`,
-                href: getLink(viewState, {
-                  ...content.verb.getNextView(
-                    graphState,
-                    childBlocks,
-                    path,
-                    child.locatedBlock.id,
-                    viewAfterCompletion
-                  ),
-                }),
-                key: child.locatedBlock.id,
                 highlight: true,
+                key: child.locatedBlock.id,
+                content: child.blockContent,
+                path: path.push(child.locatedBlock.id),
               }}
             />
           ))}
         </div>
       ) : (
-        <GuideButton
+        <ContinueButton
           {...{
             text: "proceed to next goal (this guide page is missing options)",
-            href: getLink(viewState, viewAfterCompletion),
+
             center: true,
             key: "proceed",
-            highlight: !hasChildren,
+            highlight: !hasControlFlowChildren,
+            continuationPath,
           }}
         />
       )}

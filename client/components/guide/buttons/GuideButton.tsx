@@ -1,10 +1,13 @@
 import Link from "next/link";
 
-export interface IGuideButtonProps {
+export interface IGuideButtonVisualProps {
   text: string;
-  href: string;
   center?: boolean;
   highlight?: boolean;
+}
+
+export interface IGuideButtonProps extends IGuideButtonVisualProps {
+  href: string;
 }
 
 export const GuideButton = (props: IGuideButtonProps) => {

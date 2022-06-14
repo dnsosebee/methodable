@@ -201,7 +201,7 @@ export const Editor = () => {
           <Block {...rootBlockProps} />
         </div>
         {isPreviewActive ? (
-          <div className="flex-1">
+          <div className="flex-1 flex flex-col">
             <Guide {...{ graphState, viewState }} />
           </div>
         ) : null}

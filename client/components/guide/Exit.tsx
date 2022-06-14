@@ -4,7 +4,7 @@ import { getLink, MODE } from "../../model/view";
 import { useGraph } from "../GraphProvider";
 import { useView } from "../ViewProvider";
 import { Wrapper } from "../Wrapper";
-import { GuideButton } from "./GuideButton";
+import { GuideButton } from "./buttons/GuideButton";
 
 export const Exit = () => {
   const { graphState } = useGraph();

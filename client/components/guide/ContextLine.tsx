@@ -12,9 +12,9 @@ export const ContextLine = (props: IContextLineProps) => {
     <div className="flex mt-1">
       <p>•</p>
       <p className="ml-2">
-        {pre}
+        <span className="text-gray-300">{pre}</span>
         <Link href={href}>
-          <a className="text-blue-500 underline">{text}</a>
+          <a className="text-blue-300 underline hover:text-blue-500">{text}</a>
         </Link>
         {"."}
       </p>

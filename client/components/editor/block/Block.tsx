@@ -37,6 +37,9 @@ export const Block = (props: IBlockProps) => {
     let numWorkspaceBlocks = 0;
     return props.content.childLocatedBlocks.map((childId, childIndex) => {
       const { blockContent: childBlockContent } = fullBlockFromLocatedBlockId(graphState, childId);
+      if (childBlockContent.verb.isWorkspace()) {
+        numWorkspaceBlocks++;
+      }
       const childPath = props.path.push(childId);
       const childBlockProps: IBlockProps = {
         path: childPath,

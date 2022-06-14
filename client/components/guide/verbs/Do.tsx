@@ -1,9 +1,10 @@
 import { VERB } from "../../../model/verbs/verb";
 import { getLink, MODE } from "../../../model/view";
-import { useGraph } from "../../GraphProvider";
 import { useView } from "../../ViewProvider";
+import { BeginButton } from "../buttons/BeginButton";
+import { ContinueButton } from "../buttons/ContinueButton";
+import { GuideButton } from "../buttons/GuideButton";
 import { ContextLine } from "../ContextLine";
-import { GuideButton } from "../GuideButton";
 import { IVerbContextProps, IVerbPageProps } from "../GuidePage";
 import { useGuide } from "../GuideProvider";
 
@@ -37,15 +38,14 @@ export const DoContext = (props: IVerbContextProps) => {
 
 export const DoPage = (props: IVerbPageProps) => {
   const {
-    childBlocks,
-    hasChildren,
+    controlFlowChildBlocks,
+    hasControlFlowChildren,
     parentVerb,
     content,
     path,
-    viewAfterCompletion,
+    continuationPath,
     children: workspaces,
   } = props;
-  const { graphState } = useGraph();
   const { viewState } = useView();
   const { guideState, guideDispatch } = useGuide();
   const { showSubtasks } = guideState;
@@ -63,7 +63,7 @@ export const DoPage = (props: IVerbPageProps) => {
     //   pre = "You chose ";
     //   break;
     default:
-      pre = hasChildren ? "Your goal is to " : "Do this: ";
+      pre = hasControlFlowChildren ? "Your goal is to " : "Do this: ";
   }
 
   return (
@@ -76,17 +76,17 @@ export const DoPage = (props: IVerbPageProps) => {
         </p>
         {workspaces}
       </div>
-      {hasChildren ? (
+      {hasControlFlowChildren ? (
         <div className="ml-10 mt-5 flex-1 flex flex-col">
           <button
             className="italic text-gray-300 hover:bg-gray-100 text-left w-full"
             onClick={toggleSubtasks}
           >
-            {showSubtasks ? "▼ hide " : "▶︎ show "} {childBlocks.size} guided subtasks
+            {showSubtasks ? "▼ hide " : "▶︎ show "} {controlFlowChildBlocks.size} guided subtasks
           </button>
           {showSubtasks ? (
             <>
-              {childBlocks.map((child, index) => (
+              {controlFlowChildBlocks.map((child, index) => (
                 <GuideButton
                   {...{
                     text: `${index + 1}. ${child.blockContent.humanText}`,
@@ -102,28 +102,26 @@ export const DoPage = (props: IVerbPageProps) => {
           ) : null}
         </div>
       ) : null}
-      <div className="flex-grow"></div>
-      {hasChildren ? (
-        <GuideButton
+      <div className="flex-grow mt-5"></div>
+      {hasControlFlowChildren ? (
+        <BeginButton
           {...{
             text: "begin guided subtasks",
-            href: getLink(
-              viewState,
-              content.verb.getNextView(graphState, childBlocks, path, null, viewAfterCompletion)
-            ),
             center: true,
             highlight: true,
+            content,
+            path,
             key: "begin",
           }}
         />
       ) : null}
-      <GuideButton
+      <ContinueButton
         {...{
-          text: hasChildren ? "proceed to next goal" : "proceed to next step",
-          href: getLink(viewState, viewAfterCompletion),
+          text: hasControlFlowChildren ? "proceed to next goal" : "proceed to next step",
           center: true,
+          highlight: !hasControlFlowChildren,
+          continuationPath,
           key: "proceed",
-          highlight: !hasChildren,
         }}
       />
     </>
