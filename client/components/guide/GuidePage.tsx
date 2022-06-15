@@ -92,7 +92,10 @@ export const GuidePage = (props: IGuidePageProps) => {
     // recursively render, appending a new context to the contextElements
     // except we don't push through workspaces: always quit recursing at the workspace, anything more is undefined behavior
     const contextComponent = (
-      <content.verb.getContext {...{ viewState, path, content, parentVerb }} key={path.last()} />
+      <content.verb.getContext
+        {...{ viewState, path, content, parentVerb }}
+        key={`context-line: ${path.last()}`}
+      />
     );
     const pathToNext = viewState.focusPath.slice(0, path.size + 1);
     const childId = pathToNext.last();
@@ -121,7 +124,7 @@ export const GuidePage = (props: IGuidePageProps) => {
 
   return (
     <>
-      <ShowContext key={path.last()}>{contextElements}</ShowContext>
+      <ShowContext key={`full-context: ${path.last()}`}>{contextElements}</ShowContext>
       <content.verb.getPage
         {...{
           ...props,
@@ -129,7 +132,7 @@ export const GuidePage = (props: IGuidePageProps) => {
           hasControlFlowChildren: !controlFlowChildBlocks.isEmpty(),
           content,
         }}
-        key={path.last()}
+        key={`verb-page: ${path.last()}`}
       >
         <>{workspaceElements}</>
       </content.verb.getPage>

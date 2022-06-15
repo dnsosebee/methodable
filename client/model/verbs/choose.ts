@@ -21,8 +21,8 @@ export const chooseGetters: IVerbGetters = {
   getDefaultChildBlockHandleText: (orderIndex: number = -1) => {
     return `${orderIndex + 1}.`;
   },
-  getDefaultChildVerb: () => createVerb(VERB.DO),
-  getDefaultSiblingVerb: () => createVerb(VERB.DO),
+  getDefaultChildVerb: () => createVerb(VERB.ANSWER),
+  getDefaultSiblingVerb: () => createVerb(VERB.ANSWER),
   getContext: ChooseContext,
   getPage: ChoosePage,
   getWorkspace: function (props: IWorkspaceProps): JSX.Element {

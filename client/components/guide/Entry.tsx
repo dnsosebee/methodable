@@ -1,11 +1,9 @@
 import { List } from "immutable";
 import { IBlockContent } from "../../model/graph/blockContent";
-import { IView } from "../../model/view";
 import { BeginButton } from "./buttons/BeginButton";
 
 export interface IEntryProps {
   content: IBlockContent;
-  viewAfterCompletion: IView;
 }
 
 export const Entry = (props: IEntryProps) => {

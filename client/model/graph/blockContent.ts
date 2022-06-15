@@ -56,11 +56,33 @@ export interface IBlockContent
     IBlockContentTransitions,
     IBlockContentGetters {}
 
+const shortcuts = {
+  "d:": VERB.DO,
+  "c:": VERB.CHOOSE,
+  "a:": VERB.ANSWER,
+  "r:": VERB.READ,
+  "e:": VERB.EDIT,
+};
+
 export function createBlockContent(blockContentData: Readonly<IBlockContentData>): IBlockContent {
   const transitions: IBlockContentTransitions = {
     updateHumanText: (humanText: HumanText) => {
-      const newData = { ...blockContentData, humanText };
-      return createBlockContent(newData);
+      if (humanText.length > 2) {
+        const prefix = humanText.substring(0, 2);
+        const suffix = humanText.substring(2);
+        const verbname = shortcuts[prefix.toLowerCase()];
+        if (verbname) {
+          return createBlockContent({
+            ...blockContentData,
+            humanText: suffix,
+            verb: createVerb(verbname),
+          });
+        }
+      }
+      return createBlockContent({
+        ...blockContentData,
+        humanText,
+      });
     },
     updateVerb: (verb: IVerb) => {
       return createBlockContent({ ...blockContentData, verb });

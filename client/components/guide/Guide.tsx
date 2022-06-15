@@ -1,8 +1,9 @@
 import { List } from "immutable";
 import { IGraph } from "../../model/graph/graph";
+import { LocatedBlockId } from "../../model/graph/locatedBlock";
 import { getContentFromPath } from "../../model/graphWithView";
 import { createVerb, VERB } from "../../model/verbs/verb";
-import { IView, MODE, resolveView } from "../../model/view";
+import { IView } from "../../model/view";
 import { useGraph } from "../GraphProvider";
 import { useView } from "../ViewProvider";
 import { Wrapper } from "../Wrapper";
@@ -21,12 +22,12 @@ export const Guide = (props: IGuideProps) => {
   const { focusPath } = viewState;
   const programContent = getContentFromPath(graphState, viewState, {});
   const programVerb = programContent.verb;
-  const viewAfterCompletion = resolveView(viewState, { mode: MODE.FINISH });
+  const continuationPath = List<LocatedBlockId>();
 
   const guidePageProps: IGuidePageProps = {
     parentVerb: createVerb(VERB.UNDEFINED),
     path: List(),
-    viewAfterCompletion,
+    continuationPath,
     contextElements: List(),
     workspaceElements: List(),
   };
@@ -37,10 +38,7 @@ export const Guide = (props: IGuideProps) => {
           {focusPath ? (
             <GuidePage {...guidePageProps} key="program" />
           ) : (
-            <Entry
-              content={getContentFromPath(graphState, viewState, {})}
-              viewAfterCompletion={viewAfterCompletion}
-            ></Entry>
+            <Entry content={getContentFromPath(graphState, viewState, {})}></Entry>
           )}
         </div>
       </Wrapper>

@@ -8,24 +8,21 @@ import { ContextLine } from "../ContextLine";
 import { IVerbContextProps, IVerbPageProps } from "../GuidePage";
 import { useGuide } from "../GuideProvider";
 
-export const DoContext = (props: IVerbContextProps) => {
+export const AnswerContext = (props: IVerbContextProps) => {
   const { parentVerb, viewState, path, content } = props;
   let pre: string;
   switch (parentVerb.name) {
-    case VERB.UNDEFINED:
-      pre = "You are following the program ";
-      break;
     case VERB.CHOOSE:
-      pre = "You chose to";
+      pre = "You answered ";
       break;
     default:
-      pre = "You began the subgoal ";
+      pre = "You answered ";
   }
   let href = getLink(viewState, { mode: MODE.GUIDE, focusPath: path });
   return <ContextLine {...{ pre, href, text: content.humanText }}></ContextLine>;
 };
 
-export const DoPage = (props: IVerbPageProps) => {
+export const AnswerPage = (props: IVerbPageProps) => {
   const {
     controlFlowChildBlocks,
     hasControlFlowChildren,
@@ -43,17 +40,7 @@ export const DoPage = (props: IVerbPageProps) => {
     guideDispatch((state) => state.toggleSubtasks());
   };
 
-  let pre: string;
-  switch (parentVerb.name) {
-    case VERB.UNDEFINED:
-      pre = "This is a guide to ";
-      break;
-    // case VERB.CHOOSE:
-    //   pre = "You chose ";
-    //   break;
-    default:
-      pre = hasControlFlowChildren ? "Your goal is to " : "Do this: ";
-  }
+  let pre: string = "You answered: ";
 
   return (
     <>
@@ -61,7 +48,6 @@ export const DoPage = (props: IVerbPageProps) => {
         <p className="text-xl font-bold mb-5">
           <span className="text-gray-400">{pre}</span>
           <span className="bg-yellow-200">{content.humanText}</span>
-          {/* {hasChildren ? <span className="text-gray-400">.</span> : null} */}
         </p>
         {workspaces}
       </div>

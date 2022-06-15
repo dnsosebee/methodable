@@ -10,6 +10,7 @@ import { IBlockContent } from "../graph/blockContent";
 import { IFullBlock } from "../graph/fullBlock";
 import { IGraph, Path } from "../graph/graph";
 import { LocatedBlockId } from "../graph/locatedBlock";
+import { answerGetters } from "./answer";
 import { chooseGetters } from "./choose";
 import { doGetters } from "./do";
 import { editGetters } from "./edit";
@@ -24,6 +25,7 @@ export enum VERB {
   READ = "READ",
   VIEW = "VIEW",
   EDIT = "EDIT",
+  ANSWER = "ANSWER",
 }
 
 export interface IVerbGetters {
@@ -51,6 +53,8 @@ const verbGetters = (name: VERB): IVerbGetters => {
       return doGetters;
     case VERB.CHOOSE:
       return chooseGetters;
+    case VERB.ANSWER:
+      return answerGetters;
     case VERB.READ:
       return readGetters;
     case VERB.VIEW:
@@ -81,7 +85,7 @@ export interface IVerb extends IVerbGetters {
 }
 
 export function createVerb(name: VERB): IVerb {
-  const VERB_ORDER = [VERB.DO, VERB.CHOOSE, VERB.READ, VERB.EDIT]; // removing view for now: it has a bad name and is not super necessary for MVP
+  const VERB_ORDER = [VERB.DO, VERB.CHOOSE, VERB.ANSWER, VERB.READ, VERB.EDIT]; // removing view for now: it has a bad name and is not super necessary for MVP
   const getters = verbGetters(name);
 
   const getNext = (): IVerb => {

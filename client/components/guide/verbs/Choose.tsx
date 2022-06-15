@@ -15,7 +15,7 @@ export const ChooseContext = (props: IVerbContextProps) => {
       pre = "You started with a choice, ";
       break;
     case VERB.CHOOSE:
-      pre = "You chose ";
+      pre = "You chose the choice ";
       break;
     default:
       pre = "You had a choice ";

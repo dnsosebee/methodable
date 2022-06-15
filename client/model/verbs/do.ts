@@ -7,6 +7,34 @@ import { IGraph, Path } from "../graph/graph";
 import { LocatedBlockId } from "../graph/locatedBlock";
 import { IVerbGetters } from "./verb";
 
+export const compositionalGetContinuationChildId = (
+  controlFlowChildBlocks: List<IFullBlock>,
+  childLocatedId: LocatedBlockId
+): LocatedBlockId => {
+  const childIndex = controlFlowChildBlocks.findIndex(
+    (child) => child.locatedBlock.id === childLocatedId
+  );
+  if (childLocatedId === controlFlowChildBlocks.last().locatedBlock.id) {
+    return null;
+  }
+  const nextChild = controlFlowChildBlocks.get(childIndex + 1);
+  return nextChild.locatedBlock.id;
+};
+
+export const compositionalGetBeginPath = (graphState: IGraph, content: IBlockContent): Path => {
+  const { controlFlowChildBlocks } = getChildLists(content, graphState);
+  if (controlFlowChildBlocks.isEmpty()) {
+    return List();
+  }
+  const firstControlFlowChild = controlFlowChildBlocks.first();
+  return List([firstControlFlowChild.locatedBlock.id]).concat(
+    firstControlFlowChild.blockContent.verb.getBeginPath(
+      graphState,
+      firstControlFlowChild.blockContent
+    )
+  );
+};
+
 export const doGetters: IVerbGetters = {
   isWorkspace: () => false,
   getVerbSelectPresentation: () => ({
@@ -23,30 +51,6 @@ export const doGetters: IVerbGetters = {
   getWorkspace: function (props: IWorkspaceProps): JSX.Element {
     throw new Error("Function not implemented.");
   },
-  getContinuationChildId: function (
-    controlFlowChildBlocks: List<IFullBlock>,
-    childLocatedId: LocatedBlockId
-  ): LocatedBlockId {
-    const childIndex = controlFlowChildBlocks.findIndex(
-      (child) => child.locatedBlock.id === childLocatedId
-    );
-    if (childLocatedId === controlFlowChildBlocks.last().locatedBlock.id) {
-      return null;
-    }
-    const nextChild = controlFlowChildBlocks.get(childIndex + 1);
-    return nextChild.locatedBlock.id;
-  },
-  getBeginPath: function (graphState: IGraph, content: IBlockContent): Path {
-    const { controlFlowChildBlocks } = getChildLists(content, graphState);
-    if (controlFlowChildBlocks.isEmpty()) {
-      return List();
-    }
-    const firstControlFlowChild = controlFlowChildBlocks.first();
-    return List([firstControlFlowChild.locatedBlock.id]).concat(
-      firstControlFlowChild.blockContent.verb.getBeginPath(
-        graphState,
-        firstControlFlowChild.blockContent
-      )
-    );
-  },
+  getContinuationChildId: compositionalGetContinuationChildId,
+  getBeginPath: compositionalGetBeginPath,
 };
