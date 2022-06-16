@@ -49,7 +49,7 @@ export const Block = (props: IBlockProps) => {
         orderIndex: childIndex - numWorkspaceBlocks,
         ...getSelectednessInfo(childPath),
       };
-      return <Block key={`block:${childId}`} {...childBlockProps} />;
+      return <Block key={`block: ${childId}`} {...childBlockProps} />;
     });
   };
 

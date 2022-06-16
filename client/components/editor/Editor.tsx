@@ -171,8 +171,8 @@ export const Editor = () => {
 
   return (
     <Wrapper shouldGrow={false}>
-      <div className="flex-grow flex">
-        <div onCopy={copyHandler} onKeyDown={keyDownHandler} className="flex-1">
+      <div className="flex-grow flex max-h-full">
+        <div onCopy={copyHandler} onKeyDown={keyDownHandler} className="flex-1 overflow-auto">
           <div className="flex border-b mb-1 select-none">
             <span className="mx-2 text-sm">Options:</span>
             {/* <button
@@ -201,7 +201,7 @@ export const Editor = () => {
           <Block {...rootBlockProps} />
         </div>
         {isPreviewActive ? (
-          <div className="flex-1 flex flex-col">
+          <div className="flex-1 flex flex-col max-h-full ml-2">
             <Guide {...{ graphState, viewState }} />
           </div>
         ) : null}

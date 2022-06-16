@@ -1,4 +1,5 @@
 import { List } from "immutable";
+import { NoSuchBlockError } from "../../lib/errors";
 import { IBlockContent } from "../../model/graph/blockContent";
 import { fullBlockFromLocatedBlockId, IFullBlock } from "../../model/graph/fullBlock";
 import { IGraph, Path } from "../../model/graph/graph";
@@ -57,7 +58,17 @@ export const GuidePage = (props: IGuidePageProps) => {
   const { viewState } = useView();
   const { path, continuationPath, contextElements, parentVerb } = props;
   let { workspaceElements } = props;
-  const content = getContentFromPath(graphState, viewState, { focusPath: path });
+  let content: IBlockContent;
+  try {
+    content = getContentFromPath(graphState, viewState, { focusPath: path });
+  } catch (e) {
+    if (e instanceof NoSuchBlockError) {
+      return (
+        <div>{`Loading... if this page persists for more than a second, then you are viewing a non-existant guide page.`}</div>
+      );
+    }
+    throw e;
+  }
 
   if (content.verb.isWorkspace()) {
     return (
@@ -99,13 +110,20 @@ export const GuidePage = (props: IGuidePageProps) => {
     );
     const pathToNext = viewState.focusPath.slice(0, path.size + 1);
     const childId = pathToNext.last();
-    const childContinuationPath = content.verb.getChildContinuationPath(
-      graphState,
-      path,
-      controlFlowChildBlocks,
-      childId,
-      continuationPath
-    );
+    // might rethink this later
+    let childContinuationPath;
+    if (controlFlowChildBlocks.isEmpty()) {
+      // this should only come into play when previewing weird things
+      childContinuationPath = continuationPath;
+    } else {
+      childContinuationPath = content.verb.getChildContinuationPath(
+        graphState,
+        path,
+        controlFlowChildBlocks,
+        childId,
+        continuationPath
+      );
+    }
     return (
       <GuidePage
         {...{

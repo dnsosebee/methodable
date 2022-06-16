@@ -1,8 +1,8 @@
 html,
 body {
-	@apply h-full;
+	@apply h-screen;
 }
 
 #__next {
-	@apply flex flex-col min-h-full;
+	@apply flex flex-col h-screen p-2;
 }

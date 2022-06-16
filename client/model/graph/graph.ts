@@ -34,8 +34,10 @@ export interface IGraphData {
   locatedBlocks: Map<LocatedBlockId, ILocatedBlock>;
   blockContents: Map<BlockContentId, IBlockContent>;
 
-  // editor specific stuff
-  // selection related
+  // scheduling dependant state changes
+  dependantDispatches: List<() => void>;
+
+  // editor stuff: should be moved...
   activeParentPath: Readonly<Path>;
   selectionRange: Readonly<SelectionRange>;
   isSelectionActive: Readonly<boolean>;
@@ -80,6 +82,9 @@ export interface IGraphTransitions {
   removeSurroundingBlocks: (LocatedBlock: ILocatedBlock) => IGraph;
   addSurroundingBlocks: (locatedBlock: ILocatedBlock) => IGraph;
   moveChildren: (leftmostChildId: LocatedBlockId, newParentContentId: BlockContentId) => IGraph;
+
+  // dispatch related
+  addDependantDispatch: (dispatch: () => void) => IGraph;
 }
 
 export interface IGraphGetters {
@@ -435,6 +440,14 @@ export function createGraph(graphData: Readonly<IGraphData>): IGraph {
         .moveLocatedBlock(leftmostChildLocatedId, newParentRightmostChildId, newParentContentId)
         .moveChildren(nextLeftmostChildId, newParentContentId);
     },
+
+    // dispatch related
+    addDependantDispatch: (dispatch: () => void): IGraph => {
+      return createGraph({
+        ...graphData,
+        dependantDispatches: graphData.dependantDispatches.push(dispatch),
+      });
+    },
   };
 
   const toString = (): string => {
@@ -519,6 +532,7 @@ export const graphFromJson = (json: string, graph: IGraph): IGraph => {
   const newGraph = createGraph({
     blockContents,
     locatedBlocks,
+    dependantDispatches: graph.dependantDispatches,
     activeParentPath: graph.activeParentPath,
     selectionRange: graph.selectionRange,
     isSelectionActive: graph.isSelectionActive,
@@ -527,7 +541,7 @@ export const graphFromJson = (json: string, graph: IGraph): IGraph => {
   return newGraph;
 };
 
-export const isChildBetweenSelection = (graph: IGraph, locatedBlockId) => {
+export const isChildBetweenSelection = (graph: IGraph, locatedBlockId: LocatedBlockId) => {
   const parentPathLength = graph.activeParentPath.size;
   const bound1 = graph.selectionRange.start.get(parentPathLength);
   const bound2 = graph.selectionRange.end.get(parentPathLength);

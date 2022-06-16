@@ -20,6 +20,9 @@ export const getContentFromPath = (
     return graphState.blockContents.get(rootContentId);
   }
   const locatedBlock = graphState.locatedBlocks.get(locatedId);
+  if (!locatedBlock) {
+    throw new NoSuchBlockError();
+  }
   return graphState.blockContents.get(locatedBlock.contentId);
 };
 

@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import { initialGraphState } from "../data/initialState";
 import { isDev } from "../lib/helpers";
 import { logTime } from "../lib/loggers";
@@ -164,6 +164,11 @@ export interface IGraphProviderProps {
   children: JSX.Element;
 }
 
+export type GraphActionWithSideEffect = (state: Readonly<IGraph>) => {
+  graph: IGraph;
+  sideEffect: () => void;
+};
+
 export const GraphProvider = (props: IGraphProviderProps) => {
   const storedState = localStorage.getItem("graph");
   const initialState = storedState
@@ -173,6 +178,15 @@ export const GraphProvider = (props: IGraphProviderProps) => {
     graphReducer,
     initialState
   );
+
+  useEffect(() => {
+    if (graphState.dependantDispatches.size > 0) {
+      graphState.dependantDispatches.forEach((dispatch: () => void) => {
+        dispatch();
+      });
+      graphState.dependantDispatches.clear();
+    }
+  }, [graphState.dependantDispatches]);
 
   return (
     <graphContext.Provider value={{ graphState, graphDispatch }}>

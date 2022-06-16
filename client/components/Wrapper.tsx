@@ -10,9 +10,9 @@ export const Wrapper = ({
   const growClasses = shouldGrow ? "flex-grow" : "";
   return (
     <div
-      className={`border border-secondary rounded p-2 m-2 shadow-lg flex flex-col ${growClasses}`}
+      className={`border border-secondary rounded p-2 shadow-lg flex flex-col max-h-full ${growClasses}`}
     >
-      {children}
+      <div className="overflow-auto">{children}</div>
     </div>
   );
 };

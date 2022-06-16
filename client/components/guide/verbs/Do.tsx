@@ -16,7 +16,7 @@ export const DoContext = (props: IVerbContextProps) => {
       pre = "You are following the program ";
       break;
     case VERB.CHOOSE:
-      pre = "You chose to";
+      pre = "You chose to ";
       break;
     default:
       pre = "You began the subgoal ";
