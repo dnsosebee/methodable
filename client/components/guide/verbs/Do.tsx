@@ -37,7 +37,7 @@ export const DoPage = (props: IVerbPageProps) => {
   } = props;
   const { viewState } = useView();
   const { guideState, guideDispatch } = useGuide();
-  const { showSubtasks } = guideState;
+  const { showSubtasks, showContext } = guideState;
 
   const toggleSubtasks = () => {
     guideDispatch((state) => state.toggleSubtasks());
@@ -59,8 +59,8 @@ export const DoPage = (props: IVerbPageProps) => {
     <>
       <div className=" p-1 ml-5">
         <p className="text-xl font-bold mb-5">
-          <span className="text-gray-400">{pre}</span>
-          <span className="bg-yellow-200">{content.humanText}</span>
+          {showContext && <span className="text-gray-400">{pre}</span>}
+          <span className="">{content.humanText}</span>
           {/* {hasChildren ? <span className="text-gray-400">.</span> : null} */}
         </p>
         {workspaces}

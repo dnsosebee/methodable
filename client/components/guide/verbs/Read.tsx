@@ -7,6 +7,7 @@ import { useView } from "../../ViewProvider";
 import { ContinueButton } from "../buttons/ContinueButton";
 import { ContextLine } from "../ContextLine";
 import { IVerbContextProps, IVerbPageProps } from "../GuidePage";
+import { useGuide } from "../GuideProvider";
 
 export const ReadContext = (props: IVerbContextProps) => {
   const { parentVerb, viewState, path, content } = props;
@@ -31,6 +32,8 @@ export const ReadContext = (props: IVerbContextProps) => {
 export const ReadPage = (props: IVerbPageProps) => {
   const { graphState } = useGraph();
   const { viewState } = useView();
+  const { guideState } = useGuide();
+  const { showContext } = guideState;
   const { content, path, controlFlowChildBlocks, children: workspaces, continuationPath } = props;
 
   let pre = "Read: ";
@@ -38,7 +41,7 @@ export const ReadPage = (props: IVerbPageProps) => {
   return (
     <>
       <p className="text-xl font-bold p-1 ml-5">
-        <span className="text-gray-400 bg-yellow-200">{pre}</span>
+        {showContext && <span className="text-gray-400">{pre}</span>}
         <span className="">{content.humanText}</span>
       </p>
       {controlFlowChildBlocks.map((child) => (

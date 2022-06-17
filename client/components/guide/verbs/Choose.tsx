@@ -1,11 +1,10 @@
 import { VERB } from "../../../model/verbs/verb";
 import { getLink, MODE } from "../../../model/view";
-import { useGraph } from "../../GraphProvider";
-import { useView } from "../../ViewProvider";
 import { BeginButton } from "../buttons/BeginButton";
 import { ContinueButton } from "../buttons/ContinueButton";
 import { ContextLine } from "../ContextLine";
 import { IVerbContextProps, IVerbPageProps } from "../GuidePage";
+import { useGuide } from "../GuideProvider";
 
 export const ChooseContext = (props: IVerbContextProps) => {
   const { parentVerb, viewState, path, content } = props;
@@ -34,8 +33,8 @@ export const ChoosePage = (props: IVerbPageProps) => {
     continuationPath,
     children: workspaces,
   } = props;
-  const { graphState } = useGraph();
-  const { viewState } = useView();
+  const { guideState } = useGuide();
+  const { showContext } = guideState;
 
   let pre: string;
   switch (parentVerb.name) {
@@ -49,8 +48,8 @@ export const ChoosePage = (props: IVerbPageProps) => {
   return (
     <>
       <p className="text-xl font-bold p-1 ml-5">
-        <span className="text-gray-400">{pre}</span>
-        <span className="bg-yellow-200">{content.humanText}</span>
+        {showContext && <span className="text-gray-400">{pre}</span>}
+        <span className="">{content.humanText}</span>
       </p>
       {workspaces}
       <div className="flex-grow"></div>

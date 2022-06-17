@@ -6,6 +6,7 @@ import { useView } from "../ViewProvider";
 import { Wrapper } from "../Wrapper";
 import { GuideButton } from "./buttons/GuideButton";
 
+// Deprecated - ish
 export const Exit = () => {
   const { graphState } = useGraph();
   const { viewState } = useView();

@@ -17,7 +17,7 @@ export const GuideButton = (props: IGuideButtonProps) => {
         <p
           className={`font-bold p-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded mt-2 shadow ${
             props.center ? "text-center" : ""
-          } ${props.highlight ? "bg-yellow-200 hover:bg-yellow-300" : ""}`}
+          } ${props.highlight ? " bg-blue-100 hover:bg-blue-200" : ""}`}
         >
           {props.text}
         </p>

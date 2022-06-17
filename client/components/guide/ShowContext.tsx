@@ -15,7 +15,7 @@ export const ShowContext = (props: IShowContextProps) => {
     });
   };
   return (
-    <>
+    <div className="border-b pb-2">
       <button className={`text-left text-gray-300 hover:bg-gray-100`} onClick={toggleContext}>
         {guideState.showContext
           ? "▼ back to focus mode"
@@ -27,6 +27,6 @@ export const ShowContext = (props: IShowContextProps) => {
         {showContext ? props.children : null}
         {showContext ? <ContextLine pre="Now.." text="" href="" /> : null}
       </div>
-    </>
+    </div>
   );
 };
