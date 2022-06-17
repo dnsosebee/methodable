@@ -77,10 +77,22 @@ const ReadingBlock = (props: IReadingBlockProps) => {
     <ReadingBlock {...{ graphState, viewState, path: path.push(childId), depth: depth + 1 }} />
   ));
   return (
-    <div className="flex flex-col ml-10">
+    <div className="flex flex-col ml-7">
       <div className="flex">
         {depth > 1 ? <p className="mr-1">{"• "}</p> : null}
-        <p className={`${depth == 1 ? "text-lg mt-2" : ""}`}>{content.humanText}</p>
+        <p
+          className={`${
+            depth == 1
+              ? "text-lg mt-2"
+              : depth == 2
+              ? "mt-1"
+              : depth == 3
+              ? "text-sm mt-0.5"
+              : "text-sm"
+          }`}
+        >
+          {content.humanText}
+        </p>
       </div>
       {children}
     </div>
