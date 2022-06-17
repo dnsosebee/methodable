@@ -15,7 +15,7 @@ export type IGuideContext = { guideState: IGuide; guideDispatch: React.Dispatch<
 export const useGuide = (): IGuideContext => {
   const context = useContext(guideContext);
   if (context === undefined) {
-    throw new Error("useGuide must be used within a ViewProvider");
+    throw new Error("useGuide must be used within a GuideProvider");
   }
   return context;
 };

@@ -35,7 +35,7 @@ export interface IGraphData {
   blockContents: Map<BlockContentId, IBlockContent>;
 
   // scheduling dependant state changes
-  dependantDispatches: List<() => void>;
+  dependantDispatches: List<() => void>; // TODO delete
 
   // editor stuff: should be moved...
   activeParentPath: Readonly<Path>;
