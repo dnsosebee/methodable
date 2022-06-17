@@ -1,21 +1,24 @@
+import { JSONContent } from "@tiptap/react";
 import { GraphAction } from "../../components/GraphProvider";
 import { ViewAction } from "../../components/ViewProvider";
 import { IView } from "../view";
-import { HumanText, IBlockContent } from "./blockContent";
+import { IBlockContent } from "./blockContent";
 import { IGraph, Path } from "./graph";
 import { ILocatedBlock } from "./locatedBlock";
 
+// always call editor.commands.splitBlock before running this!
 export const enterPressActionGenerator =
   (
     locatedBlock: ILocatedBlock,
     content: IBlockContent,
     isRoot: boolean,
-    leftText: HumanText,
-    rightText: HumanText,
+    editorContent: JSONContent[],
     path: Path,
     viewDispatch: (action: ViewAction) => void
   ): GraphAction =>
   (state: IGraph): IGraph => {
+    const leftText = JSON.stringify([editorContent[0]]);
+    const rightText = JSON.stringify([editorContent[1]]);
     const newLocatedBlockId = crypto.randomUUID();
     if (leftText.length === 0 && rightText.length > 0) {
       // if enter is pressed at the beginning of the line, we just bump that block down a line, and focus on the new line above
@@ -38,10 +41,8 @@ export const enterPressActionGenerator =
       // if the old block has no children and isn't root, we add a sibling after the old block
       const newPath = path.splice(-1, 1, newLocatedBlockId);
       viewDispatch((state: IView): IView => {
-        console.log("pathDispatched");
         return state.setFocus(newPath, "start");
       });
-      console.log("graphDispatched");
       return state
         .insertNewBlock(
           locatedBlock.id,

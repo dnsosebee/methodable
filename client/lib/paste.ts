@@ -84,8 +84,7 @@ export const pasteActionGenerator =
             currentLocatedBlock,
             currentBlockContent,
             currentIsRoot,
-            currentBlockContent.humanText,
-            "",
+            [JSON.parse(currentBlockContent.humanText), {}],
             currentFocusPath,
             proxyDispatch
           )(currentGraphState);

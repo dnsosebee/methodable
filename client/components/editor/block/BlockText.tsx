@@ -1,6 +1,21 @@
 import { Editor } from "@tiptap/core";
+import Blockquote from "@tiptap/extension-blockquote";
+import Bold from "@tiptap/extension-bold";
+import BulletList from "@tiptap/extension-bullet-list";
+import Code from "@tiptap/extension-code";
+import CodeBlock from "@tiptap/extension-code-block";
 import Document from "@tiptap/extension-document";
+import Dropcursor from "@tiptap/extension-dropcursor";
+import Gapcursor from "@tiptap/extension-gapcursor";
+import HardBreak from "@tiptap/extension-hard-break";
+import Heading from "@tiptap/extension-heading";
+import History from "@tiptap/extension-history";
+import HorizontalRule from "@tiptap/extension-horizontal-rule";
+import Italic from "@tiptap/extension-italic";
+import ListItem from "@tiptap/extension-list-item";
+import OrderedList from "@tiptap/extension-ordered-list";
 import Paragraph from "@tiptap/extension-paragraph";
+import Strike from "@tiptap/extension-strike";
 import Text from "@tiptap/extension-text";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { MutableRefObject, useEffect, useRef } from "react";
@@ -143,6 +158,29 @@ export const BlockText = (props: IBlockTextProps) => {
     onCopy: copy,
   };
 
+  const humanTextToJSONContent = (humanText: HumanText) => {
+    try {
+      return { type: "doc", content: JSON.parse(props.humanText) };
+    } catch (e) {
+      return {
+        type: "doc",
+        content: [{ type: "paragraph", content: [{ type: "text", content: humanText }] }],
+      };
+    }
+  };
+
+  const humanTextToEditor = (editor: Editor, humanText: string) => {
+    editor.commands.setContent(humanTextToJSONContent(humanText));
+  };
+
+  const editorToHumanTextJSON = (editor: Editor) => {
+    return editor.getJSON().content;
+  };
+
+  const editorToHumanText = (editor: Editor): string => {
+    return JSON.stringify(editorToHumanTextJSON(editor));
+  };
+
   const selectedClass = propsRef.current.isGlobalSelectionActive
     ? "selection:bg-transparent"
     : "selection:bg-gray-200";
@@ -166,7 +204,26 @@ export const BlockText = (props: IBlockTextProps) => {
 
   const editor = useEditor(
     {
-      extensions: [CustomExtension, Paragraph, Text],
+      extensions: [
+        CustomExtension,
+        Paragraph,
+        Text,
+        Blockquote,
+        Bold,
+        Italic,
+        Strike,
+        Heading,
+        ListItem,
+        BulletList,
+        OrderedList,
+        HorizontalRule,
+        CodeBlock,
+        Code,
+        HardBreak,
+        Dropcursor,
+        Gapcursor,
+        History,
+      ],
       editorProps: {
         attributes: {
           class: `focus:outline-none text-gray-700 py-0.5 ${selectedClass}`,
@@ -178,11 +235,11 @@ export const BlockText = (props: IBlockTextProps) => {
         },
       },
       editable: !props.isGlobalSelectionActive,
-      content: props.humanText,
+      content: humanTextToJSONContent(props.humanText),
       onUpdate({ editor }) {
         logEditorEvent("onUpdate:" + propsRef.current.path);
         graphDispatch((state: IGraph) => {
-          return state.updateBlockText(contentRef.current.id, editor.getText());
+          return state.updateBlockText(contentRef.current.id, editorToHumanText(editor));
         });
       },
       onFocus({ transaction }) {
@@ -204,17 +261,13 @@ export const BlockText = (props: IBlockTextProps) => {
     logKeyEvent(
       "onEnterPress, path: " + propsRef.current.path + ", humanText: " + propsRef.current.humanText
     );
-    const editorText = editor.getText();
-    const focusPosition = getFocusPosition(editor);
-    const leftText = editorText.slice(0, focusPosition - 1);
-    const rightText = editorText.slice(focusPosition - 1);
+    editor.commands.splitBlock();
     graphDispatch(
       enterPressActionGenerator(
         locatedRef.current,
         contentRef.current,
         isRootRef.current,
-        leftText,
-        rightText,
+        editorToHumanTextJSON(editor),
         propsRef.current.path,
         viewDispatch
       )
@@ -306,7 +359,7 @@ export const BlockText = (props: IBlockTextProps) => {
 
   const handleBackspacePress = (editor: Editor) => {
     logKeyEvent("onBackspacePress, path: " + propsRef.current.path);
-    const editorText = editor.getText();
+    const editorText = editorToHumanText(editor);
     const focusPosition = getFocusPosition(editor);
     if (focusPosition === 1 && !isRootRef.current) {
       // we're at the beginning of the line already, so graphDispatch the action
@@ -362,12 +415,14 @@ export const BlockText = (props: IBlockTextProps) => {
         viewDispatch((state: IView): IView => {
           return state.setFocus(upstairsNeighborPath, upstairsNeighborContent.humanText.length + 1);
         });
+        const upstairs = JSON.parse(upstairsNeighborContent.humanText) as [];
+        const downstairs = JSON.parse(editorText) as [];
         return state
           .moveChildren(contentRef.current.getLeftmostChildId(), upstairsNeighborContent.id)
           .removeLocatedBlock(locatedRef.current.id)
           .updateBlockText(
             upstairsNeighborContent.id,
-            upstairsNeighborContent.humanText + editorText
+            JSON.stringify([...upstairs, ...downstairs])
           );
       });
       return PREVENT_TIPTAP_DEFAULT;
@@ -477,9 +532,9 @@ export const BlockText = (props: IBlockTextProps) => {
   useEffect(() => {
     if (editor && !editor.isDestroyed) {
       if (!isFocused.current) {
-        if (props.humanText !== editor.getText()) {
+        if (props.humanText !== editorToHumanText(editor)) {
           logEffect("updating editor content for path: " + props.path);
-          editor.commands.setContent(props.humanText);
+          humanTextToEditor(editor, props.humanText);
         }
       }
     }
@@ -488,9 +543,9 @@ export const BlockText = (props: IBlockTextProps) => {
   // the one exception to the above; we force update editor content when contentId changes
   useEffect(() => {
     if (editor && !editor.isDestroyed) {
-      if (props.humanText !== editor.getText()) {
+      if (props.humanText !== editorToHumanText(editor)) {
         logEffect("updating editor content for path: " + props.path + " due to contentId change");
-        editor.commands.setContent(props.humanText);
+        humanTextToEditor(editor, props.humanText);
       }
     }
   }, [!!editor, props.contentId]);
@@ -502,7 +557,7 @@ export const BlockText = (props: IBlockTextProps) => {
         logEffect(
           "setting focus for path: " + props.path + ", focus position: " + viewState.focusPosition
         );
-        editor.commands.setContent(props.humanText);
+        humanTextToEditor(editor, props.humanText);
         editor.commands.focus(viewState.focusPosition);
       } else {
         isFocused.current = false;

@@ -28,6 +28,7 @@ export const pathEquals = (path1: Path | null, path2: Path | null) => {
 };
 
 export const getFocusPosition = (editor: Editor): number => {
+  console.log("to: " + editor.view.state.selection.to);
   return editor.view.state.selection.to;
 };
 
