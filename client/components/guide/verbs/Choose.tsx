@@ -52,7 +52,7 @@ export const ChoosePage = (props: IVerbPageProps) => {
         <span className="">{content.humanText}</span>
       </p>
       {workspaces}
-      <div className="flex-grow"></div>
+      <div className="flex-grow mt-5"></div>
       {hasControlFlowChildren ? (
         <div className="flex flex-col">
           {controlFlowChildBlocks.map((child, index) => (
@@ -70,10 +70,10 @@ export const ChoosePage = (props: IVerbPageProps) => {
       ) : (
         <ContinueButton
           {...{
-            text: "proceed to next goal (this guide page is missing options)",
+            text: "Continue (this guide page is missing options)",
 
             center: true,
-            key: "proceed",
+            key: "continue",
             highlight: !hasControlFlowChildren,
             continuationPath,
           }}

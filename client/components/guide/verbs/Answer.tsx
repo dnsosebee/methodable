@@ -92,11 +92,11 @@ export const AnswerPage = (props: IVerbPageProps) => {
       ) : null}
       <ContinueButton
         {...{
-          text: hasControlFlowChildren ? "proceed to next goal" : "proceed to next step",
+          text: "Continue",
           center: true,
           highlight: !hasControlFlowChildren,
           continuationPath,
-          key: "proceed",
+          key: "continue",
         }}
       />
     </>

@@ -39,16 +39,16 @@ export const EditWorkspace = (props: IWorkspaceProps) => {
       mode: MODE.EDIT,
       rootContentId: childLocation.contentId,
       rootRelativePath: List(),
-      focusPath: List(),
+      focusPath: null,
       focusPosition: "end",
     } as IView;
     return (
-      <>
+      <div className="mt-5">
         <p className="ml-5 italic text-gray-400">{content.humanText}</p>
         <ViewProvider {...view}>
           <Editor />
         </ViewProvider>
-      </>
+      </div>
     );
   });
   return <>{editors}</>;

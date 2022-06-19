@@ -1,6 +1,6 @@
 import { List } from "immutable";
 import { useRouter } from "next/router";
-import { GraphProvider } from "../../../client/components/GraphProvider";
+import { Tool } from "../../../client/components/Tool";
 import { View } from "../../../client/components/View";
 import { Path } from "../../../client/model/graph/graph";
 import { LocatedBlockId } from "../../../client/model/graph/locatedBlock";
@@ -36,9 +36,9 @@ const Container = () => {
     focusPosition: null,
   };
   return (
-    <GraphProvider>
+    <Tool>
       <View {...viewProps} />
-    </GraphProvider>
+    </Tool>
   );
 };
 

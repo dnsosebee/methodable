@@ -1,7 +1,7 @@
 import { List } from "immutable";
 import { useRouter } from "next/router";
 import { PATH_DELIMITER, PATH_SEPARATOR } from ".";
-import { GraphProvider } from "../../../client/components/GraphProvider";
+import { Tool } from "../../../client/components/Tool";
 import { View } from "../../../client/components/View";
 import { Path } from "../../../client/model/graph/graph";
 import { strToMode } from "../../../client/model/view";
@@ -59,9 +59,9 @@ const Container = () => {
     focusPosition: null,
   };
   return (
-    <GraphProvider>
+    <Tool>
       <View {...viewProps} />
-    </GraphProvider>
+    </Tool>
   );
 };
 

@@ -73,7 +73,7 @@ export const GuidePage = (props: IGuidePageProps) => {
   if (content.verb.isWorkspace()) {
     return (
       <>
-        <p className="bg-blue-200 rounded shadow p-1 mb-5">
+        <p className="bg-blue-200 rounded shadow p-1 mb-5 font-sans">
           <span className="font-bold">Note:</span> You are viewing a{" "}
           <span className="italic">workspace</span>. Workspaces don't get their own guide pages,
           instead they are included in other pages.
@@ -89,8 +89,8 @@ export const GuidePage = (props: IGuidePageProps) => {
 
   const { controlFlowChildBlocks, workspaceChildBlocks } = getChildLists(content, graphState);
   // update workspaces
-  workspaceElements = workspaceElements.concat(
-    workspaceChildBlocks.map((child) => (
+  workspaceElements = workspaceChildBlocks
+    .map((child) => (
       <child.blockContent.verb.getWorkspace
         {...{
           path: path.push(child.locatedBlock.id),
@@ -98,7 +98,8 @@ export const GuidePage = (props: IGuidePageProps) => {
         }}
       />
     ))
-  );
+    .concat(workspaceElements);
+
   if (path.size < viewState.focusPath.size && !content.verb.isTerminal()) {
     // recursively render, appending a new context to the contextElements
     // except we don't push through workspaces: always quit recursing at the workspace, anything more is undefined behavior

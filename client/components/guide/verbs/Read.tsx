@@ -50,14 +50,14 @@ export const ReadPage = (props: IVerbPageProps) => {
         />
       ))}
       {workspaces}
-      <div className="flex-grow"></div>
+      <div className="flex-grow mt-5"></div>
       <ContinueButton
         {...{
-          text: "proceed to next step",
+          text: "Continue",
           center: true,
           highlight: true,
           continuationPath,
-          key: "proceed",
+          key: "continue",
         }}
       />
     </>

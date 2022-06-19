@@ -34,7 +34,7 @@ export const Guide = (props: IGuideProps) => {
   return (
     <GuideProvider>
       <Wrapper shouldGrow={true}>
-        <div className="flex-grow flex flex-col m-2">
+        <div className="flex-grow flex flex-col m-2  font-serif">
           {focusPath ? (
             <GuidePage {...guidePageProps} key="program" />
           ) : (

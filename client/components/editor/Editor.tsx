@@ -1,4 +1,4 @@
-import { List } from "immutable";
+import { List, Map } from "immutable";
 import { KeyboardEvent, useState } from "react";
 import {
   PATH_DELIMITER,
@@ -6,12 +6,15 @@ import {
   SELECTION_BASE_URL,
 } from "../../../pages/[mode]/[rootContentId]";
 import { logAction, logKeyEvent } from "../../lib/loggers";
+import { BlockContentId, IBlockContent } from "../../model/graph/blockContent";
+import { fullBlockFromLocatedBlockId, IFullBlock } from "../../model/graph/fullBlock";
 import {
   graphFromJson,
   graphToJson,
   IGraph,
   isChildBetweenSelection,
 } from "../../model/graph/graph";
+import { createLocatedBlock, ILocatedBlock, LocatedBlockId } from "../../model/graph/locatedBlock";
 import { getContentFromPath } from "../../model/graphWithView";
 import { createVerb, VERB } from "../../model/verbs/verb";
 import { useGraph } from "../GraphProvider";
@@ -110,6 +113,59 @@ export const Editor = () => {
     }
   };
 
+  const saveProgramHandler = async () => {
+    const content = getContentFromPath(graphState, viewState, {});
+    const fullBlocks: IFullBlock[] = [];
+    const addFullBlocks = (content: IBlockContent) => {
+      content.childLocatedBlocks.forEach((childLocatedId) => {
+        if (
+          fullBlocks.find((fullBlock) => fullBlock.locatedBlock.id === childLocatedId) === undefined
+        ) {
+          const childFullBlock = fullBlockFromLocatedBlockId(graphState, childLocatedId);
+          fullBlocks.push(childFullBlock);
+          addFullBlocks(childFullBlock.blockContent);
+        }
+      });
+    };
+    addFullBlocks(content);
+    let locatedBlocks = Map<LocatedBlockId, ILocatedBlock>();
+    let blockContents = Map<BlockContentId, IBlockContent>();
+    fullBlocks.forEach((fullBlock) => {
+      locatedBlocks = locatedBlocks.set(fullBlock.locatedBlock.id, fullBlock.locatedBlock);
+      blockContents = blockContents.set(fullBlock.blockContent.id, fullBlock.blockContent);
+    });
+
+    // give root content a location... this is due to a problem with the data model, and how things are loaded
+    // TODO should be fixed, but part of a larger update
+    const rootLocation: ILocatedBlock = createLocatedBlock({
+      id: "root",
+      contentId: content.id,
+      userId: "TODO",
+      blockStatus: "not started",
+      parentId: null,
+      leftId: null,
+      archived: false,
+    });
+    const updatedContent = content.addLocation(rootLocation.id);
+    blockContents = blockContents.set(content.id, updatedContent);
+    locatedBlocks = locatedBlocks.set(rootLocation.id, rootLocation);
+    const stateToSave: IGraph = {
+      ...graphState,
+      locatedBlocks,
+      blockContents,
+    };
+    const graphStateJson = graphToJson(stateToSave);
+
+    try {
+      const newHandle = await window.showSaveFilePicker({ suggestedName: "my_program.json" });
+      const writableStream = await newHandle.createWritable();
+      await writableStream.write(graphStateJson);
+      await writableStream.close();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const loadHandler = async () => {
     try {
       const [fileHandle] = await window.showOpenFilePicker({
@@ -172,7 +228,11 @@ export const Editor = () => {
   return (
     <Wrapper shouldGrow={false}>
       <div className="flex-grow flex max-h-full">
-        <div onCopy={copyHandler} onKeyDown={keyDownHandler} className="flex-1 overflow-auto">
+        <div
+          onCopy={copyHandler}
+          onKeyDown={keyDownHandler}
+          className="flex-1 overflow-auto font-sans"
+        >
           <div className="flex border-b mb-1 select-none">
             <span className="mx-2 text-sm">Options:</span>
             {/* <button
@@ -189,6 +249,9 @@ export const Editor = () => {
             </button>
             <button onClick={saveHandler} className={buttonClasses(true)}>
               Save Programs
+            </button>
+            <button onClick={saveProgramHandler} className={buttonClasses(true)}>
+              Save Program
             </button>
             <button onClick={loadHandler} className={buttonClasses(true)}>
               Load Programs
