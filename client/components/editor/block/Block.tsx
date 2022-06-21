@@ -25,6 +25,9 @@ export interface IBlockProps {
 }
 
 export const Block = (props: IBlockProps) => {
+  if (!props.content) {
+    return null;
+  }
   const { graphState } = useGraph();
   const { viewState } = useView();
   const [collapsed, setCollapsed] = React.useState(
