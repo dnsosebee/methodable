@@ -16,6 +16,7 @@ import {
 } from "../../model/graph/graph";
 import { createLocatedBlock, ILocatedBlock, LocatedBlockId } from "../../model/graph/locatedBlock";
 import { getContentFromPath } from "../../model/graphWithView";
+import { IEditor } from "../../model/modes/editor";
 import { createVerb, VERB } from "../../model/verbs/verb";
 import { useGraph } from "../GraphProvider";
 import { Guide } from "../guide/Guide";
@@ -23,10 +24,12 @@ import { useView } from "../ViewProvider";
 import { Wrapper } from "../Wrapper";
 import { Block, IBlockProps } from "./block/Block";
 import { Breadcrumbs, IBreadcrumbsProps } from "./Breadcrumbs";
+import { useEditor } from "./EditorProvider";
 
 export const Editor = () => {
   const { graphState, graphDispatch } = useGraph();
   const { viewState } = useView();
+  const { editorState, editorDispatch } = useEditor();
   const [isPreviewActive, setIsPreviewActive] = useState(false);
 
   const rootContent = getContentFromPath(graphState, viewState, {});
@@ -36,7 +39,7 @@ export const Editor = () => {
     content: rootContent,
     isShallowSelected: false,
     isDeepSelected: false,
-    isGlobalSelectionActive: graphState.isSelectionActive,
+    isGlobalSelectionActive: editorState.isSelectionActive,
     parentVerb: createVerb(VERB.UNDEFINED),
     orderIndex: 0,
   };
@@ -44,11 +47,11 @@ export const Editor = () => {
   // shallow
   const getShallowClipboardVals = (): string => {
     const parent = getContentFromPath(graphState, viewState, {
-      focusPath: graphState.activeParentPath,
+      focusPath: editorState.activeParentPath,
     });
     const children = parent.childLocatedBlocks;
-    const bound1 = graphState.selectionRange.start.get(graphState.activeParentPath.size);
-    const bound2 = graphState.selectionRange.end.get(graphState.activeParentPath.size);
+    const bound1 = editorState.selectionRange.start.get(editorState.activeParentPath.size);
+    const bound2 = editorState.selectionRange.end.get(editorState.activeParentPath.size);
     let result = "";
     for (let i = 0; i < children.size; i++) {
       const childId = children.get(i);
@@ -59,8 +62,8 @@ export const Editor = () => {
           "/" +
           viewState.rootRelativePath.join(PATH_DELIMITER) +
           PATH_SEPARATOR +
-          graphState.activeParentPath.join(PATH_DELIMITER) +
-          (graphState.activeParentPath.size > 0 ? PATH_DELIMITER : "") +
+          editorState.activeParentPath.join(PATH_DELIMITER) +
+          (editorState.activeParentPath.size > 0 ? PATH_DELIMITER : "") +
           childId +
           "\n";
       }
@@ -75,8 +78,8 @@ export const Editor = () => {
   };
 
   const copyHandler = async () => {
-    if (graphState.isSelectionActive) {
-      const clipboardVals = graphState.isSelectionByText
+    if (editorState.isSelectionActive) {
+      const clipboardVals = editorState.isSelectionByText
         ? getDeepClipboardVals()
         : getShallowClipboardVals();
       logKeyEvent("copy:\n" + clipboardVals);
@@ -86,12 +89,12 @@ export const Editor = () => {
 
   const toggleSelectionDepth = () => {
     logAction("toggleSelectionDepth");
-    graphDispatch((state: IGraph): IGraph => {
+    editorDispatch((state: IEditor): IEditor => {
       return state.toggleSelectionType();
     });
   };
 
-  // const toggleSelectionText = graphState.isSelectionByText ? "select text" : "select references";
+  // const toggleSelectionText = editorState.isSelectionByText ? "select text" : "select references";
   const buttonClasses = (isActive: boolean) =>
     `${
       isActive ? "bg-gray-200 text-black" : "bg-gray-100 text-gray-300"
@@ -185,7 +188,7 @@ export const Editor = () => {
       const fileData = await fileHandle.getFile();
       const stringData = await fileData.text();
       graphDispatch((state: IGraph): IGraph => {
-        return graphFromJson(stringData, state);
+        return graphFromJson(stringData);
       });
     } catch (e) {
       console.error(e);
@@ -201,22 +204,25 @@ export const Editor = () => {
   };
 
   const handleBackspace = () => {
-    if (graphState.isSelectionActive && !graphState.isSelectionByText) {
+    if (editorState.isSelectionActive && !editorState.isSelectionByText) {
       logKeyEvent("Backspace");
       graphDispatch((state: IGraph): IGraph => {
         const locatedBlocksToRemove = [];
         const activeParentContent = getContentFromPath(state, viewState, {
-          focusPath: state.activeParentPath,
+          focusPath: editorState.activeParentPath,
         });
         activeParentContent.childLocatedBlocks.forEach((childLocatedId) => {
-          if (isChildBetweenSelection(state, childLocatedId)) {
+          if (isChildBetweenSelection(state, editorState, childLocatedId)) {
             locatedBlocksToRemove.push(childLocatedId);
           }
         });
         locatedBlocksToRemove.forEach((locatedBlockId) => {
           state = state.removeLocatedBlock(locatedBlockId);
         });
-        return state.endSelection();
+        editorDispatch((state: IEditor): IEditor => {
+          return state.endSelection();
+        });
+        return state;
       });
     }
   };
@@ -237,13 +243,13 @@ export const Editor = () => {
             <span className="mx-2 text-sm">Options:</span>
             {/* <button
               onClick={toggleSelectionDepth}
-              className={buttonClasses(graphState.isSelectionActive)}
+              className={buttonClasses(editorState.isSelectionActive)}
             >
               {toggleSelectionText}
             </button> */}
             <button
               onClick={handleBackspace}
-              className={buttonClasses(graphState.isSelectionActive)}
+              className={buttonClasses(editorState.isSelectionActive)}
             >
               delete references
             </button>
@@ -265,7 +271,7 @@ export const Editor = () => {
         </div>
         {isPreviewActive ? (
           <div className="flex-1 flex flex-col max-h-full ml-2">
-            <Guide {...{ graphState, viewState }} />
+            <Guide {...{ editorState, viewState }} />
           </div>
         ) : null}
       </div>

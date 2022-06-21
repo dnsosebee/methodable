@@ -18,9 +18,11 @@ import {
   getDownstairsNeighborPath,
   getUpstairsNeighborPath,
 } from "../../../model/graphWithView";
+import { IEditor } from "../../../model/modes/editor";
 import { IView } from "../../../model/view";
 import { GraphAction, useGraph } from "../../GraphProvider";
 import { useView } from "../../ViewProvider";
+import { useEditor as useEditorState } from "../EditorProvider";
 
 const PREVENT_TIPTAP_DEFAULT = true;
 const ALLOW_TIPTAP_DEFAULT = false;
@@ -37,6 +39,7 @@ export const BlockText = (props: IBlockTextProps) => {
   const clickOriginatedInThisText = useRef(false); // whether the current click/drag started in this text
   const { graphState, graphDispatch } = useGraph();
   const { viewState, viewDispatch } = useView();
+  const { editorState, editorDispatch } = useEditorState();
   const contentRef: MutableRefObject<IBlockContent> = useRef(
     graphState.blockContents.get(props.contentId)
   );
@@ -85,7 +88,7 @@ export const BlockText = (props: IBlockTextProps) => {
   const mouseEnter = (e: React.MouseEvent) => {
     if (isMouseDown(e)) {
       logMouseEvent("onMouseEnter mouseIsDown " + props.humanText);
-      graphDispatch((state: IGraph) => {
+      editorDispatch((state: IEditor) => {
         if (isRootRef.current) {
           return state;
         }
@@ -104,7 +107,7 @@ export const BlockText = (props: IBlockTextProps) => {
     if (isMouseDown(e)) {
       logMouseEvent("onMouseLeave mouseIsDown " + props.humanText);
       if (clickOriginatedInThisText.current) {
-        graphDispatch((state: IGraph) => {
+        editorDispatch((state: IEditor) => {
           if (isRootRef.current) {
             return state;
           }
@@ -120,7 +123,7 @@ export const BlockText = (props: IBlockTextProps) => {
   const mouseDown = () => {
     logMouseEvent("onMouseDown " + props.humanText);
     clickOriginatedInThisText.current = true;
-    graphDispatch((state: IGraph) => {
+    editorDispatch((state: IEditor) => {
       return state.endSelection();
     });
   };
@@ -197,7 +200,7 @@ export const BlockText = (props: IBlockTextProps) => {
         isFocused.current = false;
       },
     },
-    [props.isGlobalSelectionActive, graphState.selectionRange]
+    [props.isGlobalSelectionActive, editorState.selectionRange]
   );
 
   const handleEnterPress = (editor: Editor) => {

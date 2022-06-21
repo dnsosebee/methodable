@@ -6,6 +6,7 @@ import { isChildBetweenSelection, Path } from "../../../model/graph/graph";
 import { createVerb, IVerb, VERB } from "../../../model/verbs/verb";
 import { useGraph } from "../../GraphProvider";
 import { useView } from "../../ViewProvider";
+import { useEditor } from "../EditorProvider";
 import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
 import { BlockText, IBlockTextProps } from "./BlockText";
 import { CollapseToggle, ICollapseToggleProps } from "./CollapseToggle";
@@ -30,6 +31,7 @@ export const Block = (props: IBlockProps) => {
   }
   const { graphState } = useGraph();
   const { viewState } = useView();
+  const { editorState } = useEditor();
   const [collapsed, setCollapsed] = React.useState(
     props.content.childLocatedBlocks.size > 0 &&
       props.path.size > 0 &&
@@ -64,21 +66,25 @@ export const Block = (props: IBlockProps) => {
   } => {
     let isShallowSelected = false;
     let isDeepSelected = false;
-    if (graphState.isSelectionActive) {
+    if (editorState.isSelectionActive) {
       // we know something is selected, nothing more
-      if (graphState.activeParentPath.size < path.size) {
+      if (editorState.activeParentPath.size < path.size) {
         // we know the selection is higher than this block, nothing more
-        const parentPathLength = graphState.activeParentPath.size;
-        if (pathEquals(graphState.activeParentPath, path.slice(0, parentPathLength))) {
+        const parentPathLength = editorState.activeParentPath.size;
+        if (pathEquals(editorState.activeParentPath, path.slice(0, parentPathLength))) {
           // we know the selection is on children of this block's parent, nothing more
           const childLocatedBlockId = path.get(parentPathLength);
-          if (isChildBetweenSelection(graphState, childLocatedBlockId)) {
-            // we know this block or its parent is selected, nothing more (sufficient for deep selection)
-            if (graphState.isSelectionByText) {
-              isDeepSelected = true;
-            } else if (parentPathLength + 1 === path.size) {
-              isShallowSelected = true;
+          try {
+            if (isChildBetweenSelection(graphState, editorState, childLocatedBlockId)) {
+              // we know this block or its parent is selected, nothing more (sufficient for deep selection)
+              if (editorState.isSelectionByText) {
+                isDeepSelected = true;
+              } else if (parentPathLength + 1 === path.size) {
+                isShallowSelected = true;
+              }
             }
+          } catch (e) {
+            return { isShallowSelected, isDeepSelected };
           }
         }
       }

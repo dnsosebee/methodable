@@ -47,8 +47,10 @@ export const ViewProvider = (props: IViewProviderProps) => {
   }, [props]);
 
   return (
-    <viewContext.Provider value={{ viewState, viewDispatch }}>
-      {props.children}
-    </viewContext.Provider>
+    <>
+      <viewContext.Provider value={{ viewState, viewDispatch }}>
+        {props.children}
+      </viewContext.Provider>
+    </>
   );
 };

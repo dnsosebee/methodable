@@ -1,4 +1,3 @@
-import { List } from "immutable";
 import { Path, SelectionRange } from "../graph/graph";
 
 export interface IEditorData {
@@ -72,10 +71,3 @@ export const createEditor = (editorData: Readonly<IEditorData>): IEditor => {
   };
   return { ...editorData, ...transitions };
 };
-
-const editor = createEditor({
-  activeParentPath: List(),
-  selectionRange: { start: List(), end: List() },
-  isSelectionActive: false,
-  isSelectionByText: false,
-});

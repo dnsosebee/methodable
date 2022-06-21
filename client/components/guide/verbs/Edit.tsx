@@ -1,8 +1,11 @@
 import { List } from "immutable";
+import { memo } from "react";
+import { blockContentsAreEqual, IBlockContent } from "../../../model/graph/blockContent";
 import { getContentFromPath } from "../../../model/graphWithView";
 import { VERB } from "../../../model/verbs/verb";
-import { getLink, IView, MODE } from "../../../model/view";
+import { getLink, IView, MODE, viewsAreEqual } from "../../../model/view";
 import { Editor } from "../../editor/Editor";
+import { EditorProvider } from "../../editor/EditorProvider";
 import { useGraph } from "../../GraphProvider";
 import { useView, ViewProvider } from "../../ViewProvider";
 import { ContextLine } from "../ContextLine";
@@ -43,13 +46,39 @@ export const EditWorkspace = (props: IWorkspaceProps) => {
       focusPosition: "end",
     } as IView;
     return (
-      <div className="mt-5">
-        <p className="ml-5 italic text-gray-400">{content.humanText}</p>
-        <ViewProvider {...view}>
-          <Editor />
-        </ViewProvider>
-      </div>
+      <InnerEditWorkspace {...{ view, content }} key={`edit-workspace: ${view.rootContentId}`} />
     );
   });
   return <>{editors}</>;
 };
+
+interface IInnerEditWorkspaceProps {
+  view: IView;
+  content: IBlockContent;
+}
+
+const shouldMemo = (prevProps: IInnerEditWorkspaceProps, nextProps: IInnerEditWorkspaceProps) => {
+  console.log("shouldMemo", prevProps, nextProps);
+  console.log(viewsAreEqual(prevProps.view, nextProps.view));
+  console.log(blockContentsAreEqual(prevProps.content, nextProps.content));
+  return (
+    viewsAreEqual(prevProps.view, nextProps.view) &&
+    blockContentsAreEqual(prevProps.content, nextProps.content)
+  );
+};
+
+const InnerEditWorkspace = memo((props: IInnerEditWorkspaceProps) => {
+  console.log("InnerEditWorkspace");
+  console.log(props);
+  const { view, content } = props;
+  return (
+    <div className="mt-5">
+      <p className="ml-5 italic text-gray-400">{content.humanText}</p>
+      <ViewProvider {...view}>
+        <EditorProvider>
+          <Editor />
+        </EditorProvider>
+      </ViewProvider>
+    </div>
+  );
+}, shouldMemo);

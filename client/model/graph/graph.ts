@@ -1,5 +1,6 @@
 // crockford object for state
 import { List, Map } from "immutable";
+import { IEditor } from "../modes/editor";
 import { IVerb } from "../verbs/verb";
 import {
   BlockContentId,
@@ -24,38 +25,12 @@ export type SelectionRange = Readonly<{ start: Path; end: Path }>;
 export type LocationList = List<LocatedBlockId>;
 export type Path = LocationList;
 
-export interface IProgress {
-  content: IBlockContent;
-  locatedChildId: LocatedBlockId;
-}
-
 export interface IGraphData {
-  // graph stuff
   locatedBlocks: Map<LocatedBlockId, ILocatedBlock>;
   blockContents: Map<BlockContentId, IBlockContent>;
-
-  // scheduling dependant state changes
-  dependantDispatches: List<() => void>; // TODO delete
-
-  // editor stuff: should be moved...
-  activeParentPath: Readonly<Path>;
-  selectionRange: Readonly<SelectionRange>;
-  isSelectionActive: Readonly<boolean>;
-  isSelectionByText: Readonly<boolean>;
 }
 
 export interface IGraphTransitions {
-  // no-op transition (to cause re-render)
-  refresh: () => IGraph;
-
-  // selection related
-  setSelectionParent: () => IGraph;
-  startSelection: (path: Path) => IGraph;
-  changeSelection: (path: Path) => IGraph;
-  endSelection: () => IGraph;
-  toggleSelectionType: () => IGraph;
-
-  // block transitions
   updateBlockText: (blockContentId: BlockContentId, humanText: HumanText) => IGraph;
   updateBlockVerb: (blockContentId: BlockContentId, verb: IVerb) => IGraph;
   removeLocatedBlockFromContent: (content: IBlockContent, locatedBlockId: LocatedBlockId) => IGraph;
@@ -82,9 +57,6 @@ export interface IGraphTransitions {
   removeSurroundingBlocks: (LocatedBlock: ILocatedBlock) => IGraph;
   addSurroundingBlocks: (locatedBlock: ILocatedBlock) => IGraph;
   moveChildren: (leftmostChildId: LocatedBlockId, newParentContentId: BlockContentId) => IGraph;
-
-  // dispatch related
-  addDependantDispatch: (dispatch: () => void) => IGraph;
 }
 
 export interface IGraphGetters {
@@ -95,59 +67,6 @@ export interface IGraph extends IGraphData, IGraphTransitions, IGraphGetters {}
 
 export function createGraph(graphData: Readonly<IGraphData>): IGraph {
   const transitions: IGraphTransitions = {
-    // no-op transition (to cause re-render)
-    refresh: () => createGraph(graphData),
-
-    // selection related
-    toggleSelectionType: () => {
-      return createGraph({
-        ...graphData,
-        isSelectionByText: !graphData.isSelectionByText,
-      });
-    },
-    setSelectionParent: (): IGraph => {
-      // must run after selectionRange is updated
-      const { selectionRange } = graphData;
-      const maxParentDepth = Math.min(selectionRange.start.size - 1, selectionRange.end.size - 1);
-      let parentDepth = 0;
-      for (let i = 0; i < maxParentDepth; i++) {
-        if (selectionRange.start.get(i) === selectionRange.end.get(i)) {
-          parentDepth += 1;
-        } else {
-          break;
-        }
-      }
-      return createGraph({
-        ...graphData,
-        activeParentPath: selectionRange.start.slice(0, parentDepth),
-      });
-    },
-    startSelection: (path: Path) => {
-      if (path.size < 1) {
-        throw new Error("Can't select root block");
-      }
-      return createGraph({
-        ...graphData,
-        selectionRange: { start: path, end: path },
-        isSelectionActive: true,
-      }).setSelectionParent();
-    },
-    changeSelection: (path: Path) => {
-      if (path.size < 1) {
-        throw new Error("Can't select root block");
-      }
-      return createGraph({
-        ...graphData,
-        selectionRange: { start: graphData.selectionRange.start, end: path },
-      }).setSelectionParent();
-    },
-    endSelection: () => {
-      return createGraph({
-        ...graphData,
-        isSelectionActive: false,
-      });
-    },
-
     // block transitions
     updateBlockText: (blockContentId: BlockContentId, humanText: HumanText): IGraph => {
       const blockContent = graphData.blockContents.get(blockContentId);
@@ -440,14 +359,6 @@ export function createGraph(graphData: Readonly<IGraphData>): IGraph {
         .moveLocatedBlock(leftmostChildLocatedId, newParentRightmostChildId, newParentContentId)
         .moveChildren(nextLeftmostChildId, newParentContentId);
     },
-
-    // dispatch related
-    addDependantDispatch: (dispatch: () => void): IGraph => {
-      return createGraph({
-        ...graphData,
-        dependantDispatches: graphData.dependantDispatches.push(dispatch),
-      });
-    },
   };
 
   const toString = (): string => {
@@ -493,7 +404,7 @@ export const graphToJson = (graph: IGraph): string => {
 };
 
 // param graph is an existing graph that contains info not in the json
-export const graphFromJson = (json: string, graph: IGraph): IGraph => {
+export const graphFromJson = (json: string): IGraph => {
   const parsed = JSON.parse(json);
   let blockContents: Map<BlockContentId, IBlockContent> = Map();
   let locatedBlocks: Map<LocatedBlockId, ILocatedBlock> = Map();
@@ -532,20 +443,37 @@ export const graphFromJson = (json: string, graph: IGraph): IGraph => {
   const newGraph = createGraph({
     blockContents,
     locatedBlocks,
-    dependantDispatches: graph.dependantDispatches,
-    activeParentPath: graph.activeParentPath,
-    selectionRange: graph.selectionRange,
-    isSelectionActive: graph.isSelectionActive,
-    isSelectionByText: graph.isSelectionByText,
   });
   return newGraph;
 };
 
-export const isChildBetweenSelection = (graph: IGraph, locatedBlockId: LocatedBlockId) => {
-  const parentPathLength = graph.activeParentPath.size;
-  const bound1 = graph.selectionRange.start.get(parentPathLength);
-  const bound2 = graph.selectionRange.end.get(parentPathLength);
+export const isChildBetweenSelection = (
+  graph: IGraph,
+  editor: IEditor,
+  locatedBlockId: LocatedBlockId
+) => {
+  const parentPathLength = editor.activeParentPath.size;
+  const bound1 = editor.selectionRange.start.get(parentPathLength);
+  const bound2 = editor.selectionRange.end.get(parentPathLength);
   const bound1LocatedBlock = graph.locatedBlocks.get(bound1);
   const parentContent = graph.blockContents.get(bound1LocatedBlock.parentId);
   return parentContent.isChildBetween(locatedBlockId, bound1, bound2);
+};
+
+export const locationListAreEqual = (a: LocationList, b: LocationList): boolean => {
+  if (!a && !b) {
+    return true;
+  }
+  if (!a || !b) {
+    return false;
+  }
+  if (a.size !== b.size) {
+    return false;
+  }
+  for (let i = 0; i < a.size; i++) {
+    if (a.get(i) !== b.get(i)) {
+      return false;
+    }
+  }
+  return true;
 };

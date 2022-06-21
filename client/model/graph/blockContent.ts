@@ -3,7 +3,7 @@
 import { List } from "immutable";
 import { rightPad } from "../../lib/loggers";
 import { createVerb, IVerb, VERB } from "../verbs/verb";
-import { LocationList, UserId } from "./graph";
+import { LocationList, locationListAreEqual, UserId } from "./graph";
 import { LocatedBlockId } from "./locatedBlock";
 
 export type BlockContentId = string;
@@ -236,4 +236,16 @@ export const contentFromJson = (json): IBlockContent => {
     locatedBlocks: List(),
     archived: json.archived,
   });
+};
+
+export const blockContentsAreEqual = (a: IBlockContent, b: IBlockContent) => {
+  return (
+    a.id === b.id &&
+    a.verb.name === b.verb.name &&
+    a.humanText === b.humanText &&
+    a.userId === b.userId &&
+    a.archived === b.archived &&
+    locationListAreEqual(a.locatedBlocks, b.locatedBlocks) &&
+    locationListAreEqual(a.childLocatedBlocks, b.childLocatedBlocks)
+  );
 };

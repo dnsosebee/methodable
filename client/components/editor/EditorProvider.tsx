@@ -21,8 +21,6 @@ export const useEditor = (): IEditorContext => {
 };
 
 export interface IEditorProviderProps {
-  showContext?: boolean;
-  showSubtasks?: boolean;
   children: React.ReactNode;
 }
 

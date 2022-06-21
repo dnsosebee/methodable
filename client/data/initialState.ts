@@ -104,9 +104,4 @@ export const initialGraphState: IGraph = createGraph({
     "content-b": contentB,
     "content-c": contentC,
   }),
-  dependantDispatches: List(),
-  activeParentPath: List([]),
-  selectionRange: { start: List([]), end: List([]) },
-  isSelectionActive: false,
-  isSelectionByText: false,
 });
