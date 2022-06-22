@@ -20,6 +20,7 @@ import { IEditor } from "../../model/modes/editor";
 import { createVerb, VERB } from "../../model/verbs/verb";
 import { useGraph } from "../GraphProvider";
 import { Guide } from "../guide/Guide";
+import { useGuide } from "../guide/GuideProvider";
 import { useView } from "../ViewProvider";
 import { Wrapper } from "../Wrapper";
 import { Block, IBlockProps } from "./block/Block";
@@ -30,7 +31,15 @@ export const Editor = () => {
   const { graphState, graphDispatch } = useGraph();
   const { viewState } = useView();
   const { editorState, editorDispatch } = useEditor();
-  const [isPreviewActive, setIsPreviewActive] = useState(false);
+  const [isPreviewActive, setIsPreviewActive] = useState(true);
+  try {
+    const { guideState } = useGuide();
+    if (isPreviewActive) {
+      setIsPreviewActive(false);
+    }
+  } catch (e) {
+    // just using the try-catch to see if we're in a guide page
+  }
 
   const rootContent = getContentFromPath(graphState, viewState, {});
 

@@ -2,7 +2,6 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 const Header = () => {
   const { user } = useUser();
@@ -14,13 +13,6 @@ const Header = () => {
             <Image src="/intensh-logo.png" width="30px" height="30px" />
           </a>
         </Link>
-        <button
-          onClick={() => {
-            console.log("\n\n");
-          }}
-        >
-          log space
-        </button>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
           {/* {user && (
             <div className="flex itemx-center justify-center mr-5 capitalize bg-blue-500 py-1 px-3 rounded-md text-white">

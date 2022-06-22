@@ -8,11 +8,13 @@ import { LocatedBlockId } from "./locatedBlock";
 
 export type BlockContentId = string;
 export type HumanText = string;
+export type ComputerText = string;
 
 export interface IBlockContentPersistentData {
   id: Readonly<BlockContentId>;
   verb: Readonly<IVerb>;
   humanText: Readonly<HumanText>;
+  computerText: Readonly<ComputerText>;
   userId: Readonly<UserId>;
   archived: Readonly<boolean>;
 }
@@ -225,12 +227,16 @@ export const contentFromJson = (json): IBlockContent => {
   if (!json.archived) {
     json.archived = false;
   }
+  if (!json.computerText) {
+    json.computerText = null;
+  }
 
   const blockVerb = createVerb(VERB[verbType]);
   return createBlockContent({
     id: json.id,
     verb: blockVerb,
     humanText: json.humanText,
+    computerText: json.computerText,
     userId: json.userId,
     childLocatedBlocks: List(),
     locatedBlocks: List(),

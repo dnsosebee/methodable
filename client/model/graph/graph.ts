@@ -201,6 +201,7 @@ export function createGraph(graphData: Readonly<IGraphData>): IGraph {
         id: newBlockContentId,
         verb,
         humanText,
+        computerText: "",
         userId: "TODO",
         childLocatedBlocks: List(),
         locatedBlocks: List(),

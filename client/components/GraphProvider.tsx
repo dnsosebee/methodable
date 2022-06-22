@@ -4,9 +4,14 @@ import { isDev } from "../lib/helpers";
 import { logTime } from "../lib/loggers";
 import { graphFromJson, graphToJson, IGraph } from "../model/graph/graph";
 
+export type GenericGraphAction = GraphAction | { graphFromStorage: IGraph };
 export type GraphAction = (state: Readonly<IGraph>) => IGraph;
 
-const graphReducer = (oldGraph: IGraph, action: GraphAction): IGraph => {
+const graphReducer = (oldGraph: IGraph, action: GenericGraphAction): IGraph => {
+  if (typeof action === "object") {
+    console.log("GraphProvider: updating graph from storage");
+    return action.graphFromStorage;
+  }
   let oldTime = Date.now();
   const graph = action(oldGraph);
   let newTime = Date.now();
@@ -28,7 +33,8 @@ const graphReducer = (oldGraph: IGraph, action: GraphAction): IGraph => {
   newTime = Date.now();
   logTime("time to validate graph: " + (newTime - oldTime));
   oldTime = newTime;
-  localStorage.setItem("graph", graphToJson(graph));
+  const newGraphJson = graphToJson(graph);
+  localStorage.setItem("graph", newGraphJson);
   newTime = Date.now();
   logTime("time to save graph: " + (newTime - oldTime));
   oldTime = newTime;
@@ -172,10 +178,15 @@ export type GraphActionWithSideEffect = (state: Readonly<IGraph>) => {
 export const GraphProvider = (props: IGraphProviderProps) => {
   const storedState = localStorage.getItem("graph");
   const initialState = storedState ? graphFromJson(storedState) : initialGraphState;
-  const [graphState, graphDispatch] = useReducer<React.Reducer<IGraph, GraphAction>>(
+  let [graphState, graphDispatch] = useReducer<React.Reducer<IGraph, GenericGraphAction>>(
     graphReducer,
     initialState
   );
+
+  window.addEventListener("storage", function namedListener() {
+    window.removeEventListener("storage", namedListener);
+    graphDispatch({ graphFromStorage: graphFromJson(localStorage.getItem("graph")) });
+  });
 
   return (
     <graphContext.Provider value={{ graphState, graphDispatch }}>
