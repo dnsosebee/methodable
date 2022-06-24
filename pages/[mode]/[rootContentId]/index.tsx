@@ -35,7 +35,7 @@ const Container = () => {
     focusPosition: null,
   };
   return (
-    <Tool>
+    <Tool {...viewProps}>
       <View {...viewProps} />
     </Tool>
   );

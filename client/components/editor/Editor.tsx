@@ -33,7 +33,7 @@ export const Editor = () => {
   const { graphState, graphDispatch } = useGraph();
   const { viewState, viewDispatch } = useView();
   const { editorState, editorDispatch } = useEditor();
-  const [isPreviewActive, setIsPreviewActive] = useState(true);
+  const [isPreviewActive, setIsPreviewActive] = useState(false);
   // try {
   //   const { guideState } = useGuide();
   //   if (isPreviewActive) {
@@ -159,7 +159,9 @@ export const Editor = () => {
       blockContents,
     };
     const graphStateJson = graphToJson(stateToSave);
-
+    // alert(
+    //   `You are saving a copy of everything within the scope of the program: ${content.humanText}\n\nTo save a different program, go to the page for that program, then click the "Save" button.`
+    // );
     try {
       const newHandle = await window.showSaveFilePicker({
         suggestedName: `${content.humanText
@@ -312,15 +314,18 @@ export const Editor = () => {
               Save Programs
             </button> */}
             <button onClick={saveProgramHandler} className={buttonClasses(true)}>
-              Save Program
+              Save
             </button>
             {/* <button onClick={loadHandler} className={buttonClasses(true)}>
               Load Programs
             </button> */}
             <button onClick={addHandler} className={buttonClasses(true)}>
-              Add Program
+              Load
             </button>
-            <button onClick={togglePreview} className={buttonClasses(true)}>
+            <button
+              onClick={togglePreview}
+              className={`${buttonClasses(true)} bg-blue-100 hover:bg-blue-200`}
+            >
               {isPreviewActive ? "Hide Preview" : "Show Preview"}
             </button>
           </div>
