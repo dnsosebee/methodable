@@ -124,7 +124,8 @@ export const Block = (props: IBlockProps) => {
     onToggle: () => setCollapsed(!collapsed),
   };
 
-  const shouldRenderRunButton = props.content.verb.isWorkspace() === false;
+  const shouldRenderRunButton =
+    props.content.verb.isWorkspace() === false && props.content.verb.name !== VERB.ANSWER;
   const shallowSelectedClasses = props.isShallowSelected
     ? "shadow-[inset_0px_0px_5px_7px_rgba(0,100,256,0.15)]"
     : "";
@@ -158,7 +159,7 @@ export const Block = (props: IBlockProps) => {
           <VerbSelect {...verbSelectProps}></VerbSelect>
           <RefCount {...refCountProps} />
           <BlockText {...blockTextProps} />
-          {shouldRenderRunButton && <RunButton {...{ contentId: props.content.id }} />}
+          {shouldRenderRunButton && <RunButton {...{ contentId: props.content.id, isRoot }} />}
         </div>
         {childBlocks.size > 0 && !collapsed && childBlocks}
       </div>
