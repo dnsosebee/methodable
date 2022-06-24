@@ -17,7 +17,6 @@ export const PATH_SEPARATOR = ";";
 const Container = () => {
   const router = useRouter();
   let { mode, rootContentId } = router.query;
-  console.log(mode, rootContentId);
   if (mode instanceof Array) {
     mode = mode[0];
   }

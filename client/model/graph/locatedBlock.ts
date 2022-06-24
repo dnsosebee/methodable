@@ -21,6 +21,7 @@ interface ILocatedBlockTransitions {
   setParentId: (parentId: BlockContentId) => ILocatedBlock;
   setContentId: (contentId: BlockContentId) => ILocatedBlock;
   setArchived: (archived: boolean) => ILocatedBlock;
+  setId: (id: LocatedBlockId) => ILocatedBlock;
 }
 
 interface ILocatedBlockGetters {
@@ -45,6 +46,9 @@ export function createLocatedBlock(data: Readonly<ILocatedBlockData>): ILocatedB
     },
     setArchived: (archived: boolean) => {
       return createLocatedBlock({ ...data, archived });
+    },
+    setId: (id: LocatedBlockId) => {
+      return createLocatedBlock({ ...data, id });
     },
   };
   const toString = () => {

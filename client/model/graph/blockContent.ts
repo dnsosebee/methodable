@@ -36,6 +36,7 @@ export interface IBlockContentTransitions {
   addLocation: (id: LocatedBlockId) => IBlockContent;
   removeLocation: (id: LocatedBlockId) => IBlockContent;
   setArchived: (archived: boolean) => IBlockContent;
+  setId: (id: BlockContentId) => IBlockContent;
 }
 
 export interface IBlockContentGetters {
@@ -121,6 +122,9 @@ export function createBlockContent(blockContentData: Readonly<IBlockContentData>
     },
     setArchived: (archived: boolean) => {
       return createBlockContent({ ...blockContentData, archived });
+    },
+    setId: (id: BlockContentId) => {
+      return createBlockContent({ ...blockContentData, id });
     },
   };
 
@@ -228,7 +232,7 @@ export const contentFromJson = (json): IBlockContent => {
     json.archived = false;
   }
   if (!json.computerText) {
-    json.computerText = null;
+    json.computerText = "";
   }
 
   const blockVerb = createVerb(VERB[verbType]);

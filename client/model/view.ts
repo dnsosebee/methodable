@@ -96,10 +96,6 @@ export const getLink = (viewState: IView, view: Partial<IView>): string => {
 };
 
 export const viewsAreEqual = (a: IView, b: IView): boolean => {
-  console.log("viewsAreEqual", a, b);
-  console.log(a.mode === b.mode);
-  console.log(a.rootContentId === b.rootContentId);
-  console.log(a.focusPosition === b.focusPosition);
   return (
     a.mode === b.mode &&
     a.rootContentId === b.rootContentId &&

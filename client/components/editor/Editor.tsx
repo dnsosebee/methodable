@@ -9,18 +9,20 @@ import { logAction, logKeyEvent } from "../../lib/loggers";
 import { BlockContentId, IBlockContent } from "../../model/graph/blockContent";
 import { fullBlockFromLocatedBlockId, IFullBlock } from "../../model/graph/fullBlock";
 import {
+  cloneGraph,
+  createGraph,
   graphFromJson,
   graphToJson,
   IGraph,
   isChildBetweenSelection,
 } from "../../model/graph/graph";
-import { createLocatedBlock, ILocatedBlock, LocatedBlockId } from "../../model/graph/locatedBlock";
+import { ILocatedBlock, LocatedBlockId } from "../../model/graph/locatedBlock";
 import { getContentFromPath } from "../../model/graphWithView";
 import { IEditor } from "../../model/modes/editor";
 import { createVerb, VERB } from "../../model/verbs/verb";
+import { createView, IView } from "../../model/view";
 import { useGraph } from "../GraphProvider";
 import { Guide } from "../guide/Guide";
-import { useGuide } from "../guide/GuideProvider";
 import { useView } from "../ViewProvider";
 import { Wrapper } from "../Wrapper";
 import { Block, IBlockProps } from "./block/Block";
@@ -29,19 +31,24 @@ import { useEditor } from "./EditorProvider";
 
 export const Editor = () => {
   const { graphState, graphDispatch } = useGraph();
-  const { viewState } = useView();
+  const { viewState, viewDispatch } = useView();
   const { editorState, editorDispatch } = useEditor();
   const [isPreviewActive, setIsPreviewActive] = useState(true);
-  try {
-    const { guideState } = useGuide();
-    if (isPreviewActive) {
-      setIsPreviewActive(false);
-    }
-  } catch (e) {
-    // just using the try-catch to see if we're in a guide page
-  }
+  // try {
+  //   const { guideState } = useGuide();
+  //   if (isPreviewActive) {
+  //     setIsPreviewActive(false);
+  //   }
+  // } catch (e) {
+  //   // just using the try-catch to see if we're in a guide page
+  // }
 
-  const rootContent = getContentFromPath(graphState, viewState, {});
+  let rootContent;
+  try {
+    rootContent = getContentFromPath(graphState, viewState, {});
+  } catch {
+    return null;
+  }
 
   const rootBlockProps: IBlockProps = {
     path: List(),
@@ -113,28 +120,27 @@ export const Editor = () => {
     rootRelativePath: viewState.rootRelativePath,
   };
 
-  const saveHandler = async () => {
-    const graphStateJson = graphToJson(graphState);
-    try {
-      const newHandle = await window.showSaveFilePicker({ suggestedName: "my_programs.json" });
-      const writableStream = await newHandle.createWritable();
-      await writableStream.write(graphStateJson);
-      await writableStream.close();
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  // const saveHandler = async () => {
+  //   const graphStateJson = graphToJson(graphState);
+  //   try {
+  //     const newHandle = await window.showSaveFilePicker({ suggestedName: "my_programs.json" });
+  //     const writableStream = await newHandle.createWritable();
+  //     await writableStream.write(graphStateJson);
+  //     await writableStream.close();
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
 
+  // currently it's unnecessary to clone here, since we clone on add/load
   const saveProgramHandler = async () => {
     const content = getContentFromPath(graphState, viewState, {});
-    const fullBlocks: IFullBlock[] = [];
+    let fullBlocks: Map<LocatedBlockId, IFullBlock> = Map();
     const addFullBlocks = (content: IBlockContent) => {
       content.childLocatedBlocks.forEach((childLocatedId) => {
-        if (
-          fullBlocks.find((fullBlock) => fullBlock.locatedBlock.id === childLocatedId) === undefined
-        ) {
+        if (!fullBlocks.has(childLocatedId)) {
           const childFullBlock = fullBlockFromLocatedBlockId(graphState, childLocatedId);
-          fullBlocks.push(childFullBlock);
+          fullBlocks = fullBlocks.set(childLocatedId, childFullBlock);
           addFullBlocks(childFullBlock.blockContent);
         }
       });
@@ -146,21 +152,7 @@ export const Editor = () => {
       locatedBlocks = locatedBlocks.set(fullBlock.locatedBlock.id, fullBlock.locatedBlock);
       blockContents = blockContents.set(fullBlock.blockContent.id, fullBlock.blockContent);
     });
-
-    // give root content a location... this is due to a problem with the data model, and how things are loaded
-    // TODO should be fixed, but part of a larger update
-    const rootLocation: ILocatedBlock = createLocatedBlock({
-      id: "root",
-      contentId: content.id,
-      userId: "TODO",
-      blockStatus: "not started",
-      parentId: null,
-      leftId: null,
-      archived: false,
-    });
-    const updatedContent = content.addLocation(rootLocation.id);
-    blockContents = blockContents.set(content.id, updatedContent);
-    locatedBlocks = locatedBlocks.set(rootLocation.id, rootLocation);
+    blockContents = blockContents.set(content.id, content);
     const stateToSave: IGraph = {
       ...graphState,
       locatedBlocks,
@@ -169,7 +161,12 @@ export const Editor = () => {
     const graphStateJson = graphToJson(stateToSave);
 
     try {
-      const newHandle = await window.showSaveFilePicker({ suggestedName: "my_program.json" });
+      const newHandle = await window.showSaveFilePicker({
+        suggestedName: `${content.humanText
+          .substring(0, 20)
+          .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "")
+          .replace(/ /g, "_")}.method`,
+      });
       const writableStream = await newHandle.createWritable();
       await writableStream.write(graphStateJson);
       await writableStream.close();
@@ -178,14 +175,39 @@ export const Editor = () => {
     }
   };
 
-  const loadHandler = async () => {
+  // const loadHandler = async () => {
+  //   try {
+  //     const [fileHandle] = await window.showOpenFilePicker({
+  //       types: [
+  //         {
+  //           description: "JSON",
+  //           accept: {
+  //             "application/*": [".json"],
+  //           },
+  //         },
+  //       ],
+  //       excludeAcceptAllOption: true,
+  //       multiple: false,
+  //     });
+
+  //     // get file contents
+  //     const fileData = await fileHandle.getFile();
+  //     const stringData = await fileData.text();
+  //     graphDispatch((state: IGraph): IGraph => {
+  //       return graphFromJson(stringData);
+  //     });
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+
+  const addHandler = async () => {
     try {
       const [fileHandle] = await window.showOpenFilePicker({
         types: [
           {
-            description: "JSON",
             accept: {
-              "application/*": [".json"],
+              "application/*": [".method"],
             },
           },
         ],
@@ -196,8 +218,32 @@ export const Editor = () => {
       // get file contents
       const fileData = await fileHandle.getFile();
       const stringData = await fileData.text();
+      // clone to avoid collisions
+      let incomingGraph: IGraph = cloneGraph(graphFromJson(stringData));
+      const incomingRootContent = incomingGraph.blockContents.find((value) => {
+        return value.locatedBlocks.size === 0;
+      });
       graphDispatch((state: IGraph): IGraph => {
-        return graphFromJson(stringData);
+        const updatedGraph = createGraph({
+          blockContents: state.blockContents.merge(incomingGraph.blockContents),
+          locatedBlocks: state.locatedBlocks.merge(incomingGraph.locatedBlocks),
+        });
+        const newLocatedBlockId = crypto.randomUUID();
+        viewDispatch((state: IView): IView => {
+          return createView({
+            mode: state.mode,
+            rootContentId: "home",
+            rootRelativePath: List([newLocatedBlockId]),
+            focusPath: List(),
+            focusPosition: "end",
+          });
+        });
+        return updatedGraph.insertNewLocatedBlock(
+          null,
+          "home",
+          incomingRootContent.id,
+          newLocatedBlockId
+        );
       });
     } catch (e) {
       console.error(e);
@@ -262,14 +308,17 @@ export const Editor = () => {
             >
               delete references
             </button>
-            <button onClick={saveHandler} className={buttonClasses(true)}>
+            {/* <button onClick={saveHandler} className={buttonClasses(true)}>
               Save Programs
-            </button>
+            </button> */}
             <button onClick={saveProgramHandler} className={buttonClasses(true)}>
               Save Program
             </button>
-            <button onClick={loadHandler} className={buttonClasses(true)}>
+            {/* <button onClick={loadHandler} className={buttonClasses(true)}>
               Load Programs
+            </button> */}
+            <button onClick={addHandler} className={buttonClasses(true)}>
+              Add Program
             </button>
             <button onClick={togglePreview} className={buttonClasses(true)}>
               {isPreviewActive ? "Hide Preview" : "Show Preview"}

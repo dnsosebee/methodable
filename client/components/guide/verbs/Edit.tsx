@@ -58,9 +58,6 @@ interface IInnerEditWorkspaceProps {
 }
 
 const shouldMemo = (prevProps: IInnerEditWorkspaceProps, nextProps: IInnerEditWorkspaceProps) => {
-  console.log("shouldMemo", prevProps, nextProps);
-  console.log(viewsAreEqual(prevProps.view, nextProps.view));
-  console.log(blockContentsAreEqual(prevProps.content, nextProps.content));
   return (
     viewsAreEqual(prevProps.view, nextProps.view) &&
     blockContentsAreEqual(prevProps.content, nextProps.content)
@@ -68,8 +65,6 @@ const shouldMemo = (prevProps: IInnerEditWorkspaceProps, nextProps: IInnerEditWo
 };
 
 const InnerEditWorkspace = memo((props: IInnerEditWorkspaceProps) => {
-  console.log("InnerEditWorkspace");
-  console.log(props);
   const { view, content } = props;
   return (
     <div className="mt-5">

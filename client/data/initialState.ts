@@ -17,7 +17,7 @@ import { createVerb, VERB } from "../model/verbs/verb";
 
 const rootLocatedData: ILocatedBlockData = {
   id: "located-root",
-  contentId: "content-a",
+  contentId: "home",
   userId: "TODO",
   blockStatus: "not started",
   parentId: null,
@@ -31,7 +31,7 @@ const child1LocatedData: ILocatedBlockData = {
   contentId: "content-b",
   userId: "TODO",
   blockStatus: "not started",
-  parentId: "content-a",
+  parentId: "home",
   leftId: null,
   archived: false,
 };
@@ -42,7 +42,7 @@ const child2LocatedData: ILocatedBlockData = {
   contentId: "content-c",
   userId: "TODO",
   blockStatus: "not started",
-  parentId: "content-a",
+  parentId: "home",
   leftId: "located-child1",
   archived: false,
 };
@@ -53,14 +53,14 @@ const child3LocatedData: ILocatedBlockData = {
   contentId: "content-c",
   userId: "TODO",
   blockStatus: "not started",
-  parentId: "content-a",
+  parentId: "home",
   leftId: "located-child2",
   archived: false,
 };
 const child3Located = createLocatedBlock(child3LocatedData);
 
-const contentAData: IBlockContentData = {
-  id: "content-a",
+const rootContentData: IBlockContentData = {
+  id: "home",
   verb: createVerb(VERB.DO),
   humanText: "Do the following things",
   computerText: "",
@@ -69,7 +69,7 @@ const contentAData: IBlockContentData = {
   locatedBlocks: List([rootLocated.id]),
   archived: false,
 };
-const contentA = createBlockContent(contentAData);
+const rootContent = createBlockContent(rootContentData);
 
 const contentBData: IBlockContentData = {
   id: "content-b",
@@ -103,7 +103,7 @@ export const initialGraphState: IGraph = createGraph({
     "located-child3": child3Located,
   }),
   blockContents: Map<BlockContentId, IBlockContent>({
-    "content-a": contentA,
+    home: rootContent,
     "content-b": contentB,
     "content-c": contentC,
   }),

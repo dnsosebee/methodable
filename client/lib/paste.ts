@@ -49,7 +49,6 @@ export const pasteActionGenerator =
     const blockCreationArgs: IBlockCreationArg[] = clipboardVal.split("\n").map((line) => {
       return getBlockCreationArg(line, state, viewState);
     });
-    console.log(viewState);
     let currentGraphState = state;
     let currentLocatedBlock = currentGraphState.locatedBlocks.get(pasteLocationId);
     let currentBlockContent = currentGraphState.blockContents.get(currentLocatedBlock.contentId);

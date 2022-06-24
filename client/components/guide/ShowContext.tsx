@@ -21,7 +21,7 @@ export const ShowContext = (props: IShowContextProps) => {
           ? "▼ back to focus mode"
           : props.text
           ? props.text
-          : "▶︎ show justification"}
+          : "▶︎ show context"}
       </button>
       <div className="ml-5">
         {showContext ? props.children : null}

@@ -38,10 +38,8 @@ export const enterPressActionGenerator =
       // if the old block has no children and isn't root, we add a sibling after the old block
       const newPath = path.splice(-1, 1, newLocatedBlockId);
       viewDispatch((state: IView): IView => {
-        console.log("pathDispatched");
         return state.setFocus(newPath, "start");
       });
-      console.log("graphDispatched");
       return state
         .insertNewBlock(
           locatedBlock.id,

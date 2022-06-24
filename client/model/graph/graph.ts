@@ -478,3 +478,49 @@ export const locationListAreEqual = (a: LocationList, b: LocationList): boolean 
   }
   return true;
 };
+
+export const cloneGraph = (graph: IGraph): IGraph => {
+  let idMap: Map<string, string> = Map();
+  const fromIdMap = (id: string): string => {
+    if (!id) {
+      return id;
+    }
+    if (idMap.has(id)) {
+      return idMap.get(id);
+    }
+    const newId = crypto.randomUUID();
+    idMap = idMap.set(id, newId);
+    return newId;
+  };
+  let locatedBlocks = Map<LocatedBlockId, ILocatedBlock>();
+  let blockContents = Map<BlockContentId, IBlockContent>();
+  graph.blockContents.forEach((blockContent) => {
+    const id = fromIdMap(blockContent.id);
+    blockContents = blockContents.set(
+      id,
+      createBlockContent({
+        ...blockContent,
+        id,
+        locatedBlocks: blockContent.locatedBlocks.map((locatedBlockId) =>
+          fromIdMap(locatedBlockId)
+        ),
+        childLocatedBlocks: blockContent.childLocatedBlocks.map((locatedBlockId) =>
+          fromIdMap(locatedBlockId)
+        ),
+      })
+    );
+  });
+  graph.locatedBlocks.forEach((locatedBlock) => {
+    const id = fromIdMap(locatedBlock.id);
+    locatedBlocks = locatedBlocks.set(
+      id,
+      locatedBlock
+        .setId(id)
+        .setLeftId(fromIdMap(locatedBlock.leftId))
+        .setContentId(fromIdMap(locatedBlock.contentId))
+        .setParentId(fromIdMap(locatedBlock.parentId))
+    );
+  });
+  const result = createGraph({ locatedBlocks, blockContents });
+  return result;
+};
