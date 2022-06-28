@@ -120,17 +120,17 @@ export const Editor = () => {
     rootRelativePath: viewState.rootRelativePath,
   };
 
-  // const saveHandler = async () => {
-  //   const graphStateJson = graphToJson(graphState);
-  //   try {
-  //     const newHandle = await window.showSaveFilePicker({ suggestedName: "my_programs.json" });
-  //     const writableStream = await newHandle.createWritable();
-  //     await writableStream.write(graphStateJson);
-  //     await writableStream.close();
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
+  const saveHandler = async () => {
+    const graphStateJson = graphToJson(graphState);
+    try {
+      const newHandle = await window.showSaveFilePicker({ suggestedName: "my_programs.json" });
+      const writableStream = await newHandle.createWritable();
+      await writableStream.write(graphStateJson);
+      await writableStream.close();
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   // currently it's unnecessary to clone here, since we clone on add/load
   const saveProgramHandler = async () => {
@@ -310,9 +310,9 @@ export const Editor = () => {
             >
               delete references
             </button>
-            {/* <button onClick={saveHandler} className={buttonClasses(true)}>
+            <button onClick={saveHandler} className={buttonClasses(true)}>
               Save Programs
-            </button> */}
+            </button>
             <button onClick={saveProgramHandler} className={buttonClasses(true)}>
               Save
             </button>

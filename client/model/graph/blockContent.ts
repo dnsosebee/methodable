@@ -65,6 +65,7 @@ const shortcuts = {
   "a:": VERB.ANSWER,
   "r:": VERB.READ,
   "e:": VERB.EDIT,
+  "#:": VERB.COMMENT,
 };
 
 export function createBlockContent(blockContentData: Readonly<IBlockContentData>): IBlockContent {

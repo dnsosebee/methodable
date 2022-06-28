@@ -12,6 +12,7 @@ import { IGraph, Path } from "../graph/graph";
 import { LocatedBlockId } from "../graph/locatedBlock";
 import { answerGetters } from "./answer";
 import { chooseGetters } from "./choose";
+import { commentGetters } from "./comment";
 import { doGetters } from "./do";
 import { editGetters } from "./edit";
 import { readGetters } from "./read";
@@ -26,6 +27,7 @@ export enum VERB {
   VIEW = "VIEW",
   EDIT = "EDIT",
   ANSWER = "ANSWER",
+  COMMENT = "COMMENT",
 }
 
 export interface IVerbGetters {
@@ -61,6 +63,8 @@ const verbGetters = (name: VERB): IVerbGetters => {
       return viewGetters;
     case VERB.EDIT:
       return editGetters;
+    case VERB.COMMENT:
+      return commentGetters;
     case VERB.UNDEFINED:
       return undefinedGetters;
     default:
@@ -90,7 +94,7 @@ export function createVerb(name: VERB): IVerb {
 
   const getNext = (): IVerb => {
     if (VERB_ORDER.indexOf(name) === -1) {
-      throw new Error(`Block type has no successor: ${String(name)}`);
+      return createVerb(VERB.DO);
     }
     const nextIndex = (VERB_ORDER.indexOf(name) + 1) % VERB_ORDER.length;
     return createVerb(VERB_ORDER[nextIndex]);
