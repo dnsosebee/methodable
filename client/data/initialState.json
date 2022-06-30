@@ -1,1 +1,2124 @@
-{"blockContents":[{"id":"8270a101-c85b-4b3f-b2d3-175da4bfb574","verb":"DO","humanText":"Think about whether you can reasonably complete this list within your current work session. If not, consider removing some goals. It always feels better to get everything done!","userId":"TODO","archived":false},{"id":"21781233-4437-4f63-af27-de2658b5ba48","verb":"EDIT","humanText":"The block types","userId":"TODO","archived":false},{"id":"65f241ab-8524-43f1-be84-2b658acde436","verb":"DO","humanText":"Come up with a goal, or multiple goals for the work session, and write them below as separate blocks. They can be very vague and fuzzy, that's okay! Examples: \"Make progress towards...\" or \"finish [some goal]...\"","userId":"TODO","archived":false},{"id":"5bdfab51-a374-4d86-99a2-2be3c18585de","verb":"READ","humanText":"This guide is for anyone who wants to create their first (or second, or third) pull request on Github!","userId":"TODO","archived":false},{"id":"b7d58295-58bc-4bfb-90d3-478147d203d9","verb":"READ","humanText":"You're all done for now! Goodbye til next time.","userId":"TODO","archived":false},{"id":"dee5744f-58fa-4d72-b03e-9e40a9130c10","verb":"READ","humanText":"I plan to work from...","userId":"TODO","archived":false},{"id":"51993e38-38c7-4f2c-9cf5-42c8b1ebda67","verb":"CHOOSE","humanText":"Would you like a quick tour of the Methodable editor?","userId":"TODO","archived":false},{"id":"8841e1de-09e3-4d9b-a93e-4fc9b32cb733","verb":"DO","humanText":"This is a 'Do' block","userId":"TODO","archived":false},{"id":"54222694-bb0f-4eb9-b06b-4fc35e736641","verb":"READ","humanText":"'Do' blocks","userId":"TODO","archived":false},{"id":"1993ee98-6e32-4e76-bee9-955d790db688","verb":"READ","humanText":"If you don't know how to do that stuff, don't worry! You can always stick to outlining goals and tasks with \"Do\" type blocks (blocks with the blue running emoji). By default, the blocks you create will be of this type.","userId":"TODO","archived":false},{"id":"4e7be33b-47e2-4b2b-b775-77e4a6ee2b82","verb":"DO","humanText":"Example program","userId":"TODO","archived":false},{"id":"2ab8d62b-bdb2-4390-bb0d-0fb5b05edecf","verb":"DO","humanText":"Fill out your task list with specific tasks to do during this work session. ","userId":"TODO","archived":false},{"id":"2b702349-ec5e-41ad-9bde-3aff6f8d1156","verb":"READ","humanText":"...","userId":"TODO","archived":false},{"id":"94e1e0c8-7c86-421d-8469-594c00e4aa3d","verb":"DO","humanText":"Create a pull request on Github","userId":"TODO","archived":false},{"id":"9f7a5608-0d34-47f4-a430-f253a8b8cc54","verb":"ANSWER","humanText":"No, I'd like to go straight to my programs.","userId":"TODO","archived":false},{"id":"70eec500-fb66-4cd7-9b2a-06c8368c6523","verb":"READ","humanText":"Welcome to a very early version of Methodable! Methodable generates interactive guides to help people get things done.","userId":"TODO","archived":false},{"id":"1b593bd6-1e5c-48f4-9b8c-30bfc33e015b","verb":"EDIT","humanText":"A program with lots of 'Do' blocks","userId":"TODO","archived":false},{"id":"48915cef-a3ac-4f79-8299-8d4b56ee4f49","verb":"READ","humanText":"Better human-programming software could not only improve our ability to express our existing workflows, it could allow us to express and complete workflows that are currently unimaginable.","userId":"TODO","archived":false},{"id":"acc16f9b-3bac-4187-bf11-1c4bb7c4ed4b","verb":"READ","humanText":"These guides can be referred to as \"human programs\".","userId":"TODO","archived":false},{"id":"0f03fa03-3ec4-4b64-8b72-f03795e4f2ad","verb":"DO","humanText":"For each task in your list, think, is this task clear and doable? If not, either clarify it (by editing the task or adding subtasks), or delete it.","userId":"TODO","archived":false},{"id":"cb6d22e3-16d9-48f6-bae8-49e375ed43b3","verb":"DO","humanText":"Learn how to create guides with the Methodable editor.","userId":"TODO","archived":false},{"id":"cfcd524b-8242-491b-b0d4-afe1a156f448","verb":"READ","humanText":"There are five block types, which you can see below. I'll explain each of them next.","userId":"TODO","archived":false},{"id":"0707e611-372b-4439-9f15-7558be962c3e","verb":"READ","humanText":"Why are human programs important?","userId":"TODO","archived":false},{"id":"8f1ccf4e-3a50-4c7f-a60d-b0f49aadfc77","verb":"READ","humanText":"1. Reflect on what you've accomplished","userId":"TODO","archived":false},{"id":"0734d147-1e02-435d-b6a5-c8138c884c9d","verb":"DO","humanText":"example first step","userId":"TODO","archived":false},{"id":"d3f6dafa-e53c-421c-a01b-9fdea0bc8458","verb":"READ","humanText":"In the paper age, we used numbered lists and flow charts to represent sequences of instructions for humans.","userId":"TODO","archived":false},{"id":"4daf794d-f4b9-42ca-bc07-9117a73afb2b","verb":"READ","humanText":"'Do' blocks represent things to do, in the imperative form (e.g. \"go on a walk\"). These can be tasks or goals or programs: it's all the same.","userId":"TODO","archived":false},{"id":"55ca0243-277a-4569-9a79-eafa3782d30f","verb":"READ","humanText":"A pull request allows you to make changes to a codebase, submit those changes for review, and finally merge your changes into a version of the codebase. Pull requests are a great system to use when working collaboratively on a shared codebase, or when suggesting changes to someone else's codebase.","userId":"TODO","archived":false},{"id":"f21a07ba-e77a-4bed-aedc-6a31110c25d9","verb":"EDIT","humanText":"For reference: your intention statement","userId":"TODO","archived":false},{"id":"f7259de4-1f67-42f9-a4d2-73a048073da7","verb":"READ","humanText":"Here's a good place to play around with new block types!","userId":"TODO","archived":false},{"id":"b7def871-9205-4c82-93bc-14e993042b4c","verb":"EDIT","humanText":"Your task list to reflect on and clean up","userId":"TODO","archived":false},{"id":"62788f9d-545a-440c-ae1a-012c5a85c6c1","verb":"READ","humanText":"Remember: Doing your best doesn't mean getting a lot done: doing your best means putting in effort. Sometimes that effort translates directly to present accomplishments, and sometimes it doesn't. Even on days where you feel less accomplished, you can still feel proud that you not only put in the effort, but you also did your best to reflect and improve your methods for the future.","userId":"TODO","archived":false},{"id":"e334bcca-b38d-4bfd-b49e-e5224ab19697","verb":"DO","humanText":"Do my morning routine","userId":"TODO","archived":false},{"id":"0a069609-199d-4be2-8976-eb9dd384d354","verb":"READ","humanText":"It's now the computer age, and yet our technology for representing sequences of instructions remains: numbered lists and flow charts, but on a screen (like Wikihow). Because of the limitations of current software, we mostly keep our workflows inside our heads.","userId":"TODO","archived":false},{"id":"231731d3-cde5-4531-a55b-a8ef3f67a626","verb":"READ","humanText":"Awesome! We'll check back in on those intentions at the end of your session. Next, we'll set some specific tasks.","userId":"TODO","archived":false},{"id":"c8e3f778-dc5a-488b-9be2-dd3a3b58be13","verb":"DO","humanText":"Learn about block types in Methodable","userId":"TODO","archived":false},{"id":"acd1a8ae-c9e3-4bb0-b814-dfc1abade494","verb":"READ","humanText":"Methodable is building a fundamentally different system that combines the best parts of modern note-taking and computer-programing software.","userId":"TODO","archived":false},{"id":"98df749a-f9cd-452b-b78f-ed74342cea63","verb":"DO","humanText":"Copy your reflection to a note that houses all of your reflections.","userId":"TODO","archived":false},{"id":"a8187651-3ef0-46bb-a7f8-3ac13c0da981","verb":"DO","humanText":"Now that you've reflected on the tasks, delete them all (minus the title, which can stay), so that next time you start with a blank slate (right now, deleting things requires you to delete line-by-line, sorry). If you would like to leave a task for next time, feel free, but if a task has been in your list for a few sessions, you should seriously consider removing it, further specifying it, or getting help with completing it.","userId":"TODO","archived":false},{"id":"61d97adb-9575-475b-a832-4420f76776cd","verb":"DO","humanText":"Stretch","userId":"TODO","archived":false},{"id":"7dea289b-3355-4664-9fbe-7c02398573e9","verb":"DO","humanText":"Make coffee","userId":"TODO","archived":false},{"id":"0a0c14f5-590d-4288-b259-74fc8c1a6bcc","verb":"READ","humanText":"Regardless, click \"Continue\".","userId":"TODO","archived":false},{"id":"50a20e30-9f87-4364-b2c4-e1b209e81499","verb":"DO","humanText":"Now, for each goal, break it down into more concrete subtasks. You might have to break it into subgoals before breaking it into concrete tasks. If your goal is of the form \"Make progress towards...\", then consider breaking it down into a \"most important next step\": What is the smallest thing you can do that moves you the closest towards that goal?","userId":"TODO","archived":false},{"id":"73e5c0b7-8201-4fb3-818a-1a90dbd045ad","verb":"CHOOSE","humanText":"Sandbox","userId":"TODO","archived":false},{"id":"6898ee85-0162-4712-899b-bd5086c568fe","verb":"EDIT","humanText":"Write your timing / intention statement here","userId":"TODO","archived":false},{"id":"3032e125-262f-4935-a636-0d9ea32a3527","verb":"ANSWER","humanText":"No, I'll go straight to the program","userId":"TODO","archived":false},{"id":"0266b910-74fa-4a7e-b469-13b7d76a78e3","verb":"DO","humanText":"Pick some goals, then gradually break those goals down into concrete tasks and add them to your tasklist.","userId":"TODO","archived":false},{"id":"d4c4ae74-976a-4d8c-a1c5-3394e7ff6b54","verb":"READ","humanText":"When a 'Do' block has children, those children represent the steps (in order) necessary to complete that goal.","userId":"TODO","archived":false},{"id":"4df8deb5-2943-42f6-b82d-ee055c990f9e","verb":"CHOOSE","humanText":"Examples programs","userId":"TODO","archived":false},{"id":"f3f04275-404b-4feb-98e2-c463971becae","verb":"DO","humanText":"Fill out the first draft of your task list","userId":"TODO","archived":false},{"id":"e3dc02b3-5714-4cb3-a893-d4ab546fb13f","verb":"READ","humanText":"We will be using the editor in Guide mode during this program. To see what I mean, I've included a random editor below.","userId":"TODO","archived":false},{"id":"9b7a47da-39ac-4e93-ab99-bad59476523c","verb":"ANSWER","humanText":"Yes, I'd love to learn how the editor works!","userId":"TODO","archived":false},{"id":"e684c643-6437-46b5-b29f-936ca09fbc0c","verb":"DO","humanText":" ","userId":"TODO","archived":false},{"id":"acef485c-551f-4fe2-adf1-c36163358f58","verb":"DO","humanText":"Simplify your first draft task list to be clearer and better prioritized.","userId":"TODO","archived":false},{"id":"2ce83d18-797a-443e-a9aa-b86ef044582b","verb":"DO","humanText":"fill the coffee pot with water","userId":"TODO","archived":false},{"id":"c0780015-e0a0-41cb-a0bf-c1b643b9b005","verb":"READ","humanText":"1. You might see an editor in Editor mode, where it takes up the full screen.","userId":"TODO","archived":false},{"id":"fc654a26-a797-4c4d-aa41-275d193de52f","verb":"READ","humanText":"2. You might see an editor as a workspace below an instruction in Guide mode.","userId":"TODO","archived":false},{"id":"fd29ff94-8548-4a90-8d72-7f14e56e7744","verb":"DO","humanText":"Learn to create and title a human program","userId":"TODO","archived":false},{"id":"3776629f-b647-4861-ac0e-809457625202","verb":"DO","humanText":"Copy your intention statement and reflections into the list of intention statements and reflections, so that you can reference your notes later. You can press enter at the end of the title line to insert a new block at the beginning of the list.","userId":"TODO","archived":false},{"id":"e6e5de71-efef-4c36-be6b-6e0b9bfa7f73","verb":"CHOOSE","humanText":"Do you know exactly what tasks you need to do during this work session?","userId":"TODO","archived":false},{"id":"eafe9ff4-64c4-4693-a1c0-a4a2f129157d","verb":"READ","humanText":"[example reflection]","userId":"TODO","archived":false},{"id":"24722b44-5aff-48a0-b546-f624ab517304","verb":"READ","humanText":"Hey, Daniel here! I'm not done with this guide yet.","userId":"TODO","archived":false},{"id":"4fbe2884-3ad9-4a89-8a93-2b7360824bce","verb":"READ","humanText":"So now you have a program which represents a goal (which is to create a routine). Of course, the guide it creates is not super helpful. So, next up, we'll add substeps!","userId":"TODO","archived":false},{"id":"eeeb09b3-5700-4167-bb4f-f23c97155f76","verb":"READ","humanText":"Block types are little emojis that live to the left of each block of text. Along with indentation, block types are all the computer needs to turn your text outline into a complex, interactive guide.","userId":"TODO","archived":false},{"id":"daac7193-6ca9-427b-b8fa-f10f63364a83","verb":"DO","humanText":"Create your routine","userId":"TODO","archived":false},{"id":"d9ca84d9-a6a8-4643-9942-b3d270e6d352","verb":"DO","humanText":"drink the coffee","userId":"TODO","archived":false},{"id":"3bb5ba23-95f2-430f-bdca-06ecf73feb74","verb":"READ","humanText":"Thanks for making edits and improving your methods!","userId":"TODO","archived":false},{"id":"20f08e2c-b34c-4235-86d3-66282dc5314d","verb":"READ","humanText":"The block type system is powerful enough that creating a Methodable guide requires NO SPECIAL SYNTAX. Every letter you ever type will be in your own language, to be read by a human.","userId":"TODO","archived":false},{"id":"886a2a62-9c2b-4ab0-86d1-608e2d0144f1","verb":"EDIT","humanText":"The editor where you will write your program","userId":"TODO","archived":false},{"id":"ff97bcf4-7227-473e-898c-49e415cf9879","verb":"DO","humanText":"put the water through the coffee filter","userId":"TODO","archived":false},{"id":"a5ddc6dd-aad8-4997-96d1-caa3c6ac1a3d","verb":"DO","humanText":"Look at your intention statement, and reflect on how your work session compared to your intentions. What went well, what might you try differently next time?","userId":"TODO","archived":false},{"id":"848c376d-f57f-483f-9fc2-7146f25aa180","verb":"ANSWER","humanText":"Yes, I'd like to review my past reflections","userId":"TODO","archived":false},{"id":"cf3dc07d-be07-4cdd-b3fb-3dee87b51869","verb":"DO","humanText":"Finally, reflect on the process overall: how did it feel to create a task list, complete tasks, and reflect on all of it? Could anything be better about the program itself?","userId":"TODO","archived":false},{"id":"1370eac9-a963-4a6e-832d-442f47e817fb","verb":"CHOOSE","humanText":"If you've done this program before, you'll have some past reflections. Would you like to look at those reflections?","userId":"TODO","archived":false},{"id":"75bc445d-2d28-4f7c-a7e2-0384f1fa29b8","verb":"DO","humanText":"Set up a task list for your current work session that is clear, easy to follow, and well prioritized.","userId":"TODO","archived":false},{"id":"04bd8c06-ce1d-4e46-baab-cd120d7c181f","verb":"DO","humanText":"To get started, let's give your work session some context. Write something below of the form \"I plan to work from [start time] to [end time]. I hope to [feel a certain way / accomplish a certain thing].\"","userId":"TODO","archived":false},{"id":"b2c04dab-62a3-457d-a4d1-ddae5f7773b7","verb":"DO","humanText":"Create a block under your intention statement by clicking at the end of the line and pressing enter. On the new line, type \"Reflection: \".","userId":"TODO","archived":false},{"id":"cf8dfa47-3e3f-49c6-a19c-7faa9a618356","verb":"EDIT","humanText":"List your goals and tasks here","userId":"TODO","archived":false},{"id":"7a898c51-1cbd-44c5-8cef-a49dd5f419f1","verb":"DO","humanText":"etc.","userId":"TODO","archived":false},{"id":"0f821599-b2ce-4657-a58c-31320abae31c","verb":"READ","humanText":"So, even though we're in Guide mode, we can still edit stuff!","userId":"TODO","archived":false},{"id":"28ece32b-d407-46e2-9582-47be6987307b","verb":"DO","humanText":"Reflect on your task list and clean up the task list for next time.","userId":"TODO","archived":false},{"id":"f651b09b-6cb1-429a-abd5-7d424500212a","verb":"DO","humanText":"boil it","userId":"TODO","archived":false},{"id":"9296687e-f5a0-4905-bbec-fdfe4a6efa5b","verb":"READ","humanText":"You can also click \"Run\" (to the right of the title) to run the program.","userId":"TODO","archived":false},{"id":"e3f6f47d-bd0c-4e22-9c46-284223fd5828","verb":"CHOOSE","humanText":"Here are all of the block types:","userId":"TODO","archived":false},{"id":"835ac456-1edd-4010-b6a5-e0ed85b81a2c","verb":"READ","humanText":"Good day! I hope you're excited to get things done! This program will help you create a task list, execute the tasks, and reflect on the entire session.","userId":"TODO","archived":false},{"id":"4b7a6a7f-6281-487d-81a4-da2daced0224","verb":"READ","humanText":"Nicely done! You've gotten things done, reflected on the process, and set yourself up for future success!","userId":"TODO","archived":false},{"id":"8cf5bf1c-3b10-431f-be5a-b676e546f595","verb":"READ","humanText":"No need to edit anything yet.","userId":"TODO","archived":false},{"id":"47198543-adcd-4c9f-8f39-aac18570b70c","verb":"READ","humanText":"First though, let's learn about one of the most important parts of Methodable: Block types!","userId":"TODO","archived":false},{"id":"7f54f2e2-8fb7-4f6f-9ecd-3c7a17a37e42","verb":"READ","humanText":"Here's the program you just followed. If you can think of any ways to improve it, please make changes. You can reword things, add details, delete steps, or move things around. Be creative!","userId":"TODO","archived":false},{"id":"3db1ca2a-331b-430f-bb83-f78c764f17e3","verb":"DO","humanText":"For each goal or task in your task list, write a bit about it in your reflection. For example: Did you complete it? If so, how did it feel? If not, what prevented you from completing it? Was it easy or hard? What do you wish you knew before you started? What did you learn?","userId":"TODO","archived":false},{"id":"ccff4a3a-0b60-4226-a4a3-909f569eab70","verb":"READ","humanText":"A quick note before we clean up the task list:","userId":"TODO","archived":false},{"id":"0e81ba1c-1e80-42ce-8b3c-21b706caac15","verb":"READ","humanText":"Awesome, you now have a very healthy task list! Next up: doing it!","userId":"TODO","archived":false},{"id":"77479a28-2b25-4204-89b9-c2fbd2096eca","verb":"ANSWER","humanText":"This is an 'Answer' block","userId":"TODO","archived":false},{"id":"6c8ba162-dbb4-45ec-8e0e-95ac53a7f628","verb":"READ","humanText":"2. Clean up your task list and prepare things for your next session","userId":"TODO","archived":false},{"id":"9dfba03b-ace2-49c7-812b-87bc9d0cefc6","verb":"READ","humanText":"This is a 'Read' block","userId":"TODO","archived":false},{"id":"070b757e-5ae0-465f-a5d4-d45bc6ecb087","verb":"DO","humanText":"First off, let's rename the program. Replace \"[program name]\" with \"Create your routine\". Don't press 'enter' just yet, instead press the \"continue\" button on the screen when you're done.","userId":"TODO","archived":false},{"id":"19ca7872-5e4a-484a-9db2-80d1fe146e9a","verb":"DO","humanText":"Reflect on your work session and clean up your task list.","userId":"TODO","archived":false},{"id":"5f334cdf-004b-4d4a-9976-6c0dc6188f20","verb":"READ","humanText":"Great work! Next up, you'll do two things:","userId":"TODO","archived":false},{"id":"d01a5643-c111-4f84-abf1-f2f6b3942bf7","verb":"DO","humanText":"Work your way through the tasks below:","userId":"TODO","archived":false},{"id":"ac648c67-f096-46bd-b9db-e74c24a3014c","verb":"EDIT","humanText":"An example of an editor that exists within a guide","userId":"TODO","archived":false},{"id":"099146fe-1294-4c54-be70-8504e610d5cb","verb":"READ","humanText":"In case you're wondering, the resulting routine will itself be a guide within Methodable. We're getting real meta real quick, but that's where Methodable shines!","userId":"TODO","archived":false},{"id":"174fd78d-6721-4a17-b48e-c89183281530","verb":"READ","humanText":"Awesome! The first thing you should know is that there are two places you might see an editor.","userId":"TODO","archived":false},{"id":"453f08c4-3559-4974-9c17-80ea38aeee26","verb":"EDIT","humanText":"This is an 'Edit' block","userId":"TODO","archived":false},{"id":"5c9ee924-c424-4695-b893-411f39bf07f2","verb":"DO","humanText":"[task 1]","userId":"TODO","archived":false},{"id":"7f512fb6-5c2d-46a4-af57-4afd20b11442","verb":"READ","humanText":"What's a pull Request?","userId":"TODO","archived":false},{"id":"01374f67-43f2-439d-9d07-143599f8b55a","verb":"DO","humanText":"Make a task list, do the tasks, then improve the program for next time.","userId":"TODO","archived":false},{"id":"b6d2684a-86da-4404-b03f-610838e53706","verb":"READ","humanText":"Here are your intention statements and reflections from past work sessions:","userId":"TODO","archived":false},{"id":"0ef4623e-429f-4a18-aa08-9f0d6a14f3d1","verb":"READ","humanText":"Sounds good! If this is your first time, then you'll be generating reflections soon :)","userId":"TODO","archived":false},{"id":"f8b59618-383b-47ce-8fad-2adc54bc4129","verb":"EDIT","humanText":"List of intention statements and reflections: copy your intention statement and reflections into here","userId":"TODO","archived":false},{"id":"540bfa8f-42ad-42d7-ab2a-f19b24c9c932","verb":"DO","humanText":"Create and execute a list of tasks during some set period of work.","userId":"TODO","archived":false},{"id":"1ee0797d-55a2-4e3e-aff9-b7f649d62b19","verb":"CHOOSE","humanText":"Here are your programs","userId":"TODO","archived":false},{"id":"0ff93d3a-a27a-492c-beec-14a1edb722c6","verb":"CHOOSE","humanText":"This is a 'Choose' block","userId":"TODO","archived":false},{"id":"4b4ecbe3-ae33-4846-9fa5-359fdcca2588","verb":"READ","humanText":"The result is a fluid interface for thinking about, creating, tweaking, and following structured workflows.","userId":"TODO","archived":false},{"id":"9487c7e1-942d-44f0-a6dc-6f626b2e6b24","verb":"READ","humanText":"Your task list is a program. You will not *reference* it, rather you will be *guided through* it. That means that, if you'd like, you can add workspace references, choices, or reading material to any part of the program!","userId":"TODO","archived":false},{"id":"d972d491-c8b5-4924-900c-1a089af61cf3","verb":"DO","humanText":"Think, which of these tasks is lowest priority? Consider deleting those tasks, or moving them later in the list.","userId":"TODO","archived":false},{"id":"dc55958f-5a75-4090-aa14-9a8e1d3e272a","verb":"EDIT","humanText":"The program: feel free to make any edits","userId":"TODO","archived":false},{"id":"3eb0dad5-7630-4cf0-8a72-00303121f14e","verb":"CHOOSE","humanText":"(add more folders here)","userId":"TODO","archived":false},{"id":"bc7b2877-366b-4d12-b4b4-5f575ec0f53a","verb":"READ","humanText":"Congrats! You've made your first human program in Methodable! Don't believe me? Click \"Show Preview\" below to see what your program looks like.","userId":"TODO","archived":false},{"id":"db72a7bf-ad03-43ce-a395-d45b7d13c148","verb":"READ","humanText":"Check out the example below, and feel free to give it a run!","userId":"TODO","archived":false},{"id":"3dff8b58-9c9a-475e-9df9-2885437f921d","verb":"READ","humanText":"[example intention statement]","userId":"TODO","archived":false},{"id":"e476bc25-5e50-41a0-a941-b999ac543ea7","verb":"ANSWER","humanText":"No, I need help thinking through my tasks.","userId":"TODO","archived":false},{"id":"7f6cce3a-4bce-4fcc-a6f6-586d9aaa9577","verb":"READ","humanText":"Here's the actual editor we're gonna be playing with! In this tutorial, we'll create a program that'll help you set up a routine.","userId":"TODO","archived":false},{"id":"33162a28-19c9-4a77-8033-16d35977a776","verb":"ANSWER","humanText":"Yes, I could write down specific tasks to do.","userId":"TODO","archived":false},{"id":"ec8583d3-a506-4223-ac43-bff2709f3c5e","verb":"EDIT","humanText":"you intention statement and reflections","userId":"TODO","archived":false},{"id":"home","verb":"DO","humanText":"Home","userId":"TODO","archived":false},{"id":"05b4758d-2721-478b-9fda-3059f2ac742e","verb":"DO","humanText":"Now that you've saved that info, delete your intention statement and reflection, so that next time you are starting with a blank slate. Again, you will have to do so line-by-line.","userId":"TODO","archived":false}],"locatedBlocks":[{"id":"1ecd5d48-d95e-46fa-82ed-f6ec0c7fa170","contentId":"e3f6f47d-bd0c-4e22-9c46-284223fd5828","userId":"TODO","blockStatus":"not started","parentId":"21781233-4437-4f63-af27-de2658b5ba48","leftId":null,"archived":false},{"id":"bf895b6e-cb9c-4151-8cc0-ec28a5abf147","contentId":"24722b44-5aff-48a0-b546-f624ab517304","userId":"TODO","blockStatus":"not started","parentId":"c8e3f778-dc5a-488b-9be2-dd3a3b58be13","leftId":"31275ac1-f959-4494-97c3-e59a3987cdf8","archived":false},{"id":"be858b93-0afc-49b5-8baa-8a0a8fe4c86f","contentId":"0ef4623e-429f-4a18-aa08-9f0d6a14f3d1","userId":"TODO","blockStatus":"not started","parentId":"3032e125-262f-4935-a636-0d9ea32a3527","leftId":null,"archived":false},{"id":"4775b6dc-2c3f-4e56-be89-adc87ae74a78","contentId":"0ff93d3a-a27a-492c-beec-14a1edb722c6","userId":"TODO","blockStatus":"not started","parentId":"e3f6f47d-bd0c-4e22-9c46-284223fd5828","leftId":"0455bdd3-7e49-42ed-b84c-c0a890253a98","archived":false},{"id":"8fc4c5ff-d8f1-4566-bf96-42c748226262","contentId":"e334bcca-b38d-4bfd-b49e-e5224ab19697","userId":"TODO","blockStatus":"not started","parentId":"1b593bd6-1e5c-48f4-9b8c-30bfc33e015b","leftId":null,"archived":false},{"id":"b569fdbc-9c8a-4788-a362-fd45ec81e09a","contentId":"acef485c-551f-4fe2-adf1-c36163358f58","userId":"TODO","blockStatus":"not started","parentId":"75bc445d-2d28-4f7c-a7e2-0384f1fa29b8","leftId":"101867e5-892a-4e7c-96f1-bc75d882e0a8","archived":false},{"id":"9a8d9505-a955-4f7c-8fd3-57894ca145bb","contentId":"b6d2684a-86da-4404-b03f-610838e53706","userId":"TODO","blockStatus":"not started","parentId":"848c376d-f57f-483f-9fc2-7146f25aa180","leftId":null,"archived":false},{"id":"a9ad9b52-86a9-47f0-bc10-986dc7511c93","contentId":"070b757e-5ae0-465f-a5d4-d45bc6ecb087","userId":"TODO","blockStatus":"not started","parentId":"fd29ff94-8548-4a90-8d72-7f14e56e7744","leftId":"12e5d844-9b6e-4ef0-8d01-1bbd7a40a8d7","archived":false},{"id":"a44475e3-9d42-4aad-8ff0-c72b414cae77","contentId":"2ce83d18-797a-443e-a9aa-b86ef044582b","userId":"TODO","blockStatus":"not started","parentId":"7dea289b-3355-4664-9fbe-7c02398573e9","leftId":null,"archived":false},{"id":"55f704ea-afde-4735-8957-f7b6fcba053b","contentId":"dee5744f-58fa-4d72-b03e-9e40a9130c10","userId":"TODO","blockStatus":"not started","parentId":"ec8583d3-a506-4223-ac43-bff2709f3c5e","leftId":null,"archived":false},{"id":"a26cd58b-1edb-4dc6-ac49-bcfa41e33e28","contentId":"47198543-adcd-4c9f-8f39-aac18570b70c","userId":"TODO","blockStatus":"not started","parentId":"c8e3f778-dc5a-488b-9be2-dd3a3b58be13","leftId":"7e91d75c-ab6a-416d-b7c0-be78e8fca561","archived":false},{"id":"71984275-bc53-44ae-88a1-97345e63208f","contentId":"0f821599-b2ce-4657-a58c-31320abae31c","userId":"TODO","blockStatus":"not started","parentId":"e3dc02b3-5714-4cb3-a893-d4ab546fb13f","leftId":null,"archived":false},{"id":"870e26ac-b484-4737-9f31-400cac192f8e","contentId":"9dfba03b-ace2-49c7-812b-87bc9d0cefc6","userId":"TODO","blockStatus":"not started","parentId":"e3f6f47d-bd0c-4e22-9c46-284223fd5828","leftId":"d4403691-5eb0-4b16-a847-c175f0a30376","archived":false},{"id":"e9d4e2e0-5066-4607-a8ce-7aab76101813","contentId":"50a20e30-9f87-4364-b2c4-e1b209e81499","userId":"TODO","blockStatus":"not started","parentId":"0266b910-74fa-4a7e-b469-13b7d76a78e3","leftId":"9aede2e9-725a-47d3-b1fb-a5bf218df7e5","archived":false},{"id":"f1e3366a-603c-401f-97fc-6e5de9d95b84","contentId":"099146fe-1294-4c54-be70-8504e610d5cb","userId":"TODO","blockStatus":"not started","parentId":"7f6cce3a-4bce-4fcc-a6f6-586d9aaa9577","leftId":null,"archived":false},{"id":"376b75b1-7dda-4736-aed3-4ddb21f91df0","contentId":"db72a7bf-ad03-43ce-a395-d45b7d13c148","userId":"TODO","blockStatus":"not started","parentId":"54222694-bb0f-4eb9-b06b-4fc35e736641","leftId":"441ed5b7-4123-4ddf-8c63-bb071d339495","archived":false},{"id":"7ecda7ab-8219-4e8b-a605-1e667c7c94a8","contentId":"4e7be33b-47e2-4b2b-b775-77e4a6ee2b82","userId":"TODO","blockStatus":"not started","parentId":"ac648c67-f096-46bd-b9db-e74c24a3014c","leftId":null,"archived":false},{"id":"31275ac1-f959-4494-97c3-e59a3987cdf8","contentId":"54222694-bb0f-4eb9-b06b-4fc35e736641","userId":"TODO","blockStatus":"not started","parentId":"c8e3f778-dc5a-488b-9be2-dd3a3b58be13","leftId":"a26cd58b-1edb-4dc6-ac49-bcfa41e33e28","archived":false},{"id":"211c8950-3b9d-4ac7-82f3-a7e6a5f80626","contentId":"c0780015-e0a0-41cb-a0bf-c1b643b9b005","userId":"TODO","blockStatus":"not started","parentId":"174fd78d-6721-4a17-b48e-c89183281530","leftId":null,"archived":false},{"id":"96356d2f-ced8-4649-a304-700808b7425a","contentId":"cfcd524b-8242-491b-b0d4-afe1a156f448","userId":"TODO","blockStatus":"not started","parentId":"47198543-adcd-4c9f-8f39-aac18570b70c","leftId":"26406074-4076-4b7d-95d9-1df84e28c853","archived":false},{"id":"70d57a96-44e9-44db-9e9c-ebb82fc7e82c","contentId":"55ca0243-277a-4569-9a79-eafa3782d30f","userId":"TODO","blockStatus":"not started","parentId":"7f512fb6-5c2d-46a4-af57-4afd20b11442","leftId":null,"archived":false},{"id":"4777aff3-41e2-462b-ab1f-849352c7b701","contentId":"9f7a5608-0d34-47f4-a430-f253a8b8cc54","userId":"TODO","blockStatus":"not started","parentId":"51993e38-38c7-4f2c-9cf5-42c8b1ebda67","leftId":"55503dd4-fac6-4b1b-be58-04e30cba0950","archived":false},{"id":"525c9f06-3c68-417b-89e0-b874d0528558","contentId":"540bfa8f-42ad-42d7-ab2a-f19b24c9c932","userId":"TODO","blockStatus":"not started","parentId":"01374f67-43f2-439d-9d07-143599f8b55a","leftId":null,"archived":false},{"id":"fba9de7e-7806-4f7f-994c-84d82c69cad8","contentId":"70eec500-fb66-4cd7-9b2a-06c8368c6523","userId":"TODO","blockStatus":"not started","parentId":"home","leftId":null,"archived":false},{"id":"73e5de0b-b775-4663-af2c-e56c52ef0ecb","contentId":"0a069609-199d-4be2-8976-eb9dd384d354","userId":"TODO","blockStatus":"not started","parentId":"d3f6dafa-e53c-421c-a01b-9fdea0bc8458","leftId":null,"archived":false},{"id":"a7829f67-4f5b-4f52-a439-c3ff69e9fac0","contentId":"1993ee98-6e32-4e76-bee9-955d790db688","userId":"TODO","blockStatus":"not started","parentId":"ccff4a3a-0b60-4226-a4a3-909f569eab70","leftId":"f2d46c3e-7810-4572-81b1-db832ee1abdb","archived":false},{"id":"fffcff1a-44e6-4296-bfae-a66e33b0f5d8","contentId":"3eb0dad5-7630-4cf0-8a72-00303121f14e","userId":"TODO","blockStatus":"not started","parentId":"1ee0797d-55a2-4e3e-aff9-b7f649d62b19","leftId":"31b566d6-1d5d-4e94-a9c8-f6ef261ac048","archived":false},{"id":"2103d6a7-08b7-487c-ad64-23e801f4c7f8","contentId":"b6d2684a-86da-4404-b03f-610838e53706","userId":"TODO","blockStatus":"not started","parentId":"f8b59618-383b-47ce-8fad-2adc54bc4129","leftId":null,"archived":false},{"id":"85c11f1c-0206-438b-a62e-fddbfb1aecb6","contentId":"8f1ccf4e-3a50-4c7f-a60d-b0f49aadfc77","userId":"TODO","blockStatus":"not started","parentId":"5f334cdf-004b-4d4a-9976-6c0dc6188f20","leftId":null,"archived":false},{"id":"0f3a661d-10a7-4540-97b5-e323c51665c5","contentId":"848c376d-f57f-483f-9fc2-7146f25aa180","userId":"TODO","blockStatus":"not started","parentId":"1370eac9-a963-4a6e-832d-442f47e817fb","leftId":null,"archived":false},{"id":"4ba97ebd-db63-46cf-a152-978287a61953","contentId":"cf3dc07d-be07-4cdd-b3fb-3dee87b51869","userId":"TODO","blockStatus":"not started","parentId":"19ca7872-5e4a-484a-9db2-80d1fe146e9a","leftId":"04e43fa6-22c0-4431-9805-947bbbe4ca7d","archived":false},{"id":"746cb79f-cd15-4fdf-9d33-1af64a6a9e3d","contentId":"1ee0797d-55a2-4e3e-aff9-b7f649d62b19","userId":"TODO","blockStatus":"not started","parentId":"home","leftId":"d390cfa2-bc8f-45b7-bd80-8d5b4f8f64f3","archived":false},{"id":"fd08716e-0a66-4461-8d33-2b1954ba1cb2","contentId":"7f54f2e2-8fb7-4f6f-9ecd-3c7a17a37e42","userId":"TODO","blockStatus":"not started","parentId":"01374f67-43f2-439d-9d07-143599f8b55a","leftId":"525c9f06-3c68-417b-89e0-b874d0528558","archived":false},{"id":"0455bdd3-7e49-42ed-b84c-c0a890253a98","contentId":"8841e1de-09e3-4d9b-a93e-4fc9b32cb733","userId":"TODO","blockStatus":"not started","parentId":"e3f6f47d-bd0c-4e22-9c46-284223fd5828","leftId":null,"archived":false},{"id":"15344380-f536-4fce-b03d-5e7867b50a5f","contentId":"540bfa8f-42ad-42d7-ab2a-f19b24c9c932","userId":"TODO","blockStatus":"not started","parentId":"dc55958f-5a75-4090-aa14-9a8e1d3e272a","leftId":null,"archived":false},{"id":"971f0eb1-cc50-43a2-b40d-1b77a523d04b","contentId":"5c9ee924-c424-4695-b893-411f39bf07f2","userId":"TODO","blockStatus":"not started","parentId":"d01a5643-c111-4f84-abf1-f2f6b3942bf7","leftId":null,"archived":false},{"id":"288ec785-f7a6-4a53-806c-786c4c7a9b0b","contentId":"dee5744f-58fa-4d72-b03e-9e40a9130c10","userId":"TODO","blockStatus":"not started","parentId":"f21a07ba-e77a-4bed-aedc-6a31110c25d9","leftId":null,"archived":false},{"id":"edfdd9d3-5dc5-4598-9c14-00ea03e987de","contentId":"d01a5643-c111-4f84-abf1-f2f6b3942bf7","userId":"TODO","blockStatus":"not started","parentId":"540bfa8f-42ad-42d7-ab2a-f19b24c9c932","leftId":"5a234b6d-471d-4c08-8c96-02e12f86f18c","archived":false},{"id":"cb49d5b1-ffe2-4cfc-b028-29aa3885cba0","contentId":"33162a28-19c9-4a77-8033-16d35977a776","userId":"TODO","blockStatus":"not started","parentId":"e6e5de71-efef-4c36-be6b-6e0b9bfa7f73","leftId":null,"archived":false},{"id":"f2d46c3e-7810-4572-81b1-db832ee1abdb","contentId":"9487c7e1-942d-44f0-a6dc-6f626b2e6b24","userId":"TODO","blockStatus":"not started","parentId":"ccff4a3a-0b60-4226-a4a3-909f569eab70","leftId":null,"archived":false},{"id":"c4a4a368-c636-4bfd-a7f1-10232017f9cf","contentId":"dee5744f-58fa-4d72-b03e-9e40a9130c10","userId":"TODO","blockStatus":"not started","parentId":"6898ee85-0162-4712-899b-bd5086c568fe","leftId":null,"archived":false},{"id":"d998e052-db5d-48ad-ade1-14205f939173","contentId":"acc16f9b-3bac-4187-bf11-1c4bb7c4ed4b","userId":"TODO","blockStatus":"not started","parentId":"70eec500-fb66-4cd7-9b2a-06c8368c6523","leftId":null,"archived":false},{"id":"7e91d75c-ab6a-416d-b7c0-be78e8fca561","contentId":"21781233-4437-4f63-af27-de2658b5ba48","userId":"TODO","blockStatus":"not started","parentId":"c8e3f778-dc5a-488b-9be2-dd3a3b58be13","leftId":null,"archived":false},{"id":"8464f616-9156-4b07-a0a3-1818c08fe615","contentId":"1370eac9-a963-4a6e-832d-442f47e817fb","userId":"TODO","blockStatus":"not started","parentId":"540bfa8f-42ad-42d7-ab2a-f19b24c9c932","leftId":"74e0c2d0-dce4-48e3-9911-15d990266d03","archived":false},{"id":"577f61eb-cb7b-4d3f-81a6-7786a1ee49bc","contentId":"bc7b2877-366b-4d12-b4b4-5f575ec0f53a","userId":"TODO","blockStatus":"not started","parentId":"fd29ff94-8548-4a90-8d72-7f14e56e7744","leftId":"a9ad9b52-86a9-47f0-bc10-986dc7511c93","archived":false},{"id":"8de83d73-0624-4678-8295-c3b52ee30b01","contentId":"7f512fb6-5c2d-46a4-af57-4afd20b11442","userId":"TODO","blockStatus":"not started","parentId":"5bdfab51-a374-4d86-99a2-2be3c18585de","leftId":null,"archived":false},{"id":"a20a3907-c63a-42a0-b552-fa6a0936248a","contentId":"6c8ba162-dbb4-45ec-8e0e-95ac53a7f628","userId":"TODO","blockStatus":"not started","parentId":"5f334cdf-004b-4d4a-9976-6c0dc6188f20","leftId":"85c11f1c-0206-438b-a62e-fddbfb1aecb6","archived":false},{"id":"04e43fa6-22c0-4431-9805-947bbbe4ca7d","contentId":"a5ddc6dd-aad8-4997-96d1-caa3c6ac1a3d","userId":"TODO","blockStatus":"not started","parentId":"19ca7872-5e4a-484a-9db2-80d1fe146e9a","leftId":"baad01cd-c232-4c78-a890-e1bb21880418","archived":false},{"id":"81238bad-3e1d-4c53-b7d9-f74ee963a750","contentId":"01374f67-43f2-439d-9d07-143599f8b55a","userId":"TODO","blockStatus":"not started","parentId":"4df8deb5-2943-42f6-b82d-ee055c990f9e","leftId":null,"archived":false},{"id":"398b75a6-b628-4576-b8e5-36117ed40643","contentId":"cb6d22e3-16d9-48f6-bae8-49e375ed43b3","userId":"TODO","blockStatus":"not started","parentId":"9b7a47da-39ac-4e93-ab99-bad59476523c","leftId":null,"archived":false},{"id":"ca49afec-2535-474e-a869-5f19573f2057","contentId":"3032e125-262f-4935-a636-0d9ea32a3527","userId":"TODO","blockStatus":"not started","parentId":"1370eac9-a963-4a6e-832d-442f47e817fb","leftId":"0f3a661d-10a7-4540-97b5-e323c51665c5","archived":false},{"id":"b28b62f1-e60e-490c-840a-b96556e4bceb","contentId":"d9ca84d9-a6a8-4643-9942-b3d270e6d352","userId":"TODO","blockStatus":"not started","parentId":"e334bcca-b38d-4bfd-b49e-e5224ab19697","leftId":"0d975993-67fe-4817-ac6a-72be9e4b56a4","archived":false},{"id":"9850d293-445c-44b3-8da0-9c0206a05301","contentId":"f7259de4-1f67-42f9-a4d2-73a048073da7","userId":"TODO","blockStatus":"not started","parentId":"73e5c0b7-8201-4fb3-818a-1a90dbd045ad","leftId":null,"archived":false},{"id":"f9ebdc06-27d8-47fd-b3b0-ba37507b8639","contentId":"b2c04dab-62a3-457d-a4d1-ddae5f7773b7","userId":"TODO","blockStatus":"not started","parentId":"19ca7872-5e4a-484a-9db2-80d1fe146e9a","leftId":"572dc0c0-7f1b-4531-90e9-7f84064c588d","archived":false},{"id":"d390cfa2-bc8f-45b7-bd80-8d5b4f8f64f3","contentId":"51993e38-38c7-4f2c-9cf5-42c8b1ebda67","userId":"TODO","blockStatus":"not started","parentId":"home","leftId":"b19a69ab-c86c-4ba0-a31e-1f6d3b0cb4f3","archived":false},{"id":"9ff0a0a9-c7db-4459-a9d5-14678ee77ba7","contentId":"94e1e0c8-7c86-421d-8469-594c00e4aa3d","userId":"TODO","blockStatus":"not started","parentId":"4df8deb5-2943-42f6-b82d-ee055c990f9e","leftId":"81238bad-3e1d-4c53-b7d9-f74ee963a750","archived":false},{"id":"101867e5-892a-4e7c-96f1-bc75d882e0a8","contentId":"f3f04275-404b-4feb-98e2-c463971becae","userId":"TODO","blockStatus":"not started","parentId":"75bc445d-2d28-4f7c-a7e2-0384f1fa29b8","leftId":"863f308e-a006-43b2-bc02-678433f46227","archived":false},{"id":"1a97bb33-913b-44e5-83d2-20911e27d552","contentId":"453f08c4-3559-4974-9c17-80ea38aeee26","userId":"TODO","blockStatus":"not started","parentId":"e3f6f47d-bd0c-4e22-9c46-284223fd5828","leftId":"870e26ac-b484-4737-9f31-400cac192f8e","archived":false},{"id":"9aede2e9-725a-47d3-b1fb-a5bf218df7e5","contentId":"65f241ab-8524-43f1-be84-2b658acde436","userId":"TODO","blockStatus":"not started","parentId":"0266b910-74fa-4a7e-b469-13b7d76a78e3","leftId":"83f375e7-fb89-4663-a0e2-9ea34c093da0","archived":false},{"id":"d4403691-5eb0-4b16-a847-c175f0a30376","contentId":"77479a28-2b25-4204-89b9-c2fbd2096eca","userId":"TODO","blockStatus":"not started","parentId":"e3f6f47d-bd0c-4e22-9c46-284223fd5828","leftId":"4775b6dc-2c3f-4e56-be89-adc87ae74a78","archived":false},{"id":"4c8e5d35-b00e-41c2-b08b-6055f44da128","contentId":"0266b910-74fa-4a7e-b469-13b7d76a78e3","userId":"TODO","blockStatus":"not started","parentId":"e476bc25-5e50-41a0-a941-b999ac543ea7","leftId":null,"archived":false},{"id":"74e0c2d0-dce4-48e3-9911-15d990266d03","contentId":"835ac456-1edd-4010-b6a5-e0ed85b81a2c","userId":"TODO","blockStatus":"not started","parentId":"540bfa8f-42ad-42d7-ab2a-f19b24c9c932","leftId":null,"archived":false},{"id":"9ecbd4ce-efb0-425b-aae4-2d59989e4423","contentId":"5bdfab51-a374-4d86-99a2-2be3c18585de","userId":"TODO","blockStatus":"not started","parentId":"94e1e0c8-7c86-421d-8469-594c00e4aa3d","leftId":null,"archived":false},{"id":"d758ca0a-1b9a-48c5-ac25-bbb4c272a0ae","contentId":"ccff4a3a-0b60-4226-a4a3-909f569eab70","userId":"TODO","blockStatus":"not started","parentId":"acef485c-551f-4fe2-adf1-c36163358f58","leftId":"f52f8015-427c-4cdc-8c5b-a728f6b03061","archived":false},{"id":"26638488-6ef6-4f71-b3bc-4766c51e0fa6","contentId":"ac648c67-f096-46bd-b9db-e74c24a3014c","userId":"TODO","blockStatus":"not started","parentId":"e3dc02b3-5714-4cb3-a893-d4ab546fb13f","leftId":"36050c83-594a-4dd7-adec-c36cff3ee5b3","archived":false},{"id":"8eab1223-9270-47c9-b43c-059a6137347a","contentId":"965ddb9e-a741-418b-8f08-5f87612db424","userId":"TODO","blockStatus":"not started","parentId":"home","leftId":null,"archived":true},{"id":"1b0ee7af-487c-4e2a-a598-ee25b7810bd3","contentId":"19ca7872-5e4a-484a-9db2-80d1fe146e9a","userId":"TODO","blockStatus":"not started","parentId":"540bfa8f-42ad-42d7-ab2a-f19b24c9c932","leftId":"d8a576bb-7442-46a0-8986-59343a453bfb","archived":false},{"id":"d05449f7-0c91-4416-bfbd-a69236d29bf6","contentId":"cf8dfa47-3e3f-49c6-a19c-7faa9a618356","userId":"TODO","blockStatus":"not started","parentId":"2ab8d62b-bdb2-4390-bb0d-0fb5b05edecf","leftId":null,"archived":false},{"id":"14958baa-2d9e-4a7a-be19-f725d4e42952","contentId":"3dff8b58-9c9a-475e-9df9-2885437f921d","userId":"TODO","blockStatus":"not started","parentId":"b6d2684a-86da-4404-b03f-610838e53706","leftId":null,"archived":false},{"id":"139b844f-b6e9-4181-81b9-7dbde1257550","contentId":"b7def871-9205-4c82-93bc-14e993042b4c","userId":"TODO","blockStatus":"not started","parentId":"28ece32b-d407-46e2-9582-47be6987307b","leftId":null,"archived":false},{"id":"baad01cd-c232-4c78-a890-e1bb21880418","contentId":"28ece32b-d407-46e2-9582-47be6987307b","userId":"TODO","blockStatus":"not started","parentId":"19ca7872-5e4a-484a-9db2-80d1fe146e9a","leftId":"f9ebdc06-27d8-47fd-b3b0-ba37507b8639","archived":false},{"id":"55503dd4-fac6-4b1b-be58-04e30cba0950","contentId":"9b7a47da-39ac-4e93-ab99-bad59476523c","userId":"TODO","blockStatus":"not started","parentId":"51993e38-38c7-4f2c-9cf5-42c8b1ebda67","leftId":null,"archived":false},{"id":"bdc15ba2-5934-44fe-81ae-2fd7c79be78f","contentId":"3bb5ba23-95f2-430f-bdca-06ecf73feb74","userId":"TODO","blockStatus":"not started","parentId":"01374f67-43f2-439d-9d07-143599f8b55a","leftId":"fd08716e-0a66-4461-8d33-2b1954ba1cb2","archived":false},{"id":"aaada551-e65b-4ba1-b189-d61aef71b0ef","contentId":"f8b59618-383b-47ce-8fad-2adc54bc4129","userId":"TODO","blockStatus":"not started","parentId":"98df749a-f9cd-452b-b78f-ed74342cea63","leftId":null,"archived":false},{"id":"4d56dc66-d284-4a69-aa67-6f227f15360d","contentId":"a8187651-3ef0-46bb-a7f8-3ac13c0da981","userId":"TODO","blockStatus":"not started","parentId":"28ece32b-d407-46e2-9582-47be6987307b","leftId":"e3bd6464-dc73-4444-9942-858d05cea373","archived":false},{"id":"located-child1","contentId":"content-b","userId":"TODO","blockStatus":"not started","parentId":"home","leftId":"8eab1223-9270-47c9-b43c-059a6137347a","archived":true},{"id":"572dc0c0-7f1b-4531-90e9-7f84064c588d","contentId":"ec8583d3-a506-4223-ac43-bff2709f3c5e","userId":"TODO","blockStatus":"not started","parentId":"19ca7872-5e4a-484a-9db2-80d1fe146e9a","leftId":null,"archived":false},{"id":"located-child2","contentId":"content-c","userId":"TODO","blockStatus":"not started","parentId":"home","leftId":"located-child1","archived":true},{"id":"e3bd6464-dc73-4444-9942-858d05cea373","contentId":"3db1ca2a-331b-430f-bb83-f78c764f17e3","userId":"TODO","blockStatus":"not started","parentId":"28ece32b-d407-46e2-9582-47be6987307b","leftId":"139b844f-b6e9-4181-81b9-7dbde1257550","archived":false},{"id":"91ea54be-9a8c-42f1-8f6d-a6a0c93b7032","contentId":"fc654a26-a797-4c4d-aa41-275d193de52f","userId":"TODO","blockStatus":"not started","parentId":"174fd78d-6721-4a17-b48e-c89183281530","leftId":"211c8950-3b9d-4ac7-82f3-a7e6a5f80626","archived":false},{"id":"523cc834-cfea-45d9-b753-30e983180fcd","contentId":"174fd78d-6721-4a17-b48e-c89183281530","userId":"TODO","blockStatus":"not started","parentId":"cb6d22e3-16d9-48f6-bae8-49e375ed43b3","leftId":null,"archived":false},{"id":"5bb260e1-4bb7-4cbb-b79b-cd56bc896ca0","contentId":"0734d147-1e02-435d-b6a5-c8138c884c9d","userId":"TODO","blockStatus":"not started","parentId":"4e7be33b-47e2-4b2b-b775-77e4a6ee2b82","leftId":null,"archived":false},{"id":"8fc5935f-bebb-4a5d-8713-b660d2174a66","contentId":"0f03fa03-3ec4-4b64-8b72-f03795e4f2ad","userId":"TODO","blockStatus":"not started","parentId":"acef485c-551f-4fe2-adf1-c36163358f58","leftId":"d758ca0a-1b9a-48c5-ac25-bbb4c272a0ae","archived":false},{"id":"22bad834-8de9-4703-944b-6f7c139e81db","contentId":"04bd8c06-ce1d-4e46-baab-cd120d7c181f","userId":"TODO","blockStatus":"not started","parentId":"540bfa8f-42ad-42d7-ab2a-f19b24c9c932","leftId":"8464f616-9156-4b07-a0a3-1818c08fe615","archived":false},{"id":"3216781a-6ecb-4c33-b051-b079627cf785","contentId":"eafe9ff4-64c4-4693-a1c0-a4a2f129157d","userId":"TODO","blockStatus":"not started","parentId":"3dff8b58-9c9a-475e-9df9-2885437f921d","leftId":null,"archived":false},{"id":"2ac0f984-eb82-4d3f-83a0-31a1e23ef0e3","contentId":"6898ee85-0162-4712-899b-bd5086c568fe","userId":"TODO","blockStatus":"not started","parentId":"04bd8c06-ce1d-4e46-baab-cd120d7c181f","leftId":null,"archived":false},{"id":"located-child3","contentId":"content-c","userId":"TODO","blockStatus":"not started","parentId":"home","leftId":"located-child2","archived":true},{"id":"d2fe8fb1-0566-4020-ab5b-fde0a598807d","contentId":"e3dc02b3-5714-4cb3-a893-d4ab546fb13f","userId":"TODO","blockStatus":"not started","parentId":"cb6d22e3-16d9-48f6-bae8-49e375ed43b3","leftId":"523cc834-cfea-45d9-b753-30e983180fcd","archived":false},{"id":"24ff8434-9b02-4652-9727-93344ce54c92","contentId":"4b4ecbe3-ae33-4846-9fa5-359fdcca2588","userId":"TODO","blockStatus":"not started","parentId":"acd1a8ae-c9e3-4bb0-b814-dfc1abade494","leftId":null,"archived":false},{"id":"e741e840-32f7-4ae3-977b-3e897f85470a","contentId":"8270a101-c85b-4b3f-b2d3-175da4bfb574","userId":"TODO","blockStatus":"not started","parentId":"acef485c-551f-4fe2-adf1-c36163358f58","leftId":"18845992-0080-49ce-a433-8491cfdf0844","archived":false},{"id":"a86c20a4-1ed7-4377-8cf6-59076fc5385d","contentId":"4daf794d-f4b9-42ca-bc07-9117a73afb2b","userId":"TODO","blockStatus":"not started","parentId":"54222694-bb0f-4eb9-b06b-4fc35e736641","leftId":null,"archived":false},{"id":"d9fbcda1-02c8-4936-82cd-d45dc6857dfe","contentId":"d01a5643-c111-4f84-abf1-f2f6b3942bf7","userId":"TODO","blockStatus":"not started","parentId":"cf8dfa47-3e3f-49c6-a19c-7faa9a618356","leftId":null,"archived":false},{"id":"68cadcfe-f197-4255-a96f-4a60008b3e27","contentId":"98df749a-f9cd-452b-b78f-ed74342cea63","userId":"TODO","blockStatus":"not started","parentId":"19ca7872-5e4a-484a-9db2-80d1fe146e9a","leftId":"4ba97ebd-db63-46cf-a152-978287a61953","archived":false},{"id":"4f3893ee-a771-43bf-9078-ca3c0f02b1d6","contentId":"dc55958f-5a75-4090-aa14-9a8e1d3e272a","userId":"TODO","blockStatus":"not started","parentId":"7f54f2e2-8fb7-4f6f-9ecd-3c7a17a37e42","leftId":null,"archived":false},{"id":"83f375e7-fb89-4663-a0e2-9ea34c093da0","contentId":"cf8dfa47-3e3f-49c6-a19c-7faa9a618356","userId":"TODO","blockStatus":"not started","parentId":"0266b910-74fa-4a7e-b469-13b7d76a78e3","leftId":null,"archived":false},{"id":"351be6f4-b528-4ba7-a3ea-59586e1fa946","contentId":"1b593bd6-1e5c-48f4-9b8c-30bfc33e015b","userId":"TODO","blockStatus":"not started","parentId":"54222694-bb0f-4eb9-b06b-4fc35e736641","leftId":"376b75b1-7dda-4736-aed3-4ddb21f91df0","archived":false},{"id":"f7f0b779-c5ab-4ffb-b4df-75788d6eddab","contentId":"0707e611-372b-4439-9f15-7558be962c3e","userId":"TODO","blockStatus":"not started","parentId":"70eec500-fb66-4cd7-9b2a-06c8368c6523","leftId":"92e522df-9294-4a17-9d83-c592d00d658f","archived":false},{"id":"b19a69ab-c86c-4ba0-a31e-1f6d3b0cb4f3","contentId":"acd1a8ae-c9e3-4bb0-b814-dfc1abade494","userId":"TODO","blockStatus":"not started","parentId":"home","leftId":"bd7dd708-bce4-41a6-bfc8-2fb4cb4d4efe","archived":false},{"id":"6d5bb8a1-aed5-4b9d-8c80-20b497de1873","contentId":"61d97adb-9575-475b-a832-4420f76776cd","userId":"TODO","blockStatus":"not started","parentId":"e334bcca-b38d-4bfd-b49e-e5224ab19697","leftId":null,"archived":false},{"id":"bde0da8e-0615-4328-b6d9-4d830949b203","contentId":"4b7a6a7f-6281-487d-81a4-da2daced0224","userId":"TODO","blockStatus":"not started","parentId":"540bfa8f-42ad-42d7-ab2a-f19b24c9c932","leftId":"1b0ee7af-487c-4e2a-a598-ee25b7810bd3","archived":false},{"id":"84775805-755d-4ebd-b4f3-8a12d5c2de87","contentId":"9296687e-f5a0-4905-bbec-fdfe4a6efa5b","userId":"TODO","blockStatus":"not started","parentId":"fd29ff94-8548-4a90-8d72-7f14e56e7744","leftId":"577f61eb-cb7b-4d3f-81a6-7786a1ee49bc","archived":false},{"id":"647bae7e-2eba-4d63-9207-7df3b3912581","contentId":"e476bc25-5e50-41a0-a941-b999ac543ea7","userId":"TODO","blockStatus":"not started","parentId":"e6e5de71-efef-4c36-be6b-6e0b9bfa7f73","leftId":"cb49d5b1-ffe2-4cfc-b028-29aa3885cba0","archived":false},{"id":"26406074-4076-4b7d-95d9-1df84e28c853","contentId":"20f08e2c-b34c-4235-86d3-66282dc5314d","userId":"TODO","blockStatus":"not started","parentId":"47198543-adcd-4c9f-8f39-aac18570b70c","leftId":"1f86f65c-56ad-4e81-8f48-d8f06f0b4bdf","archived":false},{"id":"c5da8fd5-66c9-4dbe-a9a0-ea4496c62e4f","contentId":"4df8deb5-2943-42f6-b82d-ee055c990f9e","userId":"TODO","blockStatus":"not started","parentId":"1ee0797d-55a2-4e3e-aff9-b7f649d62b19","leftId":null,"archived":false},{"id":"1f86f65c-56ad-4e81-8f48-d8f06f0b4bdf","contentId":"eeeb09b3-5700-4167-bb4f-f23c97155f76","userId":"TODO","blockStatus":"not started","parentId":"47198543-adcd-4c9f-8f39-aac18570b70c","leftId":null,"archived":false},{"id":"bf703315-5963-49a2-945e-617db95e25a9","contentId":"05b4758d-2721-478b-9fda-3059f2ac742e","userId":"TODO","blockStatus":"not started","parentId":"19ca7872-5e4a-484a-9db2-80d1fe146e9a","leftId":"68cadcfe-f197-4255-a96f-4a60008b3e27","archived":false},{"id":"37b624bf-6e8c-4f78-8d1a-794291238406","contentId":"48915cef-a3ac-4f79-8299-8d4b56ee4f49","userId":"TODO","blockStatus":"not started","parentId":"d3f6dafa-e53c-421c-a01b-9fdea0bc8458","leftId":"73e5de0b-b775-4663-af2c-e56c52ef0ecb","archived":false},{"id":"c7342e26-14bf-4518-9f11-8d3658285146","contentId":"e6e5de71-efef-4c36-be6b-6e0b9bfa7f73","userId":"TODO","blockStatus":"not started","parentId":"f3f04275-404b-4feb-98e2-c463971becae","leftId":null,"archived":false},{"id":"970aff68-84e1-4916-9239-d93596357ccc","contentId":"7a898c51-1cbd-44c5-8cef-a49dd5f419f1","userId":"TODO","blockStatus":"not started","parentId":"4e7be33b-47e2-4b2b-b775-77e4a6ee2b82","leftId":"5bb260e1-4bb7-4cbb-b79b-cd56bc896ca0","archived":false},{"id":"31b566d6-1d5d-4e94-a9c8-f6ef261ac048","contentId":"73e5c0b7-8201-4fb3-818a-1a90dbd045ad","userId":"TODO","blockStatus":"not started","parentId":"1ee0797d-55a2-4e3e-aff9-b7f649d62b19","leftId":"c5da8fd5-66c9-4dbe-a9a0-ea4496c62e4f","archived":false},{"id":"e4012b96-577c-4e37-90a5-2d360e9767a6","contentId":"d01a5643-c111-4f84-abf1-f2f6b3942bf7","userId":"TODO","blockStatus":"not started","parentId":"b7def871-9205-4c82-93bc-14e993042b4c","leftId":null,"archived":false},{"id":"11b992ad-781b-4659-b88b-54077c7b541e","contentId":"b7d58295-58bc-4bfb-90d3-478147d203d9","userId":"TODO","blockStatus":"not started","parentId":"3bb5ba23-95f2-430f-bdca-06ecf73feb74","leftId":null,"archived":false},{"id":"441ed5b7-4123-4ddf-8c63-bb071d339495","contentId":"d4c4ae74-976a-4d8c-a1c5-3394e7ff6b54","userId":"TODO","blockStatus":"not started","parentId":"54222694-bb0f-4eb9-b06b-4fc35e736641","leftId":"a86c20a4-1ed7-4377-8cf6-59076fc5385d","archived":false},{"id":"36050c83-594a-4dd7-adec-c36cff3ee5b3","contentId":"8cf5bf1c-3b10-431f-be5a-b676e546f595","userId":"TODO","blockStatus":"not started","parentId":"e3dc02b3-5714-4cb3-a893-d4ab546fb13f","leftId":"71984275-bc53-44ae-88a1-97345e63208f","archived":false},{"id":"c2e447c0-53d1-4ed9-b3a9-b108576f029e","contentId":"daac7193-6ca9-427b-b8fa-f10f63364a83","userId":"TODO","blockStatus":"not started","parentId":"886a2a62-9c2b-4ab0-86d1-608e2d0144f1","leftId":null,"archived":false},{"id":"ebc4e397-5234-4386-a0a7-ee65d30b907c","contentId":"e684c643-6437-46b5-b29f-936ca09fbc0c","userId":"TODO","blockStatus":"not started","parentId":"94e1e0c8-7c86-421d-8469-594c00e4aa3d","leftId":"9ecbd4ce-efb0-425b-aae4-2d59989e4423","archived":false},{"id":"5a234b6d-471d-4c08-8c96-02e12f86f18c","contentId":"0e81ba1c-1e80-42ce-8b3c-21b706caac15","userId":"TODO","blockStatus":"not started","parentId":"540bfa8f-42ad-42d7-ab2a-f19b24c9c932","leftId":"f7e981db-0770-48f1-a3ee-d7a042ce0f18","archived":false},{"id":"e2610eda-6fa7-43f0-aa35-f6e2df86eedd","contentId":"fd29ff94-8548-4a90-8d72-7f14e56e7744","userId":"TODO","blockStatus":"not started","parentId":"cb6d22e3-16d9-48f6-bae8-49e375ed43b3","leftId":"d2fe8fb1-0566-4020-ab5b-fde0a598807d","archived":false},{"id":"bd7dd708-bce4-41a6-bfc8-2fb4cb4d4efe","contentId":"d3f6dafa-e53c-421c-a01b-9fdea0bc8458","userId":"TODO","blockStatus":"not started","parentId":"home","leftId":"fba9de7e-7806-4f7f-994c-84d82c69cad8","archived":false},{"id":"f7e981db-0770-48f1-a3ee-d7a042ce0f18","contentId":"75bc445d-2d28-4f7c-a7e2-0384f1fa29b8","userId":"TODO","blockStatus":"not started","parentId":"540bfa8f-42ad-42d7-ab2a-f19b24c9c932","leftId":"520136c1-416c-4314-974e-e68aee54ef09","archived":false},{"id":"2c7ae202-1c5c-45ae-ac8b-791d23ee76ef","contentId":"2ab8d62b-bdb2-4390-bb0d-0fb5b05edecf","userId":"TODO","blockStatus":"not started","parentId":"33162a28-19c9-4a77-8033-16d35977a776","leftId":null,"archived":false},{"id":"0d975993-67fe-4817-ac6a-72be9e4b56a4","contentId":"7dea289b-3355-4664-9fbe-7c02398573e9","userId":"TODO","blockStatus":"not started","parentId":"e334bcca-b38d-4bfd-b49e-e5224ab19697","leftId":"6d5bb8a1-aed5-4b9d-8c80-20b497de1873","archived":false},{"id":"6c6d6f92-7269-4367-8819-e30e1d7e7263","contentId":"886a2a62-9c2b-4ab0-86d1-608e2d0144f1","userId":"TODO","blockStatus":"not started","parentId":"fd29ff94-8548-4a90-8d72-7f14e56e7744","leftId":null,"archived":false},{"id":"520136c1-416c-4314-974e-e68aee54ef09","contentId":"231731d3-cde5-4531-a55b-a8ef3f67a626","userId":"TODO","blockStatus":"not started","parentId":"540bfa8f-42ad-42d7-ab2a-f19b24c9c932","leftId":"22bad834-8de9-4703-944b-6f7c139e81db","archived":false},{"id":"92e522df-9294-4a17-9d83-c592d00d658f","contentId":"2b702349-ec5e-41ad-9bde-3aff6f8d1156","userId":"TODO","blockStatus":"not started","parentId":"70eec500-fb66-4cd7-9b2a-06c8368c6523","leftId":"d998e052-db5d-48ad-ade1-14205f939173","archived":false},{"id":"7d3b0b6d-412f-46ba-a63c-708edb42bee6","contentId":"f651b09b-6cb1-429a-abd5-7d424500212a","userId":"TODO","blockStatus":"not started","parentId":"7dea289b-3355-4664-9fbe-7c02398573e9","leftId":"a44475e3-9d42-4aad-8ff0-c72b414cae77","archived":false},{"id":"18845992-0080-49ce-a433-8491cfdf0844","contentId":"d972d491-c8b5-4924-900c-1a089af61cf3","userId":"TODO","blockStatus":"not started","parentId":"acef485c-551f-4fe2-adf1-c36163358f58","leftId":"8fc5935f-bebb-4a5d-8713-b660d2174a66","archived":false},{"id":"located-root","contentId":"home","userId":"TODO","blockStatus":"not started","parentId":null,"leftId":null,"archived":false},{"id":"2ceddcb1-9581-4632-a015-639dd7cc746d","contentId":"c8e3f778-dc5a-488b-9be2-dd3a3b58be13","userId":"TODO","blockStatus":"not started","parentId":"cb6d22e3-16d9-48f6-bae8-49e375ed43b3","leftId":"e2610eda-6fa7-43f0-aa35-f6e2df86eedd","archived":false},{"id":"d8a576bb-7442-46a0-8986-59343a453bfb","contentId":"5f334cdf-004b-4d4a-9976-6c0dc6188f20","userId":"TODO","blockStatus":"not started","parentId":"540bfa8f-42ad-42d7-ab2a-f19b24c9c932","leftId":"edfdd9d3-5dc5-4598-9c14-00ea03e987de","archived":false},{"id":"4fdd394e-d9fa-4dde-a8d0-02b524670f9a","contentId":"3776629f-b647-4861-ac0e-809457625202","userId":"TODO","blockStatus":"not started","parentId":"98df749a-f9cd-452b-b78f-ed74342cea63","leftId":"aaada551-e65b-4ba1-b189-d61aef71b0ef","archived":false},{"id":"f52f8015-427c-4cdc-8c5b-a728f6b03061","contentId":"cf8dfa47-3e3f-49c6-a19c-7faa9a618356","userId":"TODO","blockStatus":"not started","parentId":"acef485c-551f-4fe2-adf1-c36163358f58","leftId":null,"archived":false},{"id":"6d9505ac-3fef-4583-8efe-070e3dc032a8","contentId":"ff97bcf4-7227-473e-898c-49e415cf9879","userId":"TODO","blockStatus":"not started","parentId":"7dea289b-3355-4664-9fbe-7c02398573e9","leftId":"7d3b0b6d-412f-46ba-a63c-708edb42bee6","archived":false},{"id":"863f308e-a006-43b2-bc02-678433f46227","contentId":"f21a07ba-e77a-4bed-aedc-6a31110c25d9","userId":"TODO","blockStatus":"not started","parentId":"75bc445d-2d28-4f7c-a7e2-0384f1fa29b8","leftId":null,"archived":false},{"id":"12e5d844-9b6e-4ef0-8d01-1bbd7a40a8d7","contentId":"7f6cce3a-4bce-4fcc-a6f6-586d9aaa9577","userId":"TODO","blockStatus":"not started","parentId":"fd29ff94-8548-4a90-8d72-7f14e56e7744","leftId":"6c6d6f92-7269-4367-8819-e30e1d7e7263","archived":false},{"id":"498af5c2-807c-4636-bd35-d37ad1abdff2","contentId":"0a0c14f5-590d-4288-b259-74fc8c1a6bcc","userId":"TODO","blockStatus":"not started","parentId":"ccff4a3a-0b60-4226-a4a3-909f569eab70","leftId":"a7829f67-4f5b-4f52-a439-c3ff69e9fac0","archived":false},{"id":"a42b106f-3a0c-4778-b30f-c48dfb3a95d1","contentId":"4fbe2884-3ad9-4a89-8a93-2b7360824bce","userId":"TODO","blockStatus":"not started","parentId":"fd29ff94-8548-4a90-8d72-7f14e56e7744","leftId":"84775805-755d-4ebd-b4f3-8a12d5c2de87","archived":false},{"id":"e4425bd2-2989-4202-84ce-9e2670265eff","contentId":"62788f9d-545a-440c-ae1a-012c5a85c6c1","userId":"TODO","blockStatus":"not started","parentId":"4b7a6a7f-6281-487d-81a4-da2daced0224","leftId":null,"archived":false}]}
+{
+  "blockContents": [
+    {
+      "id": "8270a101-c85b-4b3f-b2d3-175da4bfb574",
+      "verb": "DO",
+      "humanText": "Think about whether you can reasonably complete this list within your current work session. If not, consider removing some goals. It always feels better to get everything done!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "21781233-4437-4f63-af27-de2658b5ba48",
+      "verb": "EDIT",
+      "humanText": "The block types",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "65f241ab-8524-43f1-be84-2b658acde436",
+      "verb": "DO",
+      "humanText": "Come up with a goal, or multiple goals for the work session, and write them below as separate blocks. They can be very vague and fuzzy, that's okay! Examples: \"Make progress towards...\" or \"finish [some goal]...\"",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "5bdfab51-a374-4d86-99a2-2be3c18585de",
+      "verb": "READ",
+      "humanText": "This guide is for anyone who wants to create their first (or second, or third) pull request on Github!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "b7d58295-58bc-4bfb-90d3-478147d203d9",
+      "verb": "READ",
+      "humanText": "You're all done for now! Goodbye til next time.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "dee5744f-58fa-4d72-b03e-9e40a9130c10",
+      "verb": "READ",
+      "humanText": "I plan to work from...",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "51993e38-38c7-4f2c-9cf5-42c8b1ebda67",
+      "verb": "CHOOSE",
+      "humanText": "Would you like a quick tour of the Methodable editor?",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "8841e1de-09e3-4d9b-a93e-4fc9b32cb733",
+      "verb": "DO",
+      "humanText": "This is a 'Do' block",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "54222694-bb0f-4eb9-b06b-4fc35e736641",
+      "verb": "READ",
+      "humanText": "'Do' blocks",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "1993ee98-6e32-4e76-bee9-955d790db688",
+      "verb": "READ",
+      "humanText": "If you don't know how to do that stuff, don't worry! You can always stick to outlining goals and tasks with \"Do\" type blocks (blocks with the blue running emoji). By default, the blocks you create will be of this type.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "4e7be33b-47e2-4b2b-b775-77e4a6ee2b82",
+      "verb": "DO",
+      "humanText": "Example program",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "2ab8d62b-bdb2-4390-bb0d-0fb5b05edecf",
+      "verb": "DO",
+      "humanText": "Fill out your task list with specific tasks to do during this work session. ",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "2b702349-ec5e-41ad-9bde-3aff6f8d1156",
+      "verb": "READ",
+      "humanText": "...",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "94e1e0c8-7c86-421d-8469-594c00e4aa3d",
+      "verb": "DO",
+      "humanText": "Create a pull request on Github",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "9f7a5608-0d34-47f4-a430-f253a8b8cc54",
+      "verb": "ANSWER",
+      "humanText": "No, I'd like to go straight to my programs.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "70eec500-fb66-4cd7-9b2a-06c8368c6523",
+      "verb": "READ",
+      "humanText": "Welcome to a very early version of Methodable! Methodable generates interactive guides to help people get things done.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "1b593bd6-1e5c-48f4-9b8c-30bfc33e015b",
+      "verb": "EDIT",
+      "humanText": "A program with lots of 'Do' blocks",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "48915cef-a3ac-4f79-8299-8d4b56ee4f49",
+      "verb": "READ",
+      "humanText": "Better human-programming software could not only improve our ability to express our existing workflows, it could allow us to express and complete workflows that are currently unimaginable.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "acc16f9b-3bac-4187-bf11-1c4bb7c4ed4b",
+      "verb": "READ",
+      "humanText": "These guides can be referred to as \"human programs\".",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "0f03fa03-3ec4-4b64-8b72-f03795e4f2ad",
+      "verb": "DO",
+      "humanText": "For each task in your list, think, is this task clear and doable? If not, either clarify it (by editing the task or adding subtasks), or delete it.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "cb6d22e3-16d9-48f6-bae8-49e375ed43b3",
+      "verb": "DO",
+      "humanText": "Learn how to create guides with the Methodable editor.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "cfcd524b-8242-491b-b0d4-afe1a156f448",
+      "verb": "READ",
+      "humanText": "There are five block types, which you can see below. I'll explain each of them next.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "0707e611-372b-4439-9f15-7558be962c3e",
+      "verb": "READ",
+      "humanText": "Why are human programs important?",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "8f1ccf4e-3a50-4c7f-a60d-b0f49aadfc77",
+      "verb": "READ",
+      "humanText": "1. Reflect on what you've accomplished",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "0734d147-1e02-435d-b6a5-c8138c884c9d",
+      "verb": "DO",
+      "humanText": "example first step",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "d3f6dafa-e53c-421c-a01b-9fdea0bc8458",
+      "verb": "READ",
+      "humanText": "In the paper age, we used numbered lists and flow charts to represent sequences of instructions for humans.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "4daf794d-f4b9-42ca-bc07-9117a73afb2b",
+      "verb": "READ",
+      "humanText": "'Do' blocks represent things to do, in the imperative form (e.g. \"go on a walk\"). These can be tasks or goals or programs: it's all the same.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "55ca0243-277a-4569-9a79-eafa3782d30f",
+      "verb": "READ",
+      "humanText": "A pull request allows you to make changes to a codebase, submit those changes for review, and finally merge your changes into a version of the codebase. Pull requests are a great system to use when working collaboratively on a shared codebase, or when suggesting changes to someone else's codebase.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "f21a07ba-e77a-4bed-aedc-6a31110c25d9",
+      "verb": "EDIT",
+      "humanText": "For reference: your intention statement",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "f7259de4-1f67-42f9-a4d2-73a048073da7",
+      "verb": "READ",
+      "humanText": "Here's a good place to play around with new block types!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "b7def871-9205-4c82-93bc-14e993042b4c",
+      "verb": "EDIT",
+      "humanText": "Your task list to reflect on and clean up",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "62788f9d-545a-440c-ae1a-012c5a85c6c1",
+      "verb": "READ",
+      "humanText": "Remember: Doing your best doesn't mean getting a lot done: doing your best means putting in effort. Sometimes that effort translates directly to present accomplishments, and sometimes it doesn't. Even on days where you feel less accomplished, you can still feel proud that you not only put in the effort, but you also did your best to reflect and improve your methods for the future.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "e334bcca-b38d-4bfd-b49e-e5224ab19697",
+      "verb": "DO",
+      "humanText": "Do my morning routine",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "0a069609-199d-4be2-8976-eb9dd384d354",
+      "verb": "READ",
+      "humanText": "It's now the computer age, and yet our technology for representing sequences of instructions remains: numbered lists and flow charts, but on a screen (like Wikihow). Because of the limitations of current software, we mostly keep our workflows inside our heads.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "231731d3-cde5-4531-a55b-a8ef3f67a626",
+      "verb": "READ",
+      "humanText": "Awesome! We'll check back in on those intentions at the end of your session. Next, we'll set some specific tasks.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "c8e3f778-dc5a-488b-9be2-dd3a3b58be13",
+      "verb": "DO",
+      "humanText": "Learn about block types in Methodable",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "acd1a8ae-c9e3-4bb0-b814-dfc1abade494",
+      "verb": "READ",
+      "humanText": "Methodable is building a fundamentally different system that combines the best parts of modern note-taking and computer-programing software.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "98df749a-f9cd-452b-b78f-ed74342cea63",
+      "verb": "DO",
+      "humanText": "Copy your reflection to a note that houses all of your reflections.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "a8187651-3ef0-46bb-a7f8-3ac13c0da981",
+      "verb": "DO",
+      "humanText": "Now that you've reflected on the tasks, delete them all (minus the title, which can stay), so that next time you start with a blank slate (right now, deleting things requires you to delete line-by-line, sorry). If you would like to leave a task for next time, feel free, but if a task has been in your list for a few sessions, you should seriously consider removing it, further specifying it, or getting help with completing it.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "61d97adb-9575-475b-a832-4420f76776cd",
+      "verb": "DO",
+      "humanText": "Stretch",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "7dea289b-3355-4664-9fbe-7c02398573e9",
+      "verb": "DO",
+      "humanText": "Make coffee",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "0a0c14f5-590d-4288-b259-74fc8c1a6bcc",
+      "verb": "READ",
+      "humanText": "Regardless, click \"Continue\".",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "50a20e30-9f87-4364-b2c4-e1b209e81499",
+      "verb": "DO",
+      "humanText": "Now, for each goal, break it down into more concrete subtasks. You might have to break it into subgoals before breaking it into concrete tasks. If your goal is of the form \"Make progress towards...\", then consider breaking it down into a \"most important next step\": What is the smallest thing you can do that moves you the closest towards that goal?",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "73e5c0b7-8201-4fb3-818a-1a90dbd045ad",
+      "verb": "CHOOSE",
+      "humanText": "Sandbox",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "6898ee85-0162-4712-899b-bd5086c568fe",
+      "verb": "EDIT",
+      "humanText": "Write your timing / intention statement here",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "3032e125-262f-4935-a636-0d9ea32a3527",
+      "verb": "ANSWER",
+      "humanText": "No, I'll go straight to the program",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "0266b910-74fa-4a7e-b469-13b7d76a78e3",
+      "verb": "DO",
+      "humanText": "Pick some goals, then gradually break those goals down into concrete tasks and add them to your tasklist.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "d4c4ae74-976a-4d8c-a1c5-3394e7ff6b54",
+      "verb": "READ",
+      "humanText": "When a 'Do' block has children, those children represent the steps (in order) necessary to complete that goal.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "4df8deb5-2943-42f6-b82d-ee055c990f9e",
+      "verb": "CHOOSE",
+      "humanText": "Examples programs",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "f3f04275-404b-4feb-98e2-c463971becae",
+      "verb": "DO",
+      "humanText": "Fill out the first draft of your task list",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "e3dc02b3-5714-4cb3-a893-d4ab546fb13f",
+      "verb": "READ",
+      "humanText": "We will be using the editor in Guide mode during this program. To see what I mean, I've included a random editor below.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "9b7a47da-39ac-4e93-ab99-bad59476523c",
+      "verb": "ANSWER",
+      "humanText": "Yes, I'd love to learn how the editor works!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "e684c643-6437-46b5-b29f-936ca09fbc0c",
+      "verb": "DO",
+      "humanText": " ",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "acef485c-551f-4fe2-adf1-c36163358f58",
+      "verb": "DO",
+      "humanText": "Simplify your first draft task list to be clearer and better prioritized.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "2ce83d18-797a-443e-a9aa-b86ef044582b",
+      "verb": "DO",
+      "humanText": "fill the coffee pot with water",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "c0780015-e0a0-41cb-a0bf-c1b643b9b005",
+      "verb": "READ",
+      "humanText": "1. You might see an editor in Editor mode, where it takes up the full screen.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "fc654a26-a797-4c4d-aa41-275d193de52f",
+      "verb": "READ",
+      "humanText": "2. You might see an editor as a workspace below an instruction in Guide mode.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "fd29ff94-8548-4a90-8d72-7f14e56e7744",
+      "verb": "DO",
+      "humanText": "Learn to create and title a human program",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "3776629f-b647-4861-ac0e-809457625202",
+      "verb": "DO",
+      "humanText": "Copy your intention statement and reflections into the list of intention statements and reflections, so that you can reference your notes later. You can press enter at the end of the title line to insert a new block at the beginning of the list.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "e6e5de71-efef-4c36-be6b-6e0b9bfa7f73",
+      "verb": "CHOOSE",
+      "humanText": "Do you know exactly what tasks you need to do during this work session?",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "eafe9ff4-64c4-4693-a1c0-a4a2f129157d",
+      "verb": "READ",
+      "humanText": "[example reflection]",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "24722b44-5aff-48a0-b546-f624ab517304",
+      "verb": "READ",
+      "humanText": "Hey, Daniel here! I'm not done with this guide yet.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "4fbe2884-3ad9-4a89-8a93-2b7360824bce",
+      "verb": "READ",
+      "humanText": "So now you have a program which represents a goal (which is to create a routine). Of course, the guide it creates is not super helpful. So, next up, we'll add substeps!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "eeeb09b3-5700-4167-bb4f-f23c97155f76",
+      "verb": "READ",
+      "humanText": "Block types are little emojis that live to the left of each block of text. Along with indentation, block types are all the computer needs to turn your text outline into a complex, interactive guide.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "daac7193-6ca9-427b-b8fa-f10f63364a83",
+      "verb": "DO",
+      "humanText": "Create your routine",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "d9ca84d9-a6a8-4643-9942-b3d270e6d352",
+      "verb": "DO",
+      "humanText": "drink the coffee",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "3bb5ba23-95f2-430f-bdca-06ecf73feb74",
+      "verb": "READ",
+      "humanText": "Thanks for making edits and improving your methods!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "20f08e2c-b34c-4235-86d3-66282dc5314d",
+      "verb": "READ",
+      "humanText": "The block type system is powerful enough that creating a Methodable guide requires NO SPECIAL SYNTAX. Every letter you ever type will be in your own language, to be read by a human.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "886a2a62-9c2b-4ab0-86d1-608e2d0144f1",
+      "verb": "EDIT",
+      "humanText": "The editor where you will write your program",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "ff97bcf4-7227-473e-898c-49e415cf9879",
+      "verb": "DO",
+      "humanText": "put the water through the coffee filter",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "a5ddc6dd-aad8-4997-96d1-caa3c6ac1a3d",
+      "verb": "DO",
+      "humanText": "Look at your intention statement, and reflect on how your work session compared to your intentions. What went well, what might you try differently next time?",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "848c376d-f57f-483f-9fc2-7146f25aa180",
+      "verb": "ANSWER",
+      "humanText": "Yes, I'd like to review my past reflections",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "cf3dc07d-be07-4cdd-b3fb-3dee87b51869",
+      "verb": "DO",
+      "humanText": "Finally, reflect on the process overall: how did it feel to create a task list, complete tasks, and reflect on all of it? Could anything be better about the program itself?",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "1370eac9-a963-4a6e-832d-442f47e817fb",
+      "verb": "CHOOSE",
+      "humanText": "If you've done this program before, you'll have some past reflections. Would you like to look at those reflections?",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "75bc445d-2d28-4f7c-a7e2-0384f1fa29b8",
+      "verb": "DO",
+      "humanText": "Set up a task list for your current work session that is clear, easy to follow, and well prioritized.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "04bd8c06-ce1d-4e46-baab-cd120d7c181f",
+      "verb": "DO",
+      "humanText": "To get started, let's give your work session some context. Write something below of the form \"I plan to work from [start time] to [end time]. I hope to [feel a certain way / accomplish a certain thing].\"",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "b2c04dab-62a3-457d-a4d1-ddae5f7773b7",
+      "verb": "DO",
+      "humanText": "Create a block under your intention statement by clicking at the end of the line and pressing enter. On the new line, type \"Reflection: \".",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "cf8dfa47-3e3f-49c6-a19c-7faa9a618356",
+      "verb": "EDIT",
+      "humanText": "List your goals and tasks here",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "7a898c51-1cbd-44c5-8cef-a49dd5f419f1",
+      "verb": "DO",
+      "humanText": "etc.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "0f821599-b2ce-4657-a58c-31320abae31c",
+      "verb": "READ",
+      "humanText": "So, even though we're in Guide mode, we can still edit stuff!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "28ece32b-d407-46e2-9582-47be6987307b",
+      "verb": "DO",
+      "humanText": "Reflect on your task list and clean up the task list for next time.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "f651b09b-6cb1-429a-abd5-7d424500212a",
+      "verb": "DO",
+      "humanText": "boil it",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "9296687e-f5a0-4905-bbec-fdfe4a6efa5b",
+      "verb": "READ",
+      "humanText": "You can also click \"Run\" (to the right of the title) to run the program.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "e3f6f47d-bd0c-4e22-9c46-284223fd5828",
+      "verb": "CHOOSE",
+      "humanText": "Here are all of the block types:",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "835ac456-1edd-4010-b6a5-e0ed85b81a2c",
+      "verb": "READ",
+      "humanText": "Good day! I hope you're excited to get things done! This program will help you create a task list, execute the tasks, and reflect on the entire session.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "4b7a6a7f-6281-487d-81a4-da2daced0224",
+      "verb": "READ",
+      "humanText": "Nicely done! You've gotten things done, reflected on the process, and set yourself up for future success!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "8cf5bf1c-3b10-431f-be5a-b676e546f595",
+      "verb": "READ",
+      "humanText": "No need to edit anything yet.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "47198543-adcd-4c9f-8f39-aac18570b70c",
+      "verb": "READ",
+      "humanText": "First though, let's learn about one of the most important parts of Methodable: Block types!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "7f54f2e2-8fb7-4f6f-9ecd-3c7a17a37e42",
+      "verb": "READ",
+      "humanText": "Here's the program you just followed. If you can think of any ways to improve it, please make changes. You can reword things, add details, delete steps, or move things around. Be creative!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "3db1ca2a-331b-430f-bb83-f78c764f17e3",
+      "verb": "DO",
+      "humanText": "For each goal or task in your task list, write a bit about it in your reflection. For example: Did you complete it? If so, how did it feel? If not, what prevented you from completing it? Was it easy or hard? What do you wish you knew before you started? What did you learn?",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "ccff4a3a-0b60-4226-a4a3-909f569eab70",
+      "verb": "READ",
+      "humanText": "A quick note before we clean up the task list:",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "0e81ba1c-1e80-42ce-8b3c-21b706caac15",
+      "verb": "READ",
+      "humanText": "Awesome, you now have a very healthy task list! Next up: doing it!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "77479a28-2b25-4204-89b9-c2fbd2096eca",
+      "verb": "ANSWER",
+      "humanText": "This is an 'Answer' block",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "6c8ba162-dbb4-45ec-8e0e-95ac53a7f628",
+      "verb": "READ",
+      "humanText": "2. Clean up your task list and prepare things for your next session",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "9dfba03b-ace2-49c7-812b-87bc9d0cefc6",
+      "verb": "READ",
+      "humanText": "This is a 'Read' block",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "070b757e-5ae0-465f-a5d4-d45bc6ecb087",
+      "verb": "DO",
+      "humanText": "First off, let's rename the program. Replace \"[program name]\" with \"Create your routine\". Don't press 'enter' just yet, instead press the \"continue\" button on the screen when you're done.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "19ca7872-5e4a-484a-9db2-80d1fe146e9a",
+      "verb": "DO",
+      "humanText": "Reflect on your work session and clean up your task list.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "5f334cdf-004b-4d4a-9976-6c0dc6188f20",
+      "verb": "READ",
+      "humanText": "Great work! Next up, you'll do two things:",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "d01a5643-c111-4f84-abf1-f2f6b3942bf7",
+      "verb": "DO",
+      "humanText": "Work your way through the tasks below:",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "ac648c67-f096-46bd-b9db-e74c24a3014c",
+      "verb": "EDIT",
+      "humanText": "An example of an editor that exists within a guide",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "099146fe-1294-4c54-be70-8504e610d5cb",
+      "verb": "READ",
+      "humanText": "In case you're wondering, the resulting routine will itself be a guide within Methodable. We're getting real meta real quick, but that's where Methodable shines!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "174fd78d-6721-4a17-b48e-c89183281530",
+      "verb": "READ",
+      "humanText": "Awesome! The first thing you should know is that there are two places you might see an editor.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "453f08c4-3559-4974-9c17-80ea38aeee26",
+      "verb": "EDIT",
+      "humanText": "This is an 'Edit' block",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "5c9ee924-c424-4695-b893-411f39bf07f2",
+      "verb": "DO",
+      "humanText": "[task/goal 1]",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "7f512fb6-5c2d-46a4-af57-4afd20b11442",
+      "verb": "READ",
+      "humanText": "What's a pull Request?",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "01374f67-43f2-439d-9d07-143599f8b55a",
+      "verb": "DO",
+      "humanText": "Make a task list, do the tasks, then improve the program for next time.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "b6d2684a-86da-4404-b03f-610838e53706",
+      "verb": "READ",
+      "humanText": "Here are your intention statements and reflections from past work sessions:",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "0ef4623e-429f-4a18-aa08-9f0d6a14f3d1",
+      "verb": "READ",
+      "humanText": "Sounds good! If this is your first time, then you'll be generating reflections soon :)",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "f8b59618-383b-47ce-8fad-2adc54bc4129",
+      "verb": "EDIT",
+      "humanText": "List of intention statements and reflections: copy your intention statement and reflections into here",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "540bfa8f-42ad-42d7-ab2a-f19b24c9c932",
+      "verb": "DO",
+      "humanText": "Create and execute a list of tasks during some set period of work.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "1ee0797d-55a2-4e3e-aff9-b7f649d62b19",
+      "verb": "CHOOSE",
+      "humanText": "Here are your programs",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "0ff93d3a-a27a-492c-beec-14a1edb722c6",
+      "verb": "CHOOSE",
+      "humanText": "This is a 'Choose' block",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "4b4ecbe3-ae33-4846-9fa5-359fdcca2588",
+      "verb": "READ",
+      "humanText": "The result is a fluid interface for thinking about, creating, tweaking, and following structured workflows.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "9487c7e1-942d-44f0-a6dc-6f626b2e6b24",
+      "verb": "READ",
+      "humanText": "Your task list is a program. You will not *reference* it, rather you will be *guided through* it. That means that, if you'd like, you can add workspace references, choices, or reading material to any part of the program!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "d972d491-c8b5-4924-900c-1a089af61cf3",
+      "verb": "DO",
+      "humanText": "Think, which of these tasks is lowest priority? Consider deleting those tasks, or moving them later in the list.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "dc55958f-5a75-4090-aa14-9a8e1d3e272a",
+      "verb": "EDIT",
+      "humanText": "The program: feel free to make any edits",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "3eb0dad5-7630-4cf0-8a72-00303121f14e",
+      "verb": "CHOOSE",
+      "humanText": "(add more folders here)",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "bc7b2877-366b-4d12-b4b4-5f575ec0f53a",
+      "verb": "READ",
+      "humanText": "Congrats! You've made your first human program in Methodable! Don't believe me? Click \"Show Preview\" below to see what your program looks like.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "db72a7bf-ad03-43ce-a395-d45b7d13c148",
+      "verb": "READ",
+      "humanText": "Check out the example below, and feel free to give it a run!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "3dff8b58-9c9a-475e-9df9-2885437f921d",
+      "verb": "READ",
+      "humanText": "[example intention statement]",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "e476bc25-5e50-41a0-a941-b999ac543ea7",
+      "verb": "ANSWER",
+      "humanText": "No, I need help thinking through my tasks.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "7f6cce3a-4bce-4fcc-a6f6-586d9aaa9577",
+      "verb": "READ",
+      "humanText": "Here's the actual editor we're gonna be playing with! In this tutorial, we'll create a program that'll help you set up a routine.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "33162a28-19c9-4a77-8033-16d35977a776",
+      "verb": "ANSWER",
+      "humanText": "Yes, I could write down specific tasks to do.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "ec8583d3-a506-4223-ac43-bff2709f3c5e",
+      "verb": "EDIT",
+      "humanText": "you intention statement and reflections",
+      "userId": "TODO",
+      "archived": false
+    },
+    { "id": "home", "verb": "DO", "humanText": "Home", "userId": "TODO", "archived": false },
+    {
+      "id": "05b4758d-2721-478b-9fda-3059f2ac742e",
+      "verb": "DO",
+      "humanText": "Now that you've saved that info, delete your intention statement and reflection, so that next time you are starting with a blank slate. Again, you will have to do so line-by-line.",
+      "userId": "TODO",
+      "archived": false
+    }
+  ],
+  "locatedBlocks": [
+    {
+      "id": "1ecd5d48-d95e-46fa-82ed-f6ec0c7fa170",
+      "contentId": "e3f6f47d-bd0c-4e22-9c46-284223fd5828",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "21781233-4437-4f63-af27-de2658b5ba48",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "bf895b6e-cb9c-4151-8cc0-ec28a5abf147",
+      "contentId": "24722b44-5aff-48a0-b546-f624ab517304",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "c8e3f778-dc5a-488b-9be2-dd3a3b58be13",
+      "leftId": "31275ac1-f959-4494-97c3-e59a3987cdf8",
+      "archived": false
+    },
+    {
+      "id": "be858b93-0afc-49b5-8baa-8a0a8fe4c86f",
+      "contentId": "0ef4623e-429f-4a18-aa08-9f0d6a14f3d1",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "3032e125-262f-4935-a636-0d9ea32a3527",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "4775b6dc-2c3f-4e56-be89-adc87ae74a78",
+      "contentId": "0ff93d3a-a27a-492c-beec-14a1edb722c6",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e3f6f47d-bd0c-4e22-9c46-284223fd5828",
+      "leftId": "0455bdd3-7e49-42ed-b84c-c0a890253a98",
+      "archived": false
+    },
+    {
+      "id": "8fc4c5ff-d8f1-4566-bf96-42c748226262",
+      "contentId": "e334bcca-b38d-4bfd-b49e-e5224ab19697",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "1b593bd6-1e5c-48f4-9b8c-30bfc33e015b",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "b569fdbc-9c8a-4788-a362-fd45ec81e09a",
+      "contentId": "acef485c-551f-4fe2-adf1-c36163358f58",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "75bc445d-2d28-4f7c-a7e2-0384f1fa29b8",
+      "leftId": "101867e5-892a-4e7c-96f1-bc75d882e0a8",
+      "archived": false
+    },
+    {
+      "id": "9a8d9505-a955-4f7c-8fd3-57894ca145bb",
+      "contentId": "b6d2684a-86da-4404-b03f-610838e53706",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "848c376d-f57f-483f-9fc2-7146f25aa180",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "a9ad9b52-86a9-47f0-bc10-986dc7511c93",
+      "contentId": "070b757e-5ae0-465f-a5d4-d45bc6ecb087",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "fd29ff94-8548-4a90-8d72-7f14e56e7744",
+      "leftId": "12e5d844-9b6e-4ef0-8d01-1bbd7a40a8d7",
+      "archived": false
+    },
+    {
+      "id": "a44475e3-9d42-4aad-8ff0-c72b414cae77",
+      "contentId": "2ce83d18-797a-443e-a9aa-b86ef044582b",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "7dea289b-3355-4664-9fbe-7c02398573e9",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "55f704ea-afde-4735-8957-f7b6fcba053b",
+      "contentId": "dee5744f-58fa-4d72-b03e-9e40a9130c10",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "ec8583d3-a506-4223-ac43-bff2709f3c5e",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "a26cd58b-1edb-4dc6-ac49-bcfa41e33e28",
+      "contentId": "47198543-adcd-4c9f-8f39-aac18570b70c",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "c8e3f778-dc5a-488b-9be2-dd3a3b58be13",
+      "leftId": "7e91d75c-ab6a-416d-b7c0-be78e8fca561",
+      "archived": false
+    },
+    {
+      "id": "71984275-bc53-44ae-88a1-97345e63208f",
+      "contentId": "0f821599-b2ce-4657-a58c-31320abae31c",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e3dc02b3-5714-4cb3-a893-d4ab546fb13f",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "870e26ac-b484-4737-9f31-400cac192f8e",
+      "contentId": "9dfba03b-ace2-49c7-812b-87bc9d0cefc6",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e3f6f47d-bd0c-4e22-9c46-284223fd5828",
+      "leftId": "d4403691-5eb0-4b16-a847-c175f0a30376",
+      "archived": false
+    },
+    {
+      "id": "e9d4e2e0-5066-4607-a8ce-7aab76101813",
+      "contentId": "50a20e30-9f87-4364-b2c4-e1b209e81499",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "0266b910-74fa-4a7e-b469-13b7d76a78e3",
+      "leftId": "9aede2e9-725a-47d3-b1fb-a5bf218df7e5",
+      "archived": false
+    },
+    {
+      "id": "f1e3366a-603c-401f-97fc-6e5de9d95b84",
+      "contentId": "099146fe-1294-4c54-be70-8504e610d5cb",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "7f6cce3a-4bce-4fcc-a6f6-586d9aaa9577",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "376b75b1-7dda-4736-aed3-4ddb21f91df0",
+      "contentId": "db72a7bf-ad03-43ce-a395-d45b7d13c148",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "54222694-bb0f-4eb9-b06b-4fc35e736641",
+      "leftId": "441ed5b7-4123-4ddf-8c63-bb071d339495",
+      "archived": false
+    },
+    {
+      "id": "7ecda7ab-8219-4e8b-a605-1e667c7c94a8",
+      "contentId": "4e7be33b-47e2-4b2b-b775-77e4a6ee2b82",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "ac648c67-f096-46bd-b9db-e74c24a3014c",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "31275ac1-f959-4494-97c3-e59a3987cdf8",
+      "contentId": "54222694-bb0f-4eb9-b06b-4fc35e736641",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "c8e3f778-dc5a-488b-9be2-dd3a3b58be13",
+      "leftId": "a26cd58b-1edb-4dc6-ac49-bcfa41e33e28",
+      "archived": false
+    },
+    {
+      "id": "211c8950-3b9d-4ac7-82f3-a7e6a5f80626",
+      "contentId": "c0780015-e0a0-41cb-a0bf-c1b643b9b005",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "174fd78d-6721-4a17-b48e-c89183281530",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "96356d2f-ced8-4649-a304-700808b7425a",
+      "contentId": "cfcd524b-8242-491b-b0d4-afe1a156f448",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "47198543-adcd-4c9f-8f39-aac18570b70c",
+      "leftId": "26406074-4076-4b7d-95d9-1df84e28c853",
+      "archived": false
+    },
+    {
+      "id": "70d57a96-44e9-44db-9e9c-ebb82fc7e82c",
+      "contentId": "55ca0243-277a-4569-9a79-eafa3782d30f",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "7f512fb6-5c2d-46a4-af57-4afd20b11442",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "4777aff3-41e2-462b-ab1f-849352c7b701",
+      "contentId": "9f7a5608-0d34-47f4-a430-f253a8b8cc54",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "51993e38-38c7-4f2c-9cf5-42c8b1ebda67",
+      "leftId": "55503dd4-fac6-4b1b-be58-04e30cba0950",
+      "archived": false
+    },
+    {
+      "id": "525c9f06-3c68-417b-89e0-b874d0528558",
+      "contentId": "540bfa8f-42ad-42d7-ab2a-f19b24c9c932",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "01374f67-43f2-439d-9d07-143599f8b55a",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "fba9de7e-7806-4f7f-994c-84d82c69cad8",
+      "contentId": "70eec500-fb66-4cd7-9b2a-06c8368c6523",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "home",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "73e5de0b-b775-4663-af2c-e56c52ef0ecb",
+      "contentId": "0a069609-199d-4be2-8976-eb9dd384d354",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "d3f6dafa-e53c-421c-a01b-9fdea0bc8458",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "a7829f67-4f5b-4f52-a439-c3ff69e9fac0",
+      "contentId": "1993ee98-6e32-4e76-bee9-955d790db688",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "ccff4a3a-0b60-4226-a4a3-909f569eab70",
+      "leftId": "f2d46c3e-7810-4572-81b1-db832ee1abdb",
+      "archived": false
+    },
+    {
+      "id": "fffcff1a-44e6-4296-bfae-a66e33b0f5d8",
+      "contentId": "3eb0dad5-7630-4cf0-8a72-00303121f14e",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "1ee0797d-55a2-4e3e-aff9-b7f649d62b19",
+      "leftId": "31b566d6-1d5d-4e94-a9c8-f6ef261ac048",
+      "archived": false
+    },
+    {
+      "id": "2103d6a7-08b7-487c-ad64-23e801f4c7f8",
+      "contentId": "b6d2684a-86da-4404-b03f-610838e53706",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "f8b59618-383b-47ce-8fad-2adc54bc4129",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "85c11f1c-0206-438b-a62e-fddbfb1aecb6",
+      "contentId": "8f1ccf4e-3a50-4c7f-a60d-b0f49aadfc77",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "5f334cdf-004b-4d4a-9976-6c0dc6188f20",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "0f3a661d-10a7-4540-97b5-e323c51665c5",
+      "contentId": "848c376d-f57f-483f-9fc2-7146f25aa180",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "1370eac9-a963-4a6e-832d-442f47e817fb",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "4ba97ebd-db63-46cf-a152-978287a61953",
+      "contentId": "cf3dc07d-be07-4cdd-b3fb-3dee87b51869",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "19ca7872-5e4a-484a-9db2-80d1fe146e9a",
+      "leftId": "04e43fa6-22c0-4431-9805-947bbbe4ca7d",
+      "archived": false
+    },
+    {
+      "id": "746cb79f-cd15-4fdf-9d33-1af64a6a9e3d",
+      "contentId": "1ee0797d-55a2-4e3e-aff9-b7f649d62b19",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "home",
+      "leftId": "d390cfa2-bc8f-45b7-bd80-8d5b4f8f64f3",
+      "archived": false
+    },
+    {
+      "id": "fd08716e-0a66-4461-8d33-2b1954ba1cb2",
+      "contentId": "7f54f2e2-8fb7-4f6f-9ecd-3c7a17a37e42",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "01374f67-43f2-439d-9d07-143599f8b55a",
+      "leftId": "525c9f06-3c68-417b-89e0-b874d0528558",
+      "archived": false
+    },
+    {
+      "id": "0455bdd3-7e49-42ed-b84c-c0a890253a98",
+      "contentId": "8841e1de-09e3-4d9b-a93e-4fc9b32cb733",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e3f6f47d-bd0c-4e22-9c46-284223fd5828",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "15344380-f536-4fce-b03d-5e7867b50a5f",
+      "contentId": "540bfa8f-42ad-42d7-ab2a-f19b24c9c932",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "dc55958f-5a75-4090-aa14-9a8e1d3e272a",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "971f0eb1-cc50-43a2-b40d-1b77a523d04b",
+      "contentId": "5c9ee924-c424-4695-b893-411f39bf07f2",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "d01a5643-c111-4f84-abf1-f2f6b3942bf7",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "288ec785-f7a6-4a53-806c-786c4c7a9b0b",
+      "contentId": "dee5744f-58fa-4d72-b03e-9e40a9130c10",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "f21a07ba-e77a-4bed-aedc-6a31110c25d9",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "edfdd9d3-5dc5-4598-9c14-00ea03e987de",
+      "contentId": "d01a5643-c111-4f84-abf1-f2f6b3942bf7",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "540bfa8f-42ad-42d7-ab2a-f19b24c9c932",
+      "leftId": "5a234b6d-471d-4c08-8c96-02e12f86f18c",
+      "archived": false
+    },
+    {
+      "id": "cb49d5b1-ffe2-4cfc-b028-29aa3885cba0",
+      "contentId": "33162a28-19c9-4a77-8033-16d35977a776",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e6e5de71-efef-4c36-be6b-6e0b9bfa7f73",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "f2d46c3e-7810-4572-81b1-db832ee1abdb",
+      "contentId": "9487c7e1-942d-44f0-a6dc-6f626b2e6b24",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "ccff4a3a-0b60-4226-a4a3-909f569eab70",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "c4a4a368-c636-4bfd-a7f1-10232017f9cf",
+      "contentId": "dee5744f-58fa-4d72-b03e-9e40a9130c10",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "6898ee85-0162-4712-899b-bd5086c568fe",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "d998e052-db5d-48ad-ade1-14205f939173",
+      "contentId": "acc16f9b-3bac-4187-bf11-1c4bb7c4ed4b",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "70eec500-fb66-4cd7-9b2a-06c8368c6523",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "7e91d75c-ab6a-416d-b7c0-be78e8fca561",
+      "contentId": "21781233-4437-4f63-af27-de2658b5ba48",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "c8e3f778-dc5a-488b-9be2-dd3a3b58be13",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "8464f616-9156-4b07-a0a3-1818c08fe615",
+      "contentId": "1370eac9-a963-4a6e-832d-442f47e817fb",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "540bfa8f-42ad-42d7-ab2a-f19b24c9c932",
+      "leftId": "74e0c2d0-dce4-48e3-9911-15d990266d03",
+      "archived": false
+    },
+    {
+      "id": "577f61eb-cb7b-4d3f-81a6-7786a1ee49bc",
+      "contentId": "bc7b2877-366b-4d12-b4b4-5f575ec0f53a",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "fd29ff94-8548-4a90-8d72-7f14e56e7744",
+      "leftId": "a9ad9b52-86a9-47f0-bc10-986dc7511c93",
+      "archived": false
+    },
+    {
+      "id": "8de83d73-0624-4678-8295-c3b52ee30b01",
+      "contentId": "7f512fb6-5c2d-46a4-af57-4afd20b11442",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "5bdfab51-a374-4d86-99a2-2be3c18585de",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "a20a3907-c63a-42a0-b552-fa6a0936248a",
+      "contentId": "6c8ba162-dbb4-45ec-8e0e-95ac53a7f628",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "5f334cdf-004b-4d4a-9976-6c0dc6188f20",
+      "leftId": "85c11f1c-0206-438b-a62e-fddbfb1aecb6",
+      "archived": false
+    },
+    {
+      "id": "04e43fa6-22c0-4431-9805-947bbbe4ca7d",
+      "contentId": "a5ddc6dd-aad8-4997-96d1-caa3c6ac1a3d",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "19ca7872-5e4a-484a-9db2-80d1fe146e9a",
+      "leftId": "baad01cd-c232-4c78-a890-e1bb21880418",
+      "archived": false
+    },
+    {
+      "id": "81238bad-3e1d-4c53-b7d9-f74ee963a750",
+      "contentId": "01374f67-43f2-439d-9d07-143599f8b55a",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "4df8deb5-2943-42f6-b82d-ee055c990f9e",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "398b75a6-b628-4576-b8e5-36117ed40643",
+      "contentId": "cb6d22e3-16d9-48f6-bae8-49e375ed43b3",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "9b7a47da-39ac-4e93-ab99-bad59476523c",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "ca49afec-2535-474e-a869-5f19573f2057",
+      "contentId": "3032e125-262f-4935-a636-0d9ea32a3527",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "1370eac9-a963-4a6e-832d-442f47e817fb",
+      "leftId": "0f3a661d-10a7-4540-97b5-e323c51665c5",
+      "archived": false
+    },
+    {
+      "id": "b28b62f1-e60e-490c-840a-b96556e4bceb",
+      "contentId": "d9ca84d9-a6a8-4643-9942-b3d270e6d352",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e334bcca-b38d-4bfd-b49e-e5224ab19697",
+      "leftId": "0d975993-67fe-4817-ac6a-72be9e4b56a4",
+      "archived": false
+    },
+    {
+      "id": "9850d293-445c-44b3-8da0-9c0206a05301",
+      "contentId": "f7259de4-1f67-42f9-a4d2-73a048073da7",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "73e5c0b7-8201-4fb3-818a-1a90dbd045ad",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "f9ebdc06-27d8-47fd-b3b0-ba37507b8639",
+      "contentId": "b2c04dab-62a3-457d-a4d1-ddae5f7773b7",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "19ca7872-5e4a-484a-9db2-80d1fe146e9a",
+      "leftId": "572dc0c0-7f1b-4531-90e9-7f84064c588d",
+      "archived": false
+    },
+    {
+      "id": "d390cfa2-bc8f-45b7-bd80-8d5b4f8f64f3",
+      "contentId": "51993e38-38c7-4f2c-9cf5-42c8b1ebda67",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "home",
+      "leftId": "b19a69ab-c86c-4ba0-a31e-1f6d3b0cb4f3",
+      "archived": false
+    },
+    {
+      "id": "9ff0a0a9-c7db-4459-a9d5-14678ee77ba7",
+      "contentId": "94e1e0c8-7c86-421d-8469-594c00e4aa3d",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "4df8deb5-2943-42f6-b82d-ee055c990f9e",
+      "leftId": "81238bad-3e1d-4c53-b7d9-f74ee963a750",
+      "archived": false
+    },
+    {
+      "id": "101867e5-892a-4e7c-96f1-bc75d882e0a8",
+      "contentId": "f3f04275-404b-4feb-98e2-c463971becae",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "75bc445d-2d28-4f7c-a7e2-0384f1fa29b8",
+      "leftId": "863f308e-a006-43b2-bc02-678433f46227",
+      "archived": false
+    },
+    {
+      "id": "1a97bb33-913b-44e5-83d2-20911e27d552",
+      "contentId": "453f08c4-3559-4974-9c17-80ea38aeee26",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e3f6f47d-bd0c-4e22-9c46-284223fd5828",
+      "leftId": "870e26ac-b484-4737-9f31-400cac192f8e",
+      "archived": false
+    },
+    {
+      "id": "9aede2e9-725a-47d3-b1fb-a5bf218df7e5",
+      "contentId": "65f241ab-8524-43f1-be84-2b658acde436",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "0266b910-74fa-4a7e-b469-13b7d76a78e3",
+      "leftId": "83f375e7-fb89-4663-a0e2-9ea34c093da0",
+      "archived": false
+    },
+    {
+      "id": "d4403691-5eb0-4b16-a847-c175f0a30376",
+      "contentId": "77479a28-2b25-4204-89b9-c2fbd2096eca",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e3f6f47d-bd0c-4e22-9c46-284223fd5828",
+      "leftId": "4775b6dc-2c3f-4e56-be89-adc87ae74a78",
+      "archived": false
+    },
+    {
+      "id": "4c8e5d35-b00e-41c2-b08b-6055f44da128",
+      "contentId": "0266b910-74fa-4a7e-b469-13b7d76a78e3",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e476bc25-5e50-41a0-a941-b999ac543ea7",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "74e0c2d0-dce4-48e3-9911-15d990266d03",
+      "contentId": "835ac456-1edd-4010-b6a5-e0ed85b81a2c",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "540bfa8f-42ad-42d7-ab2a-f19b24c9c932",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "9ecbd4ce-efb0-425b-aae4-2d59989e4423",
+      "contentId": "5bdfab51-a374-4d86-99a2-2be3c18585de",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "94e1e0c8-7c86-421d-8469-594c00e4aa3d",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "d758ca0a-1b9a-48c5-ac25-bbb4c272a0ae",
+      "contentId": "ccff4a3a-0b60-4226-a4a3-909f569eab70",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "acef485c-551f-4fe2-adf1-c36163358f58",
+      "leftId": "f52f8015-427c-4cdc-8c5b-a728f6b03061",
+      "archived": false
+    },
+    {
+      "id": "26638488-6ef6-4f71-b3bc-4766c51e0fa6",
+      "contentId": "ac648c67-f096-46bd-b9db-e74c24a3014c",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e3dc02b3-5714-4cb3-a893-d4ab546fb13f",
+      "leftId": "36050c83-594a-4dd7-adec-c36cff3ee5b3",
+      "archived": false
+    },
+    {
+      "id": "8eab1223-9270-47c9-b43c-059a6137347a",
+      "contentId": "965ddb9e-a741-418b-8f08-5f87612db424",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "home",
+      "leftId": null,
+      "archived": true
+    },
+    {
+      "id": "1b0ee7af-487c-4e2a-a598-ee25b7810bd3",
+      "contentId": "19ca7872-5e4a-484a-9db2-80d1fe146e9a",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "540bfa8f-42ad-42d7-ab2a-f19b24c9c932",
+      "leftId": "d8a576bb-7442-46a0-8986-59343a453bfb",
+      "archived": false
+    },
+    {
+      "id": "d05449f7-0c91-4416-bfbd-a69236d29bf6",
+      "contentId": "cf8dfa47-3e3f-49c6-a19c-7faa9a618356",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "2ab8d62b-bdb2-4390-bb0d-0fb5b05edecf",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "14958baa-2d9e-4a7a-be19-f725d4e42952",
+      "contentId": "3dff8b58-9c9a-475e-9df9-2885437f921d",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "b6d2684a-86da-4404-b03f-610838e53706",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "139b844f-b6e9-4181-81b9-7dbde1257550",
+      "contentId": "b7def871-9205-4c82-93bc-14e993042b4c",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "28ece32b-d407-46e2-9582-47be6987307b",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "baad01cd-c232-4c78-a890-e1bb21880418",
+      "contentId": "28ece32b-d407-46e2-9582-47be6987307b",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "19ca7872-5e4a-484a-9db2-80d1fe146e9a",
+      "leftId": "f9ebdc06-27d8-47fd-b3b0-ba37507b8639",
+      "archived": false
+    },
+    {
+      "id": "55503dd4-fac6-4b1b-be58-04e30cba0950",
+      "contentId": "9b7a47da-39ac-4e93-ab99-bad59476523c",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "51993e38-38c7-4f2c-9cf5-42c8b1ebda67",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "bdc15ba2-5934-44fe-81ae-2fd7c79be78f",
+      "contentId": "3bb5ba23-95f2-430f-bdca-06ecf73feb74",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "01374f67-43f2-439d-9d07-143599f8b55a",
+      "leftId": "fd08716e-0a66-4461-8d33-2b1954ba1cb2",
+      "archived": false
+    },
+    {
+      "id": "aaada551-e65b-4ba1-b189-d61aef71b0ef",
+      "contentId": "f8b59618-383b-47ce-8fad-2adc54bc4129",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "98df749a-f9cd-452b-b78f-ed74342cea63",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "4d56dc66-d284-4a69-aa67-6f227f15360d",
+      "contentId": "a8187651-3ef0-46bb-a7f8-3ac13c0da981",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "28ece32b-d407-46e2-9582-47be6987307b",
+      "leftId": "e3bd6464-dc73-4444-9942-858d05cea373",
+      "archived": false
+    },
+    {
+      "id": "located-child1",
+      "contentId": "content-b",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "home",
+      "leftId": "8eab1223-9270-47c9-b43c-059a6137347a",
+      "archived": true
+    },
+    {
+      "id": "572dc0c0-7f1b-4531-90e9-7f84064c588d",
+      "contentId": "ec8583d3-a506-4223-ac43-bff2709f3c5e",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "19ca7872-5e4a-484a-9db2-80d1fe146e9a",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "located-child2",
+      "contentId": "content-c",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "home",
+      "leftId": "located-child1",
+      "archived": true
+    },
+    {
+      "id": "e3bd6464-dc73-4444-9942-858d05cea373",
+      "contentId": "3db1ca2a-331b-430f-bb83-f78c764f17e3",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "28ece32b-d407-46e2-9582-47be6987307b",
+      "leftId": "139b844f-b6e9-4181-81b9-7dbde1257550",
+      "archived": false
+    },
+    {
+      "id": "91ea54be-9a8c-42f1-8f6d-a6a0c93b7032",
+      "contentId": "fc654a26-a797-4c4d-aa41-275d193de52f",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "174fd78d-6721-4a17-b48e-c89183281530",
+      "leftId": "211c8950-3b9d-4ac7-82f3-a7e6a5f80626",
+      "archived": false
+    },
+    {
+      "id": "523cc834-cfea-45d9-b753-30e983180fcd",
+      "contentId": "174fd78d-6721-4a17-b48e-c89183281530",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "cb6d22e3-16d9-48f6-bae8-49e375ed43b3",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "5bb260e1-4bb7-4cbb-b79b-cd56bc896ca0",
+      "contentId": "0734d147-1e02-435d-b6a5-c8138c884c9d",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "4e7be33b-47e2-4b2b-b775-77e4a6ee2b82",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "8fc5935f-bebb-4a5d-8713-b660d2174a66",
+      "contentId": "0f03fa03-3ec4-4b64-8b72-f03795e4f2ad",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "acef485c-551f-4fe2-adf1-c36163358f58",
+      "leftId": "d758ca0a-1b9a-48c5-ac25-bbb4c272a0ae",
+      "archived": false
+    },
+    {
+      "id": "22bad834-8de9-4703-944b-6f7c139e81db",
+      "contentId": "04bd8c06-ce1d-4e46-baab-cd120d7c181f",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "540bfa8f-42ad-42d7-ab2a-f19b24c9c932",
+      "leftId": "8464f616-9156-4b07-a0a3-1818c08fe615",
+      "archived": false
+    },
+    {
+      "id": "3216781a-6ecb-4c33-b051-b079627cf785",
+      "contentId": "eafe9ff4-64c4-4693-a1c0-a4a2f129157d",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "3dff8b58-9c9a-475e-9df9-2885437f921d",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "2ac0f984-eb82-4d3f-83a0-31a1e23ef0e3",
+      "contentId": "6898ee85-0162-4712-899b-bd5086c568fe",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "04bd8c06-ce1d-4e46-baab-cd120d7c181f",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "located-child3",
+      "contentId": "content-c",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "home",
+      "leftId": "located-child2",
+      "archived": true
+    },
+    {
+      "id": "d2fe8fb1-0566-4020-ab5b-fde0a598807d",
+      "contentId": "e3dc02b3-5714-4cb3-a893-d4ab546fb13f",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "cb6d22e3-16d9-48f6-bae8-49e375ed43b3",
+      "leftId": "523cc834-cfea-45d9-b753-30e983180fcd",
+      "archived": false
+    },
+    {
+      "id": "24ff8434-9b02-4652-9727-93344ce54c92",
+      "contentId": "4b4ecbe3-ae33-4846-9fa5-359fdcca2588",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "acd1a8ae-c9e3-4bb0-b814-dfc1abade494",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "e741e840-32f7-4ae3-977b-3e897f85470a",
+      "contentId": "8270a101-c85b-4b3f-b2d3-175da4bfb574",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "acef485c-551f-4fe2-adf1-c36163358f58",
+      "leftId": "18845992-0080-49ce-a433-8491cfdf0844",
+      "archived": false
+    },
+    {
+      "id": "a86c20a4-1ed7-4377-8cf6-59076fc5385d",
+      "contentId": "4daf794d-f4b9-42ca-bc07-9117a73afb2b",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "54222694-bb0f-4eb9-b06b-4fc35e736641",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "d9fbcda1-02c8-4936-82cd-d45dc6857dfe",
+      "contentId": "d01a5643-c111-4f84-abf1-f2f6b3942bf7",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "cf8dfa47-3e3f-49c6-a19c-7faa9a618356",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "68cadcfe-f197-4255-a96f-4a60008b3e27",
+      "contentId": "98df749a-f9cd-452b-b78f-ed74342cea63",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "19ca7872-5e4a-484a-9db2-80d1fe146e9a",
+      "leftId": "4ba97ebd-db63-46cf-a152-978287a61953",
+      "archived": false
+    },
+    {
+      "id": "4f3893ee-a771-43bf-9078-ca3c0f02b1d6",
+      "contentId": "dc55958f-5a75-4090-aa14-9a8e1d3e272a",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "7f54f2e2-8fb7-4f6f-9ecd-3c7a17a37e42",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "83f375e7-fb89-4663-a0e2-9ea34c093da0",
+      "contentId": "cf8dfa47-3e3f-49c6-a19c-7faa9a618356",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "0266b910-74fa-4a7e-b469-13b7d76a78e3",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "351be6f4-b528-4ba7-a3ea-59586e1fa946",
+      "contentId": "1b593bd6-1e5c-48f4-9b8c-30bfc33e015b",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "54222694-bb0f-4eb9-b06b-4fc35e736641",
+      "leftId": "376b75b1-7dda-4736-aed3-4ddb21f91df0",
+      "archived": false
+    },
+    {
+      "id": "f7f0b779-c5ab-4ffb-b4df-75788d6eddab",
+      "contentId": "0707e611-372b-4439-9f15-7558be962c3e",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "70eec500-fb66-4cd7-9b2a-06c8368c6523",
+      "leftId": "92e522df-9294-4a17-9d83-c592d00d658f",
+      "archived": false
+    },
+    {
+      "id": "b19a69ab-c86c-4ba0-a31e-1f6d3b0cb4f3",
+      "contentId": "acd1a8ae-c9e3-4bb0-b814-dfc1abade494",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "home",
+      "leftId": "bd7dd708-bce4-41a6-bfc8-2fb4cb4d4efe",
+      "archived": false
+    },
+    {
+      "id": "6d5bb8a1-aed5-4b9d-8c80-20b497de1873",
+      "contentId": "61d97adb-9575-475b-a832-4420f76776cd",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e334bcca-b38d-4bfd-b49e-e5224ab19697",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "bde0da8e-0615-4328-b6d9-4d830949b203",
+      "contentId": "4b7a6a7f-6281-487d-81a4-da2daced0224",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "540bfa8f-42ad-42d7-ab2a-f19b24c9c932",
+      "leftId": "1b0ee7af-487c-4e2a-a598-ee25b7810bd3",
+      "archived": false
+    },
+    {
+      "id": "84775805-755d-4ebd-b4f3-8a12d5c2de87",
+      "contentId": "9296687e-f5a0-4905-bbec-fdfe4a6efa5b",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "fd29ff94-8548-4a90-8d72-7f14e56e7744",
+      "leftId": "577f61eb-cb7b-4d3f-81a6-7786a1ee49bc",
+      "archived": false
+    },
+    {
+      "id": "647bae7e-2eba-4d63-9207-7df3b3912581",
+      "contentId": "e476bc25-5e50-41a0-a941-b999ac543ea7",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e6e5de71-efef-4c36-be6b-6e0b9bfa7f73",
+      "leftId": "cb49d5b1-ffe2-4cfc-b028-29aa3885cba0",
+      "archived": false
+    },
+    {
+      "id": "26406074-4076-4b7d-95d9-1df84e28c853",
+      "contentId": "20f08e2c-b34c-4235-86d3-66282dc5314d",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "47198543-adcd-4c9f-8f39-aac18570b70c",
+      "leftId": "1f86f65c-56ad-4e81-8f48-d8f06f0b4bdf",
+      "archived": false
+    },
+    {
+      "id": "c5da8fd5-66c9-4dbe-a9a0-ea4496c62e4f",
+      "contentId": "4df8deb5-2943-42f6-b82d-ee055c990f9e",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "1ee0797d-55a2-4e3e-aff9-b7f649d62b19",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "1f86f65c-56ad-4e81-8f48-d8f06f0b4bdf",
+      "contentId": "eeeb09b3-5700-4167-bb4f-f23c97155f76",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "47198543-adcd-4c9f-8f39-aac18570b70c",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "bf703315-5963-49a2-945e-617db95e25a9",
+      "contentId": "05b4758d-2721-478b-9fda-3059f2ac742e",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "19ca7872-5e4a-484a-9db2-80d1fe146e9a",
+      "leftId": "68cadcfe-f197-4255-a96f-4a60008b3e27",
+      "archived": false
+    },
+    {
+      "id": "37b624bf-6e8c-4f78-8d1a-794291238406",
+      "contentId": "48915cef-a3ac-4f79-8299-8d4b56ee4f49",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "d3f6dafa-e53c-421c-a01b-9fdea0bc8458",
+      "leftId": "73e5de0b-b775-4663-af2c-e56c52ef0ecb",
+      "archived": false
+    },
+    {
+      "id": "c7342e26-14bf-4518-9f11-8d3658285146",
+      "contentId": "e6e5de71-efef-4c36-be6b-6e0b9bfa7f73",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "f3f04275-404b-4feb-98e2-c463971becae",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "970aff68-84e1-4916-9239-d93596357ccc",
+      "contentId": "7a898c51-1cbd-44c5-8cef-a49dd5f419f1",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "4e7be33b-47e2-4b2b-b775-77e4a6ee2b82",
+      "leftId": "5bb260e1-4bb7-4cbb-b79b-cd56bc896ca0",
+      "archived": false
+    },
+    {
+      "id": "31b566d6-1d5d-4e94-a9c8-f6ef261ac048",
+      "contentId": "73e5c0b7-8201-4fb3-818a-1a90dbd045ad",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "1ee0797d-55a2-4e3e-aff9-b7f649d62b19",
+      "leftId": "c5da8fd5-66c9-4dbe-a9a0-ea4496c62e4f",
+      "archived": false
+    },
+    {
+      "id": "e4012b96-577c-4e37-90a5-2d360e9767a6",
+      "contentId": "d01a5643-c111-4f84-abf1-f2f6b3942bf7",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "b7def871-9205-4c82-93bc-14e993042b4c",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "11b992ad-781b-4659-b88b-54077c7b541e",
+      "contentId": "b7d58295-58bc-4bfb-90d3-478147d203d9",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "3bb5ba23-95f2-430f-bdca-06ecf73feb74",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "441ed5b7-4123-4ddf-8c63-bb071d339495",
+      "contentId": "d4c4ae74-976a-4d8c-a1c5-3394e7ff6b54",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "54222694-bb0f-4eb9-b06b-4fc35e736641",
+      "leftId": "a86c20a4-1ed7-4377-8cf6-59076fc5385d",
+      "archived": false
+    },
+    {
+      "id": "36050c83-594a-4dd7-adec-c36cff3ee5b3",
+      "contentId": "8cf5bf1c-3b10-431f-be5a-b676e546f595",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e3dc02b3-5714-4cb3-a893-d4ab546fb13f",
+      "leftId": "71984275-bc53-44ae-88a1-97345e63208f",
+      "archived": false
+    },
+    {
+      "id": "c2e447c0-53d1-4ed9-b3a9-b108576f029e",
+      "contentId": "daac7193-6ca9-427b-b8fa-f10f63364a83",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "886a2a62-9c2b-4ab0-86d1-608e2d0144f1",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "ebc4e397-5234-4386-a0a7-ee65d30b907c",
+      "contentId": "e684c643-6437-46b5-b29f-936ca09fbc0c",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "94e1e0c8-7c86-421d-8469-594c00e4aa3d",
+      "leftId": "9ecbd4ce-efb0-425b-aae4-2d59989e4423",
+      "archived": false
+    },
+    {
+      "id": "5a234b6d-471d-4c08-8c96-02e12f86f18c",
+      "contentId": "0e81ba1c-1e80-42ce-8b3c-21b706caac15",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "540bfa8f-42ad-42d7-ab2a-f19b24c9c932",
+      "leftId": "f7e981db-0770-48f1-a3ee-d7a042ce0f18",
+      "archived": false
+    },
+    {
+      "id": "e2610eda-6fa7-43f0-aa35-f6e2df86eedd",
+      "contentId": "fd29ff94-8548-4a90-8d72-7f14e56e7744",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "cb6d22e3-16d9-48f6-bae8-49e375ed43b3",
+      "leftId": "d2fe8fb1-0566-4020-ab5b-fde0a598807d",
+      "archived": false
+    },
+    {
+      "id": "bd7dd708-bce4-41a6-bfc8-2fb4cb4d4efe",
+      "contentId": "d3f6dafa-e53c-421c-a01b-9fdea0bc8458",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "home",
+      "leftId": "fba9de7e-7806-4f7f-994c-84d82c69cad8",
+      "archived": false
+    },
+    {
+      "id": "f7e981db-0770-48f1-a3ee-d7a042ce0f18",
+      "contentId": "75bc445d-2d28-4f7c-a7e2-0384f1fa29b8",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "540bfa8f-42ad-42d7-ab2a-f19b24c9c932",
+      "leftId": "520136c1-416c-4314-974e-e68aee54ef09",
+      "archived": false
+    },
+    {
+      "id": "2c7ae202-1c5c-45ae-ac8b-791d23ee76ef",
+      "contentId": "2ab8d62b-bdb2-4390-bb0d-0fb5b05edecf",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "33162a28-19c9-4a77-8033-16d35977a776",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "0d975993-67fe-4817-ac6a-72be9e4b56a4",
+      "contentId": "7dea289b-3355-4664-9fbe-7c02398573e9",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e334bcca-b38d-4bfd-b49e-e5224ab19697",
+      "leftId": "6d5bb8a1-aed5-4b9d-8c80-20b497de1873",
+      "archived": false
+    },
+    {
+      "id": "6c6d6f92-7269-4367-8819-e30e1d7e7263",
+      "contentId": "886a2a62-9c2b-4ab0-86d1-608e2d0144f1",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "fd29ff94-8548-4a90-8d72-7f14e56e7744",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "520136c1-416c-4314-974e-e68aee54ef09",
+      "contentId": "231731d3-cde5-4531-a55b-a8ef3f67a626",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "540bfa8f-42ad-42d7-ab2a-f19b24c9c932",
+      "leftId": "22bad834-8de9-4703-944b-6f7c139e81db",
+      "archived": false
+    },
+    {
+      "id": "92e522df-9294-4a17-9d83-c592d00d658f",
+      "contentId": "2b702349-ec5e-41ad-9bde-3aff6f8d1156",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "70eec500-fb66-4cd7-9b2a-06c8368c6523",
+      "leftId": "d998e052-db5d-48ad-ade1-14205f939173",
+      "archived": false
+    },
+    {
+      "id": "7d3b0b6d-412f-46ba-a63c-708edb42bee6",
+      "contentId": "f651b09b-6cb1-429a-abd5-7d424500212a",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "7dea289b-3355-4664-9fbe-7c02398573e9",
+      "leftId": "a44475e3-9d42-4aad-8ff0-c72b414cae77",
+      "archived": false
+    },
+    {
+      "id": "18845992-0080-49ce-a433-8491cfdf0844",
+      "contentId": "d972d491-c8b5-4924-900c-1a089af61cf3",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "acef485c-551f-4fe2-adf1-c36163358f58",
+      "leftId": "8fc5935f-bebb-4a5d-8713-b660d2174a66",
+      "archived": false
+    },
+    {
+      "id": "located-root",
+      "contentId": "home",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": null,
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "2ceddcb1-9581-4632-a015-639dd7cc746d",
+      "contentId": "c8e3f778-dc5a-488b-9be2-dd3a3b58be13",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "cb6d22e3-16d9-48f6-bae8-49e375ed43b3",
+      "leftId": "e2610eda-6fa7-43f0-aa35-f6e2df86eedd",
+      "archived": false
+    },
+    {
+      "id": "d8a576bb-7442-46a0-8986-59343a453bfb",
+      "contentId": "5f334cdf-004b-4d4a-9976-6c0dc6188f20",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "540bfa8f-42ad-42d7-ab2a-f19b24c9c932",
+      "leftId": "edfdd9d3-5dc5-4598-9c14-00ea03e987de",
+      "archived": false
+    },
+    {
+      "id": "4fdd394e-d9fa-4dde-a8d0-02b524670f9a",
+      "contentId": "3776629f-b647-4861-ac0e-809457625202",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "98df749a-f9cd-452b-b78f-ed74342cea63",
+      "leftId": "aaada551-e65b-4ba1-b189-d61aef71b0ef",
+      "archived": false
+    },
+    {
+      "id": "f52f8015-427c-4cdc-8c5b-a728f6b03061",
+      "contentId": "cf8dfa47-3e3f-49c6-a19c-7faa9a618356",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "acef485c-551f-4fe2-adf1-c36163358f58",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "6d9505ac-3fef-4583-8efe-070e3dc032a8",
+      "contentId": "ff97bcf4-7227-473e-898c-49e415cf9879",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "7dea289b-3355-4664-9fbe-7c02398573e9",
+      "leftId": "7d3b0b6d-412f-46ba-a63c-708edb42bee6",
+      "archived": false
+    },
+    {
+      "id": "863f308e-a006-43b2-bc02-678433f46227",
+      "contentId": "f21a07ba-e77a-4bed-aedc-6a31110c25d9",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "75bc445d-2d28-4f7c-a7e2-0384f1fa29b8",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "12e5d844-9b6e-4ef0-8d01-1bbd7a40a8d7",
+      "contentId": "7f6cce3a-4bce-4fcc-a6f6-586d9aaa9577",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "fd29ff94-8548-4a90-8d72-7f14e56e7744",
+      "leftId": "6c6d6f92-7269-4367-8819-e30e1d7e7263",
+      "archived": false
+    },
+    {
+      "id": "498af5c2-807c-4636-bd35-d37ad1abdff2",
+      "contentId": "0a0c14f5-590d-4288-b259-74fc8c1a6bcc",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "ccff4a3a-0b60-4226-a4a3-909f569eab70",
+      "leftId": "a7829f67-4f5b-4f52-a439-c3ff69e9fac0",
+      "archived": false
+    },
+    {
+      "id": "a42b106f-3a0c-4778-b30f-c48dfb3a95d1",
+      "contentId": "4fbe2884-3ad9-4a89-8a93-2b7360824bce",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "fd29ff94-8548-4a90-8d72-7f14e56e7744",
+      "leftId": "84775805-755d-4ebd-b4f3-8a12d5c2de87",
+      "archived": false
+    },
+    {
+      "id": "e4425bd2-2989-4202-84ce-9e2670265eff",
+      "contentId": "62788f9d-545a-440c-ae1a-012c5a85c6c1",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "4b7a6a7f-6281-487d-81a4-da2daced0224",
+      "leftId": null,
+      "archived": false
+    }
+  ]
+}
