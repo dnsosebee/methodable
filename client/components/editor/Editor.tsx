@@ -28,6 +28,7 @@ import { Wrapper } from "../Wrapper";
 import { Block, IBlockProps } from "./block/Block";
 import { Breadcrumbs, IBreadcrumbsProps } from "./Breadcrumbs";
 import { useEditor } from "./EditorProvider";
+import { Search } from "./Search";
 
 export const Editor = () => {
   const { graphState, graphDispatch } = useGraph();
@@ -296,6 +297,7 @@ export const Editor = () => {
           onKeyDown={keyDownHandler}
           className="flex-1 overflow-auto font-sans"
         >
+          <Search />
           <div className="flex border-b mb-1 select-none">
             <span className="mx-2 text-sm">Options:</span>
             {/* <button

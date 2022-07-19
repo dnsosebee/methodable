@@ -523,7 +523,7 @@ export const BlockText = (props: IBlockTextProps) => {
     []
   );
 
-  const rootClass = isRootRef.current ? "text-xl font-bold" : "";
+  const rootClass = isRootRef.current ? "text-xl" : "";
 
   return (
     <div
