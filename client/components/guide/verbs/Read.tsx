@@ -92,7 +92,9 @@ const ReadingBlock = (props: IReadingBlockProps) => {
     <div className="flex flex-col ml-7">
       <div className="flex">
         {depth > 1 ? <p className={`${pClasses} mr-1`}>{"• "}</p> : null}
-        <p className={pClasses}>{content.humanText}</p>
+        <p className={pClasses}>
+          <RichifiedText text={content.humanText} />
+        </p>
       </div>
       {children}
     </div>
