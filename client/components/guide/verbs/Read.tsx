@@ -8,6 +8,7 @@ import { ContinueButton } from "../buttons/ContinueButton";
 import { ContextLine } from "../ContextLine";
 import { IVerbContextProps, IVerbPageProps } from "../GuidePage";
 import { useGuide } from "../GuideProvider";
+import { RichifiedText } from "../RichifiedText";
 
 export const ReadContext = (props: IVerbContextProps) => {
   const { parentVerb, viewState, path, content } = props;
@@ -40,9 +41,11 @@ export const ReadPage = (props: IVerbPageProps) => {
 
   return (
     <>
-      <p className="text-xl font-bold p-1 ml-5">
+      <p className="text-xl p-1 ml-5">
         {showContext && <span className="text-gray-400">{pre}</span>}
-        <span className="">{content.humanText}</span>
+        <span className="">
+          <RichifiedText text={content.humanText} />
+        </span>
       </p>
       {controlFlowChildBlocks.map((child) => (
         <ReadingBlock

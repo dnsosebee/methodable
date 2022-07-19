@@ -1,8 +1,14 @@
 html,
 body {
-	@apply h-screen;
+  @apply h-screen;
 }
 
 #__next {
-	@apply flex flex-col h-screen p-2;
+  @apply flex flex-col h-screen p-2;
+}
+
+a {
+  @apply text-blue-500 !important;
+  @apply underline !important;
+  @apply hover:text-blue-300 !important;
 }

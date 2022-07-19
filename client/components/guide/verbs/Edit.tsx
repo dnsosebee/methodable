@@ -10,6 +10,7 @@ import { useGraph } from "../../GraphProvider";
 import { useView, ViewProvider } from "../../ViewProvider";
 import { ContextLine } from "../ContextLine";
 import { IVerbContextProps, IWorkspaceProps } from "../GuidePage";
+import { RichifiedText } from "../RichifiedText";
 
 export const EditContext = (props: IVerbContextProps) => {
   const { parentVerb, viewState, path, content } = props;
@@ -68,7 +69,9 @@ const InnerEditWorkspace = memo((props: IInnerEditWorkspaceProps) => {
   const { view, content } = props;
   return (
     <div className="mt-5">
-      <p className="ml-5 italic text-gray-400">{content.humanText}</p>
+      <p className="ml-5 italic text-gray-400">
+        <RichifiedText text={content.humanText} />
+      </p>
       <ViewProvider {...view}>
         <EditorProvider>
           <Editor />

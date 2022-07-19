@@ -7,6 +7,7 @@ import { GuideButton } from "../buttons/GuideButton";
 import { ContextLine } from "../ContextLine";
 import { IVerbContextProps, IVerbPageProps } from "../GuidePage";
 import { useGuide } from "../GuideProvider";
+import { RichifiedText } from "../RichifiedText";
 
 export const DoContext = (props: IVerbContextProps) => {
   const { parentVerb, viewState, path, content } = props;
@@ -58,9 +59,11 @@ export const DoPage = (props: IVerbPageProps) => {
   return (
     <>
       <div className=" p-1 ml-5">
-        <p className="text-xl font-bold mb-5">
+        <p className="text-xl mb-5">
           {showContext && <span className="text-gray-400">{pre}</span>}
-          <span className="">{content.humanText}</span>
+          <span className="">
+            <RichifiedText text={content.humanText} />
+          </span>
           {/* {hasChildren ? <span className="text-gray-400">.</span> : null} */}
         </p>
         {workspaces}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RichifiedText } from "./RichifiedText";
 
 export interface IContextLineProps {
   pre: string;
@@ -14,7 +15,9 @@ export const ContextLine = (props: IContextLineProps) => {
       <p className="ml-2">
         <span className="text-gray-300">{pre}</span>
         <Link href={href}>
-          <a className="text-blue-300 underline hover:text-blue-500">{text}</a>
+          <a className="text-blue-300 underline hover:text-blue-500">
+            <RichifiedText text={text} />
+          </a>
         </Link>
         {"."}
       </p>
