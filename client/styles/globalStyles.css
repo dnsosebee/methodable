@@ -12,3 +12,11 @@ a {
   @apply underline !important;
   @apply hover:text-blue-300 !important;
 }
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
