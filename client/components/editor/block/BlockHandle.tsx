@@ -1,8 +1,7 @@
-import Link from "next/link";
 import { BlockContentId } from "../../../model/graph/blockContent";
 import { Path } from "../../../model/graph/graph";
 import { IVerb } from "../../../model/verbs/verb";
-import { getLink, MODE } from "../../../model/view";
+import { MODE } from "../../../model/view";
 import { useView } from "../../ViewProvider";
 
 export interface IBlockHandlePresentation {
@@ -19,19 +18,16 @@ export interface IBlockHandleProps {
 }
 
 export const BlockHandle = (props: IBlockHandleProps) => {
-  const { viewState } = useView();
+  const { RedirectView } = useView();
   const presentation: IBlockHandlePresentation = props.parentVerb.getChildBlockHandlePresentation(
     props.verb,
     props.orderIndex
   );
   const buttonClasses = `flex-none font-bold select-none w-5 h-7 text-right py-1 pr-0.5 text-xs rounded ${presentation.className}`;
-  const link = getLink(viewState, { mode: MODE.EDIT, rootRelativePath: props.pathRelativeToRoot });
 
   return (
-    <Link href={link}>
-      <a className={buttonClasses}>
-        <p>{presentation.text}</p>
-      </a>
-    </Link>
+    <RedirectView partialView={{ mode: MODE.EDIT, rootRelativePath: props.pathRelativeToRoot }}>
+      <p className={buttonClasses}>{presentation.text}</p>
+    </RedirectView>
   );
 };

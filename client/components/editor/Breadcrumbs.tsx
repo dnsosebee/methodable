@@ -1,8 +1,7 @@
-import Link from "next/link";
-import { PATH_DELIMITER } from "../../../pages/[mode]/[rootContentId]";
 import { BlockContentId } from "../../model/graph/blockContent";
 import { Path } from "../../model/graph/graph";
 import { getContentFromPath } from "../../model/graphWithView";
+import { IView, MODE } from "../../model/view";
 import { useGraph } from "../GraphProvider";
 import { useView } from "../ViewProvider";
 
@@ -13,14 +12,14 @@ export interface IBreadcrumbsProps {
 
 interface IBreadcrumbInfo {
   text: string;
-  link: string;
+  partialView: Partial<IView>;
 }
 
 const MAX_LENGTH_OF_BREADCRUMB_TEXT = 40;
 
 export const Breadcrumbs = (props: IBreadcrumbsProps) => {
   const { graphState } = useGraph();
-  const { viewState } = useView();
+  const { viewState, RedirectView } = useView();
 
   const getBreadcrumbInfos = (relativePath: Path): IBreadcrumbInfo[] => {
     const content = getContentFromPath(graphState, viewState, {
@@ -32,7 +31,7 @@ export const Breadcrumbs = (props: IBreadcrumbsProps) => {
     }
     const info: IBreadcrumbInfo = {
       text,
-      link: `/edit/${props.rootContentId}/${relativePath.join(PATH_DELIMITER)}`,
+      partialView: { mode: MODE.EDIT, rootRelativePath: relativePath },
     };
     if (relativePath.size === 0) {
       return [info];
@@ -47,11 +46,12 @@ export const Breadcrumbs = (props: IBreadcrumbsProps) => {
       {breadcrumbInfos.map((info, index) => {
         return (
           <span key={index} className="flex flex-none">
-            <Link href={info.link}>
-              <a className="select-none text-xs text-gray-500 rounded py-0.5 px-1 bg-gray-100 hover:bg-gray-200">
-                {info.text}
-              </a>
-            </Link>
+            {" "}
+            <div className="select-none text-xs text-gray-500 rounded py-0.5 px-1 bg-gray-100 hover:bg-gray-200">
+              <RedirectView partialView={info.partialView}>
+                <span>{info.text}</span>
+              </RedirectView>{" "}
+            </div>
             <p className="mx-2 text-xs py-0.5 text-gray-500 select-none">
               {index < breadcrumbInfos.length - 1 ? "❯" : ""}
             </p>

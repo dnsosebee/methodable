@@ -11,7 +11,7 @@ export const getChildComponent = (mode: string) => {
     case MODE.EDIT:
       return (
         <EditorProvider>
-          <Editor />
+          <Editor showSearch={true} showOptions={true} />
         </EditorProvider>
       );
     case MODE.GUIDE:
@@ -23,6 +23,11 @@ export const getChildComponent = (mode: string) => {
   }
 };
 
-export const View = (props: IViewData) => {
-  return <ViewProvider {...props}>{getChildComponent(props.mode)}</ViewProvider>;
+// renaming this file, along with auto-ordering of imports, breaks webpack :/ hence component has different name than file.
+export const OuterView = (props: IViewData) => {
+  return (
+    <ViewProvider {...props} redirectToUrl={true}>
+      {getChildComponent(props.mode)}
+    </ViewProvider>
+  );
 };
