@@ -1,6 +1,6 @@
 import { List } from "immutable";
 import { getContentFromPath } from "../../model/graphWithView";
-import { getLink, MODE } from "../../model/view";
+import { MODE } from "../../model/view";
 import { useGraph } from "../GraphProvider";
 import { useView } from "../ViewProvider";
 import { Wrapper } from "../Wrapper";
@@ -24,7 +24,7 @@ export const Exit = () => {
       <GuideButton
         {...{
           text: "Start Over",
-          href: getLink(viewState, { mode: MODE.GUIDE, focusPath: List() }),
+          partialView: { mode: MODE.GUIDE, focusPath: List() },
         }}
       ></GuideButton>
     </Wrapper>
