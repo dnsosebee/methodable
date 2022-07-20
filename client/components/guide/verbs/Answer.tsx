@@ -68,10 +68,10 @@ export const AnswerPage = (props: IVerbPageProps) => {
                 <GuideButton
                   {...{
                     text: `${index + 1}. ${child.blockContent.humanText}`,
-                    href: getLink(viewState, {
+                    partialView: {
                       mode: MODE.GUIDE,
                       focusPath: path.push(child.locatedBlock.id),
-                    }),
+                    },
                     key: child.locatedBlock.id,
                   }}
                 />

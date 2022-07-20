@@ -14,7 +14,6 @@ import {
   graphFromJson,
   graphToJson,
   IGraph,
-  isChildBetweenSelection,
 } from "../../model/graph/graph";
 import { ILocatedBlock, LocatedBlockId } from "../../model/graph/locatedBlock";
 import { getContentFromPath } from "../../model/graphWithView";
@@ -30,7 +29,26 @@ import { Breadcrumbs, IBreadcrumbsProps } from "./Breadcrumbs";
 import { useEditor } from "./EditorProvider";
 import { Search } from "./Search";
 
-export const Editor = () => {
+export interface IEditorProps {
+  showOptions: boolean;
+  showSearch: boolean;
+}
+
+export const isChildBetweenSelection = (
+  graph: IGraph,
+  editor: IEditor,
+  locatedBlockId: LocatedBlockId
+) => {
+  const parentPathLength = editor.activeParentPath.size;
+  const bound1 = editor.selectionRange.start.get(parentPathLength);
+  const bound2 = editor.selectionRange.end.get(parentPathLength);
+  const bound1LocatedBlock = graph.locatedBlocks.get(bound1);
+  const parentContent = graph.blockContents.get(bound1LocatedBlock.parentId);
+  return parentContent.isChildBetween(locatedBlockId, bound1, bound2);
+};
+
+export const Editor = (props: IEditorProps) => {
+  const { showOptions, showSearch } = props;
   const { graphState, graphDispatch } = useGraph();
   const { viewState, viewDispatch } = useView();
   const { editorState, editorDispatch } = useEditor();
@@ -297,40 +315,42 @@ export const Editor = () => {
           onKeyDown={keyDownHandler}
           className="flex-1 overflow-auto font-sans"
         >
-          <Search />
-          <div className="flex border-b mb-1 select-none">
-            <span className="mx-2 text-sm">Options:</span>
-            {/* <button
+          {showSearch && <Search />}
+          {showOptions && (
+            <div className="flex border-b mb-1 select-none">
+              <span className="mx-2 text-sm">Options:</span>
+              {/* <button
               onClick={toggleSelectionDepth}
               className={buttonClasses(editorState.isSelectionActive)}
             >
               {toggleSelectionText}
             </button> */}
-            <button
-              onClick={handleBackspace}
-              className={buttonClasses(editorState.isSelectionActive)}
-            >
-              delete references
-            </button>
-            <button onClick={saveHandler} className={buttonClasses(true)}>
-              Save Programs
-            </button>
-            <button onClick={saveProgramHandler} className={buttonClasses(true)}>
-              Save
-            </button>
-            {/* <button onClick={loadHandler} className={buttonClasses(true)}>
+              <button
+                onClick={handleBackspace}
+                className={buttonClasses(editorState.isSelectionActive)}
+              >
+                delete references
+              </button>
+              <button onClick={saveHandler} className={buttonClasses(true)}>
+                Save Programs
+              </button>
+              <button onClick={saveProgramHandler} className={buttonClasses(true)}>
+                Save
+              </button>
+              {/* <button onClick={loadHandler} className={buttonClasses(true)}>
               Load Programs
             </button> */}
-            <button onClick={addHandler} className={buttonClasses(true)}>
-              Load
-            </button>
-            <button
-              onClick={togglePreview}
-              className={`${buttonClasses(true)} bg-blue-100 hover:bg-blue-200`}
-            >
-              {isPreviewActive ? "Hide Preview" : "Show Preview"}
-            </button>
-          </div>
+              <button onClick={addHandler} className={buttonClasses(true)}>
+                Load
+              </button>
+              <button
+                onClick={togglePreview}
+                className={`${buttonClasses(true)} bg-blue-100 hover:bg-blue-200`}
+              >
+                {isPreviewActive ? "Hide Preview" : "Show Preview"}
+              </button>
+            </div>
+          )}
           {viewState.rootRelativePath.size > -1 ? <Breadcrumbs {...breadcrumbProps} /> : null}
           <Block {...rootBlockProps} />
         </div>

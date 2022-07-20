@@ -1,5 +1,6 @@
+import Link from "next/link";
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { createView, IView, IViewData } from "../model/view";
+import { createView, getLink, IView, IViewData, resolveView } from "../model/view";
 
 export type ViewAction = (view: Readonly<IView>) => IView;
 
@@ -10,7 +11,11 @@ const viewReducer = (viewState: IView, action: ViewAction): IView => {
 
 const viewContext = createContext(null);
 
-export type IViewContext = { viewState: IView; viewDispatch: React.Dispatch<ViewAction> };
+export type IViewContext = {
+  viewState: IView;
+  viewDispatch: React.Dispatch<ViewAction>;
+  RedirectView: (redirectViewProps: IRedirectViewProps) => JSX.Element;
+};
 
 export const useView = (): IViewContext => {
   const context = useContext(viewContext);
@@ -22,6 +27,13 @@ export const useView = (): IViewContext => {
 
 export interface IViewProviderProps extends IViewData {
   children: JSX.Element;
+  redirectToUrl?: boolean;
+}
+
+export interface IRedirectViewProps {
+  partialView: Partial<IView>;
+  children: JSX.Element;
+  className?: string;
 }
 
 export const ViewProvider = (props: IViewProviderProps) => {
@@ -46,9 +58,30 @@ export const ViewProvider = (props: IViewProviderProps) => {
     );
   }, [props]);
 
+  // Redirects the view. If this is an outer context, redirects via URL, else via dispatching to the reducer in context.
+  const RedirectView = (redirectViewProps: IRedirectViewProps): JSX.Element => {
+    const { partialView, children, className } = redirectViewProps;
+    if (props.redirectToUrl) {
+      return (
+        <Link href={getLink(viewState, partialView)}>
+          <a className={className ? className : ""}>{children}</a>
+        </Link>
+      );
+    } else {
+      return (
+        <button
+          className={className ? className : ""}
+          onClick={() => viewDispatch((viewState) => resolveView(viewState, partialView))}
+        >
+          {children}
+        </button>
+      );
+    }
+  };
+
   return (
     <>
-      <viewContext.Provider value={{ viewState, viewDispatch }}>
+      <viewContext.Provider value={{ viewState, viewDispatch, RedirectView }}>
         {props.children}
       </viewContext.Provider>
     </>

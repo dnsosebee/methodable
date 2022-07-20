@@ -1,6 +1,5 @@
 // crockford object for state
 import { List, Map } from "immutable";
-import { IEditor } from "../modes/editor";
 import { IVerb } from "../verbs/verb";
 import {
   BlockContentId,
@@ -446,19 +445,6 @@ export const graphFromJson = (json: string): IGraph => {
     locatedBlocks,
   });
   return newGraph;
-};
-
-export const isChildBetweenSelection = (
-  graph: IGraph,
-  editor: IEditor,
-  locatedBlockId: LocatedBlockId
-) => {
-  const parentPathLength = editor.activeParentPath.size;
-  const bound1 = editor.selectionRange.start.get(parentPathLength);
-  const bound2 = editor.selectionRange.end.get(parentPathLength);
-  const bound1LocatedBlock = graph.locatedBlocks.get(bound1);
-  const parentContent = graph.blockContents.get(bound1LocatedBlock.parentId);
-  return parentContent.isChildBetween(locatedBlockId, bound1, bound2);
 };
 
 export const locationListAreEqual = (a: LocationList, b: LocationList): boolean => {

@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { IView } from "../../../model/view";
+import { useView } from "../../ViewProvider";
 import { RichifiedText } from "../RichifiedText";
 
 export interface IGuideButtonVisualProps {
@@ -8,21 +9,19 @@ export interface IGuideButtonVisualProps {
 }
 
 export interface IGuideButtonProps extends IGuideButtonVisualProps {
-  href: string;
+  partialView: Partial<IView>;
 }
 
 export const GuideButton = (props: IGuideButtonProps) => {
+  const { RedirectView } = useView();
   return (
-    <Link href={props.href}>
-      <a>
-        <p
-          className={`p-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded mt-2 shadow ${
-            props.center ? "text-center" : ""
-          } ${props.highlight ? " bg-blue-100 hover:bg-blue-200" : ""}`}
-        >
-          <RichifiedText text={props.text} />
-        </p>
-      </a>
-    </Link>
+    <RedirectView
+      partialView={props.partialView}
+      className={`p-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded mt-2 shadow ${
+        props.center ? "text-center" : ""
+      } ${props.highlight ? " bg-blue-100 hover:bg-blue-200" : ""}`}
+    >
+      <RichifiedText text={props.text} />
+    </RedirectView>
   );
 };

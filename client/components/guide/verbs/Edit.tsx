@@ -72,9 +72,9 @@ const InnerEditWorkspace = memo((props: IInnerEditWorkspaceProps) => {
       <p className="ml-5 italic text-gray-400">
         <RichifiedText text={content.humanText} />
       </p>
-      <ViewProvider {...view}>
+      <ViewProvider {...view} redirectToUrl={false}>
         <EditorProvider>
-          <Editor />
+          <Editor showOptions={true} showSearch={false} />
         </EditorProvider>
       </ViewProvider>
     </div>
