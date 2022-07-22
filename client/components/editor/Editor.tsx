@@ -309,13 +309,13 @@ export const Editor = (props: IEditorProps) => {
   };
 
   const showBreadcrumbs = viewState.rootRelativePath.size > 0;
-  let maxH = 35;
-  if (showBreadcrumbs) {
-    maxH += 30;
-  }
-  if (showSearch) {
-    maxH += 30;
-  }
+  const maxH = showBreadcrumbs
+    ? showSearch
+      ? "max-h-[calc(100%-95px)]"
+      : "max-h-[calc(100%-65px)]"
+    : showSearch
+    ? "max-h-[calc(100%-65px)]"
+    : "max-h-[calc(100%-35px)]";
 
   return (
     <Wrapper
@@ -363,7 +363,7 @@ export const Editor = (props: IEditorProps) => {
             </div>
           )}
           {showBreadcrumbs ? <Breadcrumbs {...breadcrumbProps} /> : null}
-          <div className={`flex max-h-[calc(100%_-_${maxH}px)]`}>
+          <div className={`flex ${maxH}`}>
             <Block {...rootBlockProps} />
           </div>
         </div>

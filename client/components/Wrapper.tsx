@@ -16,7 +16,7 @@ export const Wrapper = ({
         maxHClass ? maxHClass : ""
       } ${growClasses}`}
     >
-      <div className="flex-grow overflow-y-auto">{children}</div>
+      <div className="min-h-full">{children}</div>
     </div>
   );
 };
