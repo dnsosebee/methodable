@@ -11,11 +11,11 @@ export const getChildComponent = (mode: string) => {
     case MODE.EDIT:
       return (
         <EditorProvider>
-          <Editor showSearch={true} showOptions={true} />
+          <Editor showSearch={true} showOptions={true} shortenWrapper={true} />
         </EditorProvider>
       );
     case MODE.GUIDE:
-      return <Guide />;
+      return <Guide shortenWrapper={true} />;
     case MODE.FINISH:
       return <Exit />;
     default:

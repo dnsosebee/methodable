@@ -32,6 +32,7 @@ import { Search } from "./Search";
 export interface IEditorProps {
   showOptions: boolean;
   showSearch: boolean;
+  shortenWrapper: boolean;
 }
 
 export const isChildBetweenSelection = (
@@ -307,52 +308,64 @@ export const Editor = (props: IEditorProps) => {
     setIsPreviewActive(!isPreviewActive);
   };
 
+  const showBreadcrumbs = viewState.rootRelativePath.size > 0;
+  let maxH = 35;
+  if (showBreadcrumbs) {
+    maxH += 30;
+  }
+  if (showSearch) {
+    maxH += 30;
+  }
+
   return (
-    <Wrapper shouldGrow={false}>
-      <div className="flex-grow flex max-h-full">
-        <div
-          onCopy={copyHandler}
-          onKeyDown={keyDownHandler}
-          className="flex-1 overflow-auto font-sans"
-        >
+    <Wrapper
+      shouldGrow={false}
+      maxHClass={props.shortenWrapper ? "max-h-[calc(100%_-_40px)]" : "max-h-full"}
+    >
+      <div className="flex-grow flex max-h-[calc(100%_-_2px)]">
+        <div onCopy={copyHandler} onKeyDown={keyDownHandler} className="flex-1 font-sans">
           {showSearch && <Search />}
           {showOptions && (
             <div className="flex border-b mb-1 select-none">
               <span className="mx-2 text-sm">Options:</span>
-              {/* <button
+              <div className="flex overflow-x-auto w-full">
+                {/* <button
               onClick={toggleSelectionDepth}
               className={buttonClasses(editorState.isSelectionActive)}
             >
               {toggleSelectionText}
             </button> */}
-              <button
-                onClick={handleBackspace}
-                className={buttonClasses(editorState.isSelectionActive)}
-              >
-                delete references
-              </button>
-              <button onClick={saveHandler} className={buttonClasses(true)}>
-                Save Programs
-              </button>
-              <button onClick={saveProgramHandler} className={buttonClasses(true)}>
-                Save
-              </button>
-              {/* <button onClick={loadHandler} className={buttonClasses(true)}>
+                <button
+                  onClick={handleBackspace}
+                  className={buttonClasses(editorState.isSelectionActive)}
+                >
+                  delete references
+                </button>
+                <button onClick={saveHandler} className={buttonClasses(true)}>
+                  Save Programs
+                </button>
+                <button onClick={saveProgramHandler} className={buttonClasses(true)}>
+                  Save
+                </button>
+                {/* <button onClick={loadHandler} className={buttonClasses(true)}>
               Load Programs
             </button> */}
-              <button onClick={addHandler} className={buttonClasses(true)}>
-                Load
-              </button>
-              <button
-                onClick={togglePreview}
-                className={`${buttonClasses(true)} bg-blue-100 hover:bg-blue-200`}
-              >
-                {isPreviewActive ? "Hide Preview" : "Show Preview"}
-              </button>
+                <button onClick={addHandler} className={buttonClasses(true)}>
+                  Load
+                </button>
+                <button
+                  onClick={togglePreview}
+                  className={`${buttonClasses(true)} bg-blue-100 hover:bg-blue-200`}
+                >
+                  {isPreviewActive ? "Hide Preview" : "Show Preview"}
+                </button>
+              </div>
             </div>
           )}
-          {viewState.rootRelativePath.size > -1 ? <Breadcrumbs {...breadcrumbProps} /> : null}
-          <Block {...rootBlockProps} />
+          {showBreadcrumbs ? <Breadcrumbs {...breadcrumbProps} /> : null}
+          <div className={`flex max-h-[calc(100%_-_${maxH}px)]`}>
+            <Block {...rootBlockProps} />
+          </div>
         </div>
         {isPreviewActive ? (
           <div className="flex-1 flex flex-col max-h-full ml-2">

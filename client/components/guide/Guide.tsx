@@ -14,6 +14,7 @@ import { GuideProvider } from "./GuideProvider";
 export interface IGuideProps {
   graphState?: IGraph;
   viewState?: IView;
+  shortenWrapper?: boolean;
 }
 
 export const Guide = (props: IGuideProps) => {
@@ -33,8 +34,11 @@ export const Guide = (props: IGuideProps) => {
   };
   return (
     <GuideProvider>
-      <Wrapper shouldGrow={true}>
-        <div className="flex-grow flex flex-col m-2  font-serif">
+      <Wrapper
+        shouldGrow={true}
+        maxHClass={props.shortenWrapper ? "max-h-[calc(100%_-_40px)]" : "max-h-full"}
+      >
+        <div className="flex-grow flex flex-col m-2 overflow-auto font-serif">
           {focusPath ? (
             <GuidePage {...guidePageProps} key="program" />
           ) : (

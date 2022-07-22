@@ -145,7 +145,7 @@ export const Block = (props: IBlockProps) => {
   }, [viewState.focusPath]);
 
   return (
-    <div className="flex">
+    <div className="flex flex-grow">
       {!isRoot && (
         <>
           <CollapseToggle {...collapseToggleProps} />
@@ -162,7 +162,11 @@ export const Block = (props: IBlockProps) => {
           <BlockText {...blockTextProps} />
           {shouldRenderRunButton && <RunButton {...{ contentId: props.content.id, isRoot }} />}
         </div>
-        {childBlocks.size > 0 && !collapsed && childBlocks}
+        {childBlocks.size > 0 && !collapsed && (
+          <div className={isRoot ? "overflow-y-auto max-h-[calc(100%_-_35px)]" : ""}>
+            {childBlocks}
+          </div>
+        )}
       </div>
     </div>
 

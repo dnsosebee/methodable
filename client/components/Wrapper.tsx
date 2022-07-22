@@ -3,16 +3,20 @@ import React from "react";
 export const Wrapper = ({
   children,
   shouldGrow,
+  maxHClass,
 }: {
   children: React.ReactNode;
   shouldGrow: boolean;
+  maxHClass?: string;
 }) => {
   const growClasses = shouldGrow ? "flex-grow" : "";
   return (
     <div
-      className={`border border-secondary rounded p-2 shadow-lg flex flex-col max-h-full ${growClasses}`}
+      className={`border border-secondary rounded p-2 shadow-lg flex flex-col ${
+        maxHClass ? maxHClass : ""
+      } ${growClasses}`}
     >
-      <div className="overflow-auto">{children}</div>
+      <div className="flex-grow overflow-y-auto">{children}</div>
     </div>
   );
 };

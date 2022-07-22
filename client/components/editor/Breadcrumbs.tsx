@@ -42,7 +42,7 @@ export const Breadcrumbs = (props: IBreadcrumbsProps) => {
   const breadcrumbInfos =
     props.rootRelativePath.size > 0 ? getBreadcrumbInfos(props.rootRelativePath.slice(0, -1)) : [];
   return (
-    <div className="flex mb-2 h-5">
+    <div className="flex mb-2">
       {breadcrumbInfos.map((info, index) => {
         return (
           <span key={index} className="flex flex-none">

@@ -61,26 +61,28 @@ export const Search = (props: SearchBarProps) => {
         )}
       </div>
       {search === "" ? null : (
-        <div className="flex flex-col absolute bg-white z-50 p-2 border min-w-[97%] mt-2">
-          <p className="text-lg">Search results</p>
-          {results.map((result, index) => (
-            <div
-              className="flex"
-              onClick={() => {
-                setSearch("");
-              }}
-            >
-              <p className="self-center mt-1 mr-2">{index + 1}.</p>
-              <GuideButton
-                text={result.item.value}
-                partialView={{
-                  mode: MODE.EDIT,
-                  rootContentId: result.item.key,
-                  rootRelativePath: List(),
+        <div className="flex flex-col absolute bg-gray-50 z-50 p-2 border w-[calc(100%_-_35px)] max-h-96 shadow-2xl mt-2">
+          <p className="text-lg mb-2">Search results</p>
+          <div className="overflow-y-auto">
+            {results.map((result, index) => (
+              <div
+                className="flex w-full"
+                onClick={() => {
+                  setSearch("");
                 }}
-              />
-            </div>
-          ))}
+              >
+                <p className="self-center mt-1 mr-2">{index + 1}.</p>
+                <GuideButton
+                  text={result.item.value}
+                  partialView={{
+                    mode: MODE.EDIT,
+                    rootContentId: result.item.key,
+                    rootRelativePath: List(),
+                  }}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

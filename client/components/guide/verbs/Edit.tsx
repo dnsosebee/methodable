@@ -68,13 +68,13 @@ const shouldMemo = (prevProps: IInnerEditWorkspaceProps, nextProps: IInnerEditWo
 const InnerEditWorkspace = memo((props: IInnerEditWorkspaceProps) => {
   const { view, content } = props;
   return (
-    <div className="mt-5">
+    <div className="mt-5 flex-grow">
       <p className="ml-5 italic text-gray-400">
         <RichifiedText text={content.humanText} />
       </p>
       <ViewProvider {...view} redirectToUrl={false}>
         <EditorProvider>
-          <Editor showOptions={true} showSearch={false} />
+          <Editor showOptions={true} showSearch={false} shortenWrapper={false} />
         </EditorProvider>
       </ViewProvider>
     </div>
