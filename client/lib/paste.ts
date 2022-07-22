@@ -53,6 +53,7 @@ export const pasteActionGenerator =
     let currentLocatedBlock = currentGraphState.locatedBlocks.get(pasteLocationId);
     let currentBlockContent = currentGraphState.blockContents.get(currentLocatedBlock.contentId);
     let currentFocusPath = viewState.focusPath;
+    let currentFocusPosition = viewState.focusPosition;
     let currentIsRoot = currentFocusPath.size === 0;
     for (let i = 0; i < blockCreationArgs.length; i++) {
       const blockCreationArg = blockCreationArgs[i];
@@ -60,6 +61,7 @@ export const pasteActionGenerator =
         // we create a sibling newline after the first pasted block, as long as there are more blocks to paste
         const newLocatedBlockId = crypto.randomUUID();
         currentFocusPath = currentFocusPath.splice(-1, 1, newLocatedBlockId);
+        currentFocusPosition = "end";
         currentGraphState = currentGraphState.insertNewBlock(
           currentLocatedBlock.id,
           currentLocatedBlock.parentId,
@@ -79,6 +81,7 @@ export const pasteActionGenerator =
           const proxyDispatch = (action: ViewAction) => {
             const state = action(viewState);
             currentFocusPath = state.focusPath;
+            currentFocusPosition = state.focusPosition;
           };
           currentGraphState = enterPressActionGenerator(
             currentLocatedBlock,
@@ -102,10 +105,12 @@ export const pasteActionGenerator =
         currentBlockContent = currentGraphState.blockContents.get(currentLocatedBlock.contentId);
       } else {
         // otherwise we just add text to the block
-        currentGraphState = currentGraphState.updateBlockText(
-          currentBlockContent.id,
-          currentBlockContent.humanText + blockCreationArg.humanText
-        );
+        const oldText = currentBlockContent.humanText;
+        const split = typeof currentFocusPosition === "number" ? currentFocusPosition : 1;
+        currentFocusPosition = split + blockCreationArg.humanText.length;
+        const newText =
+          oldText.slice(0, split - 1) + blockCreationArg.humanText + oldText.slice(split - 1);
+        currentGraphState = currentGraphState.updateBlockText(currentBlockContent.id, newText);
         currentBlockContent = currentGraphState.blockContents.get(currentBlockContent.id);
         if (blockCreationArg.verb) {
           currentGraphState = currentGraphState.updateBlockVerb(
@@ -116,6 +121,6 @@ export const pasteActionGenerator =
         }
       }
     }
-    viewDispatch((state: IView) => state.setFocus(currentFocusPath, "end"));
+    viewDispatch((state: IView) => state.setFocus(currentFocusPath, currentFocusPosition));
     return currentGraphState;
   };

@@ -175,8 +175,8 @@ export const BlockText = (props: IBlockTextProps) => {
           class: `focus:outline-none text-gray-700 py-0.5 ${selectedClass}`,
         },
         handlePaste: (view) => {
-          view.focus();
-          handlePaste();
+          const newFocusPosition = view.state.selection.$anchor.pos;
+          handlePaste(newFocusPosition);
           return PREVENT_TIPTAP_DEFAULT;
         },
       },
@@ -455,12 +455,12 @@ export const BlockText = (props: IBlockTextProps) => {
     return PREVENT_TIPTAP_DEFAULT;
   };
 
-  const handlePaste = async () => {
+  const handlePaste = async (newFocusPosition: number) => {
     logKeyEvent("onPaste, path: " + propsRef.current.path);
     const pasteAction: GraphAction = pasteActionGenerator(
       locatedRef.current.id,
       await navigator.clipboard.readText(),
-      viewState,
+      viewRef.current.setFocus(viewRef.current.focusPath, newFocusPosition),
       viewDispatch
     );
     graphDispatch(pasteAction);
@@ -483,6 +483,9 @@ export const BlockText = (props: IBlockTextProps) => {
         if (props.humanText !== editor.getText()) {
           logEffect("updating editor content for path: " + props.path);
           editor.commands.setContent(props.humanText);
+          if (pathEquals(viewState.focusPath, props.path)) {
+            editor.commands.focus(viewState.focusPosition);
+          }
         }
       }
     }
@@ -494,6 +497,9 @@ export const BlockText = (props: IBlockTextProps) => {
       if (props.humanText !== editor.getText()) {
         logEffect("updating editor content for path: " + props.path + " due to contentId change");
         editor.commands.setContent(props.humanText);
+        if (pathEquals(viewState.focusPath, props.path)) {
+          editor.commands.focus(viewState.focusPosition);
+        }
       }
     }
   }, [!!editor, props.contentId]);
