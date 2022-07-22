@@ -362,7 +362,12 @@ export const Editor = (props: IEditorProps) => {
               </div>
             </div>
           )}
-          {showBreadcrumbs ? <Breadcrumbs {...breadcrumbProps} /> : null}
+          {showBreadcrumbs ? (
+            <div className="flex overflow-x-auto w-full">
+              {" "}
+              <Breadcrumbs {...breadcrumbProps} />
+            </div>
+          ) : null}
           <div className={`flex ${maxH}`}>
             <Block {...rootBlockProps} />
           </div>
