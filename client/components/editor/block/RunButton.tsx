@@ -13,7 +13,7 @@ export const RunButton = (props: IRunButtonProps) => {
       {/* a button with a link to the page to run the current block */}
       <a target="_blank">
         <button
-          className={`min-w-[1.25rem] px-1 ml-2 min-h-[1.25rem] text-gray-700 bg-gray-100 border-gray-200 border rounded select-none flex-none ${
+          className={`min-w-[1.25rem] px-1 ml-2 min-h-[1.25rem] text-gray-700 bg-gray-100 border-gray-200 border rounded-lg select-none flex-none ${
             props.isRoot ? "h-7 w-16 mb-1 text-sm" : " text-xs"
           }`}
         >

@@ -17,9 +17,11 @@ export const GuideButton = (props: IGuideButtonProps) => {
   return (
     <RedirectView
       partialView={props.partialView}
-      className={`p-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded mt-2 shadow ${
-        props.center ? "text-center" : ""
-      } ${props.highlight ? " bg-blue-100 hover:bg-blue-200" : ""}`}
+      className={`p-2  rounded-xl mb-4 shadow-lg ${props.center ? "text-center" : ""} ${
+        props.highlight
+          ? " text-gray-700 bg-blue-200 hover:bg-blue-300"
+          : "text-gray-700 bg-slate-200 hover:bg-slate-300"
+      }`}
     >
       <RichifiedText text={props.text} />
     </RedirectView>

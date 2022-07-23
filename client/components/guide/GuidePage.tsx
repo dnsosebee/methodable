@@ -73,7 +73,7 @@ export const GuidePage = (props: IGuidePageProps) => {
   if (content.verb.isWorkspace()) {
     return (
       <>
-        <p className="bg-blue-200 rounded shadow p-1 mb-5 font-sans">
+        <p className="bg-blue-200 rounded-xl shadow p-2 mb-5 font-sans">
           <span className="font-bold">Note:</span> You are viewing a{" "}
           <span className="italic">workspace</span>. Workspaces don't get their own guide pages,
           instead they are included in other pages.

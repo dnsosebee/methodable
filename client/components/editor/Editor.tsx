@@ -133,8 +133,8 @@ export const Editor = (props: IEditorProps) => {
   // const toggleSelectionText = editorState.isSelectionByText ? "select text" : "select references";
   const buttonClasses = (isActive: boolean) =>
     `${
-      isActive ? "bg-gray-200 text-black" : "bg-gray-100 text-gray-300"
-    } shadow flex-none text-xs hover:bg-gray-200 select-none mb-2 rounded px-1 py-0.5 max-w-48 mr-2`;
+      isActive ? "bg-gray-200 text-black hover:bg-gray-300" : "bg-gray-50 text-gray-200"
+    } shadow flex-none text-xs select-none mb-2 rounded-lg px-2 py-0.5 max-w-48 ml-2`;
   const breadcrumbProps: IBreadcrumbsProps = {
     rootContentId: viewState.rootContentId,
     rootRelativePath: viewState.rootRelativePath,
@@ -320,7 +320,7 @@ export const Editor = (props: IEditorProps) => {
   return (
     <Wrapper
       shouldGrow={false}
-      maxHClass={props.shortenWrapper ? "max-h-[calc(100%_-_40px)]" : "max-h-full"}
+      className={`bg-gray-50 ${props.shortenWrapper ? "max-h-[calc(100%_-_40px)]" : "max-h-full"}`}
     >
       <div className="flex-grow flex max-h-[calc(100%_-_2px)]">
         <div onCopy={copyHandler} onKeyDown={keyDownHandler} className="flex-1 font-sans">
@@ -328,7 +328,7 @@ export const Editor = (props: IEditorProps) => {
           {showOptions && (
             <div className="flex border-b mb-1 select-none">
               <span className="mx-2 text-sm">Options:</span>
-              <div className="flex overflow-x-auto w-full">
+              <div className="flex-grow flex overflow-x-auto">
                 {/* <button
               onClick={toggleSelectionDepth}
               className={buttonClasses(editorState.isSelectionActive)}
@@ -355,7 +355,7 @@ export const Editor = (props: IEditorProps) => {
                 </button>
                 <button
                   onClick={togglePreview}
-                  className={`${buttonClasses(true)} bg-blue-100 hover:bg-blue-200`}
+                  className={`${buttonClasses(true)} bg-blue-200 hover:bg-blue-300 ml-auto`}
                 >
                   {isPreviewActive ? "Hide Preview" : "Show Preview"}
                 </button>
@@ -373,7 +373,7 @@ export const Editor = (props: IEditorProps) => {
           </div>
         </div>
         {isPreviewActive ? (
-          <div className="flex-1 flex flex-col max-h-full ml-2">
+          <div className="flex-1 flex flex-col max-h-full ml-3">
             <Guide {...{ editorState, viewState }} />
           </div>
         ) : null}

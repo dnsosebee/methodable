@@ -157,8 +157,10 @@ export const Block = (props: IBlockProps) => {
       )}
       <div className={`flex-col flex-grow ${shallowSelectedClasses}`}>
         <div className={`flex ${rootRowClasses}`}>
+          <div className="w-1"></div>
           <VerbSelect {...verbSelectProps}></VerbSelect>
           <RefCount {...refCountProps} />
+          <div className="w-1"></div>
           <BlockText {...blockTextProps} />
           {shouldRenderRunButton && <RunButton {...{ contentId: props.content.id, isRoot }} />}
         </div>

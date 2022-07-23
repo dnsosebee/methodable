@@ -36,9 +36,11 @@ export const Guide = (props: IGuideProps) => {
     <GuideProvider>
       <Wrapper
         shouldGrow={true}
-        maxHClass={props.shortenWrapper ? "max-h-[calc(100%_-_40px)]" : "max-h-full"}
+        className={` bg-slate-100 ${
+          props.shortenWrapper ? "max-h-[calc(100%_-_40px)]" : "max-h-full"
+        }`}
       >
-        <div className="max-h-full flex-grow flex flex-col overflow-auto font-serif">
+        <div className="max-h-full flex-grow flex flex-col overflow-auto font-serif px-20 pt-5">
           {focusPath ? (
             <GuidePage {...guidePageProps} key="program" />
           ) : (

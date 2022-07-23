@@ -48,7 +48,7 @@ export const Search = (props: SearchBarProps) => {
   return (
     <div className="mb-2">
       <div className="flex">
-        <EditorContent editor={editor} className="flex-grow hover:bg-gray-100" />
+        <EditorContent editor={editor} className="rounded px-2 flex-grow hover:bg-gray-100" />
         {search !== "" && (
           <button
             onClick={() => {

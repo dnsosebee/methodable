@@ -66,6 +66,7 @@ export const ChoosePage = (props: IVerbPageProps) => {
                 key: child.locatedBlock.id,
                 content: child.blockContent,
                 path: path.push(child.locatedBlock.id),
+                center: true,
               }}
             />
           ))}
