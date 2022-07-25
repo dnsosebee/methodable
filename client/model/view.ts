@@ -1,4 +1,4 @@
-import { PATH_DELIMITER, PATH_SEPARATOR } from "../../pages/[mode]/[rootContentId]";
+import { PATH_DELIMITER, PATH_SEPARATOR } from "../lib/constants";
 import { BlockContentId } from "./graph/blockContent";
 import { locationListAreEqual, Path } from "./graph/graph";
 

@@ -1,10 +1,6 @@
 import { List, Map } from "immutable";
 import { KeyboardEvent, useState } from "react";
-import {
-  PATH_DELIMITER,
-  PATH_SEPARATOR,
-  SELECTION_BASE_URL,
-} from "../../../pages/[mode]/[rootContentId]";
+import { PATH_DELIMITER, PATH_SEPARATOR, SELECTION_BASE_URL } from "../../lib/constants";
 import { logAction, logKeyEvent } from "../../lib/loggers";
 import { BlockContentId, IBlockContent } from "../../model/graph/blockContent";
 import { fullBlockFromLocatedBlockId, IFullBlock } from "../../model/graph/fullBlock";
@@ -356,11 +352,12 @@ export const Editor = (props: IEditorProps) => {
                     delete references
                   </button>
                 )}
+                <div className="mr-2"></div>
                 <button
                   onClick={togglePreview}
                   className={`${buttonClasses(true)} bg-blue-200 hover:bg-blue-300 ml-auto`}
                 >
-                  {isPreviewActive ? "Hide Preview" : "Show Preview"}
+                  {isPreviewActive ? "Hide Preview" : "Show Guide Preview"}
                 </button>
               </div>
             </div>
