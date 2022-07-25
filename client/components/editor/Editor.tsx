@@ -335,12 +335,7 @@ export const Editor = (props: IEditorProps) => {
             >
               {toggleSelectionText}
             </button> */}
-                <button
-                  onClick={handleBackspace}
-                  className={buttonClasses(editorState.isSelectionActive)}
-                >
-                  delete references
-                </button>
+
                 <button onClick={saveHandler} className={buttonClasses(true)}>
                   Save Programs
                 </button>
@@ -353,6 +348,14 @@ export const Editor = (props: IEditorProps) => {
                 <button onClick={addHandler} className={buttonClasses(true)}>
                   Load
                 </button>
+                {editorState.isSelectionActive && (
+                  <button
+                    onClick={handleBackspace}
+                    className={` bg-red-300 hover:bg-red-400 shadow flex-none text-xs select-none mb-2 rounded-lg px-2 py-0.5 max-w-48 ml-2`}
+                  >
+                    delete references
+                  </button>
+                )}
                 <button
                   onClick={togglePreview}
                   className={`${buttonClasses(true)} bg-blue-200 hover:bg-blue-300 ml-auto`}
