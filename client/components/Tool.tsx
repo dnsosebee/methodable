@@ -24,7 +24,6 @@ export const getChildComponent = (mode: string) => {
 
 export const Tool = () => {
   const { viewState } = useView();
-  console.log("Tool viewState", viewState);
   const editLink = getLink(viewState, {
     mode: MODE.EDIT,
     rootRelativePath:
@@ -32,7 +31,6 @@ export const Tool = () => {
         ? viewState.rootRelativePath
         : viewState.rootRelativePath.concat(viewState.focusPath),
   });
-  console.log("editLink", editLink);
   const guideLink = getLink(viewState, {
     mode: MODE.GUIDE,
     rootRelativePath: List(),
