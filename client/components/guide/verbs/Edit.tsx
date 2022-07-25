@@ -3,7 +3,7 @@ import { memo } from "react";
 import { blockContentsAreEqual, IBlockContent } from "../../../model/graph/blockContent";
 import { getContentFromPath } from "../../../model/graphWithView";
 import { VERB } from "../../../model/verbs/verb";
-import { getLink, IView, MODE, viewsAreEqual } from "../../../model/view";
+import { IView, MODE, viewsAreEqual } from "../../../model/view";
 import { Editor } from "../../editor/Editor";
 import { EditorProvider } from "../../editor/EditorProvider";
 import { useGraph } from "../../GraphProvider";
@@ -28,8 +28,11 @@ export const EditContext = (props: IVerbContextProps) => {
     default:
       pre = "You are within the reading page ";
   }
-  let href = getLink(viewState, { mode: MODE.GUIDE, focusPath: path });
-  return <ContextLine {...{ pre, href, text: content.humanText }}></ContextLine>;
+  return (
+    <ContextLine
+      {...{ pre, partialView: { mode: MODE.GUIDE, focusPath: path }, text: content.humanText }}
+    ></ContextLine>
+  );
 };
 
 export const EditWorkspace = (props: IWorkspaceProps) => {

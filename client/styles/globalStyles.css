@@ -10,8 +10,7 @@ body {
 
 a {
   @apply text-blue-500 !important;
-  @apply underline !important;
-  @apply hover:text-blue-300 !important;
+  @apply hover:underline !important;
 }
 
 .ProseMirror p.is-editor-empty:first-child::before {

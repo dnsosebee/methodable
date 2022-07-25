@@ -1,7 +1,7 @@
 import { IGraph, Path } from "../../../model/graph/graph";
 import { getContentFromPath } from "../../../model/graphWithView";
 import { VERB } from "../../../model/verbs/verb";
-import { getLink, IView, MODE } from "../../../model/view";
+import { IView, MODE } from "../../../model/view";
 import { useGraph } from "../../GraphProvider";
 import { useView } from "../../ViewProvider";
 import { ContinueButton } from "../buttons/ContinueButton";
@@ -26,8 +26,11 @@ export const ReadContext = (props: IVerbContextProps) => {
     default:
       pre = "You are within the reading page ";
   }
-  let href = getLink(viewState, { mode: MODE.GUIDE, focusPath: path });
-  return <ContextLine {...{ pre, href, text: content.humanText }}></ContextLine>;
+  return (
+    <ContextLine
+      {...{ pre, partialView: { mode: MODE.GUIDE, focusPath: path }, text: content.humanText }}
+    ></ContextLine>
+  );
 };
 
 export const ReadPage = (props: IVerbPageProps) => {

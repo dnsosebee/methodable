@@ -1,5 +1,5 @@
 import { VERB } from "../../../model/verbs/verb";
-import { getLink, MODE } from "../../../model/view";
+import { MODE } from "../../../model/view";
 import { useView } from "../../ViewProvider";
 import { BeginButton } from "../buttons/BeginButton";
 import { ContinueButton } from "../buttons/ContinueButton";
@@ -22,8 +22,11 @@ export const DoContext = (props: IVerbContextProps) => {
     default:
       pre = "You began the subgoal ";
   }
-  let href = getLink(viewState, { mode: MODE.GUIDE, focusPath: path });
-  return <ContextLine {...{ pre, href, text: content.humanText }}></ContextLine>;
+  return (
+    <ContextLine
+      {...{ pre, partialView: { mode: MODE.GUIDE, focusPath: path }, text: content.humanText }}
+    ></ContextLine>
+  );
 };
 
 export const DoPage = (props: IVerbPageProps) => {

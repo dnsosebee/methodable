@@ -28,7 +28,7 @@ export const ShowContext = (props: IShowContextProps) => {
       </button>
       <div className="ml-5">
         {showContext ? props.children : null}
-        {showContext ? <ContextLine pre="Now.." text="" href="" /> : null}
+        {showContext ? <ContextLine pre="Now.." text="" partialView={{}} /> : null}
       </div>
     </div>
   );

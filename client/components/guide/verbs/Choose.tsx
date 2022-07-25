@@ -1,5 +1,5 @@
 import { VERB } from "../../../model/verbs/verb";
-import { getLink, MODE } from "../../../model/view";
+import { MODE } from "../../../model/view";
 import { BeginButton } from "../buttons/BeginButton";
 import { ContinueButton } from "../buttons/ContinueButton";
 import { ContextLine } from "../ContextLine";
@@ -20,8 +20,11 @@ export const ChooseContext = (props: IVerbContextProps) => {
     default:
       pre = "You had a choice ";
   }
-  let href = getLink(viewState, { mode: MODE.GUIDE, focusPath: path });
-  return <ContextLine {...{ pre, href, text: content.humanText }}></ContextLine>;
+  return (
+    <ContextLine
+      {...{ pre, partialView: { mode: MODE.GUIDE, focusPath: path }, text: content.humanText }}
+    ></ContextLine>
+  );
 };
 
 export const ChoosePage = (props: IVerbPageProps) => {
