@@ -1,7 +1,7 @@
 import { List } from "immutable";
 import { useRouter } from "next/router";
 import { GraphProvider } from "../../../client/components/GraphProvider";
-import { OuterView } from "../../../client/components/View";
+import { Tool } from "../../../client/components/Tool";
 import { Path } from "../../../client/model/graph/graph";
 import { LocatedBlockId } from "../../../client/model/graph/locatedBlock";
 import { strToMode } from "../../../client/model/view";
@@ -30,7 +30,7 @@ const Container = () => {
   };
   return (
     <GraphProvider>
-      <OuterView {...viewProps} />
+      <Tool {...viewProps} />
     </GraphProvider>
   );
 };

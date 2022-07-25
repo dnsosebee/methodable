@@ -353,10 +353,7 @@ export const Editor = (props: IEditorProps) => {
                   </button>
                 )}
                 <div className="mr-2"></div>
-                <button
-                  onClick={togglePreview}
-                  className={`${buttonClasses(true)} bg-blue-200 hover:bg-blue-300 ml-auto`}
-                >
+                <button onClick={togglePreview} className={`${buttonClasses(true)} ml-auto`}>
                   {isPreviewActive ? "Hide Preview" : "Show Guide Preview"}
                 </button>
               </div>

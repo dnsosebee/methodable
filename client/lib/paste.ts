@@ -1,4 +1,3 @@
-import { SELECTION_BASE_URL } from "../../pages/[mode]/[rootContentId]";
 import { getURLPaths } from "../../pages/[mode]/[rootContentId]/[paths]";
 import { GraphAction } from "../components/GraphProvider";
 import { ViewAction } from "../components/ViewProvider";
@@ -9,6 +8,7 @@ import { LocatedBlockId } from "../model/graph/locatedBlock";
 import { getContentFromPath } from "../model/graphWithView";
 import { IVerb } from "../model/verbs/verb";
 import { IView } from "../model/view";
+import { SELECTION_BASE_URL } from "./constants";
 
 export interface IBlockCreationArg {
   humanText?: string;

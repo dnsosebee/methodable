@@ -3,7 +3,6 @@ import FourOhFour from "../../pages/404";
 import { createView, getLink, IViewData, MODE } from "../model/view";
 import { Editor } from "./editor/Editor";
 import { EditorProvider } from "./editor/EditorProvider";
-import { Exit } from "./guide/Exit";
 import { Guide } from "./guide/Guide";
 import { ViewProvider } from "./ViewProvider";
 
@@ -17,15 +16,13 @@ export const getChildComponent = (mode: string) => {
       );
     case MODE.GUIDE:
       return <Guide shortenWrapper={true} />;
-    case MODE.FINISH:
-      return <Exit />;
     default:
       return <FourOhFour />;
   }
 };
 
 // renaming this file, along with auto-ordering of imports, breaks webpack :/ hence component has different name than file.
-export const OuterView = (props: IViewData) => {
+export const Tool = (props: IViewData) => {
   const activeClasses = "text-sm py-0.5 px-2 bg-blue-200 rounded-xl shadow-lg";
   const inactiveClasses = "text-slate-600 text-sm py-0.5 px-2 rounded-xl";
   const buttonClasses =

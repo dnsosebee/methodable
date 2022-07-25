@@ -14,7 +14,7 @@ export const Entry = (props: IEntryProps) => {
         <RichifiedText text={props.content.humanText} />
       </h1>
       <p className={"italic text-sm"}>A Human Program</p>
-      <div className={"flex-grow"}></div>
+      <div className={"mb-5"}></div>
       <BeginButton
         {...{
           text: "Begin",
