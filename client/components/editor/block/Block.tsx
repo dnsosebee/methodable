@@ -11,7 +11,7 @@ import { useEditor } from "../EditorProvider";
 import { BlockHandle, IBlockHandleProps } from "./BlockHandle";
 import { BlockText, IBlockTextProps } from "./BlockText";
 import { CollapseToggle, ICollapseToggleProps } from "./CollapseToggle";
-import { ContainerLine } from "./ContainerLine";
+import { ContainerLine, IContainerLineProps } from "./ContainerLine";
 import { IRefCountProps, RefCount } from "./RefCount";
 import { RunButton } from "./RunButton";
 import { IVerbSelectProps, VerbSelect } from "./VerbSelect";
@@ -24,6 +24,8 @@ export interface IBlockProps {
   isGlobalSelectionActive: boolean;
   parentVerb?: IVerb;
   orderIndex: number;
+  collapsed: boolean;
+  setCollapsed: (collapsed: boolean) => void;
 }
 
 export const Block = (props: IBlockProps) => {
@@ -33,20 +35,25 @@ export const Block = (props: IBlockProps) => {
   const { graphState } = useGraph();
   const { viewState } = useView();
   const { editorState } = useEditor();
-  const [collapsed, setCollapsed] = React.useState(
-    props.content.childLocatedBlocks.size > 0 &&
-      props.path.size > 0 &&
-      (props.content.locatedBlocks.size > 1 || props.parentVerb.name === VERB.CHOOSE)
+  const childFullBlocks = props.content.childLocatedBlocks.map((childBlockId) => {
+    return fullBlockFromLocatedBlockId(graphState, childBlockId);
+  });
+  const [collapsedChildren, setCollapsedChildren] = React.useState(
+    childFullBlocks.map(
+      (block) =>
+        block.blockContent.childLocatedBlocks.size > 0 &&
+        (block.blockContent.locatedBlocks.size > 1 || props.content.verb.name === VERB.CHOOSE)
+    )
   );
 
   const getChildBlocks = () => {
     let numWorkspaceBlocks = 0;
-    return props.content.childLocatedBlocks.map((childId, childIndex) => {
-      const { blockContent: childBlockContent } = fullBlockFromLocatedBlockId(graphState, childId);
+    return childFullBlocks.map((childFullBlock, childIndex) => {
+      const { blockContent: childBlockContent, locatedBlock: childLocatedBlock } = childFullBlock;
       if (childBlockContent.verb.isWorkspace()) {
         numWorkspaceBlocks++;
       }
-      const childPath = props.path.push(childId);
+      const childPath = props.path.push(childLocatedBlock.id);
       const childBlockProps: IBlockProps = {
         path: childPath,
         isGlobalSelectionActive: props.isGlobalSelectionActive,
@@ -54,8 +61,14 @@ export const Block = (props: IBlockProps) => {
         parentVerb: props.content.verb,
         orderIndex: childIndex - numWorkspaceBlocks,
         ...getSelectednessInfo(childPath),
+        collapsed: collapsedChildren.get(childIndex),
+        setCollapsed: (collapsed: boolean) => {
+          setCollapsedChildren((collapsedChildren) => {
+            return collapsedChildren.set(childIndex, collapsed);
+          });
+        },
       };
-      return <Block key={`block: ${childId}`} {...childBlockProps} />;
+      return <Block key={`block: ${childLocatedBlock.id}`} {...childBlockProps} />;
     });
   };
 
@@ -120,9 +133,19 @@ export const Block = (props: IBlockProps) => {
   };
 
   const collapseToggleProps: ICollapseToggleProps = {
-    collapsed,
+    collapsed: props.collapsed,
     visible: props.content.childLocatedBlocks.size > 0,
-    onToggle: () => setCollapsed(!collapsed),
+    onToggle: () => props.setCollapsed(!props.collapsed),
+  };
+
+  const containerLineProps: IContainerLineProps = {
+    onClick: () => {
+      if (collapsedChildren.reduce((acc, cur) => acc && cur, true)) {
+        setCollapsedChildren(collapsedChildren.map((_) => false));
+      } else {
+        setCollapsedChildren(collapsedChildren.map((_) => true));
+      }
+    },
   };
 
   const shouldRenderRunButton =
@@ -140,7 +163,7 @@ export const Block = (props: IBlockProps) => {
       viewState.focusPath.size > props.path.size &&
       pathEquals(viewState.focusPath.slice(0, props.path.size), props.path)
     ) {
-      setCollapsed(false);
+      props.setCollapsed(false);
     }
   }, [viewState.focusPath]);
 
@@ -151,7 +174,7 @@ export const Block = (props: IBlockProps) => {
           <CollapseToggle {...collapseToggleProps} />
           <div className="flex flex-col">
             <BlockHandle {...blockHandleProps} />
-            <ContainerLine />
+            <ContainerLine {...containerLineProps} />
           </div>
         </>
       )}
@@ -164,34 +187,22 @@ export const Block = (props: IBlockProps) => {
           <BlockText {...blockTextProps} />
           {shouldRenderRunButton && <RunButton {...{ contentId: props.content.id, isRoot }} />}
         </div>
-        {childBlocks.size > 0 && !collapsed && (
+        {childBlocks.size > 0 && !props.collapsed && (
           <div className={isRoot ? "overflow-y-auto max-h-[calc(100%_-_35px)]" : ""}>
-            {childBlocks}
+            {isRoot ? (
+              <div className="flex">
+                <div className="flex flex-col mt-1">
+                  <ContainerLine {...containerLineProps} />
+                </div>
+                <div className="ml-1"></div>
+                <div className="grow">{childBlocks}</div>
+              </div>
+            ) : (
+              childBlocks
+            )}
           </div>
         )}
       </div>
     </div>
-
-    // <div className="flex flex-col">
-    //   <div className="flex">
-    //     {!isRoot && (
-    //       <>
-    //         <CollapseToggle {...collapseToggleProps} />
-    //         <BlockHandle {...blockHandleProps}></BlockHandle>
-    //       </>
-    //     )}
-    //     <VerbSelect {...verbSelectProps}></VerbSelect>
-    //     <RefCount {...refCountProps} />
-    //     <BlockText {...blockTextProps} />
-    //     {shouldRenderRunButton && <RunButton {...{ contentId: props.content.id }} />}
-    //   </div>
-    //   <div className="flex">
-    //     <ContainerLine />
-    //     <div className={`flex-col flex-grow ${shallowSelectedClasses}`}>
-    //       <div className={`flex ${rootRowClasses}`}></div>
-    //       {childBlocks.size > 0 && !collapsed && childBlocks}
-    //     </div>
-    //   </div>
-    // </div>
   );
 };

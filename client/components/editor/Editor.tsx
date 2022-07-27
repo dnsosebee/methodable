@@ -74,6 +74,8 @@ export const Editor = (props: IEditorProps) => {
     isGlobalSelectionActive: editorState.isSelectionActive,
     parentVerb: createVerb(VERB.UNDEFINED),
     orderIndex: 0,
+    collapsed: false,
+    setCollapsed: () => {},
   };
 
   // shallow

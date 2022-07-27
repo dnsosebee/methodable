@@ -6,16 +6,16 @@ export interface ICollapseToggleProps {
 }
 
 export const CollapseToggle = (props: ICollapseToggleProps) => {
-  const classes = `w-3 text-xs rounded-lg select-none flex-none pt-0.5 ${
+  const classes = `w-4 text-xs rounded-lg select-none flex-none pt-0.5 flex flex-col ${
     props.visible ? "hover:bg-gray-100" : ""
   } ${props.collapsed ? "text-gray-700" : "text-gray-300"}`;
 
   return (
     <>
       {props.visible ? (
-        <p className={classes} onClick={props.onToggle}>
-          {props.collapsed ? "▶︎" : "▼"}
-        </p>
+        <button className={classes} onClick={props.onToggle}>
+          <span className="self-center mt-1">{props.collapsed ? "▶︎" : "▼"}</span>
+        </button>
       ) : (
         <div className={classes}></div>
       )}

@@ -23,7 +23,7 @@ export const BlockHandle = (props: IBlockHandleProps) => {
     props.verb,
     props.orderIndex
   );
-  const buttonClasses = `flex-none font-bold select-none w-5 h-7 text-right py-1 pr-0.5 text-xs rounded-lg ${presentation.className}`;
+  const buttonClasses = `flex-none font-bold select-none w-5 h-7 text-right pt-1.5 pr-0.5 text-xs rounded-lg ${presentation.className}`;
 
   return (
     <RedirectView partialView={{ mode: MODE.EDIT, rootRelativePath: props.pathRelativeToRoot }}>
