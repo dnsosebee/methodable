@@ -17,10 +17,9 @@ export const ContextLine = (props: IContextLineProps) => {
       <p className="ml-2 text-gray-400">
         <span>{pre}</span>
 
-        <RedirectView partialView={partialView}>
+        <RedirectView partialView={partialView} className="bg-slate-200 hover:bg-slate-300">
           <RichifiedText text={text} />
         </RedirectView>
-        {"."}
       </p>
     </div>
   );

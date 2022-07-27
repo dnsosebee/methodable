@@ -6,9 +6,9 @@ export interface ICollapseToggleProps {
 }
 
 export const CollapseToggle = (props: ICollapseToggleProps) => {
-  const classes = `w-3 text-xs text-gray-700 rounded-lg select-none flex-none pt-0.5 ${
+  const classes = `w-3 text-xs rounded-lg select-none flex-none pt-0.5 ${
     props.visible ? "hover:bg-gray-100" : ""
-  } ${props.collapsed ? "text-gray-700" : "text-gray-200"}`;
+  } ${props.collapsed ? "text-gray-700" : "text-gray-300"}`;
 
   return (
     <>

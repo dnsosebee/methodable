@@ -60,7 +60,7 @@ export const AnswerPage = (props: IVerbPageProps) => {
       {hasControlFlowChildren ? (
         <div className="ml-10 mt-5 flex-1 flex flex-col">
           <button
-            className="italic text-gray-300 hover:bg-gray-100 text-left w-full"
+            className="italic text-gray-300 hover:bg-slate-200 py-1 px-2 rounded-lg text-left w-full mb-2"
             onClick={toggleSubtasks}
           >
             {showSubtasks ? "▼ hide " : "▶︎ show "} {controlFlowChildBlocks.size} guided subtasks
