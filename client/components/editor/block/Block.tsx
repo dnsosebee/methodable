@@ -180,10 +180,8 @@ export const Block = (props: IBlockProps) => {
       )}
       <div className={`flex-col flex-grow ${shallowSelectedClasses}`}>
         <div className={`flex ${rootRowClasses}`}>
-          <div className="w-1"></div>
           <VerbSelect {...verbSelectProps}></VerbSelect>
           <RefCount {...refCountProps} />
-          <div className="w-1"></div>
           <BlockText {...blockTextProps} />
           {shouldRenderRunButton && <RunButton {...{ contentId: props.content.id, isRoot }} />}
         </div>
@@ -194,7 +192,6 @@ export const Block = (props: IBlockProps) => {
                 <div className="flex flex-col mt-1">
                   <ContainerLine {...containerLineProps} />
                 </div>
-                <div className="ml-1"></div>
                 <div className="grow">{childBlocks}</div>
               </div>
             ) : (

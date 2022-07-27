@@ -172,7 +172,7 @@ export const BlockText = (props: IBlockTextProps) => {
       extensions: [CustomExtension, Paragraph, Text],
       editorProps: {
         attributes: {
-          class: `focus:outline-none text-gray-700 py-0.5 ${selectedClass}`,
+          class: `focus:outline-none text-gray-700 pl-1 py-0.5 ${selectedClass}`,
         },
         handlePaste: (view) => {
           const newFocusPosition = view.state.selection.$anchor.pos;
