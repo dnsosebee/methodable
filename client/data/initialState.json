@@ -10,7 +10,7 @@
     {
       "id": "23c818ee-8bfe-4b2b-a747-db6c9e5e5005",
       "verb": "READ",
-      "humanText": "Edit blocks are essential to 'metaprogramming', or making programs that are used to make programs. When I told you to make changes using the editor below, I was engaging in metaprogramming.",
+      "humanText": "*Edit* blocks are essential to *metaprogramming*, or making programs that help you to make programs. When I told you to make changes using the editor below, I was engaging in metaprogramming.",
       "userId": "TODO",
       "archived": false
     },
@@ -72,7 +72,7 @@
     },
     {
       "id": "65f241ab-8524-43f1-be84-2b658acde436",
-      "verb": "DO",
+      "verb": "READ",
       "humanText": "Come up with a goal, or multiple goals for the work session, and write them below as separate blocks. They can be very vague and fuzzy, that's okay! Examples: \"Make progress towards...\" or \"finish [some goal]...\"",
       "userId": "TODO",
       "archived": false
@@ -108,7 +108,7 @@
     {
       "id": "20d74dc2-1eb7-4a69-8c97-9ce5f7cc548a",
       "verb": "READ",
-      "humanText": "Metaprograms and the 'Edit' block (optional reading material)",
+      "humanText": "**Optional reading:** Metaprograms and the *Edit* block",
       "userId": "TODO",
       "archived": false
     },
@@ -164,21 +164,21 @@
     {
       "id": "42f0b270-8524-4b93-8f5a-45ba7cbe9083",
       "verb": "READ",
-      "humanText": "3. 'Answer' blocks",
+      "humanText": "3 - *Answer* blocks (↘️)",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "8841e1de-09e3-4d9b-a93e-4fc9b32cb733",
       "verb": "DO",
-      "humanText": "This is a 'Do' block",
+      "humanText": "This is a *Do* block",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "fcb9d159-e0d1-43fa-bcb3-aa0d163c7cb9",
       "verb": "READ",
-      "humanText": "For example, this page was created from a read block and its children. The particular block you are reading now is the third child of a 'Read' block titled \"4. 'Read' blocks\".",
+      "humanText": "For example, this page was created from a read block and its children. The particular block you are reading now is the third child of a *Read* block titled \"4 - *Read* blocks (📖)\"",
       "userId": "TODO",
       "archived": false
     },
@@ -192,14 +192,14 @@
     {
       "id": "54222694-bb0f-4eb9-b06b-4fc35e736641",
       "verb": "READ",
-      "humanText": "1. 'Do' blocks",
+      "humanText": "1 - *Do* blocks (🏃)",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "f1cb8631-c03e-4828-89ed-77dd5eb2f611",
       "verb": "READ",
-      "humanText": "4. 'Read' blocks",
+      "humanText": "4 - *Read* blocks (📖)",
       "userId": "TODO",
       "archived": false
     },
@@ -213,14 +213,14 @@
     {
       "id": "44f8c7f4-ab86-4194-8fdb-7e046355b311",
       "verb": "DO",
-      "humanText": "Add search to Methodable",
+      "humanText": "Add search to Methodable (Done on local version!)",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "1993ee98-6e32-4e76-bee9-955d790db688",
       "verb": "READ",
-      "humanText": "If you don't know how to do that stuff, don't worry! You can always stick to outlining goals and tasks with \"Do\" type blocks (blocks with the blue running emoji). By default, the blocks you create will be of this type.",
+      "humanText": "If you don't know how to do that stuff, don't worry. You can always stick to outlining goals and tasks with *Do* (🏃) type blocks. By default, the blocks you create will be of this type.",
       "userId": "TODO",
       "archived": false
     },
@@ -241,7 +241,7 @@
     {
       "id": "c084ce42-eda3-4b67-a9ac-5578a2b169a2",
       "verb": "READ",
-      "humanText": "Sounds good! First of all, I'm already showing you the product: you're looking at a Methodable guide right now! But I'll show you some more...",
+      "humanText": "Sounds good! First of all, I'm already showing you the product: you're looking at a Methodable guide right now! Let me show you some more...",
       "userId": "TODO",
       "archived": false
     },
@@ -262,7 +262,7 @@
     {
       "id": "2ab8d62b-bdb2-4390-bb0d-0fb5b05edecf",
       "verb": "DO",
-      "humanText": "Fill out your task list with specific tasks to do during this work session. ",
+      "humanText": "Fill out your task list with specific tasks to do during this work session, *in the imperative form* (e.g. \"check my email\").",
       "userId": "TODO",
       "archived": false
     },
@@ -276,14 +276,14 @@
     {
       "id": "a79c3caf-45ca-4005-b7f0-00e46111b87a",
       "verb": "READ",
-      "humanText": "2. 'Choose' blocks.",
+      "humanText": "2 - *Choose* blocks (❓)",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "c620b44c-052f-4306-b582-53e705526a1e",
       "verb": "READ",
-      "humanText": "This might get complicated when a guide contains an editor. For example, there's an editor below. It has all kinds of buttons, which can be very confusing! However, regardless of what you do with an editor, you always need to press \"continue\" (at the bottom of this page in particular) once you've finished the task at hand.",
+      "humanText": "This might get complicated when a guide contains an editor. For example, there's an editor below. It has all kinds of buttons, which can be very confusing! However, regardless of what you do with an editor, **you always need to press *continue*** (at the bottom of this page in particular) once you've finished the task at hand.",
       "userId": "TODO",
       "archived": false
     },
@@ -337,6 +337,13 @@
       "archived": false
     },
     {
+      "id": "b79a7a13-4e0b-4a66-910b-3ae3b421bd9d",
+      "verb": "READ",
+      "humanText": "![](https://imgur.com/DxnoGXj.png)",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "7d204dd3-1b79-4d2a-83ef-38e40059ae7d",
       "verb": "EDIT",
       "humanText": "Where to write what you plan to do",
@@ -347,6 +354,13 @@
       "id": "edc1fa13-ae12-4a2a-9eb6-512b9d06c50c",
       "verb": "DO",
       "humanText": "Create \"text mode\" in Methodable.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "e8c4a666-b298-469c-8684-29aa01cd2110",
+      "verb": "READ",
+      "humanText": "![](https://i.imgur.com/HuR1R3V.png)",
       "userId": "TODO",
       "archived": false
     },
@@ -409,7 +423,7 @@
     {
       "id": "6f85ece9-f420-428d-8567-d0ee8a4dac31",
       "verb": "READ",
-      "humanText": "In the example below, 'Yes' and 'No' are made to be 'Answer' blocks because we are simulating dialogue: we want to separate the answer ('Yes') from the resulting program ('Choose an indoor activity to do').",
+      "humanText": "In the example below, 'Yes' and 'No' are made to be *Answer* blocks because we are simulating dialogue: we want to separate the answer ('Yes') from the resulting program ('Choose an indoor activity to do').",
       "userId": "TODO",
       "archived": false
     },
@@ -437,7 +451,7 @@
     {
       "id": "4daf794d-f4b9-42ca-bc07-9117a73afb2b",
       "verb": "READ",
-      "humanText": "'Do' blocks represent things to do, in the imperative form (e.g. \"go on a walk\"). These can be tasks or goals or programs: it's all the same.",
+      "humanText": "*Do* blocks represent things to do, in the imperative form (e.g. \"go on a walk\"). These can be tasks or goals or programs: it's all the same.",
       "userId": "TODO",
       "archived": false
     },
@@ -451,7 +465,7 @@
     {
       "id": "1d176b80-2394-49aa-822f-31fb6dff5339",
       "verb": "DO",
-      "humanText": "Add the ability to jump into edit mode from within a guide, and back.",
+      "humanText": "Add the ability to jump into edit mode from within a guide, and back. (Done!)",
       "userId": "TODO",
       "archived": false
     },
@@ -486,21 +500,21 @@
     {
       "id": "a18022c9-b313-49e8-8397-24c4c10ca1a7",
       "verb": "EDIT",
-      "humanText": "A program with an edit block",
+      "humanText": "A program with an *Edit* block",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "64259150-b830-4856-b88c-99afb5c5a6dd",
       "verb": "READ",
-      "humanText": "Programming can be defined as the practice of encoding instructions to be carried out by some actor, but we usually only think about programs that target computers: \"computer programs\". When our programs target humans we call them \"how-to guides\".",
+      "humanText": "Programming can be defined as the practice of encoding instructions to be carried out by some actor, but we usually only think about programs that target computers: *computer programs*. When our programs target humans we call them *how-to guide*.",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "7c2d598e-16d8-4504-af0d-b6a16120d4a7",
       "verb": "READ",
-      "humanText": "So, there will never be a $1500 course on knowledge management in Methodable. Instead there will be Methodable programs titled \"manage my knowledge\" that effortlessly guide the user through all of the same processes instantly and for free. And there will be communities of human program developers who work together to make these programs (knowledge management or otherwise) more complex and powerful than any workflow that could possibly be held within an individual's brain.",
+      "humanText": "So, there will never be a $1500 course on knowledge management in Methodable. Instead there will be Methodable programs titled \"manage my knowledge\" that effortlessly guide the user through all of the same processes instantly and for free. And there will be communities of human program developers who work together to make these programs (knowledge management and otherwise) more powerful than any workflow that could possibly be held within an individual's brain.",
       "userId": "TODO",
       "archived": false
     },
@@ -514,7 +528,7 @@
     {
       "id": "d2f8d208-ca0e-4a25-94de-ed1526cbd073",
       "verb": "DO",
-      "humanText": "Try running the program below to see how the 'Choose' blocks work! (click 'Run' on the first editor, then come back here and press 'continue' when you're done).",
+      "humanText": "Try running the program below to see how the *Choose* blocks work! (click *Run* on the first editor, then come back here and press *Continue* when you're done).",
       "userId": "TODO",
       "archived": false
     },
@@ -528,14 +542,21 @@
     {
       "id": "994706da-76be-493c-ae8d-4f747d614911",
       "verb": "READ",
-      "humanText": "5. 'Edit' blocks",
+      "humanText": "5 - *Edit* blocks (✏️)",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "2420ff3d-8796-4f9d-ab9f-f75984287f61",
       "verb": "READ",
-      "humanText": "A 'Read' block displays all of its children on the same, single page.",
+      "humanText": "A *Read* block displays all of its children on the same, single page.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "6bc85852-91b5-41f7-8df5-a866879bca98",
+      "verb": "DO",
+      "humanText": "Learn about the *Show Side-by-Side Preview* button and *Do* blocks",
       "userId": "TODO",
       "archived": false
     },
@@ -563,14 +584,14 @@
     {
       "id": "2ba12d03-08e0-482d-b2de-2e9a2baa9283",
       "verb": "DO",
-      "humanText": "Learn about 'Edit' blocks",
+      "humanText": "Learn about *Edit* blocks",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "62757fc2-e387-432a-a905-30ac67129ade",
       "verb": "READ",
-      "humanText": "2. Click \"continue\".",
+      "humanText": "2. Click *continue*.",
       "userId": "TODO",
       "archived": false
     },
@@ -598,7 +619,7 @@
     {
       "id": "65b4849f-f3bc-4649-aa06-a91a90729712",
       "verb": "READ",
-      "humanText": "Note-Box 9000: \"... Have you considered taking this $1500 online course on knowledge management?\"",
+      "humanText": "Note-Box 9000: \"... Have you considered taking a $1500 online course on knowledge management?\"",
       "userId": "TODO",
       "archived": false
     },
@@ -612,14 +633,14 @@
     {
       "id": "bd4b7055-3045-481f-8365-8ad9b9d59b6c",
       "verb": "DO",
-      "humanText": "Learn how to use Methodable programs.",
+      "humanText": "Learn how to use Methodable guides.",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "4c342631-fd20-46d5-8570-170b5f1b4580",
       "verb": "ANSWER",
-      "humanText": "Just show me the product.",
+      "humanText": "Just show me the product",
       "userId": "TODO",
       "archived": false
     },
@@ -633,14 +654,14 @@
     {
       "id": "257f0684-e71d-4c3f-bea4-3ebbebbcdd84",
       "verb": "CHOOSE",
-      "humanText": "Methodable is an environment for human programming (encoding sequences of instructions for humans). I think the phrase \"human programming\" is very important.",
+      "humanText": "Methodable is an environment for **human programming** (encoding sequences of instructions for humans). I think the phrase \"human programming\" is very important.",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "5204f762-b314-4450-b899-06e50a03c37e",
       "verb": "READ",
-      "humanText": "(The task at hand is just to read this paragraph, so press continue whenever!)",
+      "humanText": "*(The task at hand is just to read this paragraph, so press continue whenever!)*",
       "userId": "TODO",
       "archived": false
     },
@@ -682,7 +703,7 @@
     {
       "id": "d9e50d63-d37f-4acd-b789-0310d91b942f",
       "verb": "READ",
-      "humanText": "Not all choices need to be 'Answer' blocks",
+      "humanText": "**Note:** Not all choices need to be *Answer* blocks.",
       "userId": "TODO",
       "archived": false
     },
@@ -703,7 +724,7 @@
     {
       "id": "108a7bb9-3c9e-4c8b-a41f-89083f3a5444",
       "verb": "READ",
-      "humanText": "You're doing great! Only one more block to learn about, the coolest one...",
+      "humanText": "You're doing great! Only one more block to learn about, the *coolest* one...",
       "userId": "TODO",
       "archived": false
     },
@@ -717,7 +738,7 @@
     {
       "id": "6a3861f0-2570-4e77-8338-2ebe02b991b9",
       "verb": "READ",
-      "humanText": "As long as you can repeat those two steps, you can do every single Methodable program! Due to its simplicity, Methodable alleviates the cognitive load of juggling more complex workflows and thought patterns.",
+      "humanText": "As long as you can repeat those two steps, you can do every single Methodable program!",
       "userId": "TODO",
       "archived": false
     },
@@ -731,7 +752,7 @@
     {
       "id": "23570761-965d-4a57-bb20-ca1d052d8086",
       "verb": "DO",
-      "humanText": "Learn about 'Choose' blocks",
+      "humanText": "Learn about *Choose* blocks",
       "userId": "TODO",
       "archived": false
     },
@@ -752,7 +773,7 @@
     {
       "id": "addd75b3-d22c-47f7-b1f6-ab2ad7a52528",
       "verb": "READ",
-      "humanText": "3. Click continue at the bottom of the page, or choose an option to continue.",
+      "humanText": "3 - Click *continue* at the bottom of the page, or choose an option to continue.",
       "userId": "TODO",
       "archived": false
     },
@@ -760,6 +781,13 @@
       "id": "980eef85-f109-4b4b-a5a1-27ff89e77b5d",
       "verb": "READ",
       "humanText": "Note-Box 9000: \"... Well... I'm not really in the business of offering advice... what I can do is hold things for you while you figure it out yourself!\"",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "7f45a91b-c676-4a7f-b0a9-f4358d346b13",
+      "verb": "READ",
+      "humanText": "From that page, **still within the preview**, click *Show Context*. See how the structure of the editor influences the structure of the guide? Since \"boil the water\" is *a child of* \"make coffee\", \"make coffee\" is shown as an in-progress goal in *Guide mode*, with \"boil the water\" as one of its steps.",
       "userId": "TODO",
       "archived": false
     },
@@ -773,21 +801,21 @@
     {
       "id": "27173dcc-caa0-40da-a414-5ee460e08181",
       "verb": "DO",
-      "humanText": "Learn about 'Read' blocks",
+      "humanText": "Learn about *Read* blocks",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "fec1c93e-d922-4a37-bd3b-48f763d6d7c4",
       "verb": "READ",
-      "humanText": "So, the main thing to understand when following guides is to always press continue.",
+      "humanText": "So, the main thing to understand when following guides is to **always press continue**.",
       "userId": "TODO",
       "archived": false
     },
     {
-      "id": "e5809b37-5738-4af9-88b3-7bb4754bd66f",
-      "verb": "DO",
-      "humanText": "Click run on the program below, and when you get to the step \"Fill the coffee pot with water\", click the button \"Show Context\" above the instruction. You should see context about why you are performing the current instruction. This context is derived automatically from the structure of the program. (Come back here and press 'continue' when you're done).",
+      "id": "803a7394-a477-4420-8e44-55d69bae6d11",
+      "verb": "READ",
+      "humanText": "Seems simple enough right?",
       "userId": "TODO",
       "archived": false
     },
@@ -808,7 +836,7 @@
     {
       "id": "0a0c14f5-590d-4288-b259-74fc8c1a6bcc",
       "verb": "READ",
-      "humanText": "Regardless, click \"Continue\".",
+      "humanText": "Regardless, click *Continue*.",
       "userId": "TODO",
       "archived": false
     },
@@ -821,7 +849,7 @@
     },
     {
       "id": "50a20e30-9f87-4364-b2c4-e1b209e81499",
-      "verb": "DO",
+      "verb": "READ",
       "humanText": "Now, for each goal, break it down into more concrete subtasks. You might have to break it into subgoals before breaking it into concrete tasks. If your goal is of the form \"Make progress towards...\", then consider breaking it down into a \"most important next step\": What is the smallest thing you can do that moves you the closest towards that goal?",
       "userId": "TODO",
       "archived": false
@@ -855,6 +883,13 @@
       "archived": false
     },
     {
+      "id": "f600b2f6-267c-4c5a-853c-5047903a29f7",
+      "verb": "READ",
+      "humanText": "*A Methodable program for deciding where to eat lunch.*",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "6898ee85-0162-4712-899b-bd5086c568fe",
       "verb": "EDIT",
       "humanText": "Write your timing / intention statement here",
@@ -864,7 +899,7 @@
     {
       "id": "00fe3fe0-90fa-4f7d-9305-2a1242c7fe63",
       "verb": "READ",
-      "humanText": "So, when I attached the editor at the bottom of the page (the one that says \"the block types, for reference\") I only had to include a single 'Edit' block under the program \"Learn about block types in Methodable\" (which you're currently following), and that same editor automatically appears on every page within that program.",
+      "humanText": "So, when I attached the editor at the bottom of the page (the one that says \"the block types, for reference\") I only had to include a single *Edit* block within the *Do* block \"Learn about block types in Methodable\" (which you're currently following), and that same editor automatically appears on every page within that program.",
       "userId": "TODO",
       "archived": false
     },
@@ -892,7 +927,14 @@
     {
       "id": "9ce1db3f-4269-434f-a698-942e27dc1f55",
       "verb": "READ",
-      "humanText": "With that said, feel free to peruse below. I hope to write this vision up as a more consumable essay sometime soon.",
+      "humanText": "With that said, feel free to peruse below. Some things are already done! I hope to write this vision up as a more consumable essay sometime soon.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "954aac14-2f9d-402b-9ceb-5d4ff65826fd",
+      "verb": "READ",
+      "humanText": "**Note:** *Edit* blocks are not steps! That's why they don't get numbers next to them in the editor. Rather, they get a plus sign, signifying that they are adding themselves to their parent block, rather than acting as a substep.",
       "userId": "TODO",
       "archived": false
     },
@@ -934,7 +976,7 @@
     {
       "id": "d4c4ae74-976a-4d8c-a1c5-3394e7ff6b54",
       "verb": "READ",
-      "humanText": "When a 'Do' block has children, those children represent the steps (in order) necessary to complete that goal.",
+      "humanText": "When a *Do* block has children, those children represent the steps (in order) necessary to complete that goal.",
       "userId": "TODO",
       "archived": false
     },
@@ -956,6 +998,13 @@
       "id": "fad64bc1-6a2e-4ce9-ae85-267126bd91ce",
       "verb": "DO",
       "humanText": "**Maybe** add a \"rich text\" block type that doesn't support children but supports full JSON/HTML rich text.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "45ce856b-371e-41ab-8aee-bd600e4cf2b8",
+      "verb": "READ",
+      "humanText": "*These should also be in imperative form!*",
       "userId": "TODO",
       "archived": false
     },
@@ -1011,7 +1060,7 @@
     {
       "id": "e3dc02b3-5714-4cb3-a893-d4ab546fb13f",
       "verb": "READ",
-      "humanText": "We will be using the editor in Guide mode during this program. To see what I mean, I've included a random editor below.",
+      "humanText": "We will be using the editor in *Guide mode* during this program. To see what I mean, I've included a random editor below.",
       "userId": "TODO",
       "archived": false
     },
@@ -1067,7 +1116,7 @@
     {
       "id": "0827fa53-acc3-4341-ad99-8433c5174a53",
       "verb": "READ",
-      "humanText": "Methodable takes any complex workflow and simplifies it to the following:",
+      "humanText": "When following a Methodable program, all you have to do are the following:",
       "userId": "TODO",
       "archived": false
     },
@@ -1081,14 +1130,14 @@
     {
       "id": "c0780015-e0a0-41cb-a0bf-c1b643b9b005",
       "verb": "READ",
-      "humanText": "1. You might see an editor in Editor mode, where it takes up the full screen.",
+      "humanText": "1. You might see an editor in *Editor mode*, where it takes up the full screen.",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "fc654a26-a797-4c4d-aa41-275d193de52f",
       "verb": "READ",
-      "humanText": "2. You might see an editor as a workspace below an instruction in Guide mode.",
+      "humanText": "2. You might see an editor as a workspace below an instruction in *Guide mode*.",
       "userId": "TODO",
       "archived": false
     },
@@ -1102,7 +1151,7 @@
     {
       "id": "d12aea72-2050-435f-93bf-f84229c390ad",
       "verb": "READ",
-      "humanText": "1. Read something",
+      "humanText": "1 - Read something",
       "userId": "TODO",
       "archived": false
     },
@@ -1116,7 +1165,7 @@
     {
       "id": "d9917bd9-2768-4c05-a03d-996823875f33",
       "verb": "DO",
-      "humanText": "Add interpretation of markdown hyperlinks, bold, quotes, and italics to Methodable.",
+      "humanText": "Add interpretation of markdown hyperlinks, bold, quotes, and italics to Methodable. (Done!)",
       "userId": "TODO",
       "archived": false
     },
@@ -1129,7 +1178,7 @@
     },
     {
       "id": "3776629f-b647-4861-ac0e-809457625202",
-      "verb": "DO",
+      "verb": "READ",
       "humanText": "Copy your intention statement and reflections into the list of intention statements and reflections, so that you can reference your notes later. You can press enter at the end of the title line to insert a new block at the beginning of the list.",
       "userId": "TODO",
       "archived": false
@@ -1172,7 +1221,7 @@
     {
       "id": "3a0b821c-c981-4cea-b88e-463cc2f3c608",
       "verb": "READ",
-      "humanText": "You can try it out below! Click 'Show Preview' on the editor below, then add some substeps a block that is already associated with the editor titled \"Where to write what you plan to do\". You'll see that your substeps automatically get the workspace too.",
+      "humanText": "You can try it out below! Click *Show Side-by-Side Preview* on the editor below, and see how \"Make sure that they are all good things to do!\" still gets the editor attached to it in *Guide mode*, since it's a within scope of the block to which the editor is attached.",
       "userId": "TODO",
       "archived": false
     },
@@ -1200,7 +1249,7 @@
     {
       "id": "24722b44-5aff-48a0-b546-f624ab517304",
       "verb": "DO",
-      "humanText": "Learn about 'Choose' and 'Answer' blocks",
+      "humanText": "Learn about *Choose* and *Answer* blocks",
       "userId": "TODO",
       "archived": false
     },
@@ -1208,13 +1257,6 @@
       "id": "2c710005-ca2e-43db-82d1-2c77e20df294",
       "verb": "DO",
       "humanText": "For each block, add any relevant options that should be encoded as computer-text.",
-      "userId": "TODO",
-      "archived": false
-    },
-    {
-      "id": "b276940b-96c5-4d05-86bf-c972cb6aef0b",
-      "verb": "READ",
-      "humanText": "P.S. I'm working on making it easier to include different kinds of editors that have limited features / fewer confusing buttons.",
       "userId": "TODO",
       "archived": false
     },
@@ -1242,7 +1284,7 @@
     {
       "id": "b8a27afa-32f0-4ca7-9d35-f4f1a1460866",
       "verb": "READ",
-      "humanText": "You can see this block and its children in the editor.",
+      "humanText": "You can see this block and its children in the editor below.",
       "userId": "TODO",
       "archived": false
     },
@@ -1284,7 +1326,7 @@
     {
       "id": "e23a0359-3493-45ee-8ce5-2131337c07e7",
       "verb": "DO",
-      "humanText": "Do the following things",
+      "humanText": "Do these things",
       "userId": "TODO",
       "archived": false
     },
@@ -1292,6 +1334,13 @@
       "id": "767c2c93-7e7f-45b6-93c8-11cd28c38b5d",
       "verb": "EDIT",
       "humanText": "For reference, here's the original repo URL",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "94406d30-a13e-4019-a533-5098affe0277",
+      "verb": "READ",
+      "humanText": "**Important:** At the moment you can't copy multiple blocks of text. Please copy one block at a time by triple-clicking its text.",
       "userId": "TODO",
       "archived": false
     },
@@ -1375,7 +1424,7 @@
     {
       "id": "43048991-0a3b-451b-8e8b-deea95faee39",
       "verb": "READ",
-      "humanText": "Most digital tools that claim to help people think are containers for collecting nouns (\"notes\" or \"files\" or \"photos\"). I think these noun-management tools are bad at helping people do things. To demonstrate the limitations of such tools, I've included some dialogue with an anthropomorphized note-taking app:",
+      "humanText": "Most digital tools that claim to help people think are containers for collecting nouns (\"notes\" or \"files\" or \"photos\"). I think these tools are bad at helping people *do things*, which is why I think we need more verb-oriented tools like Methodable around.",
       "userId": "TODO",
       "archived": false
     },
@@ -1389,14 +1438,14 @@
     {
       "id": "31b93fe4-913e-44e1-bad8-23b855f7cf99",
       "verb": "READ",
-      "humanText": "You can check out the \"Make coffee\" page, and click \"show 3 guided subtasks\" to see the subtasks of \"Make coffee\".",
+      "humanText": "**Still within Preview mode**, you can check out the \"Make coffee\" page, and click *show 3 guided subtasks* to see the subtasks of \"Make coffee\".",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "9eeec786-8a29-4a9e-ac8e-17d4ff6a4150",
       "verb": "READ",
-      "humanText": "'Answer' blocks (the purple arrows) are used when simulating dialogue, and in any situation where you want to present a choice that's not itself a goal/instruction.",
+      "humanText": "*Answer* blocks are used when simulating dialogue, and in any situation where you want to present a choice that's not itself a goal/instruction (as with the blocks 'Yes' and 'No' below).",
       "userId": "TODO",
       "archived": false
     },
@@ -1424,7 +1473,7 @@
     {
       "id": "647dbe37-4eaf-486c-a232-85e5ce274a3f",
       "verb": "READ",
-      "humanText": "Please reach out to @dnsosebee on Twitter if you have feedback on Methodable, I'd really love to hear you ideas.",
+      "humanText": "Please reach out to [**@dnsosebee**](https://twitter.com/dnsosebee) (me) on Twitter if you have feedback on Methodable, I'd really love to hear you ideas / issues / experiences.",
       "userId": "TODO",
       "archived": false
     },
@@ -1459,14 +1508,14 @@
     {
       "id": "14ed7aec-03df-4687-a861-8f6ead398f09",
       "verb": "READ",
-      "humanText": "Metaprograms are one of the most exciting use cases of Methodable. They are like templates but way cooler. They are generic processes that help you generate personal processes, and as long as the original program is tuned correctly, the process of evolving and reflecting upon one's methods can proceed iteratively while remaining completely guided. ",
+      "humanText": "Metaprograms are one of the most exciting use cases of Methodable. They are like templates but way cooler. They are generic processes that help you generate personal processes. Metaprograms can help people create personalized learning routines, personal note-taking methods, or personal virtual assistants for any kind of daily workflows... the possibilities are quite endless! And as long as the original program is tuned correctly, the process of evolving and reflecting upon one's methods can proceed iteratively while remaining completely guided.",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "58e46766-4c4a-4c83-9dec-58b442bbdb09",
       "verb": "READ",
-      "humanText": "There is no reason that we couldn't have tools for delivering instructions to humans that are as powerful and expressive as our computer-programming tools. Those tools could revolutionize the ways we interact with computers and the ways we think. The first step is to call them \"human-programming tools\".",
+      "humanText": "There is no reason that we couldn't have tools for delivering instructions to humans that are as powerful and expressive as our computer-programming tools. Those tools could revolutionize the ways we interact with computers and the ways we think. The first step is to call them **human-programming tools**.",
       "userId": "TODO",
       "archived": false
     },
@@ -1620,7 +1669,7 @@
     {
       "id": "5b18489e-bcab-4ba9-aec2-f62810e45c9f",
       "verb": "EDIT",
-      "humanText": "Some read blocks",
+      "humanText": "Some of the read blocks that compose this page",
       "userId": "TODO",
       "archived": false
     },
@@ -1669,7 +1718,7 @@
     {
       "id": "0f821599-b2ce-4657-a58c-31320abae31c",
       "verb": "READ",
-      "humanText": "So, even though we're in Guide mode, we can still edit stuff!",
+      "humanText": "So, even though we're in *Guide mode*, we can still edit stuff!",
       "userId": "TODO",
       "archived": false
     },
@@ -1709,6 +1758,13 @@
       "archived": false
     },
     {
+      "id": "ea78bf34-ff91-4470-aaa9-8586a5fb35fc",
+      "verb": "READ",
+      "humanText": "Let's check out the guide in our *Side-by-Side Preview*.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "bb3725ce-c52a-4d86-bc16-2e18afe03295",
       "verb": "READ",
       "humanText": "Sounds good!",
@@ -1725,14 +1781,14 @@
     {
       "id": "f651b09b-6cb1-429a-abd5-7d424500212a",
       "verb": "DO",
-      "humanText": "boil it",
+      "humanText": "boil the water",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "48224631-4e17-47b4-af89-d2aaebe00157",
       "verb": "CHOOSE",
-      "humanText": "The only time you don't have a continue button is when you have a choice instead. Choose one of the options below, it doesn't matter which one:",
+      "humanText": "The only time you don't have a continue button is when you have a choice instead. (Choose one of the options below, it doesn't matter which one) ![](https://joanagirantecom.files.wordpress.com/2018/08/applesororanges.png?w=648&h=310)",
       "userId": "TODO",
       "archived": false
     },
@@ -1747,6 +1803,13 @@
       "id": "50ab2c43-9541-42df-baea-8d94141f4145",
       "verb": "READ",
       "humanText": "",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "3cc22031-a3df-4cf4-8cfb-6d75f61ca391",
+      "verb": "READ",
+      "humanText": "![](https://www.applesfromny.com/wp-content/uploads/2020/06/SnapdragonNEW.png)",
       "userId": "TODO",
       "archived": false
     },
@@ -1800,6 +1863,13 @@
       "archived": false
     },
     {
+      "id": "29d4cc3d-5d13-4b12-9cd5-293279b65abe",
+      "verb": "READ",
+      "humanText": "To demonstrate the limitations of our existing noun-management tools, I've included some dialogue with an anthropomorphized note-taking app:",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "6a9d09d0-239d-4791-a836-44c01f7b71e4",
       "verb": "DO",
       "humanText": "Design \"subtasks\" context section below the focus pane.",
@@ -1844,7 +1914,7 @@
     {
       "id": "47198543-adcd-4c9f-8f39-aac18570b70c",
       "verb": "READ",
-      "humanText": "Let's learn about a very important part of Methodable: block types!",
+      "humanText": "Let's learn about a very important part of Methodable: *block types!*",
       "userId": "TODO",
       "archived": false
     },
@@ -1865,7 +1935,7 @@
     {
       "id": "16d69069-8b1e-41af-bbd8-251c363e93a3",
       "verb": "READ",
-      "humanText": "When the user chooses an 'Answer' block, the program flows through each child of the block, exactly the same as with 'Do' blocks.",
+      "humanText": "When the user chooses an *Answer* block, the program flows through each child of the block, exactly the same as with *Do* blocks.",
       "userId": "TODO",
       "archived": false
     },
@@ -1886,7 +1956,7 @@
     {
       "id": "aff7d5f4-5171-4984-a903-6c43b20ece54",
       "verb": "READ",
-      "humanText": "For a metaprogram metaphor: metaprograms are seeds. The generic information stored within a tiny seed can grow into a complex tree that is uniquely shaped to make best use of its personal environment.",
+      "humanText": "For a metaprogram metaphor: metaprograms are seeds. The generic information stored within a tiny seed can grow into a complex tree that is uniquely shaped to make best use of its own environment. Similarly, a well-tuned metaprogram will use its feedback mechanisms to grow into a guide that is best adapted to help the user succeed in their own environment.",
       "userId": "TODO",
       "archived": false
     },
@@ -1907,7 +1977,7 @@
     {
       "id": "77479a28-2b25-4204-89b9-c2fbd2096eca",
       "verb": "ANSWER",
-      "humanText": "This is an 'Answer' block",
+      "humanText": "This is an *Answer* block",
       "userId": "TODO",
       "archived": false
     },
@@ -1926,9 +1996,16 @@
       "archived": false
     },
     {
+      "id": "28b3b885-d576-4d6a-ad7a-b42fca8017e3",
+      "verb": "READ",
+      "humanText": "**Remember:** Make sure your goals are in the imperative form (e.g. \"Write a book.\").",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "0940208b-cfa5-47b6-9b6d-b4442fc90df8",
       "verb": "READ",
-      "humanText": "You can also follow the newsletter for product updates and philosophies of human programming: humanprogramming.substack.com.",
+      "humanText": "You can also follow the newsletter for product updates and philosophies of human programming: [The Human Programming Newsletter](https://humanprogramming.substack.com).",
       "userId": "TODO",
       "archived": false
     },
@@ -1970,7 +2047,7 @@
     {
       "id": "78625da2-9ea8-4920-a57f-91044cdc58f7",
       "verb": "READ",
-      "humanText": "If you want to get really in-the-weeds: When there are multiple workspaces from different scopes on a guide page, workspaces that are associated with smaller scopes show up on top, because they pertain to a more specific task, and are therefore more likely to be the direct workspace of the task at hand. And it's nice to see the workspace right under the instruction.",
+      "humanText": "If you want to get really in-the-weeds: When there are multiple workspaces from different scopes on a guide page, workspaces that are associated with smaller scopes show up on top, because they pertain to a more specific task, and are therefore more likely to be the direct workspace of the task at hand. And it's nice to see the most relevant workspace right under the instruction.",
       "userId": "TODO",
       "archived": false
     },
@@ -1984,7 +2061,7 @@
     {
       "id": "f4f0caea-fb43-4c71-8fa9-5729fbed3360",
       "verb": "READ",
-      "humanText": "I want Methodable to have more block-types, more options for each block-type, and integrations, such that you can create guides that provide **precisely the minimal instruction and minimal workspace necessary for the user to make progress towards their goal**.",
+      "humanText": "Methodable will have more block-types, more options for each block-type, and integrations, such that you can create guides that provide **precisely the minimal instruction and minimal workspace necessary for the user to make progress towards their goal**.",
       "userId": "TODO",
       "archived": false
     },
@@ -1998,7 +2075,7 @@
     {
       "id": "9dfba03b-ace2-49c7-812b-87bc9d0cefc6",
       "verb": "READ",
-      "humanText": "This is a 'Read' block",
+      "humanText": "This is a *Read* block",
       "userId": "TODO",
       "archived": false
     },
@@ -2054,7 +2131,7 @@
     {
       "id": "9143ea36-d6d6-4343-9c7f-7f10e9ff9658",
       "verb": "READ",
-      "humanText": "People like you who came across Methodable early on will need to learn how to use Edit-mode, but we can collectively build Methodable into a system where anyone can create programs without using Edit-mode, just by jumping into a metaprogram that (like everything in Methodable Guide-mode) tells them exactly what to do.",
+      "humanText": "People like you who came across Methodable early on will need to learn how to use *Editor mode* and boldly create your own programs without explicit instructions. Soon though, we can collectively build Methodable into a system where anyone can create useful programs without learning *Editor mode*, just by jumping into a guided metaprogram that (like everything in Methodable's *Guide mode*) tells them the exact steps to achieve their goal.",
       "userId": "TODO",
       "archived": false
     },
@@ -2075,7 +2152,7 @@
     {
       "id": "2632b518-a961-45b9-863e-8e1bb6dc0b15",
       "verb": "READ",
-      "humanText": "But sometimes, a choice can directly be a 'Do' or a 'Choose' block. In fact, this is a great way to build a program! When the user can directly select a 'Do' or 'Choose' block, they can decide exactly what kinds of commands they are about to receive, which is empowering.",
+      "humanText": "But sometimes, a choice can directly be a *Do* or a *Choose* block. In fact, this is a great way to build a program! When the user can directly select a *Do* or *Choose* block, they know exactly what they are getting themselves into, which empowers them to feel more control over their actions within the program.",
       "userId": "TODO",
       "archived": false
     },
@@ -2103,7 +2180,7 @@
     {
       "id": "035525d9-2b53-4ebc-b1e6-b301f5caf76a",
       "verb": "READ",
-      "humanText": "I want Methodable to seamlessly create versions and records of programs while you are following them. These records can be used for analytics.",
+      "humanText": "Methodable will seamlessly create versions and records of programs while you are following them. These records can be used for saving progress within a guide and for analytics.",
       "userId": "TODO",
       "archived": false
     },
@@ -2138,7 +2215,7 @@
     {
       "id": "453f08c4-3559-4974-9c17-80ea38aeee26",
       "verb": "EDIT",
-      "humanText": "This is an 'Edit' block",
+      "humanText": "This is an *Edit* block",
       "userId": "TODO",
       "archived": false
     },
@@ -2152,14 +2229,21 @@
     {
       "id": "bb2b09cb-4a9b-4fbd-93fe-d969a4a86496",
       "verb": "READ",
-      "humanText": "I want Methodable to provide much more context about **why** the user is performing a particular task, and better interfaces for navigating that context.",
+      "humanText": "Methodable will provide much more context about **why** the user is performing a particular task, and better interfaces for navigating that context.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "a49a8df9-7e97-4824-9347-9c3ff71663d7",
+      "verb": "READ",
+      "humanText": "Two block types down, three to go! You're doing great!",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "b501aed5-bd62-4088-8e8a-1f7ac71977c1",
       "verb": "READ",
-      "humanText": "'Choose' blocks (the green question marks) present a choice between their children.",
+      "humanText": "*Choose* blocks present a choice between their children.",
       "userId": "TODO",
       "archived": false
     },
@@ -2201,7 +2285,7 @@
     {
       "id": "6f655582-9470-4c13-b143-e4729f654d41",
       "verb": "READ",
-      "humanText": "Great job learning about block types! Before we move on, I have one last remark about block types...",
+      "humanText": "🎉 Great job learning about block types! 🎉 Before we move on, I have one last remark about blocks in Methodable...",
       "userId": "TODO",
       "archived": false
     },
@@ -2213,9 +2297,23 @@
       "archived": false
     },
     {
+      "id": "8b091bb5-f983-4058-8a9e-71a26627a8de",
+      "verb": "READ",
+      "humanText": "Next up, I'll show you how the program below turns itself into a guide. To do so we'll use the *Side-by-Side Preview* feature, which you can enable by clicking the button at the top right of the editor.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "06a7e9d6-4226-44ed-982e-545f979701de",
       "verb": "READ",
-      "humanText": "'Read' blocks are used to present a page of reading material.",
+      "humanText": "*Read* blocks are used to present a page of reading material.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "4b10ef39-736c-4ff6-a559-36b772b05109",
+      "verb": "READ",
+      "humanText": "![](https://www.strategy-business.com/media/image/42407670_1000x500.jpg)",
       "userId": "TODO",
       "archived": false
     },
@@ -2278,7 +2376,7 @@
     {
       "id": "ac09ac8d-fa50-4028-af53-db03a1e66184",
       "verb": "DO",
-      "humanText": "Learn about 'Do' blocks",
+      "humanText": "Learn about *Do* blocks",
       "userId": "TODO",
       "archived": false
     },
@@ -2299,21 +2397,21 @@
     {
       "id": "0ff93d3a-a27a-492c-beec-14a1edb722c6",
       "verb": "CHOOSE",
-      "humanText": "This is a 'Choose' block",
+      "humanText": "This is a *Choose* block",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "c19603e4-3e4d-46be-abca-f28b1fba1cba",
       "verb": "READ",
-      "humanText": "There are lots of buttons in this editor, but the most important one you can click is the \"continue\" button below.",
+      "humanText": "There are lots of buttons in this editor, but the most important one you can click is the *continue* button below.",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "3d49a9b3-5c08-4156-a273-e4f91fa45272",
       "verb": "READ",
-      "humanText": "\"How-to guide\" is an imagination-killing concept. When we think about how-to guides, we think about static, two-dimensional things like numbered lists and flow-charts. Such representations are extremely limiting when compared to the practically infinite magic of computer-programming languages.",
+      "humanText": "*How-to guide* is an imagination-killing concept. When we think about how-to guides, we think about static, two-dimensional things like numbered lists and flow-charts. Such representations are extremely limiting when compared to the practically infinite magic of computer-programming languages.",
       "userId": "TODO",
       "archived": false
     },
@@ -2327,7 +2425,7 @@
     {
       "id": "48a44391-4a53-43c6-8eab-dce6f7b0be47",
       "verb": "READ",
-      "humanText": "You can also click \"Continue\" from that page to complete all of the subtasks at once and proceed to the next step, \"drink the coffee\".",
+      "humanText": "You can also click *Continue* from that page to complete all of the subtasks at once and proceed to the next step, \"drink the coffee\".",
       "userId": "TODO",
       "archived": false
     },
@@ -2346,6 +2444,13 @@
       "archived": false
     },
     {
+      "id": "3755f302-ef36-4499-8f8e-36fffc9de01c",
+      "verb": "READ",
+      "humanText": "![](https://api.time.com/wp-content/uploads/2019/11/gettyimages-459761948.jpg)",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "4bbdc8ca-ccb4-40cc-9579-d2ff4e7c5238",
       "verb": "DO",
       "humanText": "Build a visionary human programming tool with an R0 > 1.00 that helps people share beneficial workflows and accomplish their own highest goals (the Methodable technical roadmap).",
@@ -2355,14 +2460,14 @@
     {
       "id": "39d7354c-450d-4395-9bff-65b4a5efec1b",
       "verb": "READ",
-      "humanText": "2. If it's an instruction, follow it",
+      "humanText": "2 - If it's an instruction, follow it",
       "userId": "TODO",
       "archived": false
     },
     {
       "id": "2069c72d-1d13-4356-92b5-e623e3a61365",
       "verb": "EDIT",
-      "humanText": "A program with lots of 'Choose' blocks.",
+      "humanText": "A program with lots of *Choose* and *Answer* blocks.",
       "userId": "TODO",
       "archived": false
     },
@@ -2376,7 +2481,7 @@
     {
       "id": "ba02c9cf-3e29-4cc7-81f2-1e9b0a3581c8",
       "verb": "DO",
-      "humanText": "Learn about 'Answer' blocks",
+      "humanText": "Learn about *Answer* blocks",
       "userId": "TODO",
       "archived": false
     },
@@ -2390,7 +2495,7 @@
     {
       "id": "20b3c60d-b43e-4f06-81c7-df58e6209fed",
       "verb": "READ",
-      "humanText": "I want Methodable to have a central server where people can search for, share, and compose programs together.",
+      "humanText": "Methodable will have a central server that lets people search for, share, and compose programs together.",
       "userId": "TODO",
       "archived": false
     },
@@ -2416,6 +2521,13 @@
       "archived": false
     },
     {
+      "id": "a4e44c72-3fdf-408d-a8f3-3a5616c09e1f",
+      "verb": "READ",
+      "humanText": "*You can change modes using the toggle at the top right, but be warned! if you switch to editor mode, you might lose your place in this guide!*",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "c44c425c-735e-4de7-82f9-caf43d3144d1",
       "verb": "DO",
       "humanText": "Design new interfaces for guide mode that provide context to the user so that they can better understand their tasks and progress. (use Figma)",
@@ -2430,9 +2542,16 @@
       "archived": false
     },
     {
+      "id": "f6f47b8c-9e89-426c-aee6-728a05353caf",
+      "verb": "READ",
+      "humanText": "Open the *Side-by-Side Preview* and **Within the preview** click through the guide until you reach the page titled \"boil the water\".",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "a385dd5c-3dbb-4ef2-86a6-cf73728e2794",
       "verb": "READ",
-      "humanText": "Why should 'Edit' blocks apply to everything within their parent's scope?",
+      "humanText": "Why should *Edit* blocks apply to everything within their parent's scope?",
       "userId": "TODO",
       "archived": false
     },
@@ -2453,7 +2572,7 @@
     {
       "id": "50531ecd-c6c5-42d4-93f4-de0d025679b6",
       "verb": "READ",
-      "humanText": "'Edit' blocks (the red pencils) allow you to attach an editor to an instruction as a workspace. That's how I've been attaching these editors below!",
+      "humanText": "*Edit* blocks allow you to attach an editor as a workspace in which to complete a goal or instruction. That's how I've been attaching these editors below!",
       "userId": "TODO",
       "archived": false
     },
@@ -2528,6 +2647,13 @@
       "archived": false
     },
     {
+      "id": "c4fe9cb9-8227-4954-b80f-1709aa581740",
+      "verb": "READ",
+      "humanText": "Again, you will have to do so line-by-line. Sorry!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "e476bc25-5e50-41a0-a941-b999ac543ea7",
       "verb": "ANSWER",
       "humanText": "No, I could use some help thinking through my tasks.",
@@ -2544,7 +2670,7 @@
     {
       "id": "a2ec3101-1345-4135-903c-e7ecb29df226",
       "verb": "READ",
-      "humanText": "You should see lots of different 'Choose' blocks.",
+      "humanText": "You should see lots of different *Choose* blocks.",
       "userId": "TODO",
       "archived": false
     },
@@ -2565,7 +2691,7 @@
     {
       "id": "96a9167b-4593-4e94-9ed8-1effad0e6003",
       "verb": "DO",
-      "humanText": "add support for including photos in Mehthodable guide pages.",
+      "humanText": "add support for including photos in Mehthodable guide pages. (Done, with markdown!)",
       "userId": "TODO",
       "archived": false
     },
@@ -2579,7 +2705,7 @@
     {
       "id": "769ab756-395a-4e2e-8dcd-21287639e811",
       "verb": "DO",
-      "humanText": "Add a dispatch pattern for navigation actions such that navigation actions can be contained within scopes and selectively dispatched to the URL bar and/or the persistence layer.",
+      "humanText": "Add a dispatch pattern for navigation actions such that navigation actions can be contained within scopes and selectively dispatched to the URL bar and/or the persistence layer. (Done!)",
       "userId": "TODO",
       "archived": false
     },
@@ -2592,9 +2718,16 @@
     },
     { "id": "home", "verb": "DO", "humanText": "Home", "userId": "TODO", "archived": false },
     {
+      "id": "df1bead0-7d0a-466a-9d29-50270c1d64be",
+      "verb": "READ",
+      "humanText": "![](https://i.imgur.com/eBEiCWH.png)",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "05b4758d-2721-478b-9fda-3059f2ac742e",
-      "verb": "DO",
-      "humanText": "Now that you've saved that info, delete your intention statement and reflection, so that next time you are starting with a blank slate. Again, you will have to do so line-by-line.",
+      "verb": "READ",
+      "humanText": "Now that you've saved that info, delete your intention statement and reflection, so that next time you are starting with a blank slate.",
       "userId": "TODO",
       "archived": false
     },
@@ -2673,7 +2806,7 @@
       "contentId": "7db475af-c151-475b-aa61-48041b5ad432",
       "userId": "TODO",
       "blockStatus": "not started",
-      "parentId": "43048991-0a3b-451b-8e8b-deea95faee39",
+      "parentId": "29d4cc3d-5d13-4b12-9cd5-293279b65abe",
       "leftId": "85f54daf-4f48-426c-9e7a-5423967fd1b5",
       "archived": false
     },
@@ -2712,6 +2845,15 @@
       "parentId": "c8e3f778-dc5a-488b-9be2-dd3a3b58be13",
       "leftId": "6daca4f6-71a2-47eb-aa0d-62f33b621af6",
       "archived": true
+    },
+    {
+      "id": "4227d846-5905-4d82-846c-d8ab503ea350",
+      "contentId": "f600b2f6-267c-4c5a-853c-5047903a29f7",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "b79a7a13-4e0b-4a66-910b-3ae3b421bd9d",
+      "leftId": null,
+      "archived": false
     },
     {
       "id": "7c66b552-1673-4310-8586-c56c27d8458b",
@@ -2792,6 +2934,15 @@
       "blockStatus": "not started",
       "parentId": "c8e3f778-dc5a-488b-9be2-dd3a3b58be13",
       "leftId": "a26cd58b-1edb-4dc6-ac49-bcfa41e33e28",
+      "archived": true
+    },
+    {
+      "id": "d2d970ae-09ed-4431-b035-a2c959545dbd",
+      "contentId": "6b210217-02a9-41e0-a1da-3b8887879325",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "6bc85852-91b5-41f7-8df5-a866879bca98",
+      "leftId": "58a4ebe5-b6ca-467b-b6a4-cd3f93b328d7",
       "archived": true
     },
     {
@@ -3056,6 +3207,15 @@
       "archived": false
     },
     {
+      "id": "96653199-e5f6-4339-b099-8b2867e7dee3",
+      "contentId": "df1bead0-7d0a-466a-9d29-50270c1d64be",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "954aac14-2f9d-402b-9ceb-5d4ff65826fd",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "f1e3366a-603c-401f-97fc-6e5de9d95b84",
       "contentId": "099146fe-1294-4c54-be70-8504e610d5cb",
       "userId": "TODO",
@@ -3078,7 +3238,7 @@
       "contentId": "6755d278-2604-49e8-a8e8-d05200a0d96b",
       "userId": "TODO",
       "blockStatus": "not started",
-      "parentId": "43048991-0a3b-451b-8e8b-deea95faee39",
+      "parentId": "29d4cc3d-5d13-4b12-9cd5-293279b65abe",
       "leftId": "cab49dc5-800f-4ff6-a6f4-eb03d86561c4",
       "archived": false
     },
@@ -3155,6 +3315,15 @@
       "archived": false
     },
     {
+      "id": "d5d62ef2-70c8-4064-a431-6ea957b441d2",
+      "contentId": "94406d30-a13e-4019-a533-5098affe0277",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "3776629f-b647-4861-ac0e-809457625202",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "31275ac1-f959-4494-97c3-e59a3987cdf8",
       "contentId": "54222694-bb0f-4eb9-b06b-4fc35e736641",
       "userId": "TODO",
@@ -3198,6 +3367,15 @@
       "parentId": "42f0b270-8524-4b93-8f5a-45ba7cbe9083",
       "leftId": "e37b4fef-c090-4321-8922-242e5e17eb04",
       "archived": false
+    },
+    {
+      "id": "a2ce417c-ef98-4c56-bf9f-65813cdc4e1b",
+      "contentId": "3062c441-1296-4872-847e-83b372131555",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "41879bda-2682-4ac5-99bf-37d66021eaa0",
+      "leftId": "45887475-0d7b-4c81-a13e-c8d84e9158ba",
+      "archived": true
     },
     {
       "id": "96356d2f-ced8-4649-a304-700808b7425a",
@@ -3315,6 +3493,15 @@
       "parentId": "cb6d22e3-16d9-48f6-bae8-49e375ed43b3",
       "leftId": "cdad5ff3-552a-4d66-8e61-c43d4f5f99e3",
       "archived": false
+    },
+    {
+      "id": "351cfb54-df58-4607-8cd1-ff0778178795",
+      "contentId": "7700a747-f320-4182-9609-b46d9c46341f",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "fcb9d159-e0d1-43fa-bcb3-aa0d163c7cb9",
+      "leftId": "354aac17-e2e3-49df-a30a-74f2fa9237b6",
+      "archived": true
     },
     {
       "id": "73e5de0b-b775-4663-af2c-e56c52ef0ecb",
@@ -3614,6 +3801,15 @@
       "archived": false
     },
     {
+      "id": "083257c2-967f-4ff5-8113-177227e3a56b",
+      "contentId": "7d93f5c9-5b42-452a-80cb-8eba4de25f18",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "6bc85852-91b5-41f7-8df5-a866879bca98",
+      "leftId": "d07646b3-0979-4682-b82b-484dd0a7ed8f",
+      "archived": true
+    },
+    {
       "id": "edfdd9d3-5dc5-4598-9c14-00ea03e987de",
       "contentId": "d01a5643-c111-4f84-abf1-f2f6b3942bf7",
       "userId": "TODO",
@@ -3722,6 +3918,15 @@
       "archived": false
     },
     {
+      "id": "1829dd1e-253e-45aa-b0c4-1721cd3b3ce8",
+      "contentId": "a49a8df9-7e97-4824-9347-9c3ff71663d7",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "24722b44-5aff-48a0-b546-f624ab517304",
+      "leftId": "08d110ec-4337-4504-9452-b05e594abd9a",
+      "archived": false
+    },
+    {
       "id": "d998e052-db5d-48ad-ade1-14205f939173",
       "contentId": "acc16f9b-3bac-4187-bf11-1c4bb7c4ed4b",
       "userId": "TODO",
@@ -3754,7 +3959,7 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "2ba12d03-08e0-482d-b2de-2e9a2baa9283",
-      "leftId": "c7abae53-8e90-42b5-8308-6846631016f3",
+      "leftId": "99c1d2ec-2dc4-4cad-8002-f7b3764e8b5b",
       "archived": false
     },
     {
@@ -3866,6 +4071,15 @@
       "archived": false
     },
     {
+      "id": "a0657e1b-6d30-4be3-bf81-5f967549a414",
+      "contentId": "b9d47008-0a8d-4263-8931-6853b4878610",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "3062c441-1296-4872-847e-83b372131555",
+      "leftId": null,
+      "archived": true
+    },
+    {
       "id": "8464f616-9156-4b07-a0a3-1818c08fe615",
       "contentId": "1370eac9-a963-4a6e-832d-442f47e817fb",
       "userId": "TODO",
@@ -3942,9 +4156,18 @@
       "contentId": "e6bedbdc-d269-463f-b7f0-8f57b86a4556",
       "userId": "TODO",
       "blockStatus": "not started",
-      "parentId": "43048991-0a3b-451b-8e8b-deea95faee39",
+      "parentId": "29d4cc3d-5d13-4b12-9cd5-293279b65abe",
       "leftId": null,
       "archived": false
+    },
+    {
+      "id": "5086b847-d2d2-41b8-a42a-6ed1d3e1c80e",
+      "contentId": "b6916146-103f-409f-9e37-0dc734b48e81",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "954aac14-2f9d-402b-9ceb-5d4ff65826fd",
+      "leftId": "96653199-e5f6-4339-b099-8b2867e7dee3",
+      "archived": true
     },
     {
       "id": "be96ecc3-1861-48de-8036-c5fb2a60f809",
@@ -4037,6 +4260,24 @@
       "archived": false
     },
     {
+      "id": "afcbff3c-47be-4c12-9e22-7e6e1a8460a5",
+      "contentId": "45ce856b-371e-41ab-8aee-bd600e4cf2b8",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "50a20e30-9f87-4364-b2c4-e1b209e81499",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "c13ff3cb-462e-42cc-8b1b-1a396a372418",
+      "contentId": "aa901dfa-18a3-4a1a-bfc4-e65292123dde",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "28c009f1-7590-4f3d-ac36-a732f5b7a4f4",
+      "leftId": null,
+      "archived": true
+    },
+    {
       "id": "81238bad-3e1d-4c53-b7d9-f74ee963a750",
       "contentId": "01374f67-43f2-439d-9d07-143599f8b55a",
       "userId": "TODO",
@@ -4078,7 +4319,7 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "3e35119e-9a1f-4424-afa6-aff6f0702e4a",
-      "leftId": "b4f4e06f-8893-4395-8d5a-3795e8a6135d",
+      "leftId": "c4bfca1c-9283-43b2-9dc6-08f790477755",
       "archived": false
     },
     {
@@ -4127,6 +4368,15 @@
       "archived": false
     },
     {
+      "id": "706393a6-4d03-4739-acdd-df59cae047fe",
+      "contentId": "41879bda-2682-4ac5-99bf-37d66021eaa0",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "fcb9d159-e0d1-43fa-bcb3-aa0d163c7cb9",
+      "leftId": "354aac17-e2e3-49df-a30a-74f2fa9237b6",
+      "archived": true
+    },
+    {
       "id": "75b2e033-0470-48e4-baff-5a2f362b9f82",
       "contentId": "28091c52-a4f3-4e89-80b7-ebd168ac8067",
       "userId": "TODO",
@@ -4159,7 +4409,7 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "24722b44-5aff-48a0-b546-f624ab517304",
-      "leftId": "08d110ec-4337-4504-9452-b05e594abd9a",
+      "leftId": "1829dd1e-253e-45aa-b0c4-1721cd3b3ce8",
       "archived": false
     },
     {
@@ -4203,7 +4453,7 @@
       "contentId": "edc3745f-182b-419c-affd-081c41490f87",
       "userId": "TODO",
       "blockStatus": "not started",
-      "parentId": "43048991-0a3b-451b-8e8b-deea95faee39",
+      "parentId": "29d4cc3d-5d13-4b12-9cd5-293279b65abe",
       "leftId": "c8dc1b56-9391-4328-ba31-527530cea718",
       "archived": false
     },
@@ -4379,6 +4629,15 @@
       "archived": false
     },
     {
+      "id": "d07646b3-0979-4682-b82b-484dd0a7ed8f",
+      "contentId": "611ab1a2-afe8-4fca-8457-422e911e2f9a",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "6bc85852-91b5-41f7-8df5-a866879bca98",
+      "leftId": "58a4ebe5-b6ca-467b-b6a4-cd3f93b328d7",
+      "archived": true
+    },
+    {
       "id": "2a04de6f-5376-48b0-b231-83b5e15629dc",
       "contentId": "2bdab740-07dd-4602-83ab-c7d4f5b2149a",
       "userId": "TODO",
@@ -4437,7 +4696,7 @@
       "contentId": "1d42c42e-5991-4272-992d-70cda9246d73",
       "userId": "TODO",
       "blockStatus": "not started",
-      "parentId": "43048991-0a3b-451b-8e8b-deea95faee39",
+      "parentId": "29d4cc3d-5d13-4b12-9cd5-293279b65abe",
       "leftId": "e5886bb1-50c1-410c-b947-eba60f722f49",
       "archived": false
     },
@@ -4514,6 +4773,15 @@
       "archived": false
     },
     {
+      "id": "cf6b14e6-8a06-4914-a617-7c4fb2602379",
+      "contentId": "b79a7a13-4e0b-4a66-910b-3ae3b421bd9d",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "70eec500-fb66-4cd7-9b2a-06c8368c6523",
+      "leftId": "8a1ba746-013c-4172-b346-d2ee3305b07e",
+      "archived": false
+    },
+    {
       "id": "d758ca0a-1b9a-48c5-ac25-bbb4c272a0ae",
       "contentId": "ccff4a3a-0b60-4226-a4a3-909f569eab70",
       "userId": "TODO",
@@ -4556,7 +4824,7 @@
       "blockStatus": "not started",
       "parentId": "c620b44c-052f-4306-b582-53e705526a1e",
       "leftId": "2d536a3a-6081-49f8-8049-1e71988e1273",
-      "archived": false
+      "archived": true
     },
     {
       "id": "1b0ee7af-487c-4e2a-a598-ee25b7810bd3",
@@ -4748,6 +5016,15 @@
       "archived": false
     },
     {
+      "id": "e86c5579-54a5-4991-bdae-54dec939f321",
+      "contentId": "8b091bb5-f983-4058-8a9e-71a26627a8de",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "6bc85852-91b5-41f7-8df5-a866879bca98",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "fe52346f-7ebb-4371-b580-3d625b4666af",
       "contentId": "2d0c0860-180b-46e6-bd46-a425f50df32d",
       "userId": "TODO",
@@ -4790,6 +5067,15 @@
       "blockStatus": "not started",
       "parentId": "3ac59945-4ba0-4043-9233-a5af10be384d",
       "leftId": "d2123f8f-bce9-48e9-bc3b-6e6ffb4aa49a",
+      "archived": false
+    },
+    {
+      "id": "9d7ccbe4-25a0-4a1c-ade9-fffe8462d2e3",
+      "contentId": "6bc85852-91b5-41f7-8df5-a866879bca98",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "ac09ac8d-fa50-4028-af53-db03a1e66184",
+      "leftId": "351be6f4-b528-4ba7-a3ea-59586e1fa946",
       "archived": false
     },
     {
@@ -4892,6 +5178,15 @@
       "archived": false
     },
     {
+      "id": "58a4ebe5-b6ca-467b-b6a4-cd3f93b328d7",
+      "contentId": "ea78bf34-ff91-4470-aaa9-8586a5fb35fc",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "6bc85852-91b5-41f7-8df5-a866879bca98",
+      "leftId": "e86c5579-54a5-4991-bdae-54dec939f321",
+      "archived": false
+    },
+    {
       "id": "125e11d3-41b2-4e5f-a197-db041e4dad43",
       "contentId": "4d59a816-2d16-4458-8a99-719d6ac0b57d",
       "userId": "TODO",
@@ -4926,6 +5221,15 @@
       "parentId": "98df749a-f9cd-452b-b78f-ed74342cea63",
       "leftId": null,
       "archived": false
+    },
+    {
+      "id": "6f1d1ef2-98cb-4f6d-b089-ba59e4220348",
+      "contentId": "6e56ce46-e4cf-43ae-a977-ac0d49a13eae",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "611ab1a2-afe8-4fca-8457-422e911e2f9a",
+      "leftId": "c13ff3cb-462e-42cc-8b1b-1a396a372418",
+      "archived": true
     },
     {
       "id": "19ad106c-7263-465b-8293-83098ea2df0a",
@@ -4988,6 +5292,24 @@
       "blockStatus": "not started",
       "parentId": "94e1e0c8-7c86-421d-8469-594c00e4aa3d",
       "leftId": "ebc4e397-5234-4386-a0a7-ee65d30b907c",
+      "archived": false
+    },
+    {
+      "id": "adf977a8-eb5c-470c-bdee-e255227aad33",
+      "contentId": "4be274df-9d1f-4fcd-930e-9d2bcc3bdc4f",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "4b10ef39-736c-4ff6-a559-36b772b05109",
+      "leftId": null,
+      "archived": true
+    },
+    {
+      "id": "27276454-7c79-42cc-ae1a-f753f736d493",
+      "contentId": "7f45a91b-c676-4a7f-b0a9-f4358d346b13",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "ea78bf34-ff91-4470-aaa9-8586a5fb35fc",
+      "leftId": "023dd526-a266-4ad4-8ed5-a9c708f38c84",
       "archived": false
     },
     {
@@ -5126,6 +5448,15 @@
       "archived": false
     },
     {
+      "id": "b1bc02e4-5776-4d44-a960-29e59e6043c9",
+      "contentId": "543a7426-08bc-4668-8370-0ef0f9a1c5bc",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "7f45a91b-c676-4a7f-b0a9-f4358d346b13",
+      "leftId": null,
+      "archived": true
+    },
+    {
       "id": "da04480a-da65-45eb-802e-a6cb228863d7",
       "contentId": "af5343ed-27b3-4d38-bf75-875a980ad587",
       "userId": "TODO",
@@ -5158,8 +5489,8 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "ac09ac8d-fa50-4028-af53-db03a1e66184",
-      "leftId": "351be6f4-b528-4ba7-a3ea-59586e1fa946",
-      "archived": false
+      "leftId": "9d7ccbe4-25a0-4a1c-ade9-fffe8462d2e3",
+      "archived": true
     },
     {
       "id": "fc1b2cd6-1637-41a8-be0c-1a59819b3fdf",
@@ -5270,6 +5601,15 @@
       "archived": false
     },
     {
+      "id": "8f6d8dda-f8e5-4fe3-a8f8-fe31f35b6468",
+      "contentId": "7909cc95-a693-449b-b27e-88518ddd4f51",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "611ab1a2-afe8-4fca-8457-422e911e2f9a",
+      "leftId": null,
+      "archived": true
+    },
+    {
       "id": "5bb260e1-4bb7-4cbb-b79b-cd56bc896ca0",
       "contentId": "0734d147-1e02-435d-b6a5-c8138c884c9d",
       "userId": "TODO",
@@ -5328,7 +5668,7 @@
       "contentId": "65b4849f-f3bc-4649-aa06-a91a90729712",
       "userId": "TODO",
       "blockStatus": "not started",
-      "parentId": "43048991-0a3b-451b-8e8b-deea95faee39",
+      "parentId": "29d4cc3d-5d13-4b12-9cd5-293279b65abe",
       "leftId": "44f52f3f-3b62-4dab-9661-5eef0c54e0d5",
       "archived": false
     },
@@ -5517,8 +5857,8 @@
       "contentId": "62f269b8-8933-4330-8638-9e4a78bc90a7",
       "userId": "TODO",
       "blockStatus": "not started",
-      "parentId": "257f0684-e71d-4c3f-bea4-3ebbebbcdd84",
-      "leftId": "a1ff0395-7293-4e15-b1e6-3e86d4288add",
+      "parentId": "91f630f3-6fd5-461a-ab71-7f5e97db6bab",
+      "leftId": "5e4be9f4-4d78-4f73-b090-9678e5a6b1eb",
       "archived": false
     },
     {
@@ -5553,7 +5893,7 @@
       "contentId": "980eef85-f109-4b4b-a5a1-27ff89e77b5d",
       "userId": "TODO",
       "blockStatus": "not started",
-      "parentId": "43048991-0a3b-451b-8e8b-deea95faee39",
+      "parentId": "29d4cc3d-5d13-4b12-9cd5-293279b65abe",
       "leftId": "8acfc6c9-c2fc-43ae-b966-2ed0536bf96e",
       "archived": false
     },
@@ -5590,7 +5930,7 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "6afa88cc-d294-4f82-b8e6-616a85e1a40e",
-      "leftId": null,
+      "leftId": "add770f6-285d-4959-83db-8bf8d2646c8f",
       "archived": false
     },
     {
@@ -5607,7 +5947,7 @@
       "contentId": "91af0e69-4fbe-4ca2-bc7a-7bd95ad5a1b2",
       "userId": "TODO",
       "blockStatus": "not started",
-      "parentId": "43048991-0a3b-451b-8e8b-deea95faee39",
+      "parentId": "29d4cc3d-5d13-4b12-9cd5-293279b65abe",
       "leftId": "a6ec5b42-8dc9-40f0-9c2d-49495a3e6df2",
       "archived": false
     },
@@ -5756,6 +6096,15 @@
       "archived": false
     },
     {
+      "id": "46c6940e-6ff5-4d22-82f7-270d229a724a",
+      "contentId": "ba93ede7-d397-4b9f-b1d3-655b27805a81",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "d5d1fe6c-a86f-4264-9efa-f01c84399c4b",
+      "leftId": "a1fd1f18-dad9-47a7-98f1-00447f014658",
+      "archived": true
+    },
+    {
       "id": "b04d7f76-3929-4bbb-b473-ed6babf0cffb",
       "contentId": "7ce3888c-d4eb-41ba-9794-02225c22268c",
       "userId": "TODO",
@@ -5763,6 +6112,15 @@
       "parentId": "86a71f63-37c6-4224-b5c4-db412cb6ced2",
       "leftId": "287b5f8e-3b4a-4e2a-b1da-d9fc020a95a0",
       "archived": false
+    },
+    {
+      "id": "17113d98-e0d7-48ed-95e8-cba8d6930e5f",
+      "contentId": "9ddba211-4d25-4d59-b651-a126f81dc762",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "dd8c47a9-10a8-4e1d-8ac9-13cc3ac622c7",
+      "leftId": "252f8b6b-f8ef-4e76-a8b1-f2ad64a52c3f",
+      "archived": true
     },
     {
       "id": "6d5bb8a1-aed5-4b9d-8c80-20b497de1873",
@@ -5861,6 +6219,15 @@
       "blockStatus": "not started",
       "parentId": "6d6c1139-2ae4-4a2b-b752-63922804d984",
       "leftId": "c9975c16-b9ed-43cf-a82d-6e0ccf1684cc",
+      "archived": false
+    },
+    {
+      "id": "c4bfca1c-9283-43b2-9dc6-08f790477755",
+      "contentId": "29d4cc3d-5d13-4b12-9cd5-293279b65abe",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "3e35119e-9a1f-4424-afa6-aff6f0702e4a",
+      "leftId": "b4f4e06f-8893-4395-8d5a-3795e8a6135d",
       "archived": false
     },
     {
@@ -6089,6 +6456,15 @@
       "archived": true
     },
     {
+      "id": "b2115392-77f8-42ef-bbed-129cc2f16b1b",
+      "contentId": "c4fe9cb9-8227-4954-b80f-1709aa581740",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "05b4758d-2721-478b-9fda-3059f2ac742e",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "344bdb1c-388c-4473-860a-fce1856e0699",
       "contentId": "910d709f-9190-471a-9126-083f7aff0571",
       "userId": "TODO",
@@ -6105,6 +6481,15 @@
       "parentId": "4bbdc8ca-ccb4-40cc-9579-d2ff4e7c5238",
       "leftId": "950924a4-763b-4b20-9d39-64bc0935c2be",
       "archived": false
+    },
+    {
+      "id": "45887475-0d7b-4c81-a13e-c8d84e9158ba",
+      "contentId": "8bb45a4b-f5fa-4933-b7fb-0a0bcc408633",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "41879bda-2682-4ac5-99bf-37d66021eaa0",
+      "leftId": null,
+      "archived": true
     },
     {
       "id": "4e58b4a3-c8df-4fd8-94f8-60ddce1a02d3",
@@ -6168,6 +6553,15 @@
       "parentId": "ba02c9cf-3e29-4cc7-81f2-1e9b0a3581c8",
       "leftId": null,
       "archived": false
+    },
+    {
+      "id": "96f00239-94a5-4b38-9605-82b4ecc6a73f",
+      "contentId": "ce1a6cfd-5c66-4187-9275-96f2226d94a6",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "28c009f1-7590-4f3d-ac36-a732f5b7a4f4",
+      "leftId": null,
+      "archived": true
     },
     {
       "id": "035dd489-9c0d-4e6a-a4bc-7f9676c3358e",
@@ -6287,6 +6681,15 @@
       "archived": false
     },
     {
+      "id": "6c1aec29-71d6-47ee-add4-277708a8dcc2",
+      "contentId": "803a7394-a477-4420-8e44-55d69bae6d11",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "fec1c93e-d922-4a37-bd3b-48f763d6d7c4",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "2f2050d1-97fb-4031-b823-3764dedaf748",
       "contentId": "e4cfeacc-dc08-4cd7-bed0-3d3b617bbb40",
       "userId": "TODO",
@@ -6310,7 +6713,7 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "257f0684-e71d-4c3f-bea4-3ebbebbcdd84",
-      "leftId": "467cc676-d48e-4076-b2a8-74e8ac00a7d8",
+      "leftId": "a1ff0395-7293-4e15-b1e6-3e86d4288add",
       "archived": false
     },
     {
@@ -6359,12 +6762,30 @@
       "archived": true
     },
     {
+      "id": "d0eafa8e-d1c2-47af-b095-eb1c0c2757fc",
+      "contentId": "e8c4a666-b298-469c-8684-29aa01cd2110",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "174fd78d-6721-4a17-b48e-c89183281530",
+      "leftId": "91ea54be-9a8c-42f1-8f6d-a6a0c93b7032",
+      "archived": false
+    },
+    {
       "id": "76f6bd20-ae15-455a-bf29-00f7d531a143",
       "contentId": "3c77eed4-0362-44fa-9d60-9c99d55a1de1",
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "ac6335b1-627e-4e1e-89c5-4acd647f960d",
       "leftId": "12723845-2f6e-4230-acca-c02160165370",
+      "archived": false
+    },
+    {
+      "id": "99c1d2ec-2dc4-4cad-8002-f7b3764e8b5b",
+      "contentId": "954aac14-2f9d-402b-9ceb-5d4ff65826fd",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "2ba12d03-08e0-482d-b2de-2e9a2baa9283",
+      "leftId": "c7abae53-8e90-42b5-8308-6846631016f3",
       "archived": false
     },
     {
@@ -6503,6 +6924,15 @@
       "archived": false
     },
     {
+      "id": "20691046-1fc8-40e2-92bc-790ed9e4b9de",
+      "contentId": "28c009f1-7590-4f3d-ac36-a732f5b7a4f4",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "6bc85852-91b5-41f7-8df5-a866879bca98",
+      "leftId": "58a4ebe5-b6ca-467b-b6a4-cd3f93b328d7",
+      "archived": true
+    },
+    {
       "id": "56c3c465-a47c-43f4-9e0b-ade60cd60dea",
       "contentId": "1bb305fb-a4d6-46e2-9c74-2e3c47e3bae3",
       "userId": "TODO",
@@ -6552,8 +6982,8 @@
       "contentId": "e582d56b-ff4d-4dec-8044-418768ee4710",
       "userId": "TODO",
       "blockStatus": "not started",
-      "parentId": "ac09ac8d-fa50-4028-af53-db03a1e66184",
-      "leftId": "f58937db-8b40-455b-9a28-1d7f5ca8ff97",
+      "parentId": "6bc85852-91b5-41f7-8df5-a866879bca98",
+      "leftId": "58a4ebe5-b6ca-467b-b6a4-cd3f93b328d7",
       "archived": false
     },
     {
@@ -6564,6 +6994,15 @@
       "parentId": "3805a3bd-41ba-4f27-855b-d5a4e31e9a0d",
       "leftId": "147ef389-dc23-4b55-b377-9bd6c73e5119",
       "archived": false
+    },
+    {
+      "id": "345b6c00-c487-4745-a56f-826c48006769",
+      "contentId": "3d01616b-3f20-4130-aa0c-336b5a69afb5",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "4b10ef39-736c-4ff6-a559-36b772b05109",
+      "leftId": null,
+      "archived": true
     },
     {
       "id": "520136c1-416c-4314-974e-e68aee54ef09",
@@ -6638,6 +7077,15 @@
       "archived": false
     },
     {
+      "id": "89818a5c-81c8-4b86-9d63-3a39494f007a",
+      "contentId": "a4e44c72-3fdf-408d-a8f3-3a5616c09e1f",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e8c4a666-b298-469c-8684-29aa01cd2110",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "e9ec6091-1f9e-4286-8bfb-88d03868c421",
       "contentId": "8892aeab-da92-4871-b82a-72fb673cce0c",
       "userId": "TODO",
@@ -6674,6 +7122,15 @@
       "archived": false
     },
     {
+      "id": "a1fd1f18-dad9-47a7-98f1-00447f014658",
+      "contentId": "2b664e92-62b7-46e5-8995-c285281febbb",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "d5d1fe6c-a86f-4264-9efa-f01c84399c4b",
+      "leftId": "1865c5fb-46f7-431e-a4c8-0a5bb2c3ebbf",
+      "archived": true
+    },
+    {
       "id": "7df347c4-4105-4c6d-b9d7-3e14312ad59c",
       "contentId": "2648b186-dc9a-41a5-928e-79bd74be26fe",
       "userId": "TODO",
@@ -6699,6 +7156,15 @@
       "parentId": "3e35119e-9a1f-4424-afa6-aff6f0702e4a",
       "leftId": "192de148-7ac2-47fb-b045-24e41a039941",
       "archived": true
+    },
+    {
+      "id": "7fe279bb-2b39-4f47-b449-c552f995150d",
+      "contentId": "3cc22031-a3df-4cf4-8cfb-6d75f61ca391",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "8b058361-3ce2-4749-8b25-5f869bb440ca",
+      "leftId": null,
+      "archived": false
     },
     {
       "id": "b435160f-8410-4664-9f30-984eb3daddd8",
@@ -6752,6 +7218,15 @@
       "blockStatus": "not started",
       "parentId": "a385dd5c-3dbb-4ef2-86a6-cf73728e2794",
       "leftId": "212c5de0-8539-4024-abc1-ae07bf36b9c8",
+      "archived": false
+    },
+    {
+      "id": "e805bee9-7274-41b5-9f19-87d72c3eaff6",
+      "contentId": "3755f302-ef36-4499-8f8e-36fffc9de01c",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e7171d4c-bf86-409b-b2fd-8a5c2b975e03",
+      "leftId": null,
       "archived": false
     },
     {
@@ -6840,7 +7315,7 @@
       "contentId": "5c2ba006-cb0d-4758-b7c9-2e1bdb4dd576",
       "userId": "TODO",
       "blockStatus": "not started",
-      "parentId": "43048991-0a3b-451b-8e8b-deea95faee39",
+      "parentId": "29d4cc3d-5d13-4b12-9cd5-293279b65abe",
       "leftId": "c386fe4e-587c-4f2e-a51f-9bae408419e7",
       "archived": false
     },
@@ -6935,6 +7410,15 @@
       "archived": false
     },
     {
+      "id": "add770f6-285d-4959-83db-8bf8d2646c8f",
+      "contentId": "4b10ef39-736c-4ff6-a559-36b772b05109",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "6afa88cc-d294-4f82-b8e6-616a85e1a40e",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "6d9505ac-3fef-4583-8efe-070e3dc032a8",
       "contentId": "ff97bcf4-7227-473e-898c-49e415cf9879",
       "userId": "TODO",
@@ -6976,6 +7460,15 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "75bc445d-2d28-4f7c-a7e2-0384f1fa29b8",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "023dd526-a266-4ad4-8ed5-a9c708f38c84",
+      "contentId": "f6f47b8c-9e89-426c-aee6-728a05353caf",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "ea78bf34-ff91-4470-aaa9-8586a5fb35fc",
       "leftId": null,
       "archived": false
     },
@@ -7097,6 +7590,15 @@
       "archived": true
     },
     {
+      "id": "18adfa6b-70d0-49c0-897b-2c8a475e1a3c",
+      "contentId": "28b3b885-d576-4d6a-ad7a-b42fca8017e3",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "65f241ab-8524-43f1-be84-2b658acde436",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "1165aa53-5690-4beb-a798-5cbc6b718e46",
       "contentId": "83768df0-4852-46cb-b46f-816c1da76b61",
       "userId": "TODO",
@@ -7185,6 +7687,15 @@
       "parentId": "f1cb8631-c03e-4828-89ed-77dd5eb2f611",
       "leftId": "439ee47b-e031-4008-9a60-c0a66ecccd74",
       "archived": false
+    },
+    {
+      "id": "4a4ab518-2bbe-47f8-bdf4-199cf4219476",
+      "contentId": "8821ac30-547e-4c04-a899-3c4f7e7d9e7d",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "3062c441-1296-4872-847e-83b372131555",
+      "leftId": "a0657e1b-6d30-4be3-bf81-5f967549a414",
+      "archived": true
     },
     {
       "id": "996efde3-1ee6-41bb-bb53-2127c659ecc4",
