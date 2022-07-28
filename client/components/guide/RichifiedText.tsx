@@ -17,6 +17,7 @@ export const RichifiedText = (props: RichifiedTextProps) => {
         h6: "span",
         p: "span",
       }}
+      linkTarget="_blank"
     >
       {text}
     </ReactMarkdown>
