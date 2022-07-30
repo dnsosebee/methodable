@@ -24,7 +24,7 @@ export const DoContext = (props: IVerbContextProps) => {
   }
   return (
     <ContextLine
-      {...{ pre, partialView: { mode: MODE.GUIDE, focusPath: path }, text: content.humanText }}
+      {...{ pre, partialView: { focusPath: path }, text: content.humanText }}
     ></ContextLine>
   );
 };
@@ -74,7 +74,7 @@ export const DoPage = (props: IVerbPageProps) => {
       {hasControlFlowChildren ? (
         <div className="ml-10 mt-5 flex-1 flex flex-col">
           <button
-            className="italic text-gray-300 hover:bg-slate-200 py-1 px-2 rounded-lg text-left w-full mb-2"
+            className="italic text-gray-400 hover:bg-slate-200 py-1 px-2 rounded-lg text-left w-full mb-2"
             onClick={toggleSubtasks}
           >
             {showSubtasks ? "▼ hide " : "▶︎ show "} {controlFlowChildBlocks.size} guided subtasks

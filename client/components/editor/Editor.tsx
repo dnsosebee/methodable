@@ -334,17 +334,17 @@ export const Editor = (props: IEditorProps) => {
               {toggleSelectionText}
             </button> */}
 
-                <button onClick={saveHandler} className={buttonClasses(true)}>
+                {/* <button onClick={saveHandler} className={buttonClasses(true)}>
                   Save Programs
-                </button>
+                </button> */}
                 <button onClick={saveProgramHandler} className={buttonClasses(true)}>
-                  Save
+                  Save Program to File
                 </button>
                 {/* <button onClick={loadHandler} className={buttonClasses(true)}>
               Load Programs
             </button> */}
                 <button onClick={addHandler} className={buttonClasses(true)}>
-                  Load
+                  Open File
                 </button>
                 {editorState.isSelectionActive && (
                   <button

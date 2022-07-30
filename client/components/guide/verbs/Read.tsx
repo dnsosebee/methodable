@@ -1,7 +1,7 @@
 import { IGraph, Path } from "../../../model/graph/graph";
 import { getContentFromPath } from "../../../model/graphWithView";
 import { VERB } from "../../../model/verbs/verb";
-import { IView, MODE } from "../../../model/view";
+import { IView } from "../../../model/view";
 import { useGraph } from "../../GraphProvider";
 import { useView } from "../../ViewProvider";
 import { ContinueButton } from "../buttons/ContinueButton";
@@ -28,7 +28,7 @@ export const ReadContext = (props: IVerbContextProps) => {
   }
   return (
     <ContextLine
-      {...{ pre, partialView: { mode: MODE.GUIDE, focusPath: path }, text: content.humanText }}
+      {...{ pre, partialView: { focusPath: path }, text: content.humanText }}
     ></ContextLine>
   );
 };

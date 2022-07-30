@@ -1,5 +1,4 @@
 import { VERB } from "../../../model/verbs/verb";
-import { MODE } from "../../../model/view";
 import { BeginButton } from "../buttons/BeginButton";
 import { ContinueButton } from "../buttons/ContinueButton";
 import { ContextLine } from "../ContextLine";
@@ -22,7 +21,7 @@ export const ChooseContext = (props: IVerbContextProps) => {
   }
   return (
     <ContextLine
-      {...{ pre, partialView: { mode: MODE.GUIDE, focusPath: path }, text: content.humanText }}
+      {...{ pre, partialView: { focusPath: path }, text: content.humanText }}
     ></ContextLine>
   );
 };

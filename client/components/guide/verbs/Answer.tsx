@@ -21,7 +21,7 @@ export const AnswerContext = (props: IVerbContextProps) => {
   }
   return (
     <ContextLine
-      {...{ pre, partialView: { mode: MODE.GUIDE, focusPath: path }, text: content.humanText }}
+      {...{ pre, partialView: { focusPath: path }, text: content.humanText }}
     ></ContextLine>
   );
 };
