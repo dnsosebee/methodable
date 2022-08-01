@@ -19,8 +19,8 @@ export const GuideButton = (props: IGuideButtonProps) => {
       partialView={props.partialView}
       className={`p-2  rounded-xl mb-4 shadow-lg ${props.center ? "text-center" : ""} ${
         props.highlight
-          ? " text-gray-700 bg-blue-200 hover:bg-blue-300"
-          : "text-gray-700 bg-slate-200 hover:bg-slate-300"
+          ? " text-gray-900 bg-blue-200 hover:bg-blue-300"
+          : "text-gray-900 bg-slate-200 hover:bg-slate-300"
       }`}
     >
       <RichifiedText text={props.text} />
