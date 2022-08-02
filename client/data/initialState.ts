@@ -1,4 +1,4 @@
 import { graphFromJson } from "../model/graph/graph";
 
-const json = JSON.stringify(require("./initialState.json"));
-export const initialGraphState = graphFromJson(json);
+export const initialGraphJson = JSON.stringify(require("./initialState.json"));
+export const initialGraphState = graphFromJson(initialGraphJson);

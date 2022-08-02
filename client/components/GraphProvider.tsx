@@ -131,7 +131,7 @@ const validateGraph = (oldGraph: IGraph, graph: IGraph): void => {
   });
   graph.blockContents.forEach((blockContent) => {
     assert(
-      blockContent.locatedBlocks.size > 0,
+      blockContent.locatedBlocks.size > 0 || blockContent.id === "home",
       `block content ${blockContent.id} has no located blocks`,
       oldGraph,
       graph
