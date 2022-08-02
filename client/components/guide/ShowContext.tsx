@@ -21,7 +21,7 @@ export const ShowContext = (props: IShowContextProps) => {
         onClick={toggleContext}
       >
         {guideState.showContext
-          ? "▼ back to focus mode"
+          ? "▼ return to focus mode"
           : props.text
           ? props.text
           : "▶︎ show context"}

@@ -38,7 +38,7 @@
     {
       "id": "41d93f66-73e1-4b5e-9425-e52980ae4c78",
       "verb": "READ",
-      "humanText": "So, all you have to do is select, copy, and paste in order to include references to blocks in other locations! And if you ever want to delete a reference, just select it and click the red \"delete references\" button that pops up in the options bar above the editor.",
+      "humanText": "So, all you have to do is select, copy, and paste in order to include references to blocks in other locations!",
       "userId": "TODO",
       "archived": false
     },
@@ -109,6 +109,13 @@
       "id": "eaa100ec-787d-4335-b58e-e1fc7ae5acfd",
       "verb": "DO",
       "humanText": "Now, make any changes to the code that you want!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "cc104fe9-4361-48d5-ab6b-0eaf7c74fe6b",
+      "verb": "READ",
+      "humanText": "*This is an image of an editor. The interactive editor is below.*",
       "userId": "TODO",
       "archived": false
     },
@@ -260,6 +267,13 @@
       "archived": false
     },
     {
+      "id": "6e11ae6f-3969-46fa-b235-4feaa5f8d82f",
+      "verb": "DO",
+      "humanText": "write",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "1993ee98-6e32-4e76-bee9-955d790db688",
       "verb": "READ",
       "humanText": "If you don't know how to do that stuff, don't worry. You can always stick to outlining goals and tasks with *Do* (🏃) type blocks. By default, the blocks you create will be of this type.",
@@ -381,7 +395,7 @@
     {
       "id": "06822518-693a-4bd7-84ac-d097128c451a",
       "verb": "READ",
-      "humanText": "Methodable stores human programs as data and lets you view that data through different lenses. While a regular how-to guide will look exactly the same to everyone who sees it (including the person who made it), a Methodable program will present itself completely differently to someone editing it vs. someone following it. This means that in Methodable there are no tradeoffs between ease-of-writing and ease-of-following: each experience can be independently optimized.",
+      "humanText": "Methodable stores human programs as data and lets you view that data through different lenses. While a regular how-to guide will look exactly the same to everyone who sees it (including the person who made it), a Methodable program will present itself completely differently to someone editing it vs. someone following it. This means that in Methodable there are no tradeoffs between ease of writing and ease of following: each experience can be independently optimized.",
       "userId": "TODO",
       "archived": false
     },
@@ -431,6 +445,13 @@
       "id": "99c0add4-5655-4b65-88b1-d5bad7939bff",
       "verb": "DO",
       "humanText": " ",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "6564080f-9ae4-4650-868b-7336ba8b1993",
+      "verb": "READ",
+      "humanText": "*This is an image of an editor. The interactive editor is below.*",
       "userId": "TODO",
       "archived": false
     },
@@ -717,7 +738,7 @@
     {
       "id": "452929b3-c9f0-4d66-bebc-d7b62801d561",
       "verb": "DO",
-      "humanText": "Learn how to create references",
+      "humanText": "Learn how to create references.",
       "userId": "TODO",
       "archived": false
     },
@@ -997,7 +1018,7 @@
     {
       "id": "65ab830d-6f9e-4d5d-a62f-137438948bb8",
       "verb": "READ",
-      "humanText": "Even within *Guide mode* Methodable supports multiple views on the same program.",
+      "humanText": "Even within *Guide mode* Methodable supports multiple views of the same program.",
       "userId": "TODO",
       "archived": false
     },
@@ -1018,7 +1039,7 @@
     {
       "id": "e2ee7a3d-4881-4537-966f-1c770f054a8c",
       "verb": "READ",
-      "humanText": "Such flexibility in the guide experience is possible because Methodable separates the data representing programs from the way that data is viewed.",
+      "humanText": "Such flexibility in the guide experience is possible because Methodable separates the data representing programs from the way that the data is viewed.",
       "userId": "TODO",
       "archived": false
     },
@@ -1219,6 +1240,13 @@
       "archived": false
     },
     {
+      "id": "adc72b68-5b04-4344-9e7d-c6525373ef34",
+      "verb": "READ",
+      "humanText": "*The vertical bars to the left of the blocks in the Methodable editor can be clicked to expand and collapse multiple blocks at once.*",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "c8780aa9-8b41-48e6-b402-a983bbd54eda",
       "verb": "READ",
       "humanText": "If you switch to *Editor mode*, be sure to return to *Guide mode* by clicking the toggle again.",
@@ -1305,7 +1333,7 @@
     {
       "id": "87ece75d-d1d9-4c08-9eeb-60f63be2b827",
       "verb": "READ",
-      "humanText": "In Methodable a block can be in multiple locations, as a task can be required for multiple workflows. Each location of a block is called a *reference* to the block.",
+      "humanText": "In Methodable, since a task can be required for multiple workflows, a block can be in multiple locations. Each location of a block is called a *reference* to the block.",
       "userId": "TODO",
       "archived": false
     },
@@ -1333,7 +1361,7 @@
     {
       "id": "7dec3ddd-219f-48f6-b15f-f8079b6384d1",
       "verb": "DO",
-      "humanText": "An older sibling of the block in question",
+      "humanText": "A sibling of the block in question",
       "userId": "TODO",
       "archived": false
     },
@@ -1571,7 +1599,7 @@
     {
       "id": "73d0b680-726b-4d77-9269-7c27db0718c3",
       "verb": "READ",
-      "humanText": "3 - Press *control-V* to paste your references",
+      "humanText": "3 - Press *control-V* (*command-V* on Mac) to paste your references",
       "userId": "TODO",
       "archived": false
     },
@@ -1606,7 +1634,7 @@
     {
       "id": "81388e3c-e79b-47cd-8339-70395e061a18",
       "verb": "READ",
-      "humanText": "We can refer to relationships between blocks just like we refer to family members. For example, every block in the editor below describes its relationship to a single block, the block titled \"→ → → THE BLOCK IN QUESTION ← ← ←\". These relationships are important, as they determine how blocks work together to describe programs and produce guides.",
+      "humanText": "We can refer to relationships between blocks just as we refer to family members. For example, every block in the editor below describes its relationship to a single block, the block titled \"→ → → THE BLOCK IN QUESTION ← ← ←\". These relationships are important, as they determine how blocks work together to describe programs and produce guides.",
       "userId": "TODO",
       "archived": false
     },
@@ -2159,7 +2187,7 @@
     {
       "id": "df68e96f-0577-4159-a2dd-5b160b961001",
       "verb": "READ",
-      "humanText": "3 - press *control-C* to copy references to those three blocks",
+      "humanText": "3 - press *control-C* (*command-C* on Mac) to copy references to those three blocks",
       "userId": "TODO",
       "archived": false
     },
@@ -2202,6 +2230,13 @@
       "id": "28ece32b-d407-46e2-9582-47be6987307b",
       "verb": "DO",
       "humanText": "Reflect on your task list and clean up the task list for next time.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "5ae9aac1-f34a-4614-b0b0-a45972a9449f",
+      "verb": "READ",
+      "humanText": "*This is an image of an editor. The interactive editor is below.*",
       "userId": "TODO",
       "archived": false
     },
@@ -2355,7 +2390,7 @@
     {
       "id": "43e8c2f5-0d3b-44c2-8f8e-438e9521b352",
       "verb": "READ",
-      "humanText": "Click the bar at the left of the editor below to expand the two routines. You'll see that some blocks have a little yellow \"2\" next to them, indicating that they are in two locations.",
+      "humanText": "Click the bar at the left of the editor below to expand the two routines.",
       "userId": "TODO",
       "archived": false
     },
@@ -2460,7 +2495,7 @@
     {
       "id": "1e967c76-bfef-4305-a3a9-501c571c0797",
       "verb": "READ",
-      "humanText": "Every descendant you add to the \"make coffee\" block will appear at both locations (you might have to click the arrow to the left of the block to expand it and see its descendants). This makes sense! If we are specifying substeps to \"make coffee\", then every program that includes making coffee should be aware of those substeps.",
+      "humanText": "Every descendant you add to the \"make coffee\" block will appear at both locations (you might have to click the arrow to the left of the block to expand it and see its descendants). This makes sense! If we are specifying substeps to \"make coffee\", then every program that includes making coffee should include those substeps.",
       "userId": "TODO",
       "archived": false
     },
@@ -2600,7 +2635,7 @@
     {
       "id": "88fe80a5-2033-4c60-9ae2-0e06edf4601f",
       "verb": "READ",
-      "humanText": "Right now choosing to *show context* or return to *focus mode* are the only ways the user can customize their guide experience, but there's no reason that future users of Methodable couldn't have many more options. For example, one user might want to see an outline of the entire program. Another user might want to see high level goals together with their substeps, each on their own page. Another user might want to see one single, very specific instruction at a time, and nothing else. Another user might want to listen to a guide rather than look at it, or to speak with a chatbot who guides them through the program. Importantly, all of these users could be following *the exact same program*, and doing *the exact same workflow*, but choosing guided experiences that are best suited to their personal needs.",
+      "humanText": "Right now choosing to *show context* or *return to focus mode* are the only ways you can customize your guide experience, but there's no reason that future users of Methodable couldn't have many more options. For example, one user might want to see an outline of the entire program. Another user might want to see high-level goals together with their substeps, each on their own page. Another user might want to see one single, very specific instruction at a time, and nothing else. Yet another might want to listen to a guide rather than look at it, or to speak with a chatbot who guides them through the program. Importantly, all of these users could be following *the exact same program*, and doing *the exact same workflow*, but choosing guided experiences that are best suited to their personal needs.",
       "userId": "TODO",
       "archived": false
     },
@@ -2684,7 +2719,7 @@
     {
       "id": "ef40eea0-7a7d-4255-9306-034f1672ad5c",
       "verb": "READ",
-      "humanText": "If you click *show context* at the top of your screen, you'll see all of your in-progress goals arranged from the highest to the lowest level. Click *back to focus mode* to return to a less cluttered view.",
+      "humanText": "If you click *show context* at the top of your screen, you'll see all of your in-progress goals arranged from the highest to the lowest level. Click *return to focus mode* to return to a less cluttered view.",
       "userId": "TODO",
       "archived": false
     },
@@ -2859,7 +2894,7 @@
     {
       "id": "0f35f06c-b50e-429a-bba6-8f07fb4f5fa0",
       "verb": "READ",
-      "humanText": "Using the editor is just like using bullet points in any old text editor.",
+      "humanText": "Using the Methodable editor is just like using bullet points in any old text editor.",
       "userId": "TODO",
       "archived": false
     },
@@ -3032,9 +3067,9 @@
       "archived": false
     },
     {
-      "id": "223390f4-d14d-40d7-9ca0-1743c309cc44",
-      "verb": "DO",
-      "humanText": "write",
+      "id": "10545f0b-9f2e-4e14-8a4e-3f68d1899942",
+      "verb": "READ",
+      "humanText": "Once you've expanded the two routines, you'll see that some blocks have a little yellow \"2\" to the right of them, indicating that they are in two locations.",
       "userId": "TODO",
       "archived": false
     },
@@ -3427,7 +3462,7 @@
     {
       "id": "a98df0b0-0f0f-45a0-bed5-0818030d227d",
       "verb": "READ",
-      "humanText": "Methodable stores human programs as data and lets you view that data through different lenses. While a regular how-to guide will look exactly the same to everyone who sees it (including the person who made it), a Methodable program will present itself completely differently to someone editing it and someone following it. This means that in Methodable there are no tradeoffs between ease-of-writing and ease-of-following: each experience can be independently optimized.",
+      "humanText": "Methodable stores human programs as data and lets you view that data through different lenses. While a regular how-to guide will look exactly the same to everyone who sees it (including the person who made it), a Methodable program will present itself completely differently to someone editing it and someone following it. This means that in Methodable there are no tradeoffs between ease of writing and ease of following: each experience can be independently optimized.",
       "userId": "TODO",
       "archived": false
     },
@@ -3441,7 +3476,7 @@
     {
       "id": "1c8baaad-f970-49c5-b1b9-9eabd1fb2348",
       "verb": "DO",
-      "humanText": "A younger sibling of the block in question",
+      "humanText": "A sibling of the block in question",
       "userId": "TODO",
       "archived": false
     },
@@ -4904,15 +4939,6 @@
       "archived": false
     },
     {
-      "id": "b945217a-ceab-42a9-b512-a9974cd52c67",
-      "contentId": "223390f4-d14d-40d7-9ca0-1743c309cc44",
-      "userId": "TODO",
-      "blockStatus": "not started",
-      "parentId": "5a08ef75-86a1-4d98-9a78-72269be9ad4e",
-      "leftId": "206a94f6-7825-4b63-a881-e6b48ef0f6a9",
-      "archived": false
-    },
-    {
       "id": "993560ca-ece0-4d23-8add-5a6111bd2668",
       "contentId": "c19603e4-3e4d-46be-abca-f28b1fba1cba",
       "userId": "TODO",
@@ -5462,6 +5488,15 @@
       "archived": false
     },
     {
+      "id": "806b0c2d-0217-44d7-b1ca-5e2e78363e7d",
+      "contentId": "5ae9aac1-f34a-4614-b0b0-a45972a9449f",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "182b3074-2085-4d96-90c6-b02da895099f",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "84d72878-9c2e-4e12-a27a-df307758e3c0",
       "contentId": "f956de13-800b-4b79-95fb-d0e2fba57f4e",
       "userId": "TODO",
@@ -5800,6 +5835,15 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "d4fe9880-0367-400c-ad07-b7c9a7fe574e",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "fb804f38-653c-4fd5-8bf8-27e2b9eb3823",
+      "contentId": "cc104fe9-4361-48d5-ab6b-0eaf7c74fe6b",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "c91cb76a-0981-486b-9e1b-b0d8f35bbb57",
       "leftId": null,
       "archived": false
     },
@@ -6578,6 +6622,15 @@
       "archived": false
     },
     {
+      "id": "da368306-ea27-4016-8660-cb46d42bfba0",
+      "contentId": "10545f0b-9f2e-4e14-8a4e-3f68d1899942",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "87ece75d-d1d9-4c08-9eeb-60f63be2b827",
+      "leftId": "45794248-bbf4-4a21-ba1c-5fb70fb2ba35",
+      "archived": false
+    },
+    {
       "id": "37676df2-1c5c-4835-b864-e1b582bc8909",
       "contentId": "c48f4e26-a6c0-4629-8621-2afbe5236cf6",
       "userId": "TODO",
@@ -7262,6 +7315,15 @@
       "archived": false
     },
     {
+      "id": "91ed9aff-06e8-4c6d-a861-c4d48752fb5d",
+      "contentId": "6e11ae6f-3969-46fa-b235-4feaa5f8d82f",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "5a08ef75-86a1-4d98-9a78-72269be9ad4e",
+      "leftId": "206a94f6-7825-4b63-a881-e6b48ef0f6a9",
+      "archived": false
+    },
+    {
       "id": "0d975993-67fe-4817-ac6a-72be9e4b56a4",
       "contentId": "7dea289b-3355-4664-9fbe-7c02398573e9",
       "userId": "TODO",
@@ -7415,6 +7477,15 @@
       "archived": false
     },
     {
+      "id": "76f2418e-72e4-4631-83f5-ff4c5e07130b",
+      "contentId": "6564080f-9ae4-4650-868b-7336ba8b1993",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "51ad01aa-41e7-4f9f-9510-7bfd183a8700",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "8d2a2e43-7bdd-4bd3-975c-3e0e3bf20699",
       "contentId": "77ae1cd0-9f28-4385-a220-0f1c5665af92",
       "userId": "TODO",
@@ -7466,6 +7537,15 @@
       "blockStatus": "not started",
       "parentId": "ef225e4d-0f97-4893-8086-4e63702fea22",
       "leftId": "06604c37-9270-46b0-801d-cb77e96b4529",
+      "archived": false
+    },
+    {
+      "id": "bc8587ca-5dd4-486f-b629-7c5eae043aa6",
+      "contentId": "adc72b68-5b04-4344-9e7d-c6525373ef34",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "9b8ce6b9-000b-4496-abab-5b5f528e9fcc",
+      "leftId": null,
       "archived": false
     },
     {
