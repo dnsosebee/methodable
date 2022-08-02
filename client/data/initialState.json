@@ -624,6 +624,13 @@
       "archived": false
     },
     {
+      "id": "b79d965f-f6d5-499b-a21b-184c329b0a51",
+      "verb": "DO",
+      "humanText": "Click the *Open File* button at the top of the editor, then select your file. This will load the file into your Methodable graph and attach it as a child to your \"Home\" block.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "64259150-b830-4856-b88c-99afb5c5a6dd",
       "verb": "READ",
       "humanText": "Programming can be defined as the practice of encoding instructions to be carried out by some actor, but we usually only think about programs that target computers: *computer programs*. When our programs target humans we call them *how-to guide*.",
@@ -1443,6 +1450,13 @@
       "archived": false
     },
     {
+      "id": "55a48101-4daa-46d4-898e-88f1de5c2f31",
+      "verb": "DO",
+      "humanText": "Open a file in Methodable",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "fd29ff94-8548-4a90-8d72-7f14e56e7744",
       "verb": "DO",
       "humanText": "Learn to create and title a human program",
@@ -1586,6 +1600,13 @@
       "id": "54cbc77e-1964-46d6-a6cb-9c18f614aef2",
       "verb": "READ",
       "humanText": "The URL to use:",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "b872ff3d-3424-42cd-bda2-aacb2e6ddf89",
+      "verb": "DO",
+      "humanText": "Download the file to any location on your drive.",
       "userId": "TODO",
       "archived": false
     },
@@ -1950,6 +1971,13 @@
       "id": "a19d3388-f8b8-42aa-842b-ace0ada1147a",
       "verb": "DO",
       "humanText": "Create an event listener for delete that deep deletes in text mode.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "21fe1ad0-d05f-443b-9d1d-78f8019050db",
+      "verb": "READ",
+      "humanText": "This version of Methodable stores your programs locally in your web browser. To share programs you can save them as files and share those files. This guide will help you open a \".method\" file that someone has shared with you.",
       "userId": "TODO",
       "archived": false
     },
@@ -3333,6 +3361,13 @@
       "archived": false
     },
     {
+      "id": "976ee8df-4f09-47b6-b0f2-da2683800765",
+      "verb": "DO",
+      "humanText": "Open Methodable in a new tab [(click here)](https://a.methodable.com/edit/home).",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "1d42c42e-5991-4272-992d-70cda9246d73",
       "verb": "READ",
       "humanText": "Note-Box 9000: \"Absolutely! People refer to me as their ~second brain~!\"",
@@ -3756,6 +3791,15 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "7dea289b-3355-4664-9fbe-7c02398573e9",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "e6001705-89e9-44ab-bb73-7b240bedb8bd",
+      "contentId": "21fe1ad0-d05f-443b-9d1d-78f8019050db",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "55a48101-4daa-46d4-898e-88f1de5c2f31",
       "leftId": null,
       "archived": false
     },
@@ -4225,6 +4269,15 @@
       "blockStatus": "not started",
       "parentId": "2ba12d03-08e0-482d-b2de-2e9a2baa9283",
       "leftId": "2da84251-adda-4174-8a36-ba79f34b9292",
+      "archived": false
+    },
+    {
+      "id": "9043ee49-f691-4224-96ed-ac6cf09f25ae",
+      "contentId": "55a48101-4daa-46d4-898e-88f1de5c2f31",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "4df8deb5-2943-42f6-b82d-ee055c990f9e",
+      "leftId": "81238bad-3e1d-4c53-b7d9-f74ee963a750",
       "archived": false
     },
     {
@@ -5326,6 +5379,15 @@
       "archived": false
     },
     {
+      "id": "5cf23d86-53a9-478f-9eea-41fa5f9d9169",
+      "contentId": "b79d965f-f6d5-499b-a21b-184c329b0a51",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "55a48101-4daa-46d4-898e-88f1de5c2f31",
+      "leftId": "7720823b-31d7-4cfd-8d83-c810b12750fd",
+      "archived": false
+    },
+    {
       "id": "9aede2e9-725a-47d3-b1fb-a5bf218df7e5",
       "contentId": "65f241ab-8524-43f1-be84-2b658acde436",
       "userId": "TODO",
@@ -6132,7 +6194,7 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "4df8deb5-2943-42f6-b82d-ee055c990f9e",
-      "leftId": "81238bad-3e1d-4c53-b7d9-f74ee963a750",
+      "leftId": "9043ee49-f691-4224-96ed-ac6cf09f25ae",
       "archived": false
     },
     {
@@ -7522,6 +7584,15 @@
       "archived": false
     },
     {
+      "id": "7814ccaf-7066-4b34-9890-1d1744343193",
+      "contentId": "b872ff3d-3424-42cd-bda2-aacb2e6ddf89",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "55a48101-4daa-46d4-898e-88f1de5c2f31",
+      "leftId": "e6001705-89e9-44ab-bb73-7b240bedb8bd",
+      "archived": false
+    },
+    {
       "id": "ebadb955-37ef-45e0-b260-d7c873ad53ac",
       "contentId": "f3c30359-145b-4c5e-925c-dd55a00b5db7",
       "userId": "TODO",
@@ -7834,6 +7905,15 @@
       "blockStatus": "not started",
       "parentId": "f1af7ede-2f2c-4940-b745-850e7b9690e3",
       "leftId": "f07376b2-67e9-4ffb-b00f-373550cbedf7",
+      "archived": false
+    },
+    {
+      "id": "7720823b-31d7-4cfd-8d83-c810b12750fd",
+      "contentId": "976ee8df-4f09-47b6-b0f2-da2683800765",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "55a48101-4daa-46d4-898e-88f1de5c2f31",
+      "leftId": "7814ccaf-7066-4b34-9890-1d1744343193",
       "archived": false
     },
     {
