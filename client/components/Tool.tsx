@@ -5,6 +5,7 @@ import { getLink, MODE } from "../model/view";
 import { Editor } from "./editor/Editor";
 import { EditorProvider } from "./editor/EditorProvider";
 import { Guide } from "./guide/Guide";
+import { Header } from "./Header";
 import { useView } from "./ViewProvider";
 
 export const getChildComponent = (mode: string) => {
@@ -45,13 +46,7 @@ export const Tool = () => {
     "flex border border-slate-400 rounded-2xl mb-2 p-1 bg-slate-400 hover:bg-slate-500 shadow-lg";
   return (
     <div className="flex flex-col max-h-full">
-      <div className="flex">
-        <Link href="/">
-          <button className="text-2xl font-bold font-sans mb-2 hover:underline text-black italic">
-            Methodable
-          </button>
-        </Link>
-        <div className="flex-grow"></div>
+      <Header>
         {viewState.mode === "edit" ? (
           <Link href={guideLink} passHref>
             <button className={buttonClasses}>
@@ -67,7 +62,7 @@ export const Tool = () => {
             </button>
           </Link>
         )}
-      </div>
+      </Header>
       {getChildComponent(viewState.mode)}
     </div>
   );

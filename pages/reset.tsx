@@ -1,3 +1,4 @@
+import { Header } from "../client/components/Header";
 import { Wrapper } from "../client/components/Wrapper";
 import { initialGraphJson } from "../client/data/initialState";
 
@@ -13,16 +14,21 @@ const reset = () => {
     }
   };
   return (
-    <Wrapper shouldGrow={false} className="bg-white">
-      <div className="flex flex-column items-center justify-center">
-        <button
-          onClick={resetGraph}
-          className="bg-red-400 grow p-auto rounded-xl border p-4 text-xl font-bold text-white"
-        >
-          Reset your graph
-        </button>
-      </div>
-    </Wrapper>
+    <>
+      <Header>
+        <></>
+      </Header>
+      <Wrapper shouldGrow={false} className="bg-white">
+        <div className="flex flex-column items-center justify-center">
+          <button
+            onClick={resetGraph}
+            className="bg-red-400 grow p-auto rounded-xl border p-4 text-xl font-bold text-white"
+          >
+            Reset your graph
+          </button>
+        </div>
+      </Wrapper>
+    </>
   );
 };
 
