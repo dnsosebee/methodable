@@ -80,7 +80,7 @@
     {
       "id": "9daa43d0-b5b5-4dfc-81a3-da06b910d669",
       "verb": "READ",
-      "humanText": "I'd like to quickly explain how to use Methodable programs. It's super simple, and if you've gotten this far then you're already doing a great job!",
+      "humanText": "I'd like to quickly explain how to follow a Methodable program. It's super simple, and if you've gotten this far then you're already doing a great job!",
       "userId": "TODO",
       "archived": false
     },
@@ -374,7 +374,7 @@
     {
       "id": "02b09882-97f0-4385-b158-fbaf889b7b35",
       "verb": "READ",
-      "humanText": "Methodable makes just-in-time planning easy by keeping track of all of your goals for you, giving you exactly one goal to work on at a time, and allowing you to easily break down the current goal into sub-goals as follows:",
+      "humanText": "Methodable makes just-in-time planning easy by keeping track of all of your goals for you, giving you exactly one goal to work on at a time, and allowing you to quickly break down the current goal into sub-goals as follows:",
       "userId": "TODO",
       "archived": false
     },
@@ -766,7 +766,7 @@
     {
       "id": "b548d3b5-634e-439b-abc6-be87ff8859bb",
       "verb": "READ",
-      "humanText": "1 - Click on any block to start typing there.",
+      "humanText": "1 - Click on any sentence to start typing there.",
       "userId": "TODO",
       "archived": false
     },
@@ -2523,7 +2523,7 @@
     {
       "id": "2f92de7d-f29b-4ab4-b9d3-c53aa88df820",
       "verb": "READ",
-      "humanText": "And that's it for learning about different views in Methodable! Now you're an expert on traversing Methodable guides, and you know a little bit about the editor.",
+      "humanText": "And that's it for learning about different views in Methodable! Now you're an expert on traversing Methodable guides, and you know a little bit about the Methodable editor.",
       "userId": "TODO",
       "archived": false
     },
@@ -3342,7 +3342,7 @@
     {
       "id": "ef40eea0-7a7d-4255-9306-034f1672ad5c",
       "verb": "READ",
-      "humanText": "If you click *show context* at the top of your screen, you'll see all of your in-progress goals arranged from the highest to the lowest level. Click *return to focus mode* to return to a less cluttered view.",
+      "humanText": "If you click *show context* at the top of this guide, you'll see all of your in-progress goals arranged from the highest to the lowest level. Click *return to focus mode* to return to a less cluttered view.",
       "userId": "TODO",
       "archived": false
     },
@@ -3601,7 +3601,7 @@
     {
       "id": "32a1da2f-cfb8-42a9-a332-3fd3e9bb2270",
       "verb": "READ",
-      "humanText": "Switch back to *Guide mode* using the toggle to pick up where you left off, but now with more specific guidance.",
+      "humanText": "Switch back to *Guide mode* using the toggle to pick up where you left off, now with more specific guidance.",
       "userId": "TODO",
       "archived": false
     },
