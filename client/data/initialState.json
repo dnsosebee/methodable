@@ -745,7 +745,7 @@
     {
       "id": "64259150-b830-4856-b88c-99afb5c5a6dd",
       "verb": "READ",
-      "humanText": "Programming can be defined as the practice of encoding instructions to be carried out by some actor, but we usually only think about programs that target computers: *computer programs*. When our programs target humans we call them *how-to guide*.",
+      "humanText": "Programming can be defined as the practice of encoding instructions to be carried out by some actor, but we usually only think about programs that target computers: *computer programs*. When our programs target humans we call them *how-to guides*.",
       "userId": "TODO",
       "archived": false
     },
