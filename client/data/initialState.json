@@ -337,6 +337,13 @@
       "archived": false
     },
     {
+      "id": "02b09882-97f0-4385-b158-fbaf889b7b35",
+      "verb": "READ",
+      "humanText": "Methodable makes just-in-time planning easy by keeping track of all of your goals for you, giving you exactly one goal to work on at a time, and allowing you to easily break down the current goal into sub-goals by switching to *Editor mode*, as follows:",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "c620b44c-052f-4306-b582-53e705526a1e",
       "verb": "READ",
       "humanText": "This might get complicated when a guide contains an editor. For example, there's an editor below. It has all kinds of buttons, which can be very confusing! However, regardless of what you do with an editor, **you always need to press *continue*** (at the bottom of this page in particular) once you've finished the task at hand.",
@@ -666,6 +673,13 @@
       "archived": false
     },
     {
+      "id": "bb05aded-5c39-4fba-844a-e579efcc09f4",
+      "verb": "DO",
+      "humanText": "Learn about Just-in-time planning in Methodable.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "fa631587-46df-4f04-a2d1-1aebccd25198",
       "verb": "READ",
       "humanText": "3 - type \"My routine (medium version)\"",
@@ -844,6 +858,13 @@
       "id": "e7171d4c-bf86-409b-b2fd-8a5c2b975e03",
       "verb": "READ",
       "humanText": "Banana was an excellent choice!",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "b85fe112-5b1c-4957-8c1f-95ecc960d7f4",
+      "verb": "READ",
+      "humanText": "Just-in-time planning in Methodable allows you to gradually tackle complex problems using bite-sized mental tasks, all while minimizing time spent planning and maximizing time spent doing.",
       "userId": "TODO",
       "archived": false
     },
@@ -1086,6 +1107,13 @@
       "archived": false
     },
     {
+      "id": "c51bf0ba-b4b5-4ae6-9f56-f2405f28b6cb",
+      "verb": "READ",
+      "humanText": "Outline sub-goals for your current goal (I'll teach you to do this soon!)",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "50a20e30-9f87-4364-b2c4-e1b209e81499",
       "verb": "READ",
       "humanText": "Now, for each goal, break it down into more concrete subtasks. You might have to break it into subgoals before breaking it into concrete tasks. If your goal is of the form \"Make progress towards...\", then consider breaking it down into a \"most important next step\": What is the smallest thing you can do that moves you the closest towards that goal?",
@@ -1256,7 +1284,14 @@
     {
       "id": "c8780aa9-8b41-48e6-b402-a983bbd54eda",
       "verb": "READ",
-      "humanText": "If you switch to *Editor mode*, be sure to return to *Guide mode* by clicking the toggle again.",
+      "humanText": "**If you switch to *Editor mode*, be sure to return to *Guide mode* by clicking the toggle again.**",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "bcfd7b86-0c10-441a-8a96-82d7538914fb",
+      "verb": "READ",
+      "humanText": "**Optional Reading:** The *Editor mode* / *Guide mode* toggle allows for \"just-in-time planning\".",
       "userId": "TODO",
       "archived": false
     },
@@ -1474,6 +1509,13 @@
       "id": "88bc6f65-42db-4171-878a-3faa6b76953c",
       "verb": "DO",
       "humanText": "Read a book",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "11044cd5-98e0-422a-b608-e12dbc91db8e",
+      "verb": "READ",
+      "humanText": "Switch to *Editor mode* using the toggle",
       "userId": "TODO",
       "archived": false
     },
@@ -2789,7 +2831,7 @@
     {
       "id": "2f48f003-aa78-4e18-8310-b6dd39ba6731",
       "verb": "ANSWER",
-      "humanText": "no, show me some example programs",
+      "humanText": "no thanks",
       "userId": "TODO",
       "archived": false
     },
@@ -2951,6 +2993,13 @@
       "id": "b6d2684a-86da-4404-b03f-610838e53706",
       "verb": "READ",
       "humanText": "Here are your intention statements and reflections from past work sessions:",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "32a1da2f-cfb8-42a9-a332-3fd3e9bb2270",
+      "verb": "READ",
+      "humanText": "Switch back to *Guide mode* using the toggle to pick up where you left off, but now with more specific guidance.",
       "userId": "TODO",
       "archived": false
     },
@@ -3252,6 +3301,13 @@
       "id": "a385dd5c-3dbb-4ef2-86a6-cf73728e2794",
       "verb": "READ",
       "humanText": "Why should *Edit* blocks apply to everything within their parent's scope?",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "9197b740-7b7e-4de4-a28c-70e87dcc26f5",
+      "verb": "READ",
+      "humanText": "Just-in-time planning is the process of adding actionable sub-steps to goals as you encounter them in *Guide mode*. Just-in-time planning is a great strategy for when you're using Methodable as an executive functioning assistant for a personal work session: just jot down some high-level goals, start your guide, and outline more specific tasks as needed.",
       "userId": "TODO",
       "archived": false
     },
@@ -3602,7 +3658,7 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "f6c790d6-9f60-45f5-ad0e-4e0b9617ea14",
-      "leftId": "f8aa816d-80b9-48a9-8f1f-f2e10f072c8b",
+      "leftId": "f3a08903-b9dd-4a1f-ae63-26688702385a",
       "archived": false
     },
     {
@@ -3777,15 +3833,6 @@
       "archived": false
     },
     {
-      "id": "36c6ec0b-8202-4ec2-ae2d-3ffd07d8609a",
-      "contentId": "e0a4b8cb-1bcc-43b2-ba27-8d30b3e83d2e",
-      "userId": "TODO",
-      "blockStatus": "not started",
-      "parentId": "d7d75363-12b5-4ed4-95f8-a2408cd80c1f",
-      "leftId": null,
-      "archived": false
-    },
-    {
       "id": "a44475e3-9d42-4aad-8ff0-c72b414cae77",
       "contentId": "2ce83d18-797a-443e-a9aa-b86ef044582b",
       "userId": "TODO",
@@ -3909,6 +3956,15 @@
       "blockStatus": "not started",
       "parentId": "f9a07c33-4b2e-42d9-a47c-885a1473cce9",
       "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "f3a08903-b9dd-4a1f-ae63-26688702385a",
+      "contentId": "bb05aded-5c39-4fba-844a-e579efcc09f4",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "f6c790d6-9f60-45f5-ad0e-4e0b9617ea14",
+      "leftId": "f8aa816d-80b9-48a9-8f1f-f2e10f072c8b",
       "archived": false
     },
     {
@@ -4089,6 +4145,15 @@
       "blockStatus": "not started",
       "parentId": "9bb0920c-26ff-480d-af13-d64959a1caf8",
       "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "90e636b4-3ae6-4acb-9ad4-f6a59a1cae3b",
+      "contentId": "c51bf0ba-b4b5-4ae6-9f56-f2405f28b6cb",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "02b09882-97f0-4385-b158-fbaf889b7b35",
+      "leftId": "6487feee-deb5-463f-94e5-59e2c072d77c",
       "archived": false
     },
     {
@@ -4740,6 +4805,15 @@
       "archived": false
     },
     {
+      "id": "a4e866b1-eb64-42a7-9097-9160fd645401",
+      "contentId": "32a1da2f-cfb8-42a9-a332-3fd3e9bb2270",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "02b09882-97f0-4385-b158-fbaf889b7b35",
+      "leftId": "90e636b4-3ae6-4acb-9ad4-f6a59a1cae3b",
+      "archived": false
+    },
+    {
       "id": "2d536a3a-6081-49f8-8049-1e71988e1273",
       "contentId": "5204f762-b314-4450-b899-06e50a03c37e",
       "userId": "TODO",
@@ -5181,12 +5255,30 @@
       "archived": false
     },
     {
+      "id": "33ad2319-de3c-4be1-93d5-0e438fe8822c",
+      "contentId": "b85fe112-5b1c-4957-8c1f-95ecc960d7f4",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "bcfd7b86-0c10-441a-8a96-82d7538914fb",
+      "leftId": "efee43d3-f92a-4711-ad4a-1593c5bbb2a3",
+      "archived": false
+    },
+    {
       "id": "9bcc8f20-5835-483e-ae40-e9059cce8e1c",
       "contentId": "1e967c76-bfef-4305-a3a9-501c571c0797",
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "cc220bf0-f2a3-4954-ab7f-1122a11333ff",
       "leftId": "1755b73f-2572-4f73-a49e-b7dfd3a15030",
+      "archived": false
+    },
+    {
+      "id": "6487feee-deb5-463f-94e5-59e2c072d77c",
+      "contentId": "11044cd5-98e0-422a-b608-e12dbc91db8e",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "02b09882-97f0-4385-b158-fbaf889b7b35",
+      "leftId": null,
       "archived": false
     },
     {
@@ -5874,6 +5966,15 @@
       "archived": false
     },
     {
+      "id": "e6a7ab6f-b8ab-4632-8856-2e91e4d1c170",
+      "contentId": "bcfd7b86-0c10-441a-8a96-82d7538914fb",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "bb05aded-5c39-4fba-844a-e579efcc09f4",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "7edfa1fb-6e14-4749-b46f-4aef8c4490d3",
       "contentId": "06822518-693a-4bd7-84ac-d097128c451a",
       "userId": "TODO",
@@ -6234,6 +6335,15 @@
       "archived": false
     },
     {
+      "id": "efee43d3-f92a-4711-ad4a-1593c5bbb2a3",
+      "contentId": "02b09882-97f0-4385-b158-fbaf889b7b35",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "bcfd7b86-0c10-441a-8a96-82d7538914fb",
+      "leftId": "2c90c208-1b84-4db0-8d84-544f39a2a361",
+      "archived": false
+    },
+    {
       "id": "32e6c20d-3a02-405e-9947-bac454b7909d",
       "contentId": "67e63fd4-f0b6-4ffe-9bf4-296d365f639a",
       "userId": "TODO",
@@ -6410,6 +6520,15 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "cf8dfa47-3e3f-49c6-a19c-7faa9a618356",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "c211515b-a374-40d5-ad8b-6571dab806a9",
+      "contentId": "e0a4b8cb-1bcc-43b2-ba27-8d30b3e83d2e",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "bcfd7b86-0c10-441a-8a96-82d7538914fb",
       "leftId": null,
       "archived": false
     },
@@ -6923,7 +7042,7 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "d7d75363-12b5-4ed4-95f8-a2408cd80c1f",
-      "leftId": "36c6ec0b-8202-4ec2-ae2d-3ffd07d8609a",
+      "leftId": "d3620ae2-23b3-4c50-bcb2-5fa8a84c1471",
       "archived": false
     },
     {
@@ -7084,8 +7203,8 @@
       "contentId": "378d1b7e-d830-4fe2-a597-85396533b428",
       "userId": "TODO",
       "blockStatus": "not started",
-      "parentId": "9bb0920c-26ff-480d-af13-d64959a1caf8",
-      "leftId": "028c1bfb-aea4-44e0-a760-c380f25ebc73",
+      "parentId": "bb05aded-5c39-4fba-844a-e579efcc09f4",
+      "leftId": "e6a7ab6f-b8ab-4632-8856-2e91e4d1c170",
       "archived": false
     },
     {
@@ -7566,6 +7685,15 @@
       "archived": false
     },
     {
+      "id": "d3620ae2-23b3-4c50-bcb2-5fa8a84c1471",
+      "contentId": "e0a4b8cb-1bcc-43b2-ba27-8d30b3e83d2e",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "d7d75363-12b5-4ed4-95f8-a2408cd80c1f",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "5e7e658c-2adb-4ff6-9be0-8aba9611038b",
       "contentId": "90920961-1bed-4c7d-a51b-045980ce216f",
       "userId": "TODO",
@@ -7824,6 +7952,15 @@
       "blockStatus": "not started",
       "parentId": "3e35119e-9a1f-4424-afa6-aff6f0702e4a",
       "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "2c90c208-1b84-4db0-8d84-544f39a2a361",
+      "contentId": "9197b740-7b7e-4de4-a28c-70e87dcc26f5",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "bcfd7b86-0c10-441a-8a96-82d7538914fb",
+      "leftId": "c211515b-a374-40d5-ad8b-6571dab806a9",
       "archived": false
     },
     {
