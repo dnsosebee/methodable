@@ -71,6 +71,20 @@
       "archived": false
     },
     {
+      "id": "90c39f4b-23f9-4207-bb36-0761c54b21b1",
+      "verb": "CHOOSE",
+      "humanText": "Do you want direct scheduling?",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "e3404abe-6220-4e5a-b8ed-ebd41e809ef9",
+      "verb": "DO",
+      "humanText": "Scheduling Guide",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "693c2879-2045-41d7-840a-4a50293dec03",
       "verb": "READ",
 <<<<<<< HEAD
@@ -124,6 +138,13 @@
       "id": "32817d9a-8f2f-46bb-a7b1-ca186cd312a8",
       "verb": "DO",
       "humanText": "Let's learn about the dangers of our volume based healthcare system",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "519f46a8-0fc3-43be-b628-650bf542eacf",
+      "verb": "READ",
+      "humanText": "BetterHealthcare, or Phreesia",
       "userId": "TODO",
       "archived": false
     },
@@ -242,6 +263,13 @@
       "id": "03956681-4c96-4f78-b76f-e2fdd31e2e07",
       "verb": "READ",
       "humanText": "There are vendors that help you integrate.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "25cb9150-5940-4235-aeee-b329190751d2",
+      "verb": "CHOOSE",
+      "humanText": "Are you a small practice?",
       "userId": "TODO",
       "archived": false
     },
@@ -637,6 +665,13 @@
       "archived": false
     },
     {
+      "id": "54e0d157-8be0-46d0-90be-9f8802bfd618",
+      "verb": "CHOOSE",
+      "humanText": "Do you sell to other providers?",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "96f4eaab-4215-4691-b123-6ab012261f78",
       "verb": "READ",
       "humanText": "The complications with VBC",
@@ -727,6 +762,13 @@
       "id": "b34d2621-558a-45b6-a4b2-3c308a21ee02",
       "verb": "READ",
       "humanText": "This system creates a moral hazard because patients are the ones deciding the care they receive and not payers, the ones actually spending money on the care. The patients are not the customers. This is called **the Principal-Agent problem.**",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "fbb52a73-adca-41e0-b0ad-8c3d7647c449",
+      "verb": "ANSWER",
+      "humanText": "Yes",
       "userId": "TODO",
       "archived": false
     },
@@ -1150,6 +1192,13 @@
       "archived": false
     },
     {
+      "id": "1e3025a2-c9f5-4ec3-946b-3b972e5a7ed6",
+      "verb": "CHOOSE",
+      "humanText": "Are you open to building something yourself?",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "1a7055f6-dfd1-4be1-beba-99f8e0847d31",
       "verb": "READ",
       "humanText": "**Brand** - They are manufactured by a business that holds exclusive rights (via a patent) to produce that drug (ex. ",
@@ -1277,6 +1326,13 @@
       "archived": false
     },
     {
+      "id": "0742d5d8-ae58-4d83-a948-ecb3f5557e9a",
+      "verb": "READ",
+      "humanText": "**ZocDoc** integrates with 150+ EMRs. They have been around since 2007 and know the game.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "9388562f-f3ad-4e31-91d5-82332e536172",
       "verb": "READ",
       "humanText": "Welcome to the pharmacy section. Drug development, distribution, and pricing is likely the most complicated set of topics in this guide, so be patient as you learn. This guide is **not supposed to be a comprehensive review** but I have linked a few resources that will help you dive deeper. ",
@@ -1344,9 +1400,23 @@
       "archived": false
     },
     {
+      "id": "96781683-d7d0-4d9b-af73-354cf987985c",
+      "verb": "ANSWER",
+      "humanText": "No",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "dc9127b1-7901-4100-872b-204f2d24f498",
       "verb": "READ",
       "humanText": "When it comes to healthcare, our system often overlooks the impact of preventative healthcare. The most overlooked form of preventative healthcare? **Wellness + mindfulness practices**. Wellness is preventative healthcare which is cornerstone of health for all humans.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "5a463f9e-0ed2-48a3-845c-9361d5131747",
+      "verb": "READ",
+      "humanText": "Use EMR add-on, Calendly, or Acuity",
       "userId": "TODO",
       "archived": false
     },
@@ -1623,6 +1693,13 @@
       "archived": false
     },
     {
+      "id": "15f13437-8ace-42f5-ad16-1bdd0ec2ae34",
+      "verb": "READ",
+      "humanText": "**Nexhealth** integrates with all major dental EMRs and a growing number on the medical side. Nex is a great fit if you are in the dental world.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "6880d946-6cc6-4e89-b6b1-3683c55d48af",
       "verb": "CHOOSE",
       "humanText": "Would you like to review this section again or go to a different section?",
@@ -1687,15 +1764,31 @@
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       "id": "f8afb40b-abe7-4c8f-bf82-c08fc2602584",
       "verb": "READ",
       "humanText": "Methodable aims to be a fluid interface for thinking about, tweaking, and following structured workflows.",
+=======
+      "id": "dfe70cee-83e3-4442-ac16-7c165cf27f82",
+      "verb": "ANSWER",
+      "humanText": "Yes",
       "userId": "TODO",
       "archived": false
     },
     {
+      "id": "0c01ef7a-0e49-4f0e-b489-ebcbbef32d1c",
+      "verb": "CHOOSE",
+      "humanText": "Do you sell to other providers?",
+>>>>>>> 9ddf039 (add new guide)
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+<<<<<<< HEAD
       "id": "ba814577-772b-40b1-864f-cf5ec650a4b4",
 =======
+=======
+>>>>>>> 9ddf039 (add new guide)
       "id": "bf73c997-c41b-43cc-a883-1f65f1601dca",
 >>>>>>> 0412e17 (branch for Lukas's healthcare guide)
       "verb": "READ",
@@ -1777,9 +1870,23 @@
       "archived": false
     },
     {
+      "id": "90c2e705-ec41-49aa-9ccd-01c758f8707b",
+      "verb": "ANSWER",
+      "humanText": "Yes",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "cb4dc122-074c-48f3-9f01-6cde83184dbb",
       "verb": "DO",
       "humanText": "Okay, let's move onto note taking",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "c6341734-7c71-45ca-9463-a8f68c515b1d",
+      "verb": "READ",
+      "humanText": "**ZocDoc** integrates with 150+ EMRs. They have been around since 2007 and know the game.ZocDoc, Source, Healthie, or Nexhealth",
       "userId": "TODO",
       "archived": false
     },
@@ -1801,6 +1908,13 @@
       "id": "78873963-de28-43cb-b254-ee7ec6bdd1b1",
       "verb": "READ",
       "humanText": "Let's learn about the different way providers get paid. ",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "51f1b217-ac2f-4f7a-a45b-0af6a2ef12c6",
+      "verb": "READ",
+      "humanText": "Use EMR add-on",
       "userId": "TODO",
       "archived": false
     },
@@ -1888,6 +2002,13 @@
 >>>>>>> 0412e17 (branch for Lukas's healthcare guide)
       "verb": "READ",
       "humanText": "Our ability to contract with national telehealth providers",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "b4d1b9fd-1cd6-4072-bb5b-b758a40f7f78",
+      "verb": "ANSWER",
+      "humanText": "No",
       "userId": "TODO",
       "archived": false
     },
@@ -2009,6 +2130,13 @@
       "id": "47246283-e2e4-496c-b0ef-48f22072c5c0",
       "verb": "READ",
       "humanText": "Integrated Delivery Network (IDNs) - When providers do more than just provide care. For example, Kaiser Permanente is also a health plan, has provider groups, and hospitals.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "f574829f-297f-4e58-bd3e-95e900881395",
+      "verb": "READ",
+      "humanText": "Options:",
       "userId": "TODO",
       "archived": false
     },
@@ -2379,6 +2507,13 @@
       "archived": false
     },
     {
+      "id": "f83b257f-42d1-40af-8c11-8306b8e90d3d",
+      "verb": "READ",
+      "humanText": "Options:",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "6b7b4ad8-0732-41f8-b0eb-deb2ca60458f",
       "verb": "READ",
       "humanText": "My notes on payers and your notes below for comparison",
@@ -2735,6 +2870,13 @@
       "archived": false
     },
     {
+      "id": "dd162292-1c40-490c-82c9-83ea4a7d5a94",
+      "verb": "ANSWER",
+      "humanText": "Yes",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "5042f736-91f1-405f-87cb-dc8036361e17",
       "verb": "CHOOSE",
       "humanText": "Do you want to review this section again or move to a different section?",
@@ -2805,6 +2947,13 @@
       "archived": false
     },
     {
+      "id": "3b99cd3a-b56f-494c-aa8b-634e28ac7271",
+      "verb": "ANSWER",
+      "humanText": "No",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "b361a79e-2436-42aa-9c27-07bceeabc0bd",
       "verb": "READ",
       "humanText": "This process leads to more efficient payer enrollment where providers can be submitted to the payer in bulk.",
@@ -2856,6 +3005,13 @@
       "id": "04d3f041-25f6-4158-90a4-a57b3632da0f",
       "verb": "DO",
       "humanText": "Who pays for your health insurance (likely your employer)? Again, this is just a primer so that we can put things into perspective.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "20d235c3-018b-4291-8e5d-9a915b7d756b",
+      "verb": "READ",
+      "humanText": "**Healthie** has a number of other best-in-class products, such as patient-facing white labels. They could bit a fit if you are looking to reduce vendor bloat.",
       "userId": "TODO",
       "archived": false
     },
@@ -3179,15 +3335,24 @@
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       "id": "a8516297-843a-4e1f-b78a-f82deb9c0593",
       "verb": "READ",
       "humanText": "",
+=======
+      "id": "8679f75f-25de-44de-abd3-07e0d57e0eeb",
+      "verb": "READ",
+      "humanText": "**Nexhealth** integrates with all major dental EMRs and a growing number on the medical side. Nex is a great fit if you are in the dental world.",
+>>>>>>> 9ddf039 (add new guide)
       "userId": "TODO",
       "archived": false
     },
     {
+<<<<<<< HEAD
       "id": "e77f0731-275f-4944-b449-a534089faad1",
 =======
+=======
+>>>>>>> 9ddf039 (add new guide)
       "id": "97349d24-b6bc-4d1d-9f9a-2743a474db61",
 >>>>>>> 0412e17 (branch for Lukas's healthcare guide)
       "verb": "DO",
@@ -3260,15 +3425,24 @@
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       "id": "cd4786de-c11c-4300-bc64-4e2554df4a6f",
       "verb": "READ",
       "humanText": "",
+=======
+      "id": "688fe8c2-3882-4941-8b2c-076fa26446c4",
+      "verb": "READ",
+      "humanText": "Use EMR add-on, BetterHealthcare or Phreesia",
+>>>>>>> 9ddf039 (add new guide)
       "userId": "TODO",
       "archived": false
     },
     {
+<<<<<<< HEAD
       "id": "3ac59945-4ba0-4043-9233-a5af10be384d",
 =======
+=======
+>>>>>>> 9ddf039 (add new guide)
       "id": "bafb3cd2-0f87-4cf2-9ae6-47b65947013a",
 >>>>>>> 0412e17 (branch for Lukas's healthcare guide)
       "verb": "READ",
@@ -3319,6 +3493,13 @@
       "archived": false
     },
     {
+      "id": "a5b08443-445a-4025-8c4a-a7761632b1a4",
+      "verb": "READ",
+      "humanText": "**Mend** offers a free version for smaller practices, with limited features (no direct scheduling). This option is fantastic for smaller organizations open to indirect scheduling.Mend",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "b4ce936a-0bb8-4d76-8c01-598dcfc17d1b",
       "verb": "READ",
       "humanText": "Medicare **Part A** - covers inpatient car",
@@ -3343,6 +3524,13 @@
       "id": "af02b82c-37ca-4312-b142-8071a7ea7a17",
       "verb": "READ",
       "humanText": "",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "8e0c9ff0-367d-4ca4-945c-88a754a2841b",
+      "verb": "ANSWER",
+      "humanText": "No",
       "userId": "TODO",
       "archived": false
     },
@@ -3491,6 +3679,13 @@
       "archived": false
     },
     {
+      "id": "d2051dbd-a08e-44d7-97fd-a04f11aa177a",
+      "verb": "READ",
+      "humanText": "**Source’s** bread and butter is scheduling which makes them stand out in the pack. In addition, they offer automatic task routing, drop-in messaging, and health data capture abilities.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "8ffa29f7-dfd4-4628-b347-60b5aac84efd",
       "verb": "READ",
       "humanText": "From a patient's perspective... ",
@@ -3501,6 +3696,13 @@
       "id": "605abf0f-0219-4886-a1ab-32b61d41e494",
       "verb": "READ",
       "humanText": "Medicare vs Medicare Advantage",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "de3e99ee-b8c8-4fd6-8b77-abcb7f053001",
+      "verb": "ANSWER",
+      "humanText": "Yes",
       "userId": "TODO",
       "archived": false
     },
@@ -3554,6 +3756,13 @@
       "id": "a1a50fdd-b21f-43cc-aa30-cbd8852aef52",
       "verb": "READ",
       "humanText": "**Group Purchasing Organization (GPO)** - A collective bargaining group that brings together multiple healthcare organizations such as hospitals and physician offices to improve the organizations purchasing power during drug and supply price negotiations with wholesalers and manufacturers.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "ed9c678a-49ed-4249-a0b7-2710f9f20cd4",
+      "verb": "ANSWER",
+      "humanText": "No",
       "userId": "TODO",
       "archived": false
     },
@@ -3706,6 +3915,13 @@
       "id": "77222574-7251-4851-bd0c-be1c257b9e2d",
       "verb": "ANSWER",
       "humanText": "Different section",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "ce826846-17c2-4dc3-9aed-07d046721a4e",
+      "verb": "ANSWER",
+      "humanText": "Yes ",
       "userId": "TODO",
       "archived": false
     },
@@ -3958,6 +4174,13 @@
       "id": "dceeee34-2912-46be-b5ae-98a86445fffa",
       "verb": "READ",
       "humanText": "Manufacturer rebates move from manufacturer to PBM to Payer to Employer. ",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "ef0bcf2e-009d-48ea-8b64-cdde664ce3bc",
+      "verb": "ANSWER",
+      "humanText": "No",
       "userId": "TODO",
       "archived": false
     },
@@ -4215,6 +4438,13 @@
       "archived": false
     },
     {
+      "id": "798a8da6-1dbd-47e0-a878-88d5c0fd85f8",
+      "verb": "READ",
+      "humanText": "**Healthie** has a number of other best-in-class products, such as patient-facing white labels. They could bit a fit if you are looking to reduce vendor bloat.",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
       "id": "2a24debc-6366-4502-abcd-f5ce024edcca",
       "verb": "READ",
       "humanText": "Learn more [here](https://www.outofpocket.health/p/gtfo-employers) from Nikhil. ",
@@ -4414,15 +4644,24 @@
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       "id": "d9f78d4a-e6ad-49d3-9069-cd1d6f1d0a2b",
       "verb": "READ",
       "humanText": "",
+=======
+      "id": "7caebed0-6b03-4ea3-a951-f5cab047c48c",
+      "verb": "READ",
+      "humanText": "**Source’s** bread and butter is scheduling which makes them stand out in the pack. In addition, they offer automatic task routing, drop-in messaging, and health data capture abilities.",
+>>>>>>> 9ddf039 (add new guide)
       "userId": "TODO",
       "archived": false
     },
     {
+<<<<<<< HEAD
       "id": "47d4d1ab-6136-4a50-bdbb-796894270b75",
 =======
+=======
+>>>>>>> 9ddf039 (add new guide)
       "id": "f069df9c-1243-45f3-8013-1d32356f1009",
 >>>>>>> 0412e17 (branch for Lukas's healthcare guide)
       "verb": "READ",
@@ -4606,6 +4845,13 @@
       "id": "3756d7df-aafd-4e44-b5d5-69dcd3e437f3",
       "verb": "READ",
       "humanText": "*What are tips you have for providers trying to contract with payers in the early stages? What did you wish you knew and what lessons did you learn?*",
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "c39c5d22-3a53-44a1-90af-ccd3c1b5b913",
+      "verb": "CHOOSE",
+      "humanText": "Do you want direct scheduling?",
       "userId": "TODO",
       "archived": false
     },
@@ -5042,6 +5288,13 @@
       "verb": "ANSWER",
       "humanText": "Different section",
 >>>>>>> 0412e17 (branch for Lukas's healthcare guide)
+      "userId": "TODO",
+      "archived": false
+    },
+    {
+      "id": "156eb30b-4737-428c-8bbb-6c880997dbea",
+      "verb": "READ",
+      "humanText": "Build a solution or use EMR add-on",
       "userId": "TODO",
       "archived": false
     },
@@ -5730,6 +5983,15 @@
       "archived": false
     },
     {
+      "id": "430f3491-531c-401f-ade3-4c1746ecd344",
+      "contentId": "de3e99ee-b8c8-4fd6-8b77-abcb7f053001",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "1e3025a2-c9f5-4ec3-946b-3b972e5a7ed6",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "8d82fcc7-ef09-44a9-be4a-08acd1beedb6",
       "contentId": "53b14640-e88b-4e5c-8535-bddd104da881",
       "userId": "TODO",
@@ -5889,6 +6151,15 @@
       "blockStatus": "not started",
       "parentId": "58eb390d-437c-4e0e-9cc5-9381cc48f57c",
       "leftId": "e67a0d2d-aa94-4452-bbfb-eed954306da3",
+      "archived": false
+    },
+    {
+      "id": "3620b611-d9f5-4d17-8fc6-cb1d59ecf130",
+      "contentId": "156eb30b-4737-428c-8bbb-6c880997dbea",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "de3e99ee-b8c8-4fd6-8b77-abcb7f053001",
+      "leftId": null,
       "archived": false
     },
     {
@@ -6540,6 +6811,15 @@
       "archived": false
     },
     {
+      "id": "b3001cb5-76d3-4d51-89c6-9193aae41456",
+      "contentId": "dd162292-1c40-490c-82c9-83ea4a7d5a94",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "c39c5d22-3a53-44a1-90af-ccd3c1b5b913",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "acd2f68b-93dd-41c4-8882-66e6d817fa94",
       "contentId": "bcf1fef7-0bec-4f8b-b735-e91048e6b8ab",
       "userId": "TODO",
@@ -6636,6 +6916,15 @@
       "blockStatus": "not started",
       "parentId": "66e303fe-733b-4d45-94d2-c7c2a122bd5e",
       "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "113ca0f5-4059-4bf7-8b15-49584a28f255",
+      "contentId": "d2051dbd-a08e-44d7-97fd-a04f11aa177a",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "f83b257f-42d1-40af-8c11-8306b8e90d3d",
+      "leftId": "715b55e6-8f3b-45de-adf1-e6da14dc4bde",
       "archived": false
     },
     {
@@ -6783,6 +7072,15 @@
       "archived": false
     },
     {
+      "id": "19cf22a8-7983-4f3a-84e1-26abeede6417",
+      "contentId": "ef0bcf2e-009d-48ea-8b64-cdde664ce3bc",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "1e3025a2-c9f5-4ec3-946b-3b972e5a7ed6",
+      "leftId": "430f3491-531c-401f-ade3-4c1746ecd344",
+      "archived": false
+    },
+    {
       "id": "b337fa25-0da8-45e4-b7ac-4e0cae0108b7",
       "contentId": "6eaffe44-29a5-4f65-9604-13deb0ba5063",
       "userId": "TODO",
@@ -6923,6 +7221,24 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "4e33a698-6069-494c-bc58-343c98d5fa9d",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "2bda989a-20de-4a0e-9889-5622fc3f7215",
+      "contentId": "8e0c9ff0-367d-4ca4-945c-88a754a2841b",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "25cb9150-5940-4235-aeee-b329190751d2",
+      "leftId": "9a3733e9-68d3-4b16-9ef4-859aa015cb1a",
+      "archived": false
+    },
+    {
+      "id": "b83f8d33-5c4a-48da-9526-f6f083a43d1d",
+      "contentId": "1e3025a2-c9f5-4ec3-946b-3b972e5a7ed6",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "fbb52a73-adca-41e0-b0ad-8c3d7647c449",
       "leftId": null,
       "archived": false
     },
@@ -7584,6 +7900,7 @@
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       "id": "f3a08903-b9dd-4a1f-ae63-26688702385a",
       "contentId": "bb05aded-5c39-4fba-844a-e579efcc09f4",
       "userId": "TODO",
@@ -7596,6 +7913,17 @@
       "id": "8088af83-9cc3-464e-87a5-da3067a628b0",
       "contentId": "108a7bb9-3c9e-4c8b-a41f-89083f3a5444",
 =======
+=======
+      "id": "4069ee9f-f3d4-432a-a0ec-7e777882e369",
+      "contentId": "c39c5d22-3a53-44a1-90af-ccd3c1b5b913",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "8e0c9ff0-367d-4ca4-945c-88a754a2841b",
+      "leftId": null,
+      "archived": false
+    },
+    {
+>>>>>>> 9ddf039 (add new guide)
       "id": "748b5c1f-a75a-48cf-8c24-1b44f8efd9c2",
       "contentId": "51afb935-8a9e-4af0-a75e-6ac931c5ca4c",
 >>>>>>> 0412e17 (branch for Lukas's healthcare guide)
@@ -7950,6 +8278,15 @@
       "archived": false
     },
     {
+      "id": "df17d6c6-81b8-4d49-9891-394887faaf17",
+      "contentId": "ce826846-17c2-4dc3-9aed-07d046721a4e",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "0c01ef7a-0e49-4f0e-b489-ebcbbef32d1c",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "dbb14948-e680-4457-9a70-c2d5ef12f6e0",
       "contentId": "63e94f3d-6acd-4637-a244-48af87a29e62",
       "userId": "TODO",
@@ -8284,11 +8621,29 @@
       "archived": false
     },
     {
+      "id": "c7b00ffe-5859-43ee-8b47-8b3fe2346621",
+      "contentId": "5a463f9e-0ed2-48a3-845c-9361d5131747",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "ef0bcf2e-009d-48ea-8b64-cdde664ce3bc",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "a041cb67-76fe-4171-b5ba-5ae40b79b590",
       "contentId": "4ba653d6-bda3-4f83-b6b0-bee5db24147c",
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "65b9147d-388b-40f5-93b9-ca9fd5defe94",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "fdc906cf-df40-4317-baa8-4245a651ee8f",
+      "contentId": "e3404abe-6220-4e5a-b8ed-ebd41e809ef9",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "home",
       "leftId": null,
       "archived": false
     },
@@ -8469,6 +8824,15 @@
       "archived": false
     },
     {
+      "id": "48bb3cc2-d1bc-4a5b-b144-92f2aaa52eef",
+      "contentId": "b4d1b9fd-1cd6-4072-bb5b-b758a40f7f78",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "0c01ef7a-0e49-4f0e-b489-ebcbbef32d1c",
+      "leftId": "df17d6c6-81b8-4d49-9891-394887faaf17",
+      "archived": false
+    },
+    {
       "id": "de9517ca-0430-4365-a4b8-cbe38d2d950a",
       "contentId": "0e62a6b0-d55b-44c2-8b7f-0435969454c1",
       "userId": "TODO",
@@ -8611,6 +8975,15 @@
       "blockStatus": "not started",
       "parentId": "10eccbe5-75e8-4968-aeec-ff8df3844ac7",
       "leftId": "a77633dd-8d29-4ccd-bc6e-8de1b7ea6217",
+      "archived": false
+    },
+    {
+      "id": "715b55e6-8f3b-45de-adf1-e6da14dc4bde",
+      "contentId": "0742d5d8-ae58-4d83-a948-ecb3f5557e9a",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "f83b257f-42d1-40af-8c11-8306b8e90d3d",
+      "leftId": null,
       "archived": false
     },
     {
@@ -8805,6 +9178,24 @@
       "archived": false
     },
     {
+      "id": "6b8a03aa-9069-4ab0-a195-e31e5ac5f5a3",
+      "contentId": "fbb52a73-adca-41e0-b0ad-8c3d7647c449",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "90c39f4b-23f9-4207-bb36-0761c54b21b1",
+      "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "dde72492-9a08-4207-9e9c-356874731b2f",
+      "contentId": "f83b257f-42d1-40af-8c11-8306b8e90d3d",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "b4d1b9fd-1cd6-4072-bb5b-b758a40f7f78",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "80a9da6d-966c-4c79-8d07-39ebc6a27582",
       "contentId": "4e33a698-6069-494c-bc58-343c98d5fa9d",
       "userId": "TODO",
@@ -8851,6 +9242,7 @@
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       "id": "76e2e72d-0f36-4477-8359-377bce9d26a1",
       "contentId": "7b83771d-3048-4b1e-adb0-3befafe9704e",
       "userId": "TODO",
@@ -8863,6 +9255,17 @@
       "id": "8464f616-9156-4b07-a0a3-1818c08fe615",
       "contentId": "1370eac9-a963-4a6e-832d-442f47e817fb",
 =======
+=======
+      "id": "fff41160-57f3-4fc7-b4b6-4dd8e10d8e48",
+      "contentId": "25cb9150-5940-4235-aeee-b329190751d2",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "e3404abe-6220-4e5a-b8ed-ebd41e809ef9",
+      "leftId": null,
+      "archived": false
+    },
+    {
+>>>>>>> 9ddf039 (add new guide)
       "id": "5e785647-5a45-4585-85b6-469166df3496",
       "contentId": "11f1d03d-b8f2-4717-bfb1-56ba7e80aa5e",
 >>>>>>> 0412e17 (branch for Lukas's healthcare guide)
@@ -8906,6 +9309,15 @@
       "blockStatus": "not started",
       "parentId": "4cc4f166-8792-4347-85ef-1cd81f4c1457",
       "leftId": "7764a220-32d7-4a49-9f6c-0b39ad5c83be",
+      "archived": false
+    },
+    {
+      "id": "9a3733e9-68d3-4b16-9ef4-859aa015cb1a",
+      "contentId": "dfe70cee-83e3-4442-ac16-7c165cf27f82",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "25cb9150-5940-4235-aeee-b329190751d2",
+      "leftId": null,
       "archived": false
     },
     {
@@ -9037,6 +9449,7 @@
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       "id": "86795ae6-ed00-4a19-8081-324f54b1a4d9",
       "contentId": "3b290dff-0b2d-4279-b4f4-3480ceb44536",
       "userId": "TODO",
@@ -9049,6 +9462,17 @@
       "id": "81238bad-3e1d-4c53-b7d9-f74ee963a750",
       "contentId": "01374f67-43f2-439d-9d07-143599f8b55a",
 =======
+=======
+      "id": "b4a04e84-6bec-4f93-a55e-beab1f5bc0e5",
+      "contentId": "96781683-d7d0-4d9b-af73-354cf987985c",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "90c39f4b-23f9-4207-bb36-0761c54b21b1",
+      "leftId": "6b8a03aa-9069-4ab0-a195-e31e5ac5f5a3",
+      "archived": false
+    },
+    {
+>>>>>>> 9ddf039 (add new guide)
       "id": "952106e8-a48b-42d5-9a1b-e14038591c10",
       "contentId": "bf5f1d7d-2f24-484c-98e8-18e6044db87c",
 >>>>>>> 0412e17 (branch for Lukas's healthcare guide)
@@ -9056,6 +9480,15 @@
       "blockStatus": "not started",
       "parentId": "445aa1d0-6d2b-457d-9717-74532342e1e6",
       "leftId": "6c217325-a9f2-4142-a0d6-9ad70c084183",
+      "archived": false
+    },
+    {
+      "id": "70daaaba-26bb-4562-9d1c-e773e8d52c50",
+      "contentId": "54e0d157-8be0-46d0-90be-9f8802bfd618",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "ed9c678a-49ed-4249-a0b7-2710f9f20cd4",
+      "leftId": null,
       "archived": false
     },
     {
@@ -9550,6 +9983,15 @@
       "blockStatus": "not started",
       "parentId": "7cf5f534-6a71-440d-b1de-c06f830f6367",
       "leftId": "16706f0c-5528-4d68-8435-bd6b54a2eccd",
+      "archived": false
+    },
+    {
+      "id": "da7201cf-e5bf-4554-b8e7-1a5ab3251fe1",
+      "contentId": "51f1b217-ac2f-4f7a-a45b-0af6a2ef12c6",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "f83b257f-42d1-40af-8c11-8306b8e90d3d",
+      "leftId": "f1e943b6-3d46-45b8-a0c4-e682c0124806",
       "archived": false
     },
     {
@@ -10066,6 +10508,15 @@
       "archived": false
     },
     {
+      "id": "f79de3de-55cc-4ebd-a012-3b910cb24890",
+      "contentId": "c6341734-7c71-45ca-9463-a8f68c515b1d",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "f574829f-297f-4e58-bd3e-95e900881395",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "2ff6952c-edde-42c2-af98-1abddac381de",
       "contentId": "f91f8c98-f837-4719-8648-8f0f2f670e57",
       "userId": "TODO",
@@ -10426,6 +10877,7 @@
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       "id": "c39ec230-710f-49d4-a75c-720c8295f70b",
       "contentId": "c592c976-cdb1-4111-bccd-6893ee341d43",
       "userId": "TODO",
@@ -10438,6 +10890,17 @@
       "id": "2cd6507a-c148-4c73-b90c-cc2aaa67924d",
       "contentId": "57e99803-10bc-49c4-b6f8-fbc1545b3dfa",
 =======
+=======
+      "id": "0a4a1041-8335-4487-a3f9-02c21b22c0e3",
+      "contentId": "90c2e705-ec41-49aa-9ccd-01c758f8707b",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "54e0d157-8be0-46d0-90be-9f8802bfd618",
+      "leftId": null,
+      "archived": false
+    },
+    {
+>>>>>>> 9ddf039 (add new guide)
       "id": "7d9cb8f4-97c6-4177-b9ac-436a4d0c291c",
       "contentId": "4687a16d-eb87-4004-b546-b75174ecdc6a",
 >>>>>>> 0412e17 (branch for Lukas's healthcare guide)
@@ -10865,6 +11328,15 @@
       "archived": false
     },
     {
+      "id": "d037e402-ed7f-4a51-9d1e-008cdce479fd",
+      "contentId": "90c39f4b-23f9-4207-bb36-0761c54b21b1",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "dfe70cee-83e3-4442-ac16-7c165cf27f82",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "718bfee3-4cbb-40c6-a798-a8fcbead9438",
       "contentId": "d85bce3f-9365-4d7d-aa81-476aa7f78517",
       "userId": "TODO",
@@ -11058,6 +11530,15 @@
       "blockStatus": "not started",
       "parentId": "58abfc1b-4149-4af7-ad5f-ac7c7923c446",
       "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "d832585b-a80e-4f15-9bbd-00f21cf2dad1",
+      "contentId": "ed9c678a-49ed-4249-a0b7-2710f9f20cd4",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "c39c5d22-3a53-44a1-90af-ccd3c1b5b913",
+      "leftId": "b3001cb5-76d3-4d51-89c6-9193aae41456",
       "archived": false
     },
     {
@@ -11273,6 +11754,15 @@
       "archived": false
     },
     {
+      "id": "33c697d8-baeb-4ecc-8065-c0425cebc34b",
+      "contentId": "688fe8c2-3882-4941-8b2c-076fa26446c4",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "3b99cd3a-b56f-494c-aa8b-634e28ac7271",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "b29ded32-44f2-4588-a187-ac3f88accd11",
       "contentId": "fd3180e3-9129-4a21-984e-37b266be48f7",
       "userId": "TODO",
@@ -11282,6 +11772,7 @@
       "archived": false
     },
     {
+<<<<<<< HEAD
 <<<<<<< HEAD
       "id": "d0a0542b-450b-4ea9-94e9-2b8aab1c29c4",
       "contentId": "648ec7f2-234e-43ef-985a-b994d74bf777",
@@ -11295,6 +11786,17 @@
       "id": "da368306-ea27-4016-8660-cb46d42bfba0",
       "contentId": "10545f0b-9f2e-4e14-8a4e-3f68d1899942",
 =======
+=======
+      "id": "50462c23-2b33-4b83-a28e-9d1624695591",
+      "contentId": "0c01ef7a-0e49-4f0e-b489-ebcbbef32d1c",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "dd162292-1c40-490c-82c9-83ea4a7d5a94",
+      "leftId": null,
+      "archived": false
+    },
+    {
+>>>>>>> 9ddf039 (add new guide)
       "id": "87371f28-cd14-4557-8791-fc35ed409033",
       "contentId": "9a36733c-9998-43dc-826d-22e0acc158d2",
 >>>>>>> 0412e17 (branch for Lukas's healthcare guide)
@@ -11379,6 +11881,15 @@
       "blockStatus": "not started",
       "parentId": "63cf4f82-870d-4361-b239-318d257c64d2",
       "leftId": "23383b81-705f-41c0-b0ce-6e02a053e982",
+      "archived": false
+    },
+    {
+      "id": "f9676cca-af3b-4092-aaee-f88fd72048be",
+      "contentId": "519f46a8-0fc3-43be-b628-650bf542eacf",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "90c2e705-ec41-49aa-9ccd-01c758f8707b",
+      "leftId": null,
       "archived": false
     },
     {
@@ -11731,6 +12242,24 @@
       "archived": false
     },
     {
+      "id": "05e3555b-a611-4ef3-839e-ff92cd833a1e",
+      "contentId": "15f13437-8ace-42f5-ad16-1bdd0ec2ae34",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "f574829f-297f-4e58-bd3e-95e900881395",
+      "leftId": "0f92da72-e017-41d6-bef0-5ac70e6aa5e5",
+      "archived": false
+    },
+    {
+      "id": "cd68ab34-505a-43e1-b4ce-14b24396cef9",
+      "contentId": "f574829f-297f-4e58-bd3e-95e900881395",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "ce826846-17c2-4dc3-9aed-07d046721a4e",
+      "leftId": null,
+      "archived": false
+    },
+    {
       "id": "6f6b6fd9-1841-4c28-b55e-969bf8a79126",
       "contentId": "936d0e8e-c5c3-4793-af8a-b6f16273f1d8",
       "userId": "TODO",
@@ -11787,6 +12316,15 @@
       "blockStatus": "not started",
       "parentId": "67f8f681-5547-442c-a974-d3900822785a",
       "leftId": "6cb2af96-e73e-406d-9ba6-d91159e8de98",
+      "archived": false
+    },
+    {
+      "id": "f1e943b6-3d46-45b8-a0c4-e682c0124806",
+      "contentId": "8679f75f-25de-44de-abd3-07e0d57e0eeb",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "f83b257f-42d1-40af-8c11-8306b8e90d3d",
+      "leftId": "e4db6f22-7299-4446-a597-b6257f893635",
       "archived": false
     },
     {
@@ -11962,7 +12500,16 @@
       "userId": "TODO",
       "blockStatus": "not started",
       "parentId": "home",
-      "leftId": null,
+      "leftId": "fdc906cf-df40-4317-baa8-4245a651ee8f",
+      "archived": false
+    },
+    {
+      "id": "1b9036b9-b450-4325-9a16-80eadcb46c86",
+      "contentId": "7caebed0-6b03-4ea3-a951-f5cab047c48c",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "f574829f-297f-4e58-bd3e-95e900881395",
+      "leftId": "f79de3de-55cc-4ebd-a012-3b910cb24890",
       "archived": false
     },
     {
@@ -12545,6 +13092,15 @@
       "archived": false
     },
     {
+      "id": "8a0e2ab2-3997-4d9c-ae59-bdc2f4e758eb",
+      "contentId": "3b99cd3a-b56f-494c-aa8b-634e28ac7271",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "54e0d157-8be0-46d0-90be-9f8802bfd618",
+      "leftId": "0a4a1041-8335-4487-a3f9-02c21b22c0e3",
+      "archived": false
+    },
+    {
       "id": "634ac8a2-4223-4703-a3ad-6c10450d46b9",
       "contentId": "6e4e8e31-eccc-4c6f-8dd0-e2956f47e870",
       "userId": "TODO",
@@ -12582,6 +13138,7 @@
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       "id": "98d53197-05b0-4e31-8b6f-fb7c2b2f6f2d",
       "contentId": "30bb548e-0c4f-4687-8e2d-58159f7b1ad4",
       "userId": "TODO",
@@ -12594,6 +13151,17 @@
       "id": "12723845-2f6e-4230-acca-c02160165370",
       "contentId": "1774f2a5-d988-4366-9f70-88436ad2d462",
 =======
+=======
+      "id": "0f92da72-e017-41d6-bef0-5ac70e6aa5e5",
+      "contentId": "20d235c3-018b-4291-8e5d-9a915b7d756b",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "f574829f-297f-4e58-bd3e-95e900881395",
+      "leftId": "1b9036b9-b450-4325-9a16-80eadcb46c86",
+      "archived": false
+    },
+    {
+>>>>>>> 9ddf039 (add new guide)
       "id": "5bc43af1-6e11-4bcd-babc-f6adf973807b",
       "contentId": "bed80e4a-27d1-4761-866b-15b233d48aa3",
 >>>>>>> 0412e17 (branch for Lukas's healthcare guide)
@@ -12872,6 +13440,7 @@
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
       "id": "bf705e95-d6bd-47a8-84ee-5b8b97ca0a17",
       "contentId": "2079602f-b1d9-491f-9acf-ea00d2dc4181",
       "userId": "TODO",
@@ -12884,6 +13453,17 @@
       "id": "6c354553-ac2d-416c-acf0-79757671778d",
       "contentId": "bb2b09cb-4a9b-4fbd-93fe-d969a4a86496",
 =======
+=======
+      "id": "2a9ec453-2ad7-446d-bb64-918d832cb965",
+      "contentId": "a5b08443-445a-4025-8c4a-a7761632b1a4",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "96781683-d7d0-4d9b-af73-354cf987985c",
+      "leftId": null,
+      "archived": false
+    },
+    {
+>>>>>>> 9ddf039 (add new guide)
       "id": "aa83028f-1c56-489c-836a-fd0f16e6661e",
       "contentId": "a59cbf4c-1bdd-4c21-9b3b-3f7588faaf3d",
 >>>>>>> 0412e17 (branch for Lukas's healthcare guide)
@@ -12891,6 +13471,15 @@
       "blockStatus": "not started",
       "parentId": "a215bace-e072-46e1-b34e-750310e06e95",
       "leftId": null,
+      "archived": false
+    },
+    {
+      "id": "e4db6f22-7299-4446-a597-b6257f893635",
+      "contentId": "798a8da6-1dbd-47e0-a878-88d5c0fd85f8",
+      "userId": "TODO",
+      "blockStatus": "not started",
+      "parentId": "f83b257f-42d1-40af-8c11-8306b8e90d3d",
+      "leftId": "113ca0f5-4059-4bf7-8b15-49584a28f255",
       "archived": false
     },
     {
