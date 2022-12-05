@@ -13,6 +13,16 @@ export const Header = (props: IHeaderProps) => {
         </button>
       </Link>
       <div className="flex-grow"></div>
+      {/* open in separate tab */}
+      <Link href="https://github.com/dnsosebee/methodable" passHref={true}>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          className="py-1 mb-2 px-3 mx-10 rounded-2xl bg-gray-200 shadow-lg"
+        >
+          View on GitHub
+        </a>
+      </Link>
       {props.children}
     </div>
   );
